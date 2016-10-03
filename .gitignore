@@ -1,0 +1,9 @@
+*.exe
+*.suo
+*.pdb
+*.csproj.user
+bin/
+obj/
+*/Unity/Library/*
+*/Unity/obj/*
+*/Unity/Temp/*
