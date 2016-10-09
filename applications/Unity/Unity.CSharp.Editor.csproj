@@ -108,12 +108,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\_devarc\Editor\Builder_Data.cs" />
-    <Compile Include="Assets\_devarc\Editor\Builder_Object.cs" />
-    <Compile Include="Assets\_devarc\Editor\EditorForBuilder.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\Editor\BuilderSaveData.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\Editor\Builder_Data.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\Editor\Builder_Object.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\Editor\ProtocolBuilderUI.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\Editor\TableBuilderUI.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\_devarc\_test\ClientObject.xml" />
+    <None Include="Assets\Devwinsoft\Devarc\_test\TestSchema.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

@@ -4,6 +4,8 @@
 *.csproj.user
 bin/
 obj/
+UnityVS/
+UnityVS.meta
 */Unity/Library/*
 */Unity/obj/*
 */Unity/Temp/*

@@ -75,18 +75,18 @@ namespace Devarc
             m_SheetName = "";
         }
 
-        public bool ReadFile(string file_path)
+        public bool ReadFile(string _file_path)
         {
-            if (System.IO.File.Exists(file_path) == false)
+            if (System.IO.File.Exists(_file_path) == false)
             {
-                Log.Message(LOG_TYPE.DEBUG, "Cannot find file: " + file_path);
+                Log.Message(LOG_TYPE.DEBUG, "Cannot find file: " + _file_path);
                 return false;
             }
             XmlDocument doc = new XmlDocument();
             XmlNodeReader reader = null;
             try
             {
-                doc.Load(file_path);
+                doc.Load(_file_path);
                 reader = new XmlNodeReader(doc);
                 _Parse(reader);
             }
@@ -95,11 +95,28 @@ namespace Devarc
                 if (reader != null)
                     reader.Close();
             }
-
             return true;
         }
-        
-        void _Parse( XmlNodeReader xrd )
+
+        public bool ReadData(string _data)
+        {
+            XmlDocument doc = new XmlDocument();
+            XmlNodeReader reader = null;
+            try
+            {
+                doc.LoadXml(_data);
+                reader = new XmlNodeReader(doc);
+                _Parse(reader);
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Close();
+            }
+            return true;
+        }
+
+        void _Parse(XmlNodeReader xrd)
         {
             PropTable   temp_table = null;
 	        int			line_count = 0;

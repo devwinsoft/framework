@@ -69,42 +69,40 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\_devarc\_GeneratedCode\C2Test.cs" />
-    <Compile Include="Assets\_devarc\_GeneratedCode\Class_ClientObject.cs" />
-    <Compile Include="Assets\_devarc\_GeneratedCode\Class_Message.cs" />
-    <Compile Include="Assets\_devarc\_GeneratedCode\TableData_ClientObject.cs" />
-    <Compile Include="Assets\_devarc\_GeneratedCode\TableData_Message.cs" />
-    <Compile Include="Assets\_devarc\_GeneratedCode\Test2C.cs" />
-    <Compile Include="Assets\_devarc\_component\Container_C1.cs" />
-    <Compile Include="Assets\_devarc\_component\Container_S1.cs" />
-    <Compile Include="Assets\_devarc\_component\Contents.cs" />
-    <Compile Include="Assets\_devarc\_component\DES.cs" />
-    <Compile Include="Assets\_devarc\_component\HostID.cs" />
-    <Compile Include="Assets\_devarc\_component\JsonReader.cs" />
-    <Compile Include="Assets\_devarc\_component\Lock.cs" />
-    <Compile Include="Assets\_devarc\_component\Log.cs" />
-    <Compile Include="Assets\_devarc\_component\Marshaler.Read.cs" />
-    <Compile Include="Assets\_devarc\_component\Marshaler.Write.cs" />
-    <Compile Include="Assets\_devarc\_component\NetBuffer.cs" />
-    <Compile Include="Assets\_devarc\_component\NetClient.cs" />
-    <Compile Include="Assets\_devarc\_component\NetDataRecv.cs" />
-    <Compile Include="Assets\_devarc\_component\NetDataSend.cs" />
-    <Compile Include="Assets\_devarc\_component\NetHost.cs" />
-    <Compile Include="Assets\_devarc\_component\NetMessage.cs" />
-    <Compile Include="Assets\_devarc\_component\NetServer.cs" />
-    <Compile Include="Assets\_devarc\_component\NetThread.cs" />
-    <Compile Include="Assets\_devarc\_component\NetworkObject.cs" />
-    <Compile Include="Assets\_devarc\_component\PropItem.cs" />
-    <Compile Include="Assets\_devarc\_component\PropTable.cs" />
-    <Compile Include="Assets\_devarc\_component\ThreadBase.cs" />
-    <Compile Include="Assets\_devarc\_component\ThreadContainer.cs" />
-    <Compile Include="Assets\_devarc\_component\XmlReader.cs" />
-    <Compile Include="Assets\_devarc\_component\XmlWriter.cs" />
-    <Compile Include="Assets\_devarc\_test\SceneTest.cs" />
-    <Compile Include="Assets\_devarc\_test\Stub_Test2C.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_GeneratedCode\Class_TestSchema.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_GeneratedCode\TableData_TestSchema.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_component\Container_C1.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_component\Container_S1.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_component\Contents.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_component\DES.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_component\HostID.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_component\JsonReader.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_component\Lock.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_component\Log.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_component\Marshaler.Read.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_component\Marshaler.Write.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_component\NetBuffer.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_component\NetClient.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_component\NetDataRecv.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_component\NetDataSend.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_component\NetHost.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_component\NetMessage.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_component\NetServer.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_component\NetThread.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_component\NetworkObject.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_component\PropItem.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_component\PropTable.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_component\ThreadBase.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_component\ThreadContainer.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_component\XmlReader.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_component\XmlWriter.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_test\C2Test.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_test\SceneTest.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_test\Stub_Test2C.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_test\Test2C.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\_devarc\_test\ClientObject.xml" />
+    <None Include="Assets\Devwinsoft\Devarc\_test\TestSchema.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

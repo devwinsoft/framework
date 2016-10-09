@@ -52,8 +52,7 @@
   <ItemGroup>
     <Compile Include="TableData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="_GeneratedCode\TableData_ClientObject.cs" />
-    <Compile Include="_GeneratedCode\TableData_Message.cs" />
+    <Compile Include="_GeneratedCode\TableData_TestSchema.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Devarc.Base\Devarc.Base.csproj">

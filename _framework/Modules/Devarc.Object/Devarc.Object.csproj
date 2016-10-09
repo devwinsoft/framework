@@ -53,8 +53,7 @@
     <Compile Include="Component\Marshaler.Read.cs" />
     <Compile Include="Component\Marshaler.Write.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="_GeneratedCode\Class_ClientObject.cs" />
-    <Compile Include="_GeneratedCode\Class_Message.cs" />
+    <Compile Include="_GeneratedCode\Class_TestSchema.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Devarc.Base\Devarc.Base.csproj">
@@ -62,6 +61,7 @@
       <Name>Devarc.Base</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

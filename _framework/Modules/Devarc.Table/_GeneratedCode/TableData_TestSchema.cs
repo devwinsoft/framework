@@ -5,11 +5,11 @@ namespace Devarc
 {
 	public partial class TableData
 	{
-		public static bool isLoad_ClientObject { get { return m_isLoad_ClientObject;} set { m_isLoad_ClientObject = value; } }
-		private static bool m_isLoad_ClientObject = false;
+		public static bool isLoad_TestSchema { get { return m_isLoad_TestSchema;} set { m_isLoad_TestSchema = value; } }
+		private static bool m_isLoad_TestSchema = false;
 		static void Callback_UNIT_XML(string sheet_name, PropTable tb)
 		{
-			 m_isLoad_ClientObject = true;
+			 m_isLoad_TestSchema = true;
 			using(T_UNIT obj = T_UNIT.LIST.Alloc(_UNIT.Parse(tb.ToStr("ID"))))
 			{
 				obj.Initialize(tb);
@@ -18,7 +18,7 @@ namespace Devarc
 		static void Callback_UNIT_JSON(string sheet_name, JsonData node)
 		{
 			if (node.Keys.Contains("unit_type") == false) return;
-			m_isLoad_ClientObject = true;
+			m_isLoad_TestSchema = true;
 			using(T_UNIT obj = T_UNIT.LIST.Alloc(_UNIT.Parse(node["ID"].ToString())))
 			{
 				obj.Initialize(node);
@@ -26,7 +26,7 @@ namespace Devarc
 		}
 		static void Callback_DataCharacter_XML(string sheet_name, PropTable tb)
 		{
-			 m_isLoad_ClientObject = true;
+			 m_isLoad_TestSchema = true;
 			using(T_DataCharacter obj = T_DataCharacter.LIST.Alloc(_UNIT.Parse(tb.ToStr("unit_type"))))
 			{
 				obj.Initialize(tb);
@@ -35,18 +35,18 @@ namespace Devarc
 		static void Callback_DataCharacter_JSON(string sheet_name, JsonData node)
 		{
 			if (node.Keys.Contains("unit_type") == false) return;
-			m_isLoad_ClientObject = true;
+			m_isLoad_TestSchema = true;
 			using(T_DataCharacter obj = T_DataCharacter.LIST.Alloc(_UNIT.Parse(node["unit_type"].ToString())))
 			{
 				obj.Initialize(node);
 			}
 		}
-		public static void UnLoad_ClientObject()
+		public static void UnLoad_TestSchema()
 		{
 			T_UNIT.LIST.Clear();
 			T_DataCharacter.LIST.Clear();
 		}
-		public static bool Load_ClientObject_XML(string file_path)
+		public static bool Load_TestSchema_XML(string file_path)
 		{
 			using (XmlReader reader = new XmlReader())
 			{
@@ -55,7 +55,7 @@ namespace Devarc
 				return reader.ReadFile(file_path);
 			}
 		}
-		public static bool Load_ClientObject_JSON(string file_path)
+		public static bool Load_TestSchema_JSON(string file_path)
 		{
 			using (JsonReader reader = new JsonReader())
 			{
@@ -64,7 +64,7 @@ namespace Devarc
 				return reader.ReadFile(file_path);
 			}
 		}
-		public static void Save_ClientObject_XML(string file_path)
+		public static void Save_TestSchema_XML(string file_path)
 		{
 			using (XmlWriter writer = new XmlWriter())
 			{
@@ -91,7 +91,7 @@ namespace Devarc
 			    writer.Write_End(file_path);
 			}
 		}
-		public static void Save_ClientObject_JSON(string file_path)
+		public static void Save_TestSchema_JSON(string file_path)
 		{
 			TextWriter sw = new StreamWriter(file_path, false);
 			sw.WriteLine("{");

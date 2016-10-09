@@ -34,14 +34,12 @@ namespace Devarc
         string NameSpace = "Devarc";
         string FileName = "";
         string OutDir = "";
-        Hashtable m_EnumList = new Hashtable();
         HashSet<string> m_ClassNames = new HashSet<string>();
         List<ClassInfo> m_ClassList = new List<ClassInfo>();
 
 
-        public void Export(string _input_file, string _out_dir)
+        public void BuildFromFile(string _input_file, string _out_dir)
         {
-            string _input_path = Path.GetFullPath(_input_file);
             this.FileName = Path.GetFileNameWithoutExtension(_input_file);
             this.OutDir = _out_dir; 
             string file_path = this.OutDir + "\\TableData_" + this.FileName + ".cs";
@@ -52,6 +50,20 @@ namespace Devarc
                 return;
             }
 
+            this._build(File.ReadAllText(_input_file), file_path);
+        }
+
+        public void BuildFromData(string _file_name, string _input_data, string _out_dir)
+        {
+            this.FileName = _file_name;
+            this.OutDir = _out_dir;
+            string file_path = this.OutDir + "\\TableData_" + this.FileName + ".cs";
+
+            this._build(_input_data, file_path);
+        }
+
+        void _build(string _data, string file_path)
+        {
             using (TextWriter sw = new StreamWriter(file_path, false))
             {
                 sw.WriteLine("using System;");
@@ -68,7 +80,7 @@ namespace Devarc
             using (XmlReader reader1 = new XmlReader())
             {
                 reader1.RegisterCallback_EveryTable(Callback_LoadSheet);
-                reader1.ReadFile(_input_path);
+                reader1.ReadData(_data);
             }
 
             using (TextWriter sw = new StreamWriter(file_path, true))
@@ -136,7 +148,7 @@ namespace Devarc
                 sw.WriteLine("\t\t{");
                 sw.WriteLine("\t\t\tTextWriter sw = new StreamWriter(file_path, false);");
                 sw.WriteLine("\t\t\tsw.WriteLine(\"{\");");
-                for (int i = 0; i< m_ClassList.Count; i++)
+                for (int i = 0; i < m_ClassList.Count; i++)
                 {
                     ClassInfo info = m_ClassList[i];
                     if (i == 0)
@@ -162,7 +174,6 @@ namespace Devarc
                 sw.WriteLine("} // end of namespace");
             }
         }
-
 
         void Callback_LoadSheet(string sheet_name, PropTable tb)
         {

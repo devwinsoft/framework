@@ -71,9 +71,8 @@ namespace Devarc
         HashSet<string> m_ClassNames = new HashSet<string>();
         List<ClassInfo> m_ClassList = new List<ClassInfo>();
 
-        public void Export(string _input_file, string _out_dir)
+        public void BuildFromFile(string _input_file, string _out_dir)
         {
-            string _input_path = Path.GetFullPath(_input_file);
             this.FileName = Path.GetFileNameWithoutExtension(_input_file);
             this.OutDir = _out_dir;
             string file_path = this.OutDir + "\\Class_" + this.FileName + ".cs";
@@ -84,13 +83,26 @@ namespace Devarc
                 return;
             }
 
+            this._build(File.ReadAllText(_input_file), file_path);
+        }
+
+        public void BuildFromData(string _file_name, string _input_data, string _out_dir)
+        {
+            this.FileName = _file_name;
+            this.OutDir = _out_dir;
+            string file_path = this.OutDir + "\\Class_" + this.FileName + ".cs";
+
+            this._build(_input_data, file_path);
+        }
+
+        void _build(string _data, string file_path)
+        {
             // Get Class List
             using (XmlReader reader = new Devarc.XmlReader())
             {
                 reader.RegisterCallback_EveryTable(Callback_LoadSheet);
-                reader.ReadFile(_input_path);
+                reader.ReadData(_data);
             }
-
 
             using (TextWriter sw = new StreamWriter(file_path, false))
             {
@@ -101,17 +113,18 @@ namespace Devarc
                 sw.WriteLine("using LitJson;");
                 sw.WriteLine("namespace {0}", this.NameSpace);
                 sw.WriteLine("{");
+                sw.Close();
             }
             using (XmlReader reader = new XmlReader())
             {
                 reader.RegisterCallback_EveryLine(Callback_EnumSheet);
-                reader.ReadFile(_input_file);
+                reader.ReadData(_data);
                 System.Threading.Thread.Sleep(0);
             }
             using (XmlReader reader = new XmlReader())
             {
                 reader.RegisterCallback_EveryTable(Callback_ClassSheet);
-                reader.ReadFile(_input_file);
+                reader.ReadData(_data);
                 System.Threading.Thread.Sleep(0);
             }
 
@@ -1072,11 +1085,11 @@ namespace Devarc
 
         void Callback_EnumSheet(string sheet_name, PropTable tb)
         {
-            string class_name = sheet_name;
+            //string class_name = sheet_name;
             string enum_name = sheet_name;
             if (sheet_name.StartsWith("!"))
             {
-                class_name = "_" + sheet_name.Substring(1);
+                //class_name = "_" + sheet_name.Substring(1);
                 enum_name = sheet_name.Substring(1);
             }
             else
@@ -1117,7 +1130,6 @@ namespace Devarc
 
             string item_var_name = tb.KeyVarName;
             string item_type_name = tb.KeyTypeName;
-            int item_key_index = tb.KeyIndex;
 
             if (m_ClassNames.Contains(class_name) == false)
             {
