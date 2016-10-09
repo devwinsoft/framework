@@ -5,12 +5,12 @@ using System.Collections.Generic;
 using System.Reflection;
 using Devarc;
 
-public class ProtocolBuilderUI : EditorWindow
+public class UIProtocolBuilder : EditorWindow
 {
     [@MenuItem("Devarc/Build Protocols")]
     static void BakingCharacterTexture()
     {
-        EditorWindow.GetWindowWithRect(typeof(ProtocolBuilderUI), new Rect(0, 0, 510f, 340f), true);
+        EditorWindow.GetWindowWithRect(typeof(UIProtocolBuilder), new Rect(0, 0, 510f, 340f), true);
     }
 
     const string build_settings = "Assets/Devwinsoft/Devarc/BuildSettings.asset";
@@ -45,7 +45,7 @@ public class ProtocolBuilderUI : EditorWindow
             return;
         }
 
-        int newTableCount = EditorGUILayout.IntField("Table Count", build_info.protocols.Length);
+        int newTableCount = EditorGUILayout.IntField("Protocol Count", build_info.protocols.Length);
         if (newTableCount != build_info.protocols.Length)
         {
             Object[] newTableList = new Object[newTableCount];
@@ -56,28 +56,36 @@ public class ProtocolBuilderUI : EditorWindow
             build_info.protocols = newTableList;
         }
 
-        for (int i = 0; i < build_info.protocols.Length; i++)
-        {
-            build_info.protocols[i] = (Object)EditorGUILayout.ObjectField(string.Format("Table-{0}", i), build_info.protocols[i], typeof(Object));
-        }
-
         if (GUILayout.Button("Compile Protocols !!"))
         {
-            for (int i = 0; i < build_info.protocols.Length; i++)
-            {
-                Object obj = build_info.protocols[i];
-                if (obj == null)
-                    continue;
-                const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static;
-                MethodInfo[] methods = obj.GetType().GetMethods(flags);
-                foreach (MethodInfo mInfo in methods)
-                {
-                    Debug.Log("Obj: " + obj.name + ", Method: " + mInfo.Name);
-                }
+            Builder_Net builder1 = new Builder_Net();
 
+            // search dll
+            Assembly[] _assems = System.AppDomain.CurrentDomain.GetAssemblies();
+            Assembly _assem = null;
+            for (int i = 0; i < _assems.Length && _assem == null; i++)
+            {
+                foreach (System.Type tp in _assems[i].GetTypes())
+                {
+                    if (_assems[i].FullName.Contains("Assembly")
+                        && _assems[i].FullName.Contains("Editor"))
+                    {
+                        _assem = _assems[i];
+                        break;
+                    }
+                }
             }
-            AssetDatabase.Refresh(ImportAssetOptions.Default);
-            EditorUtility.DisplayDialog("Compile Protocols", "Build Completed.", "Success");
+
+            if (_assem == null)
+            {
+                EditorUtility.DisplayDialog("Compile Protocols", "Build Failed.", "Failed");
+            }
+            else
+            {
+                builder1.BuildFromAssem(_assem, Application.dataPath + @"/Devwinsoft/Devarc/_GeneratedCode");
+                AssetDatabase.Refresh(ImportAssetOptions.Default);
+                EditorUtility.DisplayDialog("Compile Protocols", "Build Completed.", "Success");
+            }
         }
     }
 }

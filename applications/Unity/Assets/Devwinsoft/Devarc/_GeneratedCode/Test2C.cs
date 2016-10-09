@@ -5,6 +5,7 @@ namespace Test2C
 	public interface IStub
 	{
 		void RMI_Test2C_Notify_Chat(HostID remote, String _name, String _msg);
+		void RMI_Test2C_Notify_UnitData(HostID remote, DataCharacter _data);
 		void RMI_Test2C_Notify_SendFile_Result(HostID remote, Boolean _success);
 	}
 	public static class Stub
@@ -22,6 +23,14 @@ namespace Test2C
 						System.String _msg = default(System.String); success = success ? Marshaler.Read(_in_msg, ref _msg) : false;
 						if (_in_msg.Pos != _in_msg.Length) return false;
 						if (success) stub.RMI_Test2C_Notify_Chat(hid, _name, _msg);
+					}
+					break;
+				case RMI_ID.Notify_UnitData:
+					{
+						Log.Message(LOG_TYPE.DEBUG, "Stub(Test2C): Notify_UnitData");
+						Devarc.DataCharacter _data = new Devarc.DataCharacter(); success = success ? Marshaler.Read(_in_msg, _data) : false;
+						if (_in_msg.Pos != _in_msg.Length) return false;
+						if (success) stub.RMI_Test2C_Notify_UnitData(hid, _data);
 					}
 					break;
 				case RMI_ID.Notify_SendFile_Result:
@@ -46,7 +55,8 @@ namespace Test2C
 	enum RMI_ID
 	{
 		Notify_Chat                    = 5000,
-		Notify_SendFile_Result         = 5001,
+		Notify_UnitData                = 5001,
+		Notify_SendFile_Result         = 5002,
 	}
 	public class Proxy
 	{
@@ -65,6 +75,20 @@ namespace Test2C
 			_out_msg.Write((Int32)RMI_ID.Notify_Chat);
 			Marshaler.Write(_out_msg, _name);
 			Marshaler.Write(_out_msg, _msg);
+			return m_Networker.RmiSend(m_Networker.GetMyHostID(), target, _out_msg);
+		}
+		public bool Notify_UnitData(HostID target, DataCharacter _data)
+		{
+			Log.Message(LOG_TYPE.DEBUG, "Test2C.Proxy.Notify_UnitData");
+			NetBuffer _out_msg = new NetBuffer();
+			if (m_Networker == null)
+			{
+				Log.Message(LOG_TYPE.DEBUG, typeof(Proxy).ToString() + " is not initialized.");
+				return false;
+			}
+			m_Networker.RmiHeader(m_Networker.GetMyHostID(), target, _out_msg);
+			_out_msg.Write((Int32)RMI_ID.Notify_UnitData);
+			Marshaler.Write(_out_msg, _data);
 			return m_Networker.RmiSend(m_Networker.GetMyHostID(), target, _out_msg);
 		}
 		public bool Notify_SendFile_Result(HostID target, Boolean _success)

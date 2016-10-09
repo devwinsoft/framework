@@ -4,12 +4,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Devarc;
 
-public class TableBuilderUI : EditorWindow
+public class UITableBuilder : EditorWindow
 {
     [@MenuItem("Devarc/Build Tables")]
     static void BakingCharacterTexture()
     {
-        EditorWindow.GetWindowWithRect(typeof(TableBuilderUI), new Rect(0, 0, 510f, 340f), true);
+        EditorWindow.GetWindowWithRect(typeof(UITableBuilder), new Rect(0, 0, 510f, 340f), true);
     }
 
     const string build_settings = "Assets/Devwinsoft/Devarc/BuildSettings.asset";

@@ -110,9 +110,11 @@
   <ItemGroup>
     <Compile Include="Assets\Devwinsoft\Devarc\Editor\BuilderSaveData.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\Editor\Builder_Data.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\Editor\Builder_Net.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\Editor\Builder_Object.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\Editor\ProtocolBuilderUI.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\Editor\TableBuilderUI.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\Editor\UIProtocolBuilder.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\Editor\UITableBuilder.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_test\Editor\Client.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Devwinsoft\Devarc\_test\TestSchema.xml" />

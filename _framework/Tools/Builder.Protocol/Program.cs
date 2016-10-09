@@ -36,7 +36,12 @@ namespace Devarc
             if (args.Length > 1)
             {
                 if (args.Contains<string>("-net"))
-                    builder_net.Export(args[1]);
+                {
+                    if (args.Length > 2)
+                        builder_net.BuildFromFile(args[1], args[2]);
+                    else
+                        builder_net.BuildFromFile(args[1], Path.GetDirectoryName(args[1]));
+                }
             }
             else
             {
