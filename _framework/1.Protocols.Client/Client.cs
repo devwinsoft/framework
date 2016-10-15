@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Devarc;
 
-namespace Devarc
+namespace Protocols
 {
     public class Test2C
     {
@@ -24,5 +25,5 @@ namespace Devarc
         public static void Request_UnitData(UNIT _type) { }
         public static void SendFile(string _file_name, byte[] _data) { }
     }
-
 }
+

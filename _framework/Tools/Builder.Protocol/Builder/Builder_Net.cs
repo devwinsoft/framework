@@ -44,7 +44,7 @@ namespace Devarc
             }
         }
 
-        bool IsProtocol(Type tp)
+        public bool IsProtocol(Type tp)
         {
             foreach (FieldInfo fi in tp.GetFields())
             {
