@@ -200,7 +200,7 @@ namespace Devarc
 			name                = obj.ToStr("name");
 			items.Clear();
 			JsonData __items = JsonMapper.ToObject(obj.ToStr("items"));
-			if (__items != null && __items.IsArray) { foreach (JsonData node in __items) { items.Add(_UNIT.Parse(node.ToString())); } }
+			if (__items != null && __items.IsArray) { foreach (var node in __items as IList) { items.Add(_UNIT.Parse(node.ToString())); } }
 			stats.Clear();
 			JsonData __stats = JsonMapper.ToObject(obj.ToStr("stats"));
 			if (__stats != null && __stats.IsArray) { foreach (JsonData node in __stats) { DataAbility _v = new DataAbility(); _v.Initialize(node); stats.Add(_v); } }

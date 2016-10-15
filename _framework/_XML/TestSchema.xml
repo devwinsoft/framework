@@ -6,11 +6,6 @@
  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
  xmlns:html="http://www.w3.org/TR/REC-html40">
  <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
-  <Author>maoshy</Author>
-  <LastAuthor>main</LastAuthor>
-  <Created>2013-01-12T07:48:12Z</Created>
-  <LastSaved>2015-07-07T07:58:52Z</LastSaved>
-  <Company>quatergram</Company>
   <Version>14.00</Version>
  </DocumentProperties>
  <OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">
@@ -37,112 +32,6 @@
    <Protection/>
   </Style>
  </Styles>
- <Worksheet ss:Name="!UNIT">
-  <Table ss:ExpandedColumnCount="2" ss:ExpandedRowCount="22" x:FullColumns="1"
-   x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="16.5">
-   <Column ss:AutoFitWidth="0" ss:Width="103.5"/>
-   <Column ss:AutoFitWidth="0" ss:Width="58.5"/>
-   <Row ss:AutoFitHeight="0">
-    <Cell><Data ss:Type="String">Name</Data></Cell>
-    <Cell><Data ss:Type="String">ID</Data></Cell>
-   </Row>
-   <Row ss:AutoFitHeight="0">
-    <Cell ss:Index="2"><Data ss:Type="String">UNIT</Data></Cell>
-   </Row>
-   <Row ss:Index="4" ss:AutoFitHeight="0">
-    <Cell ss:Index="2"><Data ss:Type="Boolean">1</Data></Cell>
-   </Row>
-   <Row ss:AutoFitHeight="0">
-    <Cell><Data ss:Type="String">NONE</Data></Cell>
-    <Cell><Data ss:Type="Number">0</Data></Cell>
-   </Row>
-   <Row ss:AutoFitHeight="0">
-    <Cell><Data ss:Type="String">HUMAN_FEMALE</Data></Cell>
-    <Cell><Data ss:Type="Number">1</Data></Cell>
-   </Row>
-   <Row ss:AutoFitHeight="0">
-    <Cell><Data ss:Type="String">HUMAN_MALE</Data></Cell>
-    <Cell><Data ss:Type="Number">2</Data></Cell>
-   </Row>
-   <Row ss:AutoFitHeight="0">
-    <Cell><Data ss:Type="String">ELF_FEMALE</Data></Cell>
-    <Cell><Data ss:Type="Number">3</Data></Cell>
-   </Row>
-   <Row ss:AutoFitHeight="0">
-    <Cell><Data ss:Type="String">ELF_MALE</Data></Cell>
-    <Cell><Data ss:Type="Number">4</Data></Cell>
-   </Row>
-   <Row ss:AutoFitHeight="0">
-    <Cell><Data ss:Type="String">DARKELF_FEMALE</Data></Cell>
-    <Cell><Data ss:Type="Number">5</Data></Cell>
-   </Row>
-   <Row ss:AutoFitHeight="0">
-    <Cell><Data ss:Type="String">DARKELF_MALE</Data></Cell>
-    <Cell><Data ss:Type="Number">6</Data></Cell>
-   </Row>
-   <Row ss:AutoFitHeight="0">
-    <Cell><Data ss:Type="String">DWARF_FEMALE</Data></Cell>
-    <Cell><Data ss:Type="Number">7</Data></Cell>
-   </Row>
-   <Row ss:AutoFitHeight="0">
-    <Cell><Data ss:Type="String">DWARF_MALE</Data></Cell>
-    <Cell><Data ss:Type="Number">8</Data></Cell>
-   </Row>
-   <Row ss:AutoFitHeight="0">
-    <Cell><Data ss:Type="String">GOBLIN</Data></Cell>
-    <Cell><Data ss:Type="Number">9</Data></Cell>
-   </Row>
-   <Row ss:AutoFitHeight="0">
-    <Cell><Data ss:Type="String">IMP</Data></Cell>
-    <Cell><Data ss:Type="Number">10</Data></Cell>
-   </Row>
-   <Row ss:AutoFitHeight="0">
-    <Cell><Data ss:Type="String">MUMMY</Data></Cell>
-    <Cell><Data ss:Type="Number">11</Data></Cell>
-   </Row>
-   <Row ss:AutoFitHeight="0">
-    <Cell><Data ss:Type="String">ORC</Data></Cell>
-    <Cell><Data ss:Type="Number">12</Data></Cell>
-   </Row>
-   <Row ss:AutoFitHeight="0">
-    <Cell><Data ss:Type="String">TROLL</Data></Cell>
-    <Cell><Data ss:Type="Number">13</Data></Cell>
-   </Row>
-   <Row ss:AutoFitHeight="0">
-    <Cell><Data ss:Type="String">UNDEAD</Data></Cell>
-    <Cell><Data ss:Type="Number">14</Data></Cell>
-   </Row>
-   <Row ss:AutoFitHeight="0">
-    <Cell><Data ss:Type="String">DRAGON_BLACK</Data></Cell>
-    <Cell><Data ss:Type="Number">15</Data></Cell>
-   </Row>
-   <Row ss:AutoFitHeight="0">
-    <Cell><Data ss:Type="String">DRAGON_RED</Data></Cell>
-    <Cell><Data ss:Type="Number">16</Data></Cell>
-   </Row>
-   <Row ss:AutoFitHeight="0">
-    <Cell><Data ss:Type="String">DRAGON_UNDEAD</Data></Cell>
-    <Cell><Data ss:Type="Number">17</Data></Cell>
-   </Row>
-  </Table>
-  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
-   <PageSetup>
-    <Header x:Margin="0.3"/>
-    <Footer x:Margin="0.3"/>
-    <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
-   </PageSetup>
-   <Unsynced/>
-   <Selected/>
-   <Panes>
-    <Pane>
-     <Number>3</Number>
-     <ActiveRow>1</ActiveRow>
-    </Pane>
-   </Panes>
-   <ProtectObjects>False</ProtectObjects>
-   <ProtectScenarios>False</ProtectScenarios>
-  </WorksheetOptions>
- </Worksheet>
  <Worksheet ss:Name="DataCharacter">
   <Table ss:ExpandedColumnCount="7" ss:ExpandedRowCount="21" x:FullColumns="1"
    x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="16.5">
@@ -258,6 +147,7 @@
     <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
    </PageSetup>
    <Unsynced/>
+   <Selected/>
    <Panes>
     <Pane>
      <Number>3</Number>
@@ -295,6 +185,111 @@
      <Number>3</Number>
      <ActiveRow>1</ActiveRow>
      <ActiveCol>2</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="!UNIT">
+  <Table ss:ExpandedColumnCount="2" ss:ExpandedRowCount="22" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="16.5">
+   <Column ss:AutoFitWidth="0" ss:Width="103.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="58.5"/>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">Name</Data></Cell>
+    <Cell><Data ss:Type="String">ID</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:Index="2"><Data ss:Type="String">UNIT</Data></Cell>
+   </Row>
+   <Row ss:Index="4" ss:AutoFitHeight="0">
+    <Cell ss:Index="2"><Data ss:Type="Boolean">1</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">NONE</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">HUMAN_FEMALE</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">HUMAN_MALE</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">ELF_FEMALE</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">ELF_MALE</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">DARKELF_FEMALE</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">DARKELF_MALE</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">DWARF_FEMALE</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">DWARF_MALE</Data></Cell>
+    <Cell><Data ss:Type="Number">8</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">GOBLIN</Data></Cell>
+    <Cell><Data ss:Type="Number">9</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">IMP</Data></Cell>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">MUMMY</Data></Cell>
+    <Cell><Data ss:Type="Number">11</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">ORC</Data></Cell>
+    <Cell><Data ss:Type="Number">12</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">TROLL</Data></Cell>
+    <Cell><Data ss:Type="Number">13</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">UNDEAD</Data></Cell>
+    <Cell><Data ss:Type="Number">14</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">DRAGON_BLACK</Data></Cell>
+    <Cell><Data ss:Type="Number">15</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">DRAGON_RED</Data></Cell>
+    <Cell><Data ss:Type="Number">16</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">DRAGON_UNDEAD</Data></Cell>
+    <Cell><Data ss:Type="Number">17</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Header x:Margin="0.3"/>
+    <Footer x:Margin="0.3"/>
+    <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+   </PageSetup>
+   <Unsynced/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>1</ActiveRow>
     </Pane>
    </Panes>
    <ProtectObjects>False</ProtectObjects>

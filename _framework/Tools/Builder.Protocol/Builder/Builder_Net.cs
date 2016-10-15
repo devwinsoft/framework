@@ -64,7 +64,6 @@ namespace Devarc
 
             string full_name = System.IO.Path.GetFullPath(_inputFile);
             Assembly assem = Assembly.LoadFile(full_name);
-            //this.outDir = System.IO.Path.GetDirectoryName(full_name);
 
             if (assem == null)
             {

@@ -46,7 +46,7 @@ namespace Devarc
 			T_UNIT.LIST.Clear();
 			T_DataCharacter.LIST.Clear();
 		}
-		public static bool Load_TestSchema_XML(string file_path)
+		public static bool Load_TestSchema_XmlFile(string file_path)
 		{
 			using (XmlReader reader = new XmlReader())
 			{
@@ -55,7 +55,16 @@ namespace Devarc
 				return reader.ReadFile(file_path);
 			}
 		}
-		public static bool Load_TestSchema_JSON(string file_path)
+		public static bool Load_TestSchema_XmlData(string file_path)
+		{
+			using (XmlReader reader = new XmlReader())
+			{
+				reader.RegisterCallback_Line("UNIT", Callback_UNIT_XML);
+				reader.RegisterCallback_Line("DataCharacter", Callback_DataCharacter_XML);
+				return reader.ReadData(file_path);
+			}
+		}
+		public static bool Load_TestSchema_JsonFile(string file_path)
 		{
 			using (JsonReader reader = new JsonReader())
 			{
@@ -64,7 +73,7 @@ namespace Devarc
 				return reader.ReadFile(file_path);
 			}
 		}
-		public static void Save_TestSchema_XML(string file_path)
+		public static void Save_TestSchema_XmlFile(string file_path)
 		{
 			using (XmlWriter writer = new XmlWriter())
 			{
@@ -91,7 +100,7 @@ namespace Devarc
 			    writer.Write_End(file_path);
 			}
 		}
-		public static void Save_TestSchema_JSON(string file_path)
+		public static void Save_TestSchema_JsonFile(string file_path)
 		{
 			TextWriter sw = new StreamWriter(file_path, false);
 			sw.WriteLine("{");

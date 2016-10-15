@@ -95,7 +95,7 @@ namespace Devarc
                 sw.WriteLine("\t\t}");
 
                 // Load XML
-                sw.WriteLine("\t\tpublic static bool Load_{0}_XML(string file_path)", this.FileName);
+                sw.WriteLine("\t\tpublic static bool Load_{0}_XmlFile(string file_path)", this.FileName);
                 sw.WriteLine("\t\t{");
                 sw.WriteLine("\t\t\tusing (XmlReader reader = new XmlReader())");
                 sw.WriteLine("\t\t\t{");
@@ -107,8 +107,21 @@ namespace Devarc
                 sw.WriteLine("\t\t\t}");
                 sw.WriteLine("\t\t}");
 
+                // Load XML
+                sw.WriteLine("\t\tpublic static bool Load_{0}_XmlData(string file_path)", this.FileName);
+                sw.WriteLine("\t\t{");
+                sw.WriteLine("\t\t\tusing (XmlReader reader = new XmlReader())");
+                sw.WriteLine("\t\t\t{");
+                foreach (ClassInfo info in m_ClassList)
+                {
+                    sw.WriteLine("\t\t\t\treader.RegisterCallback_Line(\"{0}\", Callback_{0}_XML);", info.enum_name);
+                }
+                sw.WriteLine("\t\t\t\treturn reader.ReadData(file_path);");
+                sw.WriteLine("\t\t\t}");
+                sw.WriteLine("\t\t}");
+
                 // Load JSON
-                sw.WriteLine("\t\tpublic static bool Load_{0}_JSON(string file_path)", this.FileName);
+                sw.WriteLine("\t\tpublic static bool Load_{0}_JsonFile(string file_path)", this.FileName);
                 sw.WriteLine("\t\t{");
                 sw.WriteLine("\t\t\tusing (JsonReader reader = new JsonReader())");
                 sw.WriteLine("\t\t\t{");
@@ -122,7 +135,7 @@ namespace Devarc
 
 
                 // Save XML
-                sw.WriteLine("\t\tpublic static void Save_{0}_XML(string file_path)", this.FileName);
+                sw.WriteLine("\t\tpublic static void Save_{0}_XmlFile(string file_path)", this.FileName);
                 sw.WriteLine("\t\t{");
                 sw.WriteLine("\t\t\tusing (XmlWriter writer = new XmlWriter())");
                 sw.WriteLine("\t\t\t{");
@@ -144,7 +157,7 @@ namespace Devarc
                 sw.WriteLine("\t\t}");
 
                 // Save JSON
-                sw.WriteLine("\t\tpublic static void Save_{0}_JSON(string file_path)", this.FileName);
+                sw.WriteLine("\t\tpublic static void Save_{0}_JsonFile(string file_path)", this.FileName);
                 sw.WriteLine("\t\t{");
                 sw.WriteLine("\t\t\tTextWriter sw = new StreamWriter(file_path, false);");
                 sw.WriteLine("\t\t\tsw.WriteLine(\"{\");");

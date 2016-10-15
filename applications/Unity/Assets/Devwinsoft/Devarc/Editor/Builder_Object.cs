@@ -475,7 +475,7 @@ namespace Devarc
                             {
                                 sw.WriteLine("\t\t\t{0}.Clear();", var_name);
                                 sw.WriteLine("\t\t\tJsonData __{0} = JsonMapper.ToObject(obj.ToStr(\"{0}\"));", var_name);
-                                sw.WriteLine("\t\t\tif (__{0} != null && __{0}.IsArray) {{ foreach (JsonData node in __{0}) {{ {0}.Add(_{1}.Parse(node.ToString())); }} }}", var_name, type_name);
+                                sw.WriteLine("\t\t\tif (__{0} != null && __{0}.IsArray) {{ foreach (var node in __{0} as IList) {{ {0}.Add(_{1}.Parse(node.ToString())); }} }}", var_name, type_name);
                             }
                             else
                             {
@@ -487,7 +487,7 @@ namespace Devarc
                             {
                                 sw.WriteLine("\t\t\t{0}.Clear();", var_name);
                                 sw.WriteLine("\t\t\tJsonData __{0} = JsonMapper.ToObject(obj.ToStr(\"{0}\"));", var_name);
-                                sw.WriteLine("\t\t\tif (__{0} != null && __{0}.IsArray) {{ foreach (JsonData node in __{0}) {{ {1} _v = new {1}(); _v.Initialize(node); {0}.Add(_v); }} }}", var_name, type_name);
+                                sw.WriteLine("\t\t\tif (__{0} != null && __{0}.IsArray) {{ foreach (var node in __{0} as IList) {{ {1} _v = new {1}(); _v.Initialize(node as JsonData); {0}.Add(_v); }} }}", var_name, type_name);
                             }
                             else
                             {
