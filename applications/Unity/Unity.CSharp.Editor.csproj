@@ -112,11 +112,13 @@
     <Compile Include="Assets\Devwinsoft\Devarc\Editor\Builder_Data.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\Editor\Builder_Net.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\Editor\Builder_Object.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\Editor\UITableBuilder.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\Editor\DevarcEditor.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\_test\Editor\Protocols.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Devwinsoft\Devarc\_test\Editor\TestSchema.xml" />
+    <None Include="Assets\Devwinsoft\Devarc\_test\Graphics\shaderCharacter.shader" />
+    <None Include="Assets\Devwinsoft\Devarc\_test\Graphics\shaderTerrain.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

@@ -59,8 +59,8 @@ namespace TestClient
         {
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                TableData.UnLoad_TestSchema();
-                TableData.Load_TestSchema_XmlFile(openFileDialog1.FileName);
+                DataManager.UnLoad_TestSchema();
+                DataManager.Load_TestSchema_XmlFile(openFileDialog1.FileName);
                 //TableData.UnLoad_ClientObject();
                 //TableData.Load_ClientObject_JSON(openFileDialog1.FileName + ".json");
 
@@ -84,8 +84,8 @@ namespace TestClient
         {
             if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                TableData.Save_TestSchema_XmlFile(saveFileDialog1.FileName);
-                TableData.Save_TestSchema_JsonFile(saveFileDialog1.FileName + ".json");
+                DataManager.Save_TestSchema_XmlFile(saveFileDialog1.FileName);
+                DataManager.Save_TestSchema_JsonFile(saveFileDialog1.FileName + ".json");
             }
         }
 
@@ -93,7 +93,7 @@ namespace TestClient
         {
             if (string.IsNullOrEmpty(textBox_chat.Text) == false)
             {
-                TestClient.C2Test.Chat(HostID.Server, textBox_name.Text, textBox_chat.Text);
+                TestClient.ProxyC2Test.Chat(HostID.Server,textBox_chat.Text);
                 textBox_chat.Text = "";
             }
         }

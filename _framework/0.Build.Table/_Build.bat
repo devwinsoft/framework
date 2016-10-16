@@ -1,14 +1,14 @@
 set CMD=Devarc.TableBuilder.exe
-set XMLDIR=..\_XML
-set MODULE=..\Modules
-set UNITY=..\..\applications\Unity\Assets
+set INDIR=..\..\applications\Unity\Assets\Devwinsoft\Devarc\_test\Editor
+set OUTDIR1=..\..\applications\Unity\Assets
+set OUTDIR2=..\Modules
 
-%CMD%     -obj            %XMLDIR%\TestSchema.xml
-xcopy /Y  %XMLDIR%\*.cs   %UNITY%\Devwinsoft\Devarc\_GeneratedCode\
-move      %XMLDIR%\*.cs   %MODULE%\Devarc.Object\_GeneratedCode\
+%CMD%     -obj           %INDIR%\TestSchema.xml
+xcopy /Y  %INDIR%\*.cs   %OUTDIR1%\Devwinsoft\Devarc\_GeneratedCode\
+move      %INDIR%\*.cs   %OUTDIR2%\Devarc.Object\_GeneratedCode\
 
-%CMD%     -data           %XMLDIR%\TestSchema.xml
-xcopy /Y  %XMLDIR%\*.cs   %UNITY%\Devwinsoft\Devarc\_GeneratedCode\
-move      %XMLDIR%\*.cs   %MODULE%\Devarc.Table\_GeneratedCode\
+%CMD%     -data          %INDIR%\TestSchema.xml
+xcopy /Y  %INDIR%\*.cs   %OUTDIR1%\Devwinsoft\Devarc\_GeneratedCode\
+move      %INDIR%\*.cs   %OUTDIR2%\Devarc.Table\_GeneratedCode\
 
 pause

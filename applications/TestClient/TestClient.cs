@@ -12,8 +12,8 @@ namespace TestClient
         public static TestClient Instance { get { return ms_Instance; } }
         private static TestClient ms_Instance;
 
-        public static C2Test.Proxy C2Test { get { return ms_Instance != null ? ms_Instance.net_C2Test : null; } }
-        C2Test.Proxy net_C2Test = new C2Test.Proxy();
+        public static C2S.Proxy ProxyC2Test { get { return ms_Instance != null ? ms_Instance.mProxyC2S : null; } }
+        C2S.Proxy mProxyC2S = new C2S.Proxy();
 
         public NetClient client = new NetClient();
         Stub_Test2C stub = new Stub_Test2C();
@@ -31,7 +31,7 @@ namespace TestClient
         {
             ms_Instance = this;
 
-            net_C2Test.SetNetworker(client);
+            mProxyC2S.SetNetworker(client);
             client.InitStub(stub);
         }
 

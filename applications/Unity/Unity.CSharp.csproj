@@ -69,10 +69,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Devwinsoft\Devarc\_GeneratedCode\C2Test.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_GeneratedCode\C2S.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\_GeneratedCode\Class_TestSchema.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_GeneratedCode\TableData_TestSchema.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_GeneratedCode\Test2C.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_GeneratedCode\DataManager_TestSchema.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_GeneratedCode\Protocols.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_GeneratedCode\S2C.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\_component\Container_C1.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\_component\Container_S1.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\_component\Contents.cs" />
@@ -98,11 +99,16 @@
     <Compile Include="Assets\Devwinsoft\Devarc\_component\ThreadContainer.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\_component\XmlReader.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\_component\XmlWriter.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_test\SceneTest.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_test\Stub_Test2C.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\BaseController.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\PlayerController.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\SceneTest.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\Stub_S2C.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\UserController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Devwinsoft\Devarc\_test\Editor\TestSchema.xml" />
+    <None Include="Assets\Devwinsoft\Devarc\_test\Graphics\shaderCharacter.shader" />
+    <None Include="Assets\Devwinsoft\Devarc\_test\Graphics\shaderTerrain.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

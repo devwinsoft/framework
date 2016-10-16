@@ -7,7 +7,7 @@ using Devarc;
 
 namespace TestClient
 {
-    class Stub_Test2C : IClientStub, Test2C.IStub
+    class Stub_Test2C : IClientStub, S2C.IStub
     {
         public void OnNotifyConnecting()
         {
@@ -22,12 +22,9 @@ namespace TestClient
         {
         }
 
-        public void RMI_Test2C_Notify_Chat(HostID remote, String _name, String _msg)
+        public void RMI_S2C_Notify_Chat(HostID remote, String _msg)
         {
-            Log.Message(LOG_TYPE.INFO, "[{0}]: {1}", _name, _msg);
-        }
-        public void RMI_Test2C_Notify_Data(HostID remote, DataCharacter _data)
-        {
+            Log.Message(LOG_TYPE.INFO, "[{0}] {1}", remote, _msg);
         }
 
         public void RMI_Test2C_Notify_SendFile_Result(HostID remote, Boolean _success)
@@ -41,7 +38,7 @@ namespace TestClient
 
         public bool OnReceive(int rid, HostID hid, NetBuffer msg)
         {
-            return Test2C.Stub.OnReceive(this, rid, hid, msg);
+            return S2C.Stub.OnReceive(this, rid, hid, msg);
         }
     }
 }

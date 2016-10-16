@@ -7,11 +7,11 @@ namespace TestServer
 {
     public class TestServer
     {
-        public static TestServer Instance { get { return ms_Instance; } }
-        private static TestServer ms_Instance;
+        public static TestServer Instance { get { return msInstance; } }
+        private static TestServer msInstance;
 
-        public static Test2C.Proxy Test2C { get { return ms_Instance != null ? ms_Instance.net_Test2C : null; } }
-        Test2C.Proxy net_Test2C = new Test2C.Proxy();
+        public static S2C.Proxy ProxyS2C { get { return msInstance != null ? msInstance.mProxyS2C : null; } }
+        S2C.Proxy mProxyS2C = new S2C.Proxy();
 
         public NetServer server = new NetServer();
         Stub_C2Test stub = new Stub_C2Test();
@@ -27,9 +27,9 @@ namespace TestServer
 
         public TestServer()
         {
-            ms_Instance = this;
+            msInstance = this;
 
-            net_Test2C.SetNetworker(server);
+            ProxyS2C.SetNetworker(server);
             server.InitStub(stub);
         }
 

@@ -42,7 +42,7 @@ namespace Devarc
         {
             this.FileName = Path.GetFileNameWithoutExtension(_input_file);
             this.OutDir = _out_dir; 
-            string file_path = this.OutDir + "\\TableData_" + this.FileName + ".cs";
+            string file_path = this.OutDir + "\\DataManager_" + this.FileName + ".cs";
 
             if (File.Exists(_input_file) == false)
             {
@@ -57,7 +57,7 @@ namespace Devarc
         {
             this.FileName = _file_name;
             this.OutDir = _out_dir;
-            string file_path = this.OutDir + "\\TableData_" + this.FileName + ".cs";
+            string file_path = this.OutDir + "\\DataManager_" + this.FileName + ".cs";
 
             this._build(_input_data, file_path);
         }
@@ -71,7 +71,7 @@ namespace Devarc
                 sw.WriteLine("using LitJson;");
                 sw.WriteLine("namespace {0}", this.NameSpace);
                 sw.WriteLine("{");
-                sw.WriteLine("\tpublic partial class TableData");
+                sw.WriteLine("\tpublic partial class DataManager");
                 sw.WriteLine("\t{");
                 sw.WriteLine("\t\tpublic static bool isLoad_{0} {{ get {{ return m_isLoad_{0};}} set {{ m_isLoad_{0} = value; }} }}", this.FileName);
                 sw.WriteLine("\t\tprivate static bool m_isLoad_{0} = false;", this.FileName);
@@ -224,7 +224,7 @@ namespace Devarc
                 return;
             }
 
-            string file_path = this.OutDir + "\\TableData_" + this.FileName + ".cs";
+            string file_path = this.OutDir + "\\DataManager_" + this.FileName + ".cs";
             using (TextWriter sw = new StreamWriter(file_path, true))
             {
                 sw.WriteLine("\t\tstatic void Callback_{0}_XML(string sheet_name, PropTable tb)", enum_name);
@@ -319,7 +319,7 @@ namespace Devarc
                 return;
             }
 
-            string file_path = this.OutDir + "\\TableData_" + this.FileName + ".cs";
+            string file_path = this.OutDir + "\\DataManager_" + this.FileName + ".cs";
             using (TextWriter sw = new StreamWriter(file_path, true))
             {
                 if (tb.GetVarType(item_key_index) == VAR_TYPE.STRING)

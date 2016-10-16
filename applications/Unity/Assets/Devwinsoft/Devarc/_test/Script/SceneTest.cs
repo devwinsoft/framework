@@ -6,10 +6,9 @@ using Devarc;
 
 public class SceneTest : MonoBehaviour
 {
-    public C2Test.Proxy net_C2Test = new C2Test.Proxy();
-
+    public C2S.Proxy net_C2S = new C2S.Proxy();
     public NetClient client = new NetClient();
-    Stub_Test2C stub = new Stub_Test2C();
+    Stub_S2C stub = new Stub_S2C();
 
     string mAddress = "127.0.0.1";
     string mPort = "5000";
@@ -25,9 +24,9 @@ public class SceneTest : MonoBehaviour
 
     void OnGUI()
     {
-        mAddress = GUI.TextArea(new Rect(20, 20, 200, 20), mAddress);
-        mPort = GUI.TextArea(new Rect(230, 20, 90, 20), mPort);
-        if (GUI.Button(new Rect(330, 20, 70, 20), "Connect"))
+        mAddress = GUI.TextArea(new Rect(20, 20, 130, 20), mAddress);
+        mPort = GUI.TextArea(new Rect(160, 20, 60, 20), mPort);
+        if (GUI.Button(new Rect(230, 20, 70, 20), "Connect"))
         {
             int port = 0;
             if (int.TryParse(mPort, out port))
@@ -35,7 +34,7 @@ public class SceneTest : MonoBehaviour
                 client.Connect(mAddress, port, 10f);
             }
         }
-        GUI.TextField(new Rect(20, 50, 380, 180), mMessage);
+        GUI.TextField(new Rect(20, 45, 280, 180), mMessage);
     }
 
     void Update()

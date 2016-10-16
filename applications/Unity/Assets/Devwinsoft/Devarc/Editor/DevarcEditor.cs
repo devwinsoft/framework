@@ -5,16 +5,16 @@ using System.Collections.Generic;
 using System.Reflection;
 using Devarc;
 
-public class UITableBuilder : EditorWindow
+public class DevarcEditor : EditorWindow
 {
-    [@MenuItem("Window/Devarc/Builder")]
+    [@MenuItem("Window/Devarc Framework")]
     static void BakingCharacterTexture()
     {
-        EditorWindow.GetWindowWithRect(typeof(UITableBuilder), new Rect(0, 0, 510f, 400f), false);
+        EditorWindow.GetWindowWithRect(typeof(DevarcEditor), new Rect(0, 0, 510f, 400f), false);
     }
 
-    const string buildSettings = "Assets/Devwinsoft/Devarc/BuildSettings.asset";
-    BuilderSaveData buildInfo = null;
+    const string buildConfigPath = "Assets/Devwinsoft/Devarc/BuildSettings.asset";
+    BuilderSaveData buildConfigData = null;
     Assembly protocolAssem = null;
     string protocolNames = "";
 
@@ -24,26 +24,26 @@ public class UITableBuilder : EditorWindow
 
     void OnEnable()
     {
-        this.titleContent.text = "Builder";
+        this.titleContent.text = "Devarc";
     }
 
     void OnGUI()
     {
-        if (buildInfo == null)
+        if (buildConfigData == null)
         {
-            buildInfo = (BuilderSaveData)AssetDatabase.LoadAssetAtPath(buildSettings, typeof(BuilderSaveData));
+            buildConfigData = (BuilderSaveData)AssetDatabase.LoadAssetAtPath(buildConfigPath, typeof(BuilderSaveData));
         }
 
-        if (buildInfo == null)
+        if (buildConfigData == null)
         {
             if (GUILayout.Button("Init"))
             {
                 BuilderSaveData asset = new BuilderSaveData();
-                AssetDatabase.CreateAsset(asset, buildSettings);
+                AssetDatabase.CreateAsset(asset, buildConfigPath);
                 EditorUtility.FocusProjectWindow();
                 Selection.activeObject = asset;
             }
-            buildInfo = (BuilderSaveData)AssetDatabase.LoadAssetAtPath(buildSettings, typeof(BuilderSaveData));
+            buildConfigData = (BuilderSaveData)AssetDatabase.LoadAssetAtPath(buildConfigPath, typeof(BuilderSaveData));
         }
 
         if (protocolAssem == null)
@@ -71,36 +71,36 @@ public class UITableBuilder : EditorWindow
             }
         }
 
-        if (buildInfo == null)
+        if (buildConfigData == null)
         {
             return;
         }
 
         {
             GUILayout.Label("Object Tables");
-            int newTableCount = EditorGUILayout.IntField("Table Count", buildInfo.tables.Length);
-            if (newTableCount != buildInfo.tables.Length)
+            int newTableCount = EditorGUILayout.IntField("Table Count", buildConfigData.tables.Length);
+            if (newTableCount != buildConfigData.tables.Length)
             {
                 TextAsset[] newTables = new TextAsset[newTableCount];
                 if (newTableCount > 0)
                 {
-                    System.Array.Copy(buildInfo.tables, newTables, Mathf.Min(newTableCount, buildInfo.tables.Length));
+                    System.Array.Copy(buildConfigData.tables, newTables, Mathf.Min(newTableCount, buildConfigData.tables.Length));
                 }
-                buildInfo.tables = newTables;
+                buildConfigData.tables = newTables;
             }
-            for (int i = 0; i < buildInfo.tables.Length; i++)
+            for (int i = 0; i < buildConfigData.tables.Length; i++)
             {
-                buildInfo.tables[i] = (TextAsset)EditorGUILayout.ObjectField(string.Format("Table-{0}", i), buildInfo.tables[i], typeof(TextAsset));
+                buildConfigData.tables[i] = (TextAsset)EditorGUILayout.ObjectField(string.Format("Table-{0}", i), buildConfigData.tables[i], typeof(TextAsset));
             }
 
             if (GUILayout.Button("Compile Tables !!"))
             {
-                for (int i = 0; i < buildInfo.tables.Length; i++)
+                for (int i = 0; i < buildConfigData.tables.Length; i++)
                 {
-                    if (buildInfo.tables[i] == null)
+                    if (buildConfigData.tables[i] == null)
                         continue;
-                    builderObject.BuildFromData(buildInfo.tables[i].name, buildInfo.tables[i].text, Application.dataPath + @"/Devwinsoft/Devarc/_GeneratedCode");
-                    builderData.BuildFromData(buildInfo.tables[i].name, buildInfo.tables[i].text, Application.dataPath + @"/Devwinsoft/Devarc/_GeneratedCode");
+                    builderObject.BuildFromData(buildConfigData.tables[i].name, buildConfigData.tables[i].text, Application.dataPath + @"/Devwinsoft/Devarc/_GeneratedCode");
+                    builderData.BuildFromData(buildConfigData.tables[i].name, buildConfigData.tables[i].text, Application.dataPath + @"/Devwinsoft/Devarc/_GeneratedCode");
                 }
                 AssetDatabase.Refresh(ImportAssetOptions.Default);
                 EditorUtility.DisplayDialog("Compile Tables", "Build Completed.", "Success");
@@ -111,29 +111,29 @@ public class UITableBuilder : EditorWindow
 
         {
             GUILayout.Label("Data Tables");
-            int newTableCount = EditorGUILayout.IntField("Table Count", buildInfo.data_tables.Length);
-            if (newTableCount != buildInfo.data_tables.Length)
+            int newTableCount = EditorGUILayout.IntField("Table Count", buildConfigData.data_tables.Length);
+            if (newTableCount != buildConfigData.data_tables.Length)
             {
                 TextAsset[] newTableList = new TextAsset[newTableCount];
                 if (newTableCount > 0)
                 {
-                    System.Array.Copy(buildInfo.data_tables, newTableList, Mathf.Min(newTableCount, buildInfo.data_tables.Length));
+                    System.Array.Copy(buildConfigData.data_tables, newTableList, Mathf.Min(newTableCount, buildConfigData.data_tables.Length));
                 }
-                buildInfo.data_tables = newTableList;
+                buildConfigData.data_tables = newTableList;
             }
-            for (int i = 0; i < buildInfo.data_tables.Length; i++)
+            for (int i = 0; i < buildConfigData.data_tables.Length; i++)
             {
-                buildInfo.data_tables[i] = (TextAsset)EditorGUILayout.ObjectField(string.Format("Table-{0}", i), buildInfo.data_tables[i], typeof(TextAsset));
+                buildConfigData.data_tables[i] = (TextAsset)EditorGUILayout.ObjectField(string.Format("Table-{0}", i), buildConfigData.data_tables[i], typeof(TextAsset));
             }
 
             if (GUILayout.Button("Make Json Files !!"))
             {
-                TableData.UnLoad_TestSchema();
-                foreach (TextAsset asset in buildInfo.data_tables)
+                DataManager.UnLoad_TestSchema();
+                foreach (TextAsset asset in buildConfigData.data_tables)
                 {
-                    TableData.Load_TestSchema_XmlData(asset.text);
+                    DataManager.Load_TestSchema_XmlData(asset.text);
                 }
-                TableData.Save_TestSchema_JsonFile(Application.dataPath + @"/Devwinsoft/Devarc/_test/TestSchema.json");
+                DataManager.Save_TestSchema_JsonFile(Application.dataPath + @"/Devwinsoft/Devarc/_test/TestSchema.json");
                 AssetDatabase.Refresh(ImportAssetOptions.Default);
                 EditorUtility.DisplayDialog("Make Json Files", "Build Completed.", "Success");
             }
