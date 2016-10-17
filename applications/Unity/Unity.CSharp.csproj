@@ -102,6 +102,7 @@
     <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\BaseController.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\PlayerController.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\SceneTest.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\Stub_C2S.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\Stub_S2C.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\UserController.cs" />
   </ItemGroup>

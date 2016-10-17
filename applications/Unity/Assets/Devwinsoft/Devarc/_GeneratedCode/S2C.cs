@@ -5,6 +5,7 @@ namespace S2C
 	public interface IStub
 	{
 		void RMI_S2C_Notify_Chat(HostID remote, String _msg);
+		void RMI_S2C_Notify_Move(HostID remote, VECTOR3 _look, DIRECTION _move);
 	}
 	public static class Stub
 	{
@@ -22,6 +23,15 @@ namespace S2C
 						if (success) stub.RMI_S2C_Notify_Chat(hid, _msg);
 					}
 					break;
+				case RMI_ID.Notify_Move:
+					{
+						Log.Message(LOG_TYPE.DEBUG, "Stub(S2C): Notify_Move");
+						Devarc.VECTOR3 _look = new Devarc.VECTOR3(); success = success ? Marshaler.Read(_in_msg, _look) : false;
+						Devarc.DIRECTION _move = default(Devarc.DIRECTION); success = success ? Marshaler.Read(_in_msg, ref _move) : false;
+						if (_in_msg.Pos != _in_msg.Length) return false;
+						if (success) stub.RMI_S2C_Notify_Move(hid, _look, _move);
+					}
+					break;
 				default:
 					return false;
 			}
@@ -36,6 +46,7 @@ namespace S2C
 	enum RMI_ID
 	{
 		Notify_Chat                    = 5000,
+		Notify_Move                    = 5001,
 	}
 	public class Proxy
 	{
@@ -53,6 +64,21 @@ namespace S2C
 			m_Networker.RmiHeader(m_Networker.GetMyHostID(), target, _out_msg);
 			_out_msg.Write((Int32)RMI_ID.Notify_Chat);
 			Marshaler.Write(_out_msg, _msg);
+			return m_Networker.RmiSend(m_Networker.GetMyHostID(), target, _out_msg);
+		}
+		public bool Notify_Move(HostID target, VECTOR3 _look, DIRECTION _move)
+		{
+			Log.Message(LOG_TYPE.DEBUG, "S2C.Proxy.Notify_Move");
+			NetBuffer _out_msg = new NetBuffer();
+			if (m_Networker == null)
+			{
+				Log.Message(LOG_TYPE.DEBUG, typeof(Proxy).ToString() + " is not initialized.");
+				return false;
+			}
+			m_Networker.RmiHeader(m_Networker.GetMyHostID(), target, _out_msg);
+			_out_msg.Write((Int32)RMI_ID.Notify_Move);
+			Marshaler.Write(_out_msg, _look);
+			Marshaler.Write(_out_msg, _move);
 			return m_Networker.RmiSend(m_Networker.GetMyHostID(), target, _out_msg);
 		}
 	}
