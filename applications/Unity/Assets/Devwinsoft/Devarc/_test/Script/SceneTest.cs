@@ -13,6 +13,8 @@ public enum PLAY_STATE
     CLIENT_RUN,
 }
 
+
+
 public class SceneTest : MonoBehaviour
 {
     public Transform prefabPlayer;

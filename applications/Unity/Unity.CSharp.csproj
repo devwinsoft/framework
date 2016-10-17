@@ -105,6 +105,7 @@
     <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\Stub_C2S.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\Stub_S2C.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\UserController.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\UserInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Devwinsoft\Devarc\_test\Editor\TestSchema.xml" />

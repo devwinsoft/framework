@@ -56,9 +56,10 @@ namespace Devarc
             {
                 throw new Exception("Clear without write-lock. name:" + typeof(ME).ToString());
             }
-            foreach (ME obj in ToArray())
+            List<ME>.Enumerator enumerator = GetEnumerator();
+            while(enumerator.MoveNext())
             {
-                Free(obj);
+                Free(enumerator.Current);
             }
         }
 
@@ -107,13 +108,13 @@ namespace Devarc
             }
             return m_ObjList[index];
         }
-        public ME[] ToArray()
+        public List<ME>.Enumerator GetEnumerator()
         {
             if (m_Lock.IsReading() == false)
             {
                 throw new Exception("ToArray() without lock. name:" + typeof(ME).ToString());
             }
-            return m_ObjList.ToArray();
+            return m_ObjList.GetEnumerator();
         }
         public int Count
         {
@@ -161,9 +162,10 @@ namespace Devarc
             {
                 throw new Exception("Clear without write-lock. name:" + typeof(ME).ToString());
             }
-            foreach (ME obj in ToArray())
+            List<ME>.Enumerator enumerator = GetEnumerator();
+            while (enumerator.MoveNext())
             {
-                Free1(obj.GetKey1());
+                Free1(enumerator.Current.GetKey1());
             }
         }
 
@@ -247,13 +249,13 @@ namespace Devarc
             }
             return m_ObjList[index];
         }
-        public ME[] ToArray()
+        public List<ME>.Enumerator GetEnumerator()
         {
             if (m_Lock.IsReading() == false)
             {
                 throw new Exception("ToArray() without lock. name:" + typeof(ME).ToString());
             }
-            return m_ObjList.ToArray();
+            return m_ObjList.GetEnumerator();
         }
         public int Count
         {
@@ -304,9 +306,10 @@ namespace Devarc
             {
                 Log.Message(LOG_TYPE.DEBUG, "Clear without write-lock. name:" + typeof(ME).ToString());
             }
-            foreach (ME obj in ToArray())
+            List<ME>.Enumerator enumerator = GetEnumerator();
+            while (enumerator.MoveNext())
             {
-                Free1(obj.GetKey1());
+                Free1(enumerator.Current.GetKey1());
             }
         }
 
@@ -432,13 +435,13 @@ namespace Devarc
             }
             return m_ObjList[index];
         }
-        public ME[] ToArray()
+        public List<ME>.Enumerator GetEnumerator()
         {
             if (m_Lock.IsReading() == false)
             {
                 throw new Exception("ToArray() without lock. name:" + typeof(ME).ToString());
             }
-            return m_ObjList.ToArray();
+            return m_ObjList.GetEnumerator();
         }
         public int Count
         {
@@ -489,9 +492,10 @@ namespace Devarc
             {
                 Log.Message(LOG_TYPE.DEBUG, "Clear without write-lock. name:" + typeof(ME).ToString());
             }
-            foreach (ME obj in ToArray())
+            List<ME>.Enumerator enumerator = GetEnumerator();
+            while (enumerator.MoveNext())
             {
-                Free1(obj.GetKey1());
+                Free1(enumerator.Current.GetKey1());
             }
         }
 
@@ -662,14 +666,15 @@ namespace Devarc
             }
             return m_ObjList[index];
         }
-        public ME[] ToArray()
+        public List<ME>.Enumerator GetEnumerator()
         {
             if (m_Lock.IsReading() == false)
             {
-                Log.Message(LOG_TYPE.DEBUG, "ToArray() without lock. name:" + typeof(ME).ToString());
+                throw new Exception("ToArray() without lock. name:" + typeof(ME).ToString());
             }
-            return m_ObjList.ToArray();
+            return m_ObjList.GetEnumerator();
         }
+
         public int Count
         {
             get

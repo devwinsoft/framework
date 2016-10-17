@@ -119,9 +119,11 @@ namespace Devarc
                 {
                     list = new HostID[this.HostList.Count];
                     int i = 0;
-                    foreach (NetHost host in this.HostList.ToArray())
+                    List<NetHost>.Enumerator enumerator = HostList.GetEnumerator();
+                    while (enumerator.MoveNext())
                     {
-                        list[i] = host.host_id;
+                        list[i] = enumerator.Current.host_id;
+                        i++;
                     }
                 } // unlock
                 foreach (HostID user_hid in list)
