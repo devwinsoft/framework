@@ -91,6 +91,7 @@ namespace Devarc
         public Container_C1()
         {
         }
+
         public void Clear()
         {
             m_ObjTable1.Clear();
@@ -150,9 +151,9 @@ namespace Devarc
             }
             return m_ObjList[index];
         }
-        public ME[] ToArray()
+        public List<ME>.Enumerator GetEnumerator()
         {
-            return m_ObjList.ToArray();
+            return m_ObjList.GetEnumerator();
         }
         public int Count { get { return m_ObjList.Count; } }
     }
@@ -262,9 +263,9 @@ namespace Devarc
             }
             return m_ObjList[index];
         }
-        public ME[] ToArray()
+        public List<ME>.Enumerator GetEnumerator()
         {
-            return m_ObjList.ToArray();
+            return m_ObjList.GetEnumerator();
         }
         public int Count { get { return m_ObjList.Count; } }
     }
@@ -407,9 +408,9 @@ namespace Devarc
             }
             return m_ObjList[index];
         }
-        public ME[] ToArray()
+        public List<ME>.Enumerator GetEnumerator()
         {
-            return m_ObjList.ToArray();
+            return m_ObjList.GetEnumerator();
         }
         public int Count { get { return m_ObjList.Count; } }
     }

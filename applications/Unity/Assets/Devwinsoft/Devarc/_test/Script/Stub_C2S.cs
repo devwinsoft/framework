@@ -34,6 +34,7 @@ public class Stub_C2S : IServerStub, C2S.IStub
             while(enumerator.MoveNext())
             {
                 UserInfo obj = enumerator.Current;
+                SceneTest.Instance.proxyS2C.Notify_Move(obj.GetKey1(), _look, _move);
             }
         } // unlock
 

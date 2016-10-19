@@ -102,8 +102,9 @@ namespace Devarc
 				    DataCharacter temp = new DataCharacter();
 				    PropTable tb_header = temp.ToTable();
 				    System.Xml.XmlNode node = writer.Write_Header(tb_header, T_DataCharacter.LIST.Count, false);
-				    foreach (T_DataCharacter obj in T_DataCharacter.LIST.ToArray())
+				    for (int i = 0; i < T_DataCharacter.LIST.Count; i++)
 				    {
+				        T_DataCharacter obj = T_DataCharacter.LIST.ElementAt(i);
 				        PropTable tb = obj.ToTable();
 				        writer.Write_Contents(node, tb);
 				    }
@@ -112,8 +113,9 @@ namespace Devarc
 				    _UNIT temp = new _UNIT();
 				    PropTable tb_header = temp.ToTable();
 				    System.Xml.XmlNode node = writer.Write_Header(tb_header, T_UNIT.LIST.Count, true);
-				    foreach (T_UNIT obj in T_UNIT.LIST.ToArray())
+				    for (int i = 0; i < T_UNIT.LIST.Count; i++)
 				    {
+				        T_UNIT obj = T_UNIT.LIST.ElementAt(i);
 				        PropTable tb = obj.ToTable();
 				        writer.Write_Contents(node, tb);
 				    }
@@ -122,8 +124,9 @@ namespace Devarc
 				    _DIRECTION temp = new _DIRECTION();
 				    PropTable tb_header = temp.ToTable();
 				    System.Xml.XmlNode node = writer.Write_Header(tb_header, T_DIRECTION.LIST.Count, true);
-				    foreach (T_DIRECTION obj in T_DIRECTION.LIST.ToArray())
+				    for (int i = 0; i < T_DIRECTION.LIST.Count; i++)
 				    {
+				        T_DIRECTION obj = T_DIRECTION.LIST.ElementAt(i);
 				        PropTable tb = obj.ToTable();
 				        writer.Write_Contents(node, tb);
 				    }

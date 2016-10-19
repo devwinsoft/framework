@@ -668,6 +668,89 @@ namespace Devarc
 	    {
 	    }
 	}
+	public enum DIRECTION
+	{
+		STOP                = 0,
+		BACK                = 1,
+		FORWARD             = 2,
+		L                   = 3,
+		R                   = 4,
+		FL                  = 5,
+		FR                  = 6,
+		BL                  = 7,
+		BR                  = 8,
+	}
+	public static partial class Marshaler
+	{
+	    public static bool Read(NetBuffer msg, ref DIRECTION obj)
+	    {
+	        try
+	        {
+	            obj = (DIRECTION)msg.ReadInt32();
+	            return true;
+	        }
+	        catch (System.Exception)
+	        {
+	            return false;
+	        }
+	    }
+	    public static void Write(NetBuffer msg, DIRECTION obj)
+	    {
+	        msg.Write((Int32)obj);
+	    }
+	    public static bool Read(NetBuffer msg, out DIRECTION[] obj)
+	    {
+	        try
+	        {
+	            int cnt = msg.ReadInt16();
+	            obj = new DIRECTION[cnt];
+	            for (int i = 0; i < cnt; i++)
+	            {
+	                obj[i] = (DIRECTION)msg.ReadInt32();
+	            }
+	            return true;
+	        }
+	        catch (System.Exception)
+	        {
+	            obj = null;;
+	            return false;
+	        }
+	    }
+	    public static bool Read(NetBuffer msg, List<DIRECTION> obj)
+	    {
+	        try
+	        {
+	            int cnt = msg.ReadInt16();
+	            obj = new List<DIRECTION>();
+	            for (int i = 0; i < cnt; i++)
+	            {
+	                obj[i] = (DIRECTION)msg.ReadInt32();
+	            }
+	            return true;
+	        }
+	        catch (System.Exception)
+	        {
+	            obj = null;;
+	            return false;
+	        }
+	    }
+	    public static void Write(NetBuffer msg, DIRECTION[] list)
+	    {
+	        msg.Write((Int16)list.Length);
+	        foreach (DIRECTION obj in list)
+	        {
+	            msg.Write((Int32)obj);
+	        }
+	    }
+	    public static void Write(NetBuffer msg, List<DIRECTION> list)
+	    {
+	        msg.Write((Int16)list.Count);
+	        foreach (DIRECTION obj in list)
+	        {
+	            msg.Write((Int32)obj);
+	        }
+	    }
+	}
 	public enum UNIT
 	{
 		NONE                = 0,
@@ -755,89 +838,6 @@ namespace Devarc
 	    {
 	        msg.Write((Int16)list.Count);
 	        foreach (UNIT obj in list)
-	        {
-	            msg.Write((Int32)obj);
-	        }
-	    }
-	}
-	public enum DIRECTION
-	{
-		STOP                = 0,
-		BACK                = 1,
-		FORWARD             = 2,
-		L                   = 3,
-		R                   = 4,
-		FL                  = 5,
-		FR                  = 6,
-		BL                  = 7,
-		BR                  = 8,
-	}
-	public static partial class Marshaler
-	{
-	    public static bool Read(NetBuffer msg, ref DIRECTION obj)
-	    {
-	        try
-	        {
-	            obj = (DIRECTION)msg.ReadInt32();
-	            return true;
-	        }
-	        catch (System.Exception)
-	        {
-	            return false;
-	        }
-	    }
-	    public static void Write(NetBuffer msg, DIRECTION obj)
-	    {
-	        msg.Write((Int32)obj);
-	    }
-	    public static bool Read(NetBuffer msg, out DIRECTION[] obj)
-	    {
-	        try
-	        {
-	            int cnt = msg.ReadInt16();
-	            obj = new DIRECTION[cnt];
-	            for (int i = 0; i < cnt; i++)
-	            {
-	                obj[i] = (DIRECTION)msg.ReadInt32();
-	            }
-	            return true;
-	        }
-	        catch (System.Exception)
-	        {
-	            obj = null;;
-	            return false;
-	        }
-	    }
-	    public static bool Read(NetBuffer msg, List<DIRECTION> obj)
-	    {
-	        try
-	        {
-	            int cnt = msg.ReadInt16();
-	            obj = new List<DIRECTION>();
-	            for (int i = 0; i < cnt; i++)
-	            {
-	                obj[i] = (DIRECTION)msg.ReadInt32();
-	            }
-	            return true;
-	        }
-	        catch (System.Exception)
-	        {
-	            obj = null;;
-	            return false;
-	        }
-	    }
-	    public static void Write(NetBuffer msg, DIRECTION[] list)
-	    {
-	        msg.Write((Int16)list.Length);
-	        foreach (DIRECTION obj in list)
-	        {
-	            msg.Write((Int32)obj);
-	        }
-	    }
-	    public static void Write(NetBuffer msg, List<DIRECTION> list)
-	    {
-	        msg.Write((Int16)list.Count);
-	        foreach (DIRECTION obj in list)
 	        {
 	            msg.Write((Int32)obj);
 	        }

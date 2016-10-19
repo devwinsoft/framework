@@ -27,8 +27,10 @@ namespace TestServer
         {
             using (User.LIST.READ_LOCK())
             {
-                foreach(User obj in User.LIST.ToArray())
+                List<User>.Enumerator enumerator = User.LIST.GetEnumerator();
+                while (enumerator.MoveNext())
                 {
+                    User obj = enumerator.Current;
                     TestServer.ProxyS2C.Notify_Chat(obj.hid, _msg);
                 }
             } // unlock

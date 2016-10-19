@@ -17,6 +17,9 @@ public enum PLAY_STATE
 
 public class SceneTest : MonoBehaviour
 {
+    public static SceneTest Instance { get { return msInstance; } }
+    static SceneTest msInstance = null;
+
     public Transform prefabPlayer;
     public Transform prefabUser;
 

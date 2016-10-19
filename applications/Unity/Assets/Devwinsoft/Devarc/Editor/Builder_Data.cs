@@ -145,8 +145,9 @@ namespace Devarc
                     sw.WriteLine("\t\t\t\t    {0} temp = new {0}();", info.class_name);
                     sw.WriteLine("\t\t\t\t    PropTable tb_header = temp.ToTable();");
                     sw.WriteLine("\t\t\t\t    System.Xml.XmlNode node = writer.Write_Header(tb_header, {0}.LIST.Count, {1});", info.container_name, info.is_enum.ToString().ToLower());
-                    sw.WriteLine("\t\t\t\t    foreach ({0} obj in {0}.LIST.ToArray())", info.container_name);
+                    sw.WriteLine("\t\t\t\t    for (int i = 0; i < {0}.LIST.Count; i++)", info.container_name);
                     sw.WriteLine("\t\t\t\t    {");
+                    sw.WriteLine("\t\t\t\t        {0} obj = {0}.LIST.ElementAt(i);", info.container_name);
                     sw.WriteLine("\t\t\t\t        PropTable tb = obj.ToTable();");
                     sw.WriteLine("\t\t\t\t        writer.Write_Contents(node, tb);");
                     sw.WriteLine("\t\t\t\t    }");

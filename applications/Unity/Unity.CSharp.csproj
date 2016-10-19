@@ -72,7 +72,6 @@
     <Compile Include="Assets\Devwinsoft\Devarc\_GeneratedCode\C2S.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\_GeneratedCode\Class_TestSchema.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\_GeneratedCode\DataManager_TestSchema.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_GeneratedCode\Protocols.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\_GeneratedCode\S2C.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\_component\Container_C1.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\_component\Container_S1.cs" />
