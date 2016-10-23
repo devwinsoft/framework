@@ -2,7 +2,7 @@
 using System.Collections;
 using Devarc;
 
-public class PlayerController : BaseController
+public class MainController : BaseController
 {
     int input_fwd = 0;
     int input_right = 0;

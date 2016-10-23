@@ -24,15 +24,15 @@ namespace TestClient
 
         public void RMI_S2C_Notify_Chat(HostID remote, String _msg)
         {
-            Log.Message(LOG_TYPE.INFO, "[{0}] {1}", remote, _msg);
+            Log.Info("[{0}] {1}", remote, _msg);
         }
 
         public void RMI_Test2C_Notify_SendFile_Result(HostID remote, Boolean _success)
         {
             if (_success)
-                Log.Message(LOG_TYPE.INFO, "Success!");
+                Log.Info("Success!");
             else
-                Log.Message(LOG_TYPE.INFO, "Failed!");
+                Log.Info("Failed!");
         }
 
 

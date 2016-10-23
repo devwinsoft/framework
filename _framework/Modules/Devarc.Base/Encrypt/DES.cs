@@ -43,7 +43,7 @@ namespace Devarc
             }
             catch (Exception e)
             {
-                Log.Message(e);
+                Log.Exception(e);
                 return "";
             }
         }

@@ -54,30 +54,39 @@ namespace Devarc
             Log.Instance.callback_exception = func;
         }
 
-        public static void Message(LOG_TYPE tp, string msg, params object[] args)
+        public static void Info(string msg, params object[] args)
         {
             if (Log.Instance.callback_message != null)
             {
-                if (tp == LOG_TYPE.DEBUG)
-                {
-#if DEBUG
-                    if (args.Length > 0)
-                        Log.Instance.callback_message(tp, System.String.Format(msg, args));
-                    else
-                        Log.Instance.callback_message(tp, msg);
-#endif
-                }
+                if (args.Length > 0)
+                    Log.Instance.callback_message(LOG_TYPE.INFO, System.String.Format(msg, args));
                 else
-                {
-                    if (args.Length > 0)
-                        Log.Instance.callback_message(tp, System.String.Format(msg, args));
-                    else
-                        Log.Instance.callback_message(tp, msg);
-                }
+                    Log.Instance.callback_message(LOG_TYPE.INFO, msg);
+            }
+        }
+        public static void Debug(string msg, params object[] args)
+        {
+            if (Log.Instance.callback_message != null)
+            {
+                if (args.Length > 0)
+                    Log.Instance.callback_message(LOG_TYPE.DEBUG, System.String.Format(msg, args));
+                else
+                    Log.Instance.callback_message(LOG_TYPE.DEBUG, msg);
             }
         }
 
-        public static void Message(Exception e)
+        public static void Error(string msg, params object[] args)
+        {
+            if (Log.Instance.callback_message != null)
+            {
+                if (args.Length > 0)
+                    Log.Instance.callback_message(LOG_TYPE.ERROR, System.String.Format(msg, args));
+                else
+                    Log.Instance.callback_message(LOG_TYPE.ERROR, msg);
+            }
+        }
+
+        public static void Exception(Exception e)
         {
             if (Log.Instance.callback_exception != null)
             {

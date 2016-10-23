@@ -46,7 +46,7 @@ namespace Devarc
 
             if (File.Exists(_input_file) == false)
             {
-                Log.Message(LOG_TYPE.INFO, "Cannot find file: " + _input_file);
+                Log.Info("Cannot find file: " + _input_file);
                 return;
             }
 

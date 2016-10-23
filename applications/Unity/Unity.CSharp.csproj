@@ -98,13 +98,14 @@
     <Compile Include="Assets\Devwinsoft\Devarc\_component\ThreadContainer.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\_component\XmlReader.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\_component\XmlWriter.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\BaseController.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\PlayerController.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\Character\BaseController.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\Character\MainController.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\Character\PlayerData.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\Character\PlayerObject.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\Character\UserController.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\SceneTest.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\Stub_C2S.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\Stub_S2C.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\UserController.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\UserInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Devwinsoft\Devarc\_test\Editor\TestSchema.xml" />

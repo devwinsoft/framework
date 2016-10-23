@@ -63,13 +63,13 @@ namespace Devarc
                     m_timeout = timeout <= 0.0f ? -1.0f : timeout;
                     break;
                 case STATE.CONNECTING:
-                    Log.Message(LOG_TYPE.INFO, "Already connecting.");
+                    Log.Info("Already connecting.");
                     return false;
                 case STATE.CONNECTED:
-                    Log.Message(LOG_TYPE.INFO, "Already connected.");
+                    Log.Info("Already connected.");
                     return false;
                 default:
-                    Log.Message(LOG_TYPE.INFO, "Cannot connect now.");
+                    Log.Info("Cannot connect now.");
                     return false;
             }
 
@@ -86,7 +86,7 @@ namespace Devarc
             }
             if (ip == null)
             {
-                Log.Message(LOG_TYPE.INFO, "Cannot connect to : " + address);
+                Log.Info("Cannot connect to : " + address);
                 return false;
             }
 
@@ -96,13 +96,13 @@ namespace Devarc
             m_Socket.NoDelay = true;
             try
             {
-                Log.Message(LOG_TYPE.INFO, "Connecting to " + ip.ToString() + ":" + port.ToString());
+                Log.Info("Connecting to " + ip.ToString() + ":" + port.ToString());
                 m_Socket.BeginConnect(ip, port, OnConnect, m_Socket);
                 success = true;
             }
             catch (SocketException e)
             {
-                Log.Message(e);
+                Log.Exception(e);
                 success = false;
             }
 
@@ -145,7 +145,7 @@ namespace Devarc
                 socket.BeginReceive(state.buffer, 0, state.buffer.Length, SocketFlags.None, new AsyncCallback(OnReceiveHostID), state);
                 m_reason = DISCONNECTION_REASON.BY_SERVER;
 
-                Log.Message(LOG_TYPE.INFO, "Connected.");
+                Log.Info("Connected.");
             }
             catch (SocketException se)
             {
@@ -155,17 +155,17 @@ namespace Devarc
                 {
                     case SocketError.ConnectionAborted:
                     case SocketError.ConnectionRefused:
-                        Log.Message(LOG_TYPE.INFO, "Cannot connect.");
+                        Log.Info("Cannot connect.");
                         break;
                     default:
-                        Log.Message(se);
+                        Log.Exception(se);
                         break;
                 }
             }
             catch (Exception e)
             {
                 m_State = STATE.DISCONNECTED;
-                Log.Message(e);
+                Log.Exception(e);
             }
         }
 
@@ -178,14 +178,14 @@ namespace Devarc
             m_reason = reason;
             if (m_State == STATE.CONNECTED)
             {
-                Log.Message(LOG_TYPE.INFO, "Disconnecting.");
+                Log.Info("Disconnecting.");
                 m_State = STATE.DISCONNECTING;
                 m_connected = true;
                 m_Socket.Shutdown(SocketShutdown.Both);
             }
             else if (m_State == STATE.CONNECTING)
             {
-                Log.Message(LOG_TYPE.INFO, "Disconnecting.");
+                Log.Info("Disconnecting.");
                 if (m_Socket.Connected)
                 {
                     m_State = STATE.DISCONNECTING;
@@ -309,7 +309,7 @@ namespace Devarc
             }
             catch (Exception e)
             {
-                Log.Message(e);
+                Log.Exception(e);
                 Disconnect(DISCONNECTION_REASON.ERROR);
             }
         }
@@ -375,7 +375,7 @@ namespace Devarc
             }
             catch (Exception e)
             {
-                Log.Message(e);
+                Log.Exception(e);
                 Disconnect();
             }
         }
@@ -469,7 +469,7 @@ namespace Devarc
             }
             catch (Exception e)
             {
-                Log.Message(e);
+                Log.Exception(e);
                 Disconnect(DISCONNECTION_REASON.ERROR);
             }
         }
@@ -569,7 +569,7 @@ namespace Devarc
                     if (m_connected)
                     {
                         m_connected = false;
-                        Log.Message(LOG_TYPE.INFO, "Disconnected.");
+                        Log.Info("Disconnected.");
                         if (m_EventHandler != null)
                         {
                             m_EventHandler.OnNotifyDisConnected(m_reason);
@@ -599,7 +599,7 @@ namespace Devarc
                 {
                     Disconnect();
                     // TODO: error message
-                    Log.Message(LOG_TYPE.DEBUG, "Missing RMI: " + rid.ToString());
+                    Log.Debug("Missing RMI: " + rid.ToString());
                 }
 
                 lock (m_RecvList)

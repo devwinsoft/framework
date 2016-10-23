@@ -95,10 +95,6 @@
       <Project>{e9b1af6b-c4c0-4684-9b1c-de66b1b96ce8}</Project>
       <Name>Devarc.Object</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\_framework\Modules\Devarc.Table\Devarc.Table.csproj">
-      <Project>{c90b2f90-41f3-4d38-b9b1-1a7982a5983a}</Project>
-      <Name>Devarc.Table</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

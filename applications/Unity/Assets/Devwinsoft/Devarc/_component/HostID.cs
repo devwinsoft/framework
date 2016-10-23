@@ -30,6 +30,14 @@ namespace Devarc
 {
     public struct HostID : IComparable, IFormattable, IConvertible, IComparable<short>, IEquatable<short>
     {
+        public static bool TryParse(string s, out HostID result)
+        {
+            short value;
+            bool ret = short.TryParse(s, out value);
+            result = value;
+            return ret;
+        }
+
         private Int16 mValue { get; set; }
         public const short MaxValue = 32767;
         public const short MinValue = -32768;

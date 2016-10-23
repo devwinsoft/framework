@@ -16,7 +16,7 @@ namespace C2S
 			{
 				case RMI_ID.Chat:
 					{
-						Log.Message(LOG_TYPE.DEBUG, "Stub(C2S): Chat");
+						Log.Debug("Stub(C2S): Chat");
 						System.String _msg = default(System.String); success = success ? Marshaler.Read(_in_msg, ref _msg) : false;
 						if (_in_msg.Pos != _in_msg.Length) return false;
 						if (success) stub.RMI_C2S_Chat(hid, _msg);
@@ -43,11 +43,11 @@ namespace C2S
 		public void SetNetworker(INetworker mgr) { m_Networker = mgr; }
 		public bool Chat(HostID target, String _msg)
 		{
-			Log.Message(LOG_TYPE.DEBUG, "C2S.Proxy.Chat");
+			Log.Debug("C2S.Proxy.Chat");
 			NetBuffer _out_msg = new NetBuffer();
 			if (m_Networker == null)
 			{
-				Log.Message(LOG_TYPE.DEBUG, typeof(Proxy).ToString() + " is not initialized.");
+				Log.Debug(typeof(Proxy).ToString() + " is not initialized.");
 				return false;
 			}
 			m_Networker.RmiHeader(m_Networker.GetMyHostID(), target, _out_msg);

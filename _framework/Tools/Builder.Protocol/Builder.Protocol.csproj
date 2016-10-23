@@ -56,6 +56,10 @@
       <Project>{777b5922-baaa-47fb-8312-34821664729d}</Project>
       <Name>Devarc.Base</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Modules\Devarc.Object\Devarc.Object.csproj">
+      <Project>{e9b1af6b-c4c0-4684-9b1c-de66b1b96ce8}</Project>
+      <Name>Devarc.Object</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

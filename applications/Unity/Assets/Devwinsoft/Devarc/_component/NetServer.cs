@@ -54,7 +54,7 @@ namespace Devarc
         {
             if (m_running)
             {
-                Log.Message(LOG_TYPE.DEBUG, "Server is aleady running");
+                Log.Debug("Server is aleady running");
                 return false;
             }
 
@@ -69,14 +69,14 @@ namespace Devarc
                 listen_socket.Bind(new IPEndPoint(IPAddress.Any, port));
                 listen_socket.Listen(500);
                 listen_socket.Blocking = false;
-                Log.Message(LOG_TYPE.INFO, "Network thread is started: " + thread_cnt.ToString());
+                Log.Info("Network thread is started: " + thread_cnt.ToString());
 
                 listen_socket.BeginAccept(new AsyncCallback(OnAccept), null);
                 m_running = true;
             }
             catch (SocketException se)
             {
-                Log.Message(se);
+                Log.Exception(se);
                 m_running = false;
             }
             return m_running;
@@ -131,7 +131,7 @@ namespace Devarc
                     Disconnect(user_hid);
                 }
                 m_ThreadList.StopThread(true);
-                Log.Message(LOG_TYPE.INFO, "Network thread is stopped...");
+                Log.Info("Network thread is stopped...");
             }
         }
 
@@ -170,7 +170,7 @@ namespace Devarc
             {
                 foreach (HostID user_hid in disconnected_list)
                 {
-                    Log.Message(LOG_TYPE.DEBUG, "Disconnected. host:" + user_hid.ToString());
+                    Log.Debug("Disconnected. host:" + user_hid.ToString());
                     if (m_EventHandler != null)
                     {
                         m_EventHandler.OnNotifyUserDisonnect(user_hid);
@@ -228,7 +228,7 @@ namespace Devarc
             }
             catch (SocketException se)
             {
-                Log.Message(se);
+                Log.Exception(se);
                 success = false;
             }
             finally
@@ -306,12 +306,12 @@ namespace Devarc
             }
             catch (SocketException se)
             {
-                Log.Message(se);
+                Log.Exception(se);
                 Disconnect(state.host_id);
             }
             catch (Exception e)
             {
-                Log.Message(e);
+                Log.Exception(e);
                 Disconnect(state.host_id);
             }
         }
@@ -335,7 +335,7 @@ namespace Devarc
                 {
                     host_info = this.HostList.Create(socket);
                 } // unlock
-                Log.Message(LOG_TYPE.DEBUG, "Accepted host : " + host_info.host_id.ToString());
+                Log.Debug("Accepted host : " + host_info.host_id.ToString());
 
                 // Notify HostID
                 {
@@ -359,7 +359,7 @@ namespace Devarc
             }
             catch (Exception e)
             {
-                Log.Message(e);
+                Log.Exception(e);
                 if (socket != null)
                 {
                     socket.Close();
@@ -435,14 +435,14 @@ namespace Devarc
                         Disconnect(state.host_id);
                         break;
                     default:
-                        Log.Message(se);
+                        Log.Exception(se);
                         Disconnect(state.host_id);
                         break;
                 }
             }
             catch (Exception e)
             {
-                Log.Message(e);
+                Log.Exception(e);
                 Disconnect(state.host_id);
             }
         }

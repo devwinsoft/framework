@@ -16,7 +16,7 @@ namespace S2C
 			{
 				case RMI_ID.Notify_Chat:
 					{
-						Log.Message(LOG_TYPE.DEBUG, "Stub(S2C): Notify_Chat");
+						Log.Debug("Stub(S2C): Notify_Chat");
 						System.String _msg = default(System.String); success = success ? Marshaler.Read(_in_msg, ref _msg) : false;
 						if (_in_msg.Pos != _in_msg.Length) return false;
 						if (success) stub.RMI_S2C_Notify_Chat(hid, _msg);
@@ -43,11 +43,11 @@ namespace S2C
 		public void SetNetworker(INetworker mgr) { m_Networker = mgr; }
 		public bool Notify_Chat(HostID target, String _msg)
 		{
-			Log.Message(LOG_TYPE.DEBUG, "S2C.Proxy.Notify_Chat");
+			Log.Debug("S2C.Proxy.Notify_Chat");
 			NetBuffer _out_msg = new NetBuffer();
 			if (m_Networker == null)
 			{
-				Log.Message(LOG_TYPE.DEBUG, typeof(Proxy).ToString() + " is not initialized.");
+				Log.Debug(typeof(Proxy).ToString() + " is not initialized.");
 				return false;
 			}
 			m_Networker.RmiHeader(m_Networker.GetMyHostID(), target, _out_msg);

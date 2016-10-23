@@ -91,8 +91,7 @@ namespace Devarc
                     if (m_Stub == null || m_Stub.OnReceive(rid, host_from, obj.msg) == false)
                     {
                         m_Server.Disconnect(host_from);
-                        // TODO: error message
-                        Log.Message(LOG_TYPE.ERROR, "Missing RMI: " + rid.ToString() + " HostID:" + host_from.ToString());
+                        Log.Error("Missing RMI: " + rid.ToString() + " HostID:" + host_from.ToString());
                     }
                 }
                 else
@@ -102,7 +101,7 @@ namespace Devarc
             }
             catch (Exception e)
             {
-                Log.Message(e);
+                Log.Exception(e);
             }
             finally
             {

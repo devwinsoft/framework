@@ -102,7 +102,7 @@ namespace Devarc
         {
             if (m_ObjTable1.ContainsKey(key1))
             {
-                Log.Message(LOG_TYPE.DEBUG, "Cannot alloc. [name]:" + typeof(ME).ToString() + "[key1]:" + key1);
+                Log.Debug("Cannot alloc. [name]:" + typeof(ME).ToString() + "[key1]:" + key1);
                 return default(ME);
             }
             ME obj = new ME();
@@ -182,12 +182,12 @@ namespace Devarc
         {
             if (m_ObjTable1.ContainsKey(key1))
             {
-                Log.Message(LOG_TYPE.DEBUG, "Cannot alloc. [name]:" + typeof(ME).ToString() + "[key1]:" + key1);
+                Log.Debug("Cannot alloc. [name]:" + typeof(ME).ToString() + "[key1]:" + key1);
                 return default(ME);
             }
             if (m_ObjTable2.ContainsKey(key2))
             {
-                Log.Message(LOG_TYPE.DEBUG, "Cannot alloc. [name]:" + typeof(ME).ToString() + "[key2]:" + key2);
+                Log.Debug("Cannot alloc. [name]:" + typeof(ME).ToString() + "[key2]:" + key2);
                 return default(ME);
             }
 
@@ -295,17 +295,17 @@ namespace Devarc
         {
             if (m_ObjTable1.ContainsKey(key1))
             {
-                Log.Message(LOG_TYPE.DEBUG, "Cannot alloc. [name]:" + typeof(ME).ToString() + "[key1]:" + key1);
+                Log.Debug("Cannot alloc. [name]:" + typeof(ME).ToString() + "[key1]:" + key1);
                 return default(ME);
             }
             if (m_ObjTable2.ContainsKey(key2))
             {
-                Log.Message(LOG_TYPE.DEBUG, "Cannot alloc. [name]:" + typeof(ME).ToString() + "[key2]:" + key2);
+                Log.Debug("Cannot alloc. [name]:" + typeof(ME).ToString() + "[key2]:" + key2);
                 return default(ME);
             }
             if (m_ObjTable3.ContainsKey(key3))
             {
-                Log.Message(LOG_TYPE.DEBUG, "Cannot alloc. [name]:" + typeof(ME).ToString() + "[key3]:" + key3);
+                Log.Debug("Cannot alloc. [name]:" + typeof(ME).ToString() + "[key3]:" + key3);
                 return default(ME);
             }
 

@@ -73,7 +73,7 @@ namespace Devarc
             }
             if (m_BufList.Count == 0)
             {
-                Log.Message(LOG_TYPE.DEBUG, "Not enough buf class. name:" + typeof(ME).ToString());
+                Log.Debug("Not enough buf class. name:" + typeof(ME).ToString());
                 return obj;
             }
 
@@ -179,12 +179,12 @@ namespace Devarc
             }
             if (m_BufList.Count == 0)
             {
-                Log.Message(LOG_TYPE.DEBUG, "Not enough buf class. name:" + typeof(ME).ToString());
+                Log.Debug("Not enough buf class. name:" + typeof(ME).ToString());
                 return obj;
             }
             if (m_ObjTable1.ContainsKey(key1))
             {
-                Log.Message(LOG_TYPE.DEBUG, "Cannot alloc. [name]:" + typeof(ME).ToString() + "[key1]:" + key1);
+                Log.Debug("Cannot alloc. [name]:" + typeof(ME).ToString() + "[key1]:" + key1);
                 return obj;
             }
             if (m_BufList.Count == 0)
@@ -304,7 +304,7 @@ namespace Devarc
         {
             if (m_Lock.IsWriting() == false)
             {
-                Log.Message(LOG_TYPE.DEBUG, "Clear without write-lock. name:" + typeof(ME).ToString());
+                Log.Debug("Clear without write-lock. name:" + typeof(ME).ToString());
             }
             List<ME>.Enumerator enumerator = GetEnumerator();
             while (enumerator.MoveNext())
@@ -318,21 +318,21 @@ namespace Devarc
             ME obj = default(ME);
             if (m_Lock.IsWriting() == false)
             {
-                Log.Message(LOG_TYPE.DEBUG, "Alloc without write-lock. name:" + typeof(ME).ToString() + " key1:" + key1.ToString() + " key2:" + key2.ToString());
+                Log.Debug("Alloc without write-lock. name:" + typeof(ME).ToString() + " key1:" + key1.ToString() + " key2:" + key2.ToString());
             }
             if (m_BufList.Count == 0)
             {
-                Log.Message(LOG_TYPE.DEBUG, "Not enough buf class. name:" + typeof(ME).ToString());
+                Log.Debug("Not enough buf class. name:" + typeof(ME).ToString());
                 return obj;
             }
             if (m_ObjTable1.ContainsKey(key1))
             {
-                Log.Message(LOG_TYPE.DEBUG, "Cannot alloc. [name]:" + typeof(ME).ToString() + "[key1]:" + key1);
+                Log.Debug("Cannot alloc. [name]:" + typeof(ME).ToString() + "[key1]:" + key1);
                 return obj;
             }
             if (m_ObjTable2.ContainsKey(key2))
             {
-                Log.Message(LOG_TYPE.DEBUG, "Cannot alloc. [name]:" + typeof(ME).ToString() + "[key2]:" + key2);
+                Log.Debug("Cannot alloc. [name]:" + typeof(ME).ToString() + "[key2]:" + key2);
                 return obj;
             }
             if (m_BufList.Count == 0)
@@ -358,7 +358,7 @@ namespace Devarc
         {
             if (m_Lock.IsWriting() == false)
             {
-                Log.Message(LOG_TYPE.DEBUG, "Free without write-lock. name:" + typeof(ME).ToString() + " key1:" + key1.ToString());
+                Log.Debug("Free without write-lock. name:" + typeof(ME).ToString() + " key1:" + key1.ToString());
             }
             ME obj;
             if (m_ObjTable1.TryGetValue(key1, out obj) == false)
@@ -376,7 +376,7 @@ namespace Devarc
         {
             if (m_Lock.IsWriting() == false)
             {
-                Log.Message(LOG_TYPE.DEBUG, "Free without write-lock. name:" + typeof(ME).ToString() + " key2:" + key2.ToString());
+                Log.Debug("Free without write-lock. name:" + typeof(ME).ToString() + " key2:" + key2.ToString());
             }
             ME obj;
             if (m_ObjTable2.TryGetValue(key2, out obj) == false)
@@ -395,7 +395,7 @@ namespace Devarc
         {
             if (m_Lock.IsReading() == false)
             {
-                Log.Message(LOG_TYPE.DEBUG, "operator[] without lock. name:" + typeof(ME).ToString() + " key1:" + key1.ToString());
+                Log.Debug("operator[] without lock. name:" + typeof(ME).ToString() + " key1:" + key1.ToString());
             }
 
             ME obj;
@@ -405,7 +405,7 @@ namespace Devarc
         {
             if (m_Lock.IsReading() == false)
             {
-                Log.Message(LOG_TYPE.DEBUG, "operator[] without lock. name:" + typeof(ME).ToString() + " key2:" + key2.ToString());
+                Log.Debug("operator[] without lock. name:" + typeof(ME).ToString() + " key2:" + key2.ToString());
             }
 
             ME obj;
@@ -490,7 +490,7 @@ namespace Devarc
         {
             if (m_Lock.IsWriting() == false)
             {
-                Log.Message(LOG_TYPE.DEBUG, "Clear without write-lock. name:" + typeof(ME).ToString());
+                Log.Debug("Clear without write-lock. name:" + typeof(ME).ToString());
             }
             List<ME>.Enumerator enumerator = GetEnumerator();
             while (enumerator.MoveNext())
@@ -504,26 +504,26 @@ namespace Devarc
             ME obj = default(ME);
             if (m_Lock.IsWriting() == false)
             {
-                Log.Message(LOG_TYPE.DEBUG, "Alloc without write-lock. name:" + typeof(ME).ToString() + " key1:" + key1.ToString() + " key2:" + key2.ToString());
+                Log.Debug("Alloc without write-lock. name:" + typeof(ME).ToString() + " key1:" + key1.ToString() + " key2:" + key2.ToString());
             }
             if (m_BufList.Count == 0)
             {
-                Log.Message(LOG_TYPE.DEBUG, "Not enough buf class. name:" + typeof(ME).ToString());
+                Log.Debug("Not enough buf class. name:" + typeof(ME).ToString());
                 return obj;
             }
             if (m_ObjTable1.ContainsKey(key1))
             {
-                Log.Message(LOG_TYPE.DEBUG, "Cannot alloc. [name]:" + typeof(ME).ToString() + "[key1]:" + key1);
+                Log.Debug("Cannot alloc. [name]:" + typeof(ME).ToString() + "[key1]:" + key1);
                 return obj;
             }
             if (m_ObjTable2.ContainsKey(key2))
             {
-                Log.Message(LOG_TYPE.DEBUG, "Cannot alloc. [name]:" + typeof(ME).ToString() + "[key2]:" + key2);
+                Log.Debug("Cannot alloc. [name]:" + typeof(ME).ToString() + "[key2]:" + key2);
                 return obj;
             }
             if (m_ObjTable3.ContainsKey(key3))
             {
-                Log.Message(LOG_TYPE.DEBUG, "Cannot alloc. [name]:" + typeof(ME).ToString() + "[key3]:" + key3);
+                Log.Debug("Cannot alloc. [name]:" + typeof(ME).ToString() + "[key3]:" + key3);
                 return obj;
             }
             if (m_BufList.Count == 0)
@@ -550,7 +550,7 @@ namespace Devarc
         {
             if (m_Lock.IsWriting() == false)
             {
-                Log.Message(LOG_TYPE.DEBUG, "Free without write-lock. name:" + typeof(ME).ToString() + " key1:" + key1.ToString());
+                Log.Debug("Free without write-lock. name:" + typeof(ME).ToString() + " key1:" + key1.ToString());
             }
             ME obj;
             if (m_ObjTable1.TryGetValue(key1, out obj) == false)
@@ -569,7 +569,7 @@ namespace Devarc
         {
             if (m_Lock.IsWriting() == false)
             {
-                Log.Message(LOG_TYPE.DEBUG, "Free without write-lock. name:" + typeof(ME).ToString() + " key2:" + key2.ToString());
+                Log.Debug("Free without write-lock. name:" + typeof(ME).ToString() + " key2:" + key2.ToString());
             }
             ME obj;
             if (m_ObjTable2.TryGetValue(key2, out obj) == false)
@@ -588,7 +588,7 @@ namespace Devarc
         {
             if (m_Lock.IsWriting() == false)
             {
-                Log.Message(LOG_TYPE.DEBUG, "Free without write-lock. name:" + typeof(ME).ToString() + " key3:" + key3.ToString());
+                Log.Debug("Free without write-lock. name:" + typeof(ME).ToString() + " key3:" + key3.ToString());
             }
             ME obj;
             if (m_ObjTable3.TryGetValue(key3, out obj) == false)
@@ -608,7 +608,7 @@ namespace Devarc
         {
             if (m_Lock.IsReading() == false)
             {
-                Log.Message(LOG_TYPE.DEBUG, "operator[] without lock. name:" + typeof(ME).ToString() + " key1:" + key1.ToString());
+                Log.Debug("operator[] without lock. name:" + typeof(ME).ToString() + " key1:" + key1.ToString());
             }
 
             ME obj;
@@ -618,7 +618,7 @@ namespace Devarc
         {
             if (m_Lock.IsReading() == false)
             {
-                Log.Message(LOG_TYPE.DEBUG, "operator[] without lock. name:" + typeof(ME).ToString() + " key2:" + key2.ToString());
+                Log.Debug("operator[] without lock. name:" + typeof(ME).ToString() + " key2:" + key2.ToString());
             }
 
             ME obj;
@@ -628,7 +628,7 @@ namespace Devarc
         {
             if (m_Lock.IsReading() == false)
             {
-                Log.Message(LOG_TYPE.DEBUG, "operator[] without lock. name:" + typeof(ME).ToString() + " key3:" + key3.ToString());
+                Log.Debug("operator[] without lock. name:" + typeof(ME).ToString() + " key3:" + key3.ToString());
             }
 
             ME obj;
@@ -638,7 +638,7 @@ namespace Devarc
         {
             if (m_Lock.IsReading() == false)
             {
-                Log.Message(LOG_TYPE.DEBUG, "Contains() without lock. name:" + typeof(ME).ToString());
+                Log.Debug("Contains() without lock. name:" + typeof(ME).ToString());
             }
             return m_ObjTable1.ContainsKey(key1);
         }
@@ -646,7 +646,7 @@ namespace Devarc
         {
             if (m_Lock.IsReading() == false)
             {
-                Log.Message(LOG_TYPE.DEBUG, "Contains() without lock. name:" + typeof(ME).ToString());
+                Log.Debug("Contains() without lock. name:" + typeof(ME).ToString());
             }
             return m_ObjTable2.ContainsKey(key2);
         }
@@ -654,7 +654,7 @@ namespace Devarc
         {
             if (m_Lock.IsReading() == false)
             {
-                Log.Message(LOG_TYPE.DEBUG, "Contains() without lock. name:" + typeof(ME).ToString());
+                Log.Debug("Contains() without lock. name:" + typeof(ME).ToString());
             }
             return m_ObjTable3.ContainsKey(key3);
         }
@@ -681,7 +681,7 @@ namespace Devarc
             {
                 if (m_Lock.IsReading() == false)
                 {
-                    Log.Message(LOG_TYPE.DEBUG, "Count() without lock. name:" + typeof(ME).ToString());
+                    Log.Debug("Count() without lock. name:" + typeof(ME).ToString());
                 }
                 return m_ObjList.Count;
             }

@@ -58,7 +58,7 @@ namespace Devarc
         {
             if (System.IO.File.Exists(file_path) == false)
             {
-                Log.Message(LOG_TYPE.DEBUG, "Cannot find file: " + file_path);
+                Log.Debug("Cannot find file: " + file_path);
                 return false;
             }
 

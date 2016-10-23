@@ -79,7 +79,7 @@ namespace Devarc
         {
             if (System.IO.File.Exists(_file_path) == false)
             {
-                Log.Message(LOG_TYPE.DEBUG, "Cannot find file: " + _file_path);
+                Log.Debug("Cannot find file: " + _file_path);
                 return false;
             }
             XmlDocument doc = new XmlDocument();

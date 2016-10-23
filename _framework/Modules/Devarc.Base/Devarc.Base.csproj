@@ -54,6 +54,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Component\JsonReader.cs" />
+    <Compile Include="Component\PropItem.cs" />
+    <Compile Include="Component\ThreadBase.cs" />
+    <Compile Include="Component\ThreadContainer.cs" />
     <Compile Include="Component\XmlReader.cs" />
     <Compile Include="Component\XmlWriter.cs" />
     <Compile Include="Component\Lock.cs" />
@@ -74,8 +77,6 @@
     <Compile Include="Templates\Contents.cs" />
     <Compile Include="Templates\Container_C1.cs" />
     <Compile Include="Templates\Container_S1.cs" />
-    <Compile Include="Thread\ThreadBase.cs" />
-    <Compile Include="Thread\ThreadContainer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

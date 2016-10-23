@@ -64,7 +64,6 @@ namespace Devarc
 
             string full_name = System.IO.Path.GetFullPath(_inputFile);
             Assembly assem = Assembly.LoadFile(full_name);
-
             if (assem == null)
             {
                 Console.WriteLine("Cannot open file: ");
@@ -104,7 +103,7 @@ namespace Devarc
 
                     sw.WriteLine("\tpublic interface IStub"); // start of stub
                     sw.WriteLine("\t{");
-                    _methods = tp.GetMethods();
+                    _methods = tp.GetMethods(BindingFlags.Public | BindingFlags.Static);
                     foreach (MethodInfo minfo in _methods)
                     {
                         if (IsValid(minfo) == false)
@@ -179,11 +178,11 @@ namespace Devarc
                         sw.WriteLine(")");
 
                         sw.WriteLine("\t\t{");
-                        sw.WriteLine("\t\t\tLog.Message(LOG_TYPE.DEBUG, \"{0}.Proxy.{1}\");", tp.Name, minfo.Name);
+                        sw.WriteLine("\t\t\tLog.Debug(\"{0}.Proxy.{1}\");", tp.Name, minfo.Name);
                         sw.WriteLine("\t\t\tNetBuffer _out_msg = new NetBuffer();");
                         sw.WriteLine("\t\t\tif (m_Networker == null)");
                         sw.WriteLine("\t\t\t{");
-                        sw.WriteLine("\t\t\t\tLog.Message(LOG_TYPE.DEBUG, typeof(Proxy).ToString() + \" is not initialized.\");");
+                        sw.WriteLine("\t\t\t\tLog.Debug(typeof(Proxy).ToString() + \" is not initialized.\");");
                         sw.WriteLine("\t\t\t\treturn false;");
                         sw.WriteLine("\t\t\t}");
                         sw.WriteLine("\t\t\tm_Networker.RmiHeader(m_Networker.GetMyHostID(), target, _out_msg);");
@@ -224,7 +223,7 @@ namespace Devarc
                 }
                 sw.WriteLine("\t\t\t\tcase RMI_ID.{0}:", minfo.Name);
                 sw.WriteLine("\t\t\t\t\t{");
-                sw.WriteLine("\t\t\t\t\t\tLog.Message(LOG_TYPE.DEBUG, \"Stub({0}): {1}\");", tp.Name, minfo.Name);
+                sw.WriteLine("\t\t\t\t\t\tLog.Debug(\"Stub({0}): {1}\");", tp.Name, minfo.Name);
                 foreach (ParameterInfo pinfo in minfo.GetParameters())
                 {
                     if (pinfo.ParameterType.Name.EndsWith("[]"))

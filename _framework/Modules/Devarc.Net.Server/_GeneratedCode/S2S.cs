@@ -16,7 +16,7 @@ namespace S2S
 			{
 				case RMI_ID.Test:
 					{
-						Log.Message(LOG_TYPE.DEBUG, "Stub(S2S): Test");
+						Log.Debug("Stub(S2S): Test");
 						System.String _name = default(System.String); success = success ? Marshaler.Read(_in_msg, ref _name) : false;
 						if (_in_msg.Pos != _in_msg.Length) return false;
 						if (success) stub.RMI_S2S_Test(hid, _name);
@@ -43,11 +43,11 @@ namespace S2S
 		public void SetNetworker(INetworker mgr) { m_Networker = mgr; }
 		public bool Test(HostID target, String _name)
 		{
-			Log.Message(LOG_TYPE.DEBUG, "S2S.Proxy.Test");
+			Log.Debug("S2S.Proxy.Test");
 			NetBuffer _out_msg = new NetBuffer();
 			if (m_Networker == null)
 			{
-				Log.Message(LOG_TYPE.DEBUG, typeof(Proxy).ToString() + " is not initialized.");
+				Log.Debug(typeof(Proxy).ToString() + " is not initialized.");
 				return false;
 			}
 			m_Networker.RmiHeader(m_Networker.GetMyHostID(), target, _out_msg);

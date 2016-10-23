@@ -31,7 +31,7 @@ namespace Devarc
 			DataCharacter obj = from as DataCharacter;
 			if (obj == null)
 			{
-				Log.Message(LOG_TYPE.ERROR, "Cannot Initialize [name]:DataCharacter");
+				Log.Error("Cannot Initialize [name]:DataCharacter");
 				return;
 			}
 			unit_type           = obj.unit_type;
@@ -192,7 +192,7 @@ namespace Devarc
 			DataAbility obj = from as DataAbility;
 			if (obj == null)
 			{
-				Log.Message(LOG_TYPE.ERROR, "Cannot Initialize [name]:DataAbility");
+				Log.Error("Cannot Initialize [name]:DataAbility");
 				return;
 			}
 			str                 = obj.str;
@@ -279,6 +279,105 @@ namespace Devarc
 	        }
 	    }
 	}
+	public class DataPlayer : IBaseObejct
+	{
+		public HostID              id;
+		private VECTOR3            _pos = new VECTOR3();
+		public VECTOR3             pos { get { return _pos; } set { _pos.Initialize(value); } }
+
+		public DataPlayer()
+		{
+		}
+		public DataPlayer(DataPlayer obj)
+		{
+			Initialize(obj);
+		}
+		public DataPlayer(PropTable obj)
+		{
+			Initialize(obj);
+		}
+		public void Initialize(IBaseObejct from)
+		{
+			DataPlayer obj = from as DataPlayer;
+			if (obj == null)
+			{
+				Log.Error("Cannot Initialize [name]:DataPlayer");
+				return;
+			}
+			id                  = obj.id;
+			pos.Initialize(obj.pos);
+		}
+		public void Initialize(PropTable obj)
+		{
+			id                  = (HostID)obj.ToInt16("id");
+			_pos.Initialize(obj.ToTable("pos"));
+		}
+		public void Initialize(JsonData obj)
+		{
+			if (obj.Keys.Contains("id")) HostID.TryParse(obj["id"].ToString(), out id); else id = default(short);
+			if (obj.Keys.Contains("pos")) _pos.Initialize(obj["pos"]);
+		}
+		public override string ToString()
+		{
+		    StringBuilder sb = new StringBuilder();
+		    sb.Append("{"); sb.Append(" \"id\":"); sb.Append("\""); sb.Append(id.ToString()); sb.Append("\"");
+		    sb.Append(","); sb.Append(" \"pos\":"); sb.Append(pos != null ? pos.ToString() : "{}");
+		    sb.Append("}");
+		    return sb.ToString();
+		}
+		public string ToJson()
+		{
+		    StringBuilder sb = new StringBuilder();
+		    sb.Append("{"); sb.Append("\"id\":"); sb.Append("\""); sb.Append(id.ToString()); sb.Append("\"");
+		    sb.Append(","); sb.Append("\"pos\":"); sb.Append(pos != null ? pos.ToJson() : "{}");
+		    sb.Append("}");
+		    return sb.ToString();
+		}
+		public PropTable ToTable()
+		{
+			PropTable obj = new PropTable("DataPlayer");
+			obj.Attach("id", "HostID", CLASS_TYPE.VALUE, false, id.ToString());
+			obj.Attach_Class("pos", "VECTOR3", pos.ToTable());
+			return obj;
+		}
+	}
+	public static partial class Marshaler
+	{
+	    public static bool Read(NetBuffer msg, DataPlayer obj)
+	    {
+	        bool success = true;
+			success = success ? Marshaler.Read(msg, ref obj.id) : false;
+			success = success ? Marshaler.Read(msg, obj.pos) : false;
+	        return success;
+	    }
+	    public static void Write(NetBuffer msg, DataPlayer obj)
+	    {
+			Marshaler.Write(msg, obj.id);
+			Marshaler.Write(msg, obj.pos);
+	    }
+	    public static bool Read(NetBuffer msg, List<DataPlayer> list)
+	    {
+	        bool success = true;
+	        int cnt = msg.ReadInt16();
+	        for (int i = 0; i < cnt; i++)
+	        {
+				DataPlayer obj = new DataPlayer();
+				success = success ? Marshaler.Read(msg, ref obj.id) : false;
+				success = success ? Marshaler.Read(msg, obj.pos) : false;
+				list.Add(obj);
+	        }
+	        return success;
+	    }
+	    public static void Write(NetBuffer msg, List<DataPlayer> list)
+	    {
+	        msg.Write((Int16)list.Count);
+	        foreach (DataPlayer obj in list)
+	        {
+				Marshaler.Write(msg, obj.id);
+				Marshaler.Write(msg, obj.pos);
+	        }
+	    }
+	}
 	public class VECTOR3 : IBaseObejct
 	{
 		public float               x;
@@ -301,7 +400,7 @@ namespace Devarc
 			VECTOR3 obj = from as VECTOR3;
 			if (obj == null)
 			{
-				Log.Message(LOG_TYPE.ERROR, "Cannot Initialize [name]:VECTOR3");
+				Log.Error("Cannot Initialize [name]:VECTOR3");
 				return;
 			}
 			x                   = obj.x;
@@ -451,7 +550,7 @@ namespace Devarc
 			_UNIT obj = from as _UNIT;
 			if (obj == null)
 			{
-				Log.Message(LOG_TYPE.ERROR, "Cannot Initialize [name]:_UNIT");
+				Log.Error("Cannot Initialize [name]:_UNIT");
 				return;
 			}
 			ID                  = obj.ID;
@@ -582,7 +681,7 @@ namespace Devarc
 			_DIRECTION obj = from as _DIRECTION;
 			if (obj == null)
 			{
-				Log.Message(LOG_TYPE.ERROR, "Cannot Initialize [name]:_DIRECTION");
+				Log.Error("Cannot Initialize [name]:_DIRECTION");
 				return;
 			}
 			ID                  = obj.ID;
@@ -666,89 +765,6 @@ namespace Devarc
 	    }
 	    public void Dispose()
 	    {
-	    }
-	}
-	public enum DIRECTION
-	{
-		STOP                = 0,
-		BACK                = 1,
-		FORWARD             = 2,
-		L                   = 3,
-		R                   = 4,
-		FL                  = 5,
-		FR                  = 6,
-		BL                  = 7,
-		BR                  = 8,
-	}
-	public static partial class Marshaler
-	{
-	    public static bool Read(NetBuffer msg, ref DIRECTION obj)
-	    {
-	        try
-	        {
-	            obj = (DIRECTION)msg.ReadInt32();
-	            return true;
-	        }
-	        catch (System.Exception)
-	        {
-	            return false;
-	        }
-	    }
-	    public static void Write(NetBuffer msg, DIRECTION obj)
-	    {
-	        msg.Write((Int32)obj);
-	    }
-	    public static bool Read(NetBuffer msg, out DIRECTION[] obj)
-	    {
-	        try
-	        {
-	            int cnt = msg.ReadInt16();
-	            obj = new DIRECTION[cnt];
-	            for (int i = 0; i < cnt; i++)
-	            {
-	                obj[i] = (DIRECTION)msg.ReadInt32();
-	            }
-	            return true;
-	        }
-	        catch (System.Exception)
-	        {
-	            obj = null;;
-	            return false;
-	        }
-	    }
-	    public static bool Read(NetBuffer msg, List<DIRECTION> obj)
-	    {
-	        try
-	        {
-	            int cnt = msg.ReadInt16();
-	            obj = new List<DIRECTION>();
-	            for (int i = 0; i < cnt; i++)
-	            {
-	                obj[i] = (DIRECTION)msg.ReadInt32();
-	            }
-	            return true;
-	        }
-	        catch (System.Exception)
-	        {
-	            obj = null;;
-	            return false;
-	        }
-	    }
-	    public static void Write(NetBuffer msg, DIRECTION[] list)
-	    {
-	        msg.Write((Int16)list.Length);
-	        foreach (DIRECTION obj in list)
-	        {
-	            msg.Write((Int32)obj);
-	        }
-	    }
-	    public static void Write(NetBuffer msg, List<DIRECTION> list)
-	    {
-	        msg.Write((Int16)list.Count);
-	        foreach (DIRECTION obj in list)
-	        {
-	            msg.Write((Int32)obj);
-	        }
 	    }
 	}
 	public enum UNIT
@@ -838,6 +854,89 @@ namespace Devarc
 	    {
 	        msg.Write((Int16)list.Count);
 	        foreach (UNIT obj in list)
+	        {
+	            msg.Write((Int32)obj);
+	        }
+	    }
+	}
+	public enum DIRECTION
+	{
+		STOP                = 0,
+		BACK                = 1,
+		FORWARD             = 2,
+		L                   = 3,
+		R                   = 4,
+		FL                  = 5,
+		FR                  = 6,
+		BL                  = 7,
+		BR                  = 8,
+	}
+	public static partial class Marshaler
+	{
+	    public static bool Read(NetBuffer msg, ref DIRECTION obj)
+	    {
+	        try
+	        {
+	            obj = (DIRECTION)msg.ReadInt32();
+	            return true;
+	        }
+	        catch (System.Exception)
+	        {
+	            return false;
+	        }
+	    }
+	    public static void Write(NetBuffer msg, DIRECTION obj)
+	    {
+	        msg.Write((Int32)obj);
+	    }
+	    public static bool Read(NetBuffer msg, out DIRECTION[] obj)
+	    {
+	        try
+	        {
+	            int cnt = msg.ReadInt16();
+	            obj = new DIRECTION[cnt];
+	            for (int i = 0; i < cnt; i++)
+	            {
+	                obj[i] = (DIRECTION)msg.ReadInt32();
+	            }
+	            return true;
+	        }
+	        catch (System.Exception)
+	        {
+	            obj = null;;
+	            return false;
+	        }
+	    }
+	    public static bool Read(NetBuffer msg, List<DIRECTION> obj)
+	    {
+	        try
+	        {
+	            int cnt = msg.ReadInt16();
+	            obj = new List<DIRECTION>();
+	            for (int i = 0; i < cnt; i++)
+	            {
+	                obj[i] = (DIRECTION)msg.ReadInt32();
+	            }
+	            return true;
+	        }
+	        catch (System.Exception)
+	        {
+	            obj = null;;
+	            return false;
+	        }
+	    }
+	    public static void Write(NetBuffer msg, DIRECTION[] list)
+	    {
+	        msg.Write((Int16)list.Length);
+	        foreach (DIRECTION obj in list)
+	        {
+	            msg.Write((Int32)obj);
+	        }
+	    }
+	    public static void Write(NetBuffer msg, List<DIRECTION> list)
+	    {
+	        msg.Write((Int16)list.Count);
+	        foreach (DIRECTION obj in list)
 	        {
 	            msg.Write((Int32)obj);
 	        }

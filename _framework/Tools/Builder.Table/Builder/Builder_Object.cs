@@ -79,7 +79,7 @@ namespace Devarc
 
             if (File.Exists(_input_file) == false)
             {
-                Log.Message(LOG_TYPE.INFO, "Cannot find file: " + _input_file);
+                Log.Info("Cannot find file: " + _input_file);
                 return;
             }
 
@@ -387,7 +387,7 @@ namespace Devarc
                 sw.WriteLine("\t\t\t{0} obj = from as {0};", class_name);
                 sw.WriteLine("\t\t\tif (obj == null)");
                 sw.WriteLine("\t\t\t{");
-                sw.WriteLine("\t\t\t\tLog.Message(LOG_TYPE.ERROR, \"Cannot Initialize [name]:{0}\");", class_name);
+                sw.WriteLine("\t\t\t\tLog.Error(\"Cannot Initialize [name]:{0}\");", class_name);
                 sw.WriteLine("\t\t\t\treturn;");
                 sw.WriteLine("\t\t\t}");
                 for (int i = 0; i < tb.Length; i++)
@@ -455,7 +455,7 @@ namespace Devarc
                             if (is_list)
                                 sw.WriteLine("\t\t\tobj.ToList<HostID>(\"{0}\", {0});", var_name);
                             else
-                                sw.WriteLine("\t\t\t{0,-20}= obj.ToInt64(\"{0}\");", var_name);
+                                sw.WriteLine("\t\t\t{0,-20}= (HostID)obj.ToInt16(\"{0}\");", var_name);
                             break;
                         case VAR_TYPE.FLOAT:
                             if (is_list)
@@ -526,7 +526,7 @@ namespace Devarc
                             if (is_list)
                                 sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) foreach (JsonData node in obj[\"{0}\"]) {{ {0}.Add(Convert.ToInt16(node.ToString())); }}", var_name);
                             else
-                                sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) short.TryParse(obj[\"{0}\"].ToString(), out {0}); else {0} = default(short);", var_name);
+                                sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) HostID.TryParse(obj[\"{0}\"].ToString(), out {0}); else {0} = default(short);", var_name);
                             break;
                         case VAR_TYPE.INT32:
                             if (is_list)
@@ -940,53 +940,6 @@ namespace Devarc
                     sw.WriteLine("\t\t\tMarshaler.Write(msg, obj.{0});", var_name);
                 }
                 sw.WriteLine("\t    }");
-
-                //sw.WriteLine("\t    public static bool Read(NetBuffer msg, out {0}[] list)", class_name);
-                //sw.WriteLine("\t    {");
-                //sw.WriteLine("\t        bool success = true;");
-                //sw.WriteLine("\t        int cnt = msg.ReadInt16();");
-                //sw.WriteLine("\t        list = new {0}[cnt];", class_name);
-                //sw.WriteLine("\t        for (int i = 0; i < cnt; i++)");
-                //sw.WriteLine("\t        {");
-                //sw.WriteLine("\t\t\t\tlist[i] = new {0}();", class_name);
-                //for (int i = 0; i < tb.Length; i++)
-                //{
-                //    string type_name = tb.GetTypeName(i);
-                //    string var_name = tb.GetVarName(i);
-                //    bool is_list = tb.GetClassType(i) == CLASS_TYPE.VALUE_LIST || tb.GetClassType(i) == CLASS_TYPE.CLASS_LIST;
-                //    if (var_name == "" || type_name == "" || var_name.Contains('/'))
-                //    {
-                //        continue;
-                //    }
-                //    switch (tb.GetVarType(i))
-                //    {
-                //        case VAR_TYPE.BOOL:
-                //        case VAR_TYPE.INT16:
-                //        case VAR_TYPE.INT32:
-                //        case VAR_TYPE.INT64:
-                //        case VAR_TYPE.HOST_ID:
-                //        case VAR_TYPE.FLOAT:
-                //        case VAR_TYPE.STRING:
-                //        case VAR_TYPE.ENUM:
-                //            if (is_list)
-                //                sw.WriteLine("\t\t\t\tsuccess = success ? Marshaler.Read(msg, list[i].{0}) : false;", var_name);
-                //            else
-                //                sw.WriteLine("\t\t\t\tsuccess = success ? Marshaler.Read(msg, ref list[i].{0}) : false;", var_name);
-                //            break;
-                //        case VAR_TYPE.TSTRING:
-                //        case VAR_TYPE.CLASS:
-                //            if (is_list)
-                //                sw.WriteLine("\t\t\t\tsuccess = success ? Marshaler.Read(msg, list[i].{0}) : false;", var_name);
-                //            else
-                //                sw.WriteLine("\t\t\t\tsuccess = success ? Marshaler.Read(msg, list[i].{0}) : false;", var_name);
-                //            break;
-                //        default:
-                //            break;
-                //    }
-                //}
-                //sw.WriteLine("\t        }");
-                //sw.WriteLine("\t        return success;");
-                //sw.WriteLine("\t    }");
 
                 sw.WriteLine("\t    public static bool Read(NetBuffer msg, List<{0}> list)", class_name);
                 sw.WriteLine("\t    {");
