@@ -14,7 +14,7 @@ namespace TestServer
         S2C.Proxy mProxyS2C = new S2C.Proxy();
 
         public NetServer server = new NetServer();
-        Stub_C2Test stub = new Stub_C2Test();
+        Stub_C2S stub = new Stub_C2S();
         bool m_run = false;
 
         public bool IsRunning

@@ -10,7 +10,7 @@ public class DevarcEditor : EditorWindow
     [@MenuItem("Window/Devarc Framework")]
     static void BakingCharacterTexture()
     {
-        EditorWindow.GetWindowWithRect(typeof(DevarcEditor), new Rect(0, 0, 510f, 400f), false);
+        EditorWindow.GetWindowWithRect(typeof(DevarcEditor), new Rect(0, 0, 540f, 500f), false);
     }
 
     const string buildConfigPath = "Assets/Devwinsoft/Devarc/BuildSettings.asset";
@@ -77,59 +77,107 @@ public class DevarcEditor : EditorWindow
         }
 
         {
-            GUILayout.Label("Object Tables");
-            int newTableCount = EditorGUILayout.IntField("Table Count", buildConfigData.tables.Length);
-            if (newTableCount != buildConfigData.tables.Length)
+            GUI.backgroundColor = Color.cyan;
+            GUILayout.TextField("Object Tables");
+            GUI.backgroundColor = Color.white;
+            int newDirCount = EditorGUILayout.IntField("Output Directory Count", buildConfigData.outObjTables.Length);
+            if (newDirCount != buildConfigData.outObjTables.Length)
+            {
+                string[] newTableList = new string[newDirCount];
+                if (newDirCount > 0)
+                {
+                    System.Array.Copy(buildConfigData.outObjTables, newTableList, Mathf.Min(newDirCount, buildConfigData.outObjTables.Length));
+                }
+                buildConfigData.outObjTables = newTableList;
+            }
+            for (int i = 0; i < buildConfigData.outObjTables.Length; i++)
+            {
+                buildConfigData.outObjTables[i] = EditorGUILayout.TextField(string.Format("Output Directory-{0}", i), buildConfigData.outObjTables[i]);
+            }
+
+            GUILayout.Space(10f);
+
+            int newTableCount = EditorGUILayout.IntField("Table Count", buildConfigData.inObjTables.Length);
+            if (newTableCount != buildConfigData.inObjTables.Length)
             {
                 TextAsset[] newTables = new TextAsset[newTableCount];
                 if (newTableCount > 0)
                 {
-                    System.Array.Copy(buildConfigData.tables, newTables, Mathf.Min(newTableCount, buildConfigData.tables.Length));
+                    System.Array.Copy(buildConfigData.inObjTables, newTables, Mathf.Min(newTableCount, buildConfigData.inObjTables.Length));
                 }
-                buildConfigData.tables = newTables;
+                buildConfigData.inObjTables = newTables;
             }
-            for (int i = 0; i < buildConfigData.tables.Length; i++)
+            for (int i = 0; i < buildConfigData.inObjTables.Length; i++)
             {
-                buildConfigData.tables[i] = (TextAsset)EditorGUILayout.ObjectField(string.Format("Table-{0}", i), buildConfigData.tables[i], typeof(TextAsset));
+                buildConfigData.inObjTables[i] = (TextAsset)EditorGUILayout.ObjectField(string.Format("Table-{0}", i), buildConfigData.inObjTables[i], typeof(TextAsset));
             }
 
             if (GUILayout.Button("Compile Tables !!"))
             {
-                for (int i = 0; i < buildConfigData.tables.Length; i++)
+                if (buildConfigData.outObjTables.Length == 0)
                 {
-                    if (buildConfigData.tables[i] == null)
-                        continue;
-                    builderObject.BuildFromData(buildConfigData.tables[i].name, buildConfigData.tables[i].text, Application.dataPath + @"/Devwinsoft/Devarc/_GeneratedCode");
-                    builderData.BuildFromData(buildConfigData.tables[i].name, buildConfigData.tables[i].text, Application.dataPath + @"/Devwinsoft/Devarc/_GeneratedCode");
+                    EditorUtility.DisplayDialog("Compile Tables", "No Output Folder.", "Failed");
                 }
-                AssetDatabase.Refresh(ImportAssetOptions.Default);
-                EditorUtility.DisplayDialog("Compile Tables", "Build Completed.", "Success");
+                else
+                {
+                    for (int k = 0; k < buildConfigData.outObjTables.Length; k++)
+                    {
+                        string tempDir = System.IO.Path.Combine(Application.dataPath, buildConfigData.outObjTables[k]);
+                        for (int i = 0; i < buildConfigData.inObjTables.Length; i++)
+                        {
+                            if (buildConfigData.inObjTables[i] == null)
+                                continue;
+                            builderObject.BuildFromData(buildConfigData.inObjTables[i].name, buildConfigData.inObjTables[i].text, tempDir);
+                            builderData.BuildFromData(buildConfigData.inObjTables[i].name, buildConfigData.inObjTables[i].text, tempDir);
+                        }
+                    }
+                    AssetDatabase.Refresh(ImportAssetOptions.Default);
+                    EditorUtility.DisplayDialog("Compile Tables", "Build Completed.", "Success");
+                }
             }
         }
 
         GUILayout.Space(20f);
 
         {
-            GUILayout.Label("Data Tables");
-            int newTableCount = EditorGUILayout.IntField("Table Count", buildConfigData.data_tables.Length);
-            if (newTableCount != buildConfigData.data_tables.Length)
+            GUI.backgroundColor = Color.cyan;
+            GUILayout.TextField("Data Tables");
+            GUI.backgroundColor = Color.white;
+            int newDirCount = EditorGUILayout.IntField("Output Directory Count", buildConfigData.outDataTables.Length);
+            if (newDirCount != buildConfigData.outDataTables.Length)
+            {
+                string[] newTableList = new string[newDirCount];
+                if (newDirCount > 0)
+                {
+                    System.Array.Copy(buildConfigData.outDataTables, newTableList, Mathf.Min(newDirCount, buildConfigData.outDataTables.Length));
+                }
+                buildConfigData.outDataTables = newTableList;
+            }
+            for (int i = 0; i < buildConfigData.outDataTables.Length; i++)
+            {
+                buildConfigData.outDataTables[i] = EditorGUILayout.TextField(string.Format("Output Directory-{0}", i), buildConfigData.outDataTables[i]);
+            }
+
+            GUILayout.Space(10f);
+            int newTableCount = EditorGUILayout.IntField("Table Count", buildConfigData.inDataTables.Length);
+            if (newTableCount != buildConfigData.inDataTables.Length)
             {
                 TextAsset[] newTableList = new TextAsset[newTableCount];
                 if (newTableCount > 0)
                 {
-                    System.Array.Copy(buildConfigData.data_tables, newTableList, Mathf.Min(newTableCount, buildConfigData.data_tables.Length));
+                    System.Array.Copy(buildConfigData.inDataTables, newTableList, Mathf.Min(newTableCount, buildConfigData.inDataTables.Length));
                 }
-                buildConfigData.data_tables = newTableList;
+                buildConfigData.inDataTables = newTableList;
             }
-            for (int i = 0; i < buildConfigData.data_tables.Length; i++)
+            for (int i = 0; i < buildConfigData.inDataTables.Length; i++)
             {
-                buildConfigData.data_tables[i] = (TextAsset)EditorGUILayout.ObjectField(string.Format("Table-{0}", i), buildConfigData.data_tables[i], typeof(TextAsset));
+                buildConfigData.inDataTables[i] = (TextAsset)EditorGUILayout.ObjectField(string.Format("Table-{0}", i), buildConfigData.inDataTables[i], typeof(TextAsset));
             }
 
             if (GUILayout.Button("Make Json Files !!"))
             {
                 DataManager.UnLoad_TestSchema();
-                foreach (TextAsset asset in buildConfigData.data_tables)
+                foreach (TextAsset asset in buildConfigData.inDataTables)
                 {
                     DataManager.Load_TestSchema_XmlData(asset.text);
                 }
@@ -143,14 +191,37 @@ public class DevarcEditor : EditorWindow
 
         if (protocolAssem != null)
         {
-            GUILayout.Label("Protocols");
+            GUI.backgroundColor = Color.cyan;
+            GUILayout.TextField("Protocols");
+            GUI.backgroundColor = Color.white;
+            int newProtocols = EditorGUILayout.IntField("Output Directory Count", buildConfigData.outProtocols.Length);
+            if (newProtocols != buildConfigData.outProtocols.Length)
+            {
+                string[] newTableList = new string[newProtocols];
+                if (newProtocols > 0)
+                {
+                    System.Array.Copy(buildConfigData.outProtocols, newTableList, Mathf.Min(newProtocols, buildConfigData.outProtocols.Length));
+                }
+                buildConfigData.outProtocols = newTableList;
+            }
+            for (int i = 0; i < buildConfigData.outProtocols.Length; i++)
+            {
+                buildConfigData.outProtocols[i] = EditorGUILayout.TextField(string.Format("Output Directory-{0}", i), buildConfigData.outProtocols[i]);
+            }
             GUILayout.TextArea(this.protocolNames);
             if (GUILayout.Button("Compile Protocols !!"))
             {
-                builderNet.BuildFromAssem(protocolAssem, Application.dataPath + @"/Devwinsoft/Devarc/_GeneratedCode");
-                AssetDatabase.Refresh(ImportAssetOptions.Default);
+                for (int i = 0; i < buildConfigData.outProtocols.Length; i++)
+                {
+                    string tempDir = System.IO.Path.Combine(Application.dataPath, buildConfigData.outProtocols[i]);
+                    if (System.IO.Directory.Exists(tempDir) == false)
+                        continue;
+                    builderNet.BuildFromAssem(protocolAssem, tempDir);
+                    AssetDatabase.Refresh(ImportAssetOptions.Default);
+                }
                 EditorUtility.DisplayDialog("Compile Protocols", "Build Completed.", "Success");
             }
         }
+
     }
 }

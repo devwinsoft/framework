@@ -16,7 +16,7 @@ namespace TestClient
         C2S.Proxy mProxyC2S = new C2S.Proxy();
 
         public NetClient client = new NetClient();
-        Stub_Test2C stub = new Stub_Test2C();
+        Stub_S2C stub = new Stub_S2C();
 
         public bool IsRunning
         {

@@ -6,32 +6,33 @@ using Devarc;
 
 namespace TestServer
 {
-    class Stub_C2Test : IServerStub, C2S.IStub
+    class Stub_C2S : IServerStub, C2S.IStub
     {
         public void OnNotifyUserConnect(HostID host_hid)
         {
-            using(User.LIST.WRITE_LOCK())
+            using(PlayerData.LIST.WRITE_LOCK())
             {
-                User.LIST.Alloc(host_hid);
+                PlayerData obj = PlayerData.LIST.Alloc(host_hid);
+                TestServer.ProxyS2C.Notify_Chat(host_hid, "");
             } // unlock
         }
         public void OnNotifyUserDisonnect(HostID host_hid)
         {
-            using (User.LIST.WRITE_LOCK())
+            using (PlayerData.LIST.WRITE_LOCK())
             {
-                User.LIST.Free1(host_hid);
+                PlayerData.LIST.Free1(host_hid);
             } // unlock
         }
 
         public void RMI_C2S_Chat(HostID remote, String _msg)
         {
-            using (User.LIST.READ_LOCK())
+            using (PlayerData.LIST.READ_LOCK())
             {
-                List<User>.Enumerator enumerator = User.LIST.GetEnumerator();
+                List<PlayerData>.Enumerator enumerator = PlayerData.LIST.GetEnumerator();
                 while (enumerator.MoveNext())
                 {
-                    User obj = enumerator.Current;
-                    TestServer.ProxyS2C.Notify_Chat(obj.hid, _msg);
+                    PlayerData obj = enumerator.Current;
+                    TestServer.ProxyS2C.Notify_Chat(obj.Data.id, _msg);
                 }
             } // unlock
         }

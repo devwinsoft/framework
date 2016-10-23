@@ -7,7 +7,7 @@ using Devarc;
 
 namespace TestClient
 {
-    class Stub_Test2C : IClientStub, S2C.IStub
+    class Stub_S2C : IClientStub, S2C.IStub
     {
         public void OnNotifyConnecting()
         {

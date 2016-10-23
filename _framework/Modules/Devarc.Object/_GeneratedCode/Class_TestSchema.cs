@@ -530,6 +530,42 @@ namespace Devarc
 				return UNIT.DRAGON_RED;
 			if (name == "DRAGON_UNDEAD")
 				return UNIT.DRAGON_UNDEAD;
+			if (name == "NONE")
+				return UNIT.NONE;
+			if (name == "HUMAN_FEMALE")
+				return UNIT.HUMAN_FEMALE;
+			if (name == "HUMAN_MALE")
+				return UNIT.HUMAN_MALE;
+			if (name == "ELF_FEMALE")
+				return UNIT.ELF_FEMALE;
+			if (name == "ELF_MALE")
+				return UNIT.ELF_MALE;
+			if (name == "DARKELF_FEMALE")
+				return UNIT.DARKELF_FEMALE;
+			if (name == "DARKELF_MALE")
+				return UNIT.DARKELF_MALE;
+			if (name == "DWARF_FEMALE")
+				return UNIT.DWARF_FEMALE;
+			if (name == "DWARF_MALE")
+				return UNIT.DWARF_MALE;
+			if (name == "GOBLIN")
+				return UNIT.GOBLIN;
+			if (name == "IMP")
+				return UNIT.IMP;
+			if (name == "MUMMY")
+				return UNIT.MUMMY;
+			if (name == "ORC")
+				return UNIT.ORC;
+			if (name == "TROLL")
+				return UNIT.TROLL;
+			if (name == "UNDEAD")
+				return UNIT.UNDEAD;
+			if (name == "DRAGON_BLACK")
+				return UNIT.DRAGON_BLACK;
+			if (name == "DRAGON_RED")
+				return UNIT.DRAGON_RED;
+			if (name == "DRAGON_UNDEAD")
+				return UNIT.DRAGON_UNDEAD;
 			return (UNIT)0;
 		}
 		public UNIT                ID;
@@ -661,6 +697,24 @@ namespace Devarc
 				return DIRECTION.BL;
 			if (name == "BR")
 				return DIRECTION.BR;
+			if (name == "STOP")
+				return DIRECTION.STOP;
+			if (name == "BACK")
+				return DIRECTION.BACK;
+			if (name == "FORWARD")
+				return DIRECTION.FORWARD;
+			if (name == "L")
+				return DIRECTION.L;
+			if (name == "R")
+				return DIRECTION.R;
+			if (name == "FL")
+				return DIRECTION.FL;
+			if (name == "FR")
+				return DIRECTION.FR;
+			if (name == "BL")
+				return DIRECTION.BL;
+			if (name == "BR")
+				return DIRECTION.BR;
 			return (DIRECTION)0;
 		}
 		public DIRECTION           ID;
@@ -767,8 +821,118 @@ namespace Devarc
 	    {
 	    }
 	}
+	public enum DIRECTION
+	{
+		STOP                = 0,
+		BACK                = 1,
+		FORWARD             = 2,
+		L                   = 3,
+		R                   = 4,
+		FL                  = 5,
+		FR                  = 6,
+		BL                  = 7,
+		BR                  = 8,
+		STOP                = 0,
+		BACK                = 1,
+		FORWARD             = 2,
+		L                   = 3,
+		R                   = 4,
+		FL                  = 5,
+		FR                  = 6,
+		BL                  = 7,
+		BR                  = 8,
+	}
+	public static partial class Marshaler
+	{
+	    public static bool Read(NetBuffer msg, ref DIRECTION obj)
+	    {
+	        try
+	        {
+	            obj = (DIRECTION)msg.ReadInt32();
+	            return true;
+	        }
+	        catch (System.Exception)
+	        {
+	            return false;
+	        }
+	    }
+	    public static void Write(NetBuffer msg, DIRECTION obj)
+	    {
+	        msg.Write((Int32)obj);
+	    }
+	    public static bool Read(NetBuffer msg, out DIRECTION[] obj)
+	    {
+	        try
+	        {
+	            int cnt = msg.ReadInt16();
+	            obj = new DIRECTION[cnt];
+	            for (int i = 0; i < cnt; i++)
+	            {
+	                obj[i] = (DIRECTION)msg.ReadInt32();
+	            }
+	            return true;
+	        }
+	        catch (System.Exception)
+	        {
+	            obj = null;;
+	            return false;
+	        }
+	    }
+	    public static bool Read(NetBuffer msg, List<DIRECTION> obj)
+	    {
+	        try
+	        {
+	            int cnt = msg.ReadInt16();
+	            obj = new List<DIRECTION>();
+	            for (int i = 0; i < cnt; i++)
+	            {
+	                obj[i] = (DIRECTION)msg.ReadInt32();
+	            }
+	            return true;
+	        }
+	        catch (System.Exception)
+	        {
+	            obj = null;;
+	            return false;
+	        }
+	    }
+	    public static void Write(NetBuffer msg, DIRECTION[] list)
+	    {
+	        msg.Write((Int16)list.Length);
+	        foreach (DIRECTION obj in list)
+	        {
+	            msg.Write((Int32)obj);
+	        }
+	    }
+	    public static void Write(NetBuffer msg, List<DIRECTION> list)
+	    {
+	        msg.Write((Int16)list.Count);
+	        foreach (DIRECTION obj in list)
+	        {
+	            msg.Write((Int32)obj);
+	        }
+	    }
+	}
 	public enum UNIT
 	{
+		NONE                = 0,
+		HUMAN_FEMALE        = 1,
+		HUMAN_MALE          = 2,
+		ELF_FEMALE          = 3,
+		ELF_MALE            = 4,
+		DARKELF_FEMALE      = 5,
+		DARKELF_MALE        = 6,
+		DWARF_FEMALE        = 7,
+		DWARF_MALE          = 8,
+		GOBLIN              = 9,
+		IMP                 = 10,
+		MUMMY               = 11,
+		ORC                 = 12,
+		TROLL               = 13,
+		UNDEAD              = 14,
+		DRAGON_BLACK        = 15,
+		DRAGON_RED          = 16,
+		DRAGON_UNDEAD       = 17,
 		NONE                = 0,
 		HUMAN_FEMALE        = 1,
 		HUMAN_MALE          = 2,
@@ -854,89 +1018,6 @@ namespace Devarc
 	    {
 	        msg.Write((Int16)list.Count);
 	        foreach (UNIT obj in list)
-	        {
-	            msg.Write((Int32)obj);
-	        }
-	    }
-	}
-	public enum DIRECTION
-	{
-		STOP                = 0,
-		BACK                = 1,
-		FORWARD             = 2,
-		L                   = 3,
-		R                   = 4,
-		FL                  = 5,
-		FR                  = 6,
-		BL                  = 7,
-		BR                  = 8,
-	}
-	public static partial class Marshaler
-	{
-	    public static bool Read(NetBuffer msg, ref DIRECTION obj)
-	    {
-	        try
-	        {
-	            obj = (DIRECTION)msg.ReadInt32();
-	            return true;
-	        }
-	        catch (System.Exception)
-	        {
-	            return false;
-	        }
-	    }
-	    public static void Write(NetBuffer msg, DIRECTION obj)
-	    {
-	        msg.Write((Int32)obj);
-	    }
-	    public static bool Read(NetBuffer msg, out DIRECTION[] obj)
-	    {
-	        try
-	        {
-	            int cnt = msg.ReadInt16();
-	            obj = new DIRECTION[cnt];
-	            for (int i = 0; i < cnt; i++)
-	            {
-	                obj[i] = (DIRECTION)msg.ReadInt32();
-	            }
-	            return true;
-	        }
-	        catch (System.Exception)
-	        {
-	            obj = null;;
-	            return false;
-	        }
-	    }
-	    public static bool Read(NetBuffer msg, List<DIRECTION> obj)
-	    {
-	        try
-	        {
-	            int cnt = msg.ReadInt16();
-	            obj = new List<DIRECTION>();
-	            for (int i = 0; i < cnt; i++)
-	            {
-	                obj[i] = (DIRECTION)msg.ReadInt32();
-	            }
-	            return true;
-	        }
-	        catch (System.Exception)
-	        {
-	            obj = null;;
-	            return false;
-	        }
-	    }
-	    public static void Write(NetBuffer msg, DIRECTION[] list)
-	    {
-	        msg.Write((Int16)list.Length);
-	        foreach (DIRECTION obj in list)
-	        {
-	            msg.Write((Int32)obj);
-	        }
-	    }
-	    public static void Write(NetBuffer msg, List<DIRECTION> list)
-	    {
-	        msg.Write((Int16)list.Count);
-	        foreach (DIRECTION obj in list)
 	        {
 	            msg.Write((Int32)obj);
 	        }

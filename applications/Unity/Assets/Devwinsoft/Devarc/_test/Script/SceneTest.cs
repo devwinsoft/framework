@@ -159,17 +159,19 @@ public class SceneTest : MonoBehaviour
         mMessage = mBuilder.ToString();
     }
 
-    public PlayerObject CreateMainPlayer(HostID _hid)
+    public PlayerObject CreateMainPlayer(HostID _hid, DataPlayer _data)
     {
         Transform trans = Instantiate(prefabMainPlayer);
         PlayerObject obj = trans.GetComponent<PlayerObject>();
+        obj.Init(_data);
         return obj;
     }
 
-    public PlayerObject CreateUserPlayer(HostID _hid)
+    public PlayerObject CreateUserPlayer(HostID _hid, DataPlayer _data)
     {
         Transform trans = Instantiate(prefabUserPlayer);
         PlayerObject obj = trans.GetComponent<PlayerObject>();
+        obj.Init(_data);
         return obj;
     }
 }
