@@ -45,16 +45,16 @@ namespace Devarc
 		}
 		public void Initialize(PropTable obj)
 		{
-			unit_type           = _UNIT.Parse(obj.ToStr("unit_type"));
-			name                = obj.ToStr("name");
+			unit_type           = _UNIT.Parse(obj.GetStr("unit_type"));
+			name                = obj.GetStr("name");
 			items.Clear();
-			JsonData __items = JsonMapper.ToObject(obj.ToStr("items"));
+			JsonData __items = JsonMapper.ToObject(obj.GetStr("items"));
 			if (__items != null && __items.IsArray) { foreach (var node in __items as IList) { items.Add(_UNIT.Parse(node.ToString())); } }
 			stats.Clear();
-			JsonData __stats = JsonMapper.ToObject(obj.ToStr("stats"));
+			JsonData __stats = JsonMapper.ToObject(obj.GetStr("stats"));
 			if (__stats != null && __stats.IsArray) { foreach (var node in __stats as IList) { DataAbility _v = new DataAbility(); _v.Initialize(node as JsonData); stats.Add(_v); } }
-			_ability.Initialize(obj.ToTable("ability"));
-			obj.ToList<string>("nodes", nodes);
+			_ability.Initialize(obj.GetTable("ability"));
+			obj.GetList<string>("nodes", nodes);
 		}
 		public void Initialize(JsonData obj)
 		{
@@ -201,9 +201,9 @@ namespace Devarc
 		}
 		public void Initialize(PropTable obj)
 		{
-			str                 = obj.ToInt32("str");
-			dex                 = obj.ToInt32("dex");
-			vit                 = obj.ToInt32("vit");
+			str                 = obj.GetInt32("str");
+			dex                 = obj.GetInt32("dex");
+			vit                 = obj.GetInt32("vit");
 		}
 		public void Initialize(JsonData obj)
 		{
@@ -309,8 +309,8 @@ namespace Devarc
 		}
 		public void Initialize(PropTable obj)
 		{
-			id                  = (HostID)obj.ToInt16("id");
-			_pos.Initialize(obj.ToTable("pos"));
+			id                  = (HostID)obj.GetInt16("id");
+			_pos.Initialize(obj.GetTable("pos"));
 		}
 		public void Initialize(JsonData obj)
 		{
@@ -409,9 +409,9 @@ namespace Devarc
 		}
 		public void Initialize(PropTable obj)
 		{
-			x                   = obj.ToFlt("x");
-			y                   = obj.ToFlt("y");
-			z                   = obj.ToFlt("z");
+			x                   = obj.GetFloat("x");
+			y                   = obj.GetFloat("y");
+			z                   = obj.GetFloat("z");
 		}
 		public void Initialize(JsonData obj)
 		{
@@ -530,42 +530,6 @@ namespace Devarc
 				return UNIT.DRAGON_RED;
 			if (name == "DRAGON_UNDEAD")
 				return UNIT.DRAGON_UNDEAD;
-			if (name == "NONE")
-				return UNIT.NONE;
-			if (name == "HUMAN_FEMALE")
-				return UNIT.HUMAN_FEMALE;
-			if (name == "HUMAN_MALE")
-				return UNIT.HUMAN_MALE;
-			if (name == "ELF_FEMALE")
-				return UNIT.ELF_FEMALE;
-			if (name == "ELF_MALE")
-				return UNIT.ELF_MALE;
-			if (name == "DARKELF_FEMALE")
-				return UNIT.DARKELF_FEMALE;
-			if (name == "DARKELF_MALE")
-				return UNIT.DARKELF_MALE;
-			if (name == "DWARF_FEMALE")
-				return UNIT.DWARF_FEMALE;
-			if (name == "DWARF_MALE")
-				return UNIT.DWARF_MALE;
-			if (name == "GOBLIN")
-				return UNIT.GOBLIN;
-			if (name == "IMP")
-				return UNIT.IMP;
-			if (name == "MUMMY")
-				return UNIT.MUMMY;
-			if (name == "ORC")
-				return UNIT.ORC;
-			if (name == "TROLL")
-				return UNIT.TROLL;
-			if (name == "UNDEAD")
-				return UNIT.UNDEAD;
-			if (name == "DRAGON_BLACK")
-				return UNIT.DRAGON_BLACK;
-			if (name == "DRAGON_RED")
-				return UNIT.DRAGON_RED;
-			if (name == "DRAGON_UNDEAD")
-				return UNIT.DRAGON_UNDEAD;
 			return (UNIT)0;
 		}
 		public UNIT                ID;
@@ -593,7 +557,7 @@ namespace Devarc
 		}
 		public void Initialize(PropTable obj)
 		{
-			ID                  = _UNIT.Parse(obj.ToStr("ID"));
+			ID                  = _UNIT.Parse(obj.GetStr("ID"));
 		}
 		public void Initialize(JsonData obj)
 		{
@@ -697,24 +661,6 @@ namespace Devarc
 				return DIRECTION.BL;
 			if (name == "BR")
 				return DIRECTION.BR;
-			if (name == "STOP")
-				return DIRECTION.STOP;
-			if (name == "BACK")
-				return DIRECTION.BACK;
-			if (name == "FORWARD")
-				return DIRECTION.FORWARD;
-			if (name == "L")
-				return DIRECTION.L;
-			if (name == "R")
-				return DIRECTION.R;
-			if (name == "FL")
-				return DIRECTION.FL;
-			if (name == "FR")
-				return DIRECTION.FR;
-			if (name == "BL")
-				return DIRECTION.BL;
-			if (name == "BR")
-				return DIRECTION.BR;
 			return (DIRECTION)0;
 		}
 		public DIRECTION           ID;
@@ -742,7 +688,7 @@ namespace Devarc
 		}
 		public void Initialize(PropTable obj)
 		{
-			ID                  = _DIRECTION.Parse(obj.ToStr("ID"));
+			ID                  = _DIRECTION.Parse(obj.GetStr("ID"));
 		}
 		public void Initialize(JsonData obj)
 		{
@@ -832,15 +778,6 @@ namespace Devarc
 		FR                  = 6,
 		BL                  = 7,
 		BR                  = 8,
-		STOP                = 0,
-		BACK                = 1,
-		FORWARD             = 2,
-		L                   = 3,
-		R                   = 4,
-		FL                  = 5,
-		FR                  = 6,
-		BL                  = 7,
-		BR                  = 8,
 	}
 	public static partial class Marshaler
 	{
@@ -915,24 +852,6 @@ namespace Devarc
 	}
 	public enum UNIT
 	{
-		NONE                = 0,
-		HUMAN_FEMALE        = 1,
-		HUMAN_MALE          = 2,
-		ELF_FEMALE          = 3,
-		ELF_MALE            = 4,
-		DARKELF_FEMALE      = 5,
-		DARKELF_MALE        = 6,
-		DWARF_FEMALE        = 7,
-		DWARF_MALE          = 8,
-		GOBLIN              = 9,
-		IMP                 = 10,
-		MUMMY               = 11,
-		ORC                 = 12,
-		TROLL               = 13,
-		UNDEAD              = 14,
-		DRAGON_BLACK        = 15,
-		DRAGON_RED          = 16,
-		DRAGON_UNDEAD       = 17,
 		NONE                = 0,
 		HUMAN_FEMALE        = 1,
 		HUMAN_MALE          = 2,

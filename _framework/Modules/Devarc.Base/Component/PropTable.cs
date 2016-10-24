@@ -203,7 +203,7 @@ namespace Devarc
                 {
                     continue;
                 }
-                Attach(temp_full_name, obj.GetRawType(j), obj.GetClassType(j), obj.GetKeyType(j), obj.ToStr(j));
+                Attach(temp_full_name, obj.GetRawType(j), obj.GetClassType(j), obj.GetKeyType(j), obj.GetStr(j));
             }
         }
 
@@ -345,11 +345,11 @@ namespace Devarc
                 return false;
         }
 
-        public string ToStr(string var_name)
+        public string GetStr(string var_name)
         {
-            return ToStr(GetIndexOfName(var_name));
+            return GetStr(GetIndexOfName(var_name));
         }
-        public string ToStr(int index)
+        public string GetStr(int index)
         {
             if (index >= 0 && index < m_PropList.Length && m_PropList[index].Data != null)
                 return m_PropList[index].Data;
@@ -357,69 +357,69 @@ namespace Devarc
                 return "";
         }
 
-        public bool ToBoolean(string var_name)
+        public bool GetBool(string var_name)
         {
-            return ToBoolean(GetIndexOfName(var_name));
+            return GetBool(GetIndexOfName(var_name));
         }
-        public bool ToBoolean(int index)
+        public bool GetBool(int index)
         {
-            string temp = ToStr(index).ToLower();
+            string temp = GetStr(index).ToLower();
             if (temp == "true")
                 return true;
             else if (temp == "false")
                 return false;
-            return ToInt32(index) != 0;
+            return GetInt32(index) != 0;
         }
 
-        public Int16 ToInt16(string var_name)
+        public Int16 GetInt16(string var_name)
         {
-            return ToInt16(GetIndexOfName(var_name));
+            return GetInt16(GetIndexOfName(var_name));
         }
-        public Int16 ToInt16(int index)
+        public Int16 GetInt16(int index)
         {
-            string data = ToStr(index);
+            string data = GetStr(index);
             Int16 temp = 0;
             Int16.TryParse(data, out temp);
             return temp;
         }
 
-        public Int32 ToInt32(string var_name)
+        public Int32 GetInt32(string var_name)
         {
-            return ToInt32(GetIndexOfName(var_name));
+            return GetInt32(GetIndexOfName(var_name));
         }
-        public Int32 ToInt32(int index)
+        public Int32 GetInt32(int index)
         {
-            string data = ToStr(index);
+            string data = GetStr(index);
             Int32 temp = 0;
             Int32.TryParse(data, out temp);
             return temp;
         }
 
-        public Int64 ToInt64(string var_name)
+        public Int64 GetInt64(string var_name)
         {
-            return ToInt64(GetIndexOfName(var_name));
+            return GetInt64(GetIndexOfName(var_name));
         }
-        public Int64 ToInt64(int index)
+        public Int64 GetInt64(int index)
         {
-            string data = ToStr(index);
+            string data = GetStr(index);
             Int64 temp = 0;
             Int64.TryParse(data, out temp);
             return temp;
         }
 
-        public float ToFlt(string var_name)
+        public float GetFloat(string var_name)
         {
-            return ToFlt(GetIndexOfName(var_name));
+            return GetFloat(GetIndexOfName(var_name));
         }
-        public float ToFlt(int index)
+        public float GetFloat(int index)
         {
-            string data = ToStr(index);
+            string data = GetStr(index);
             float temp = 0.0f;
             float.TryParse(data, out temp);
             return temp;
         }
 
-        public PropTable ToTable(string var_name)
+        public PropTable GetTable(string var_name)
         {
             PropTable tb = new PropTable();
             string pre_fix = var_name + "/";
@@ -439,21 +439,21 @@ namespace Devarc
             }
             return tb;
         }
-        public PropTable ToTable(int index)
+        public PropTable GetTable(int index)
         {
-            return ToTable(GetVarName(index));
+            return GetTable(GetVarName(index));
         }
 
-        public bool ToClassList<T>(string var_name, List<T> list) where T : IBaseObejct, new()
+        public bool GetClassList<T>(string var_name, List<T> list) where T : IBaseObejct, new()
         {
-            return ToClassList<T>(GetIndexOfName(var_name), list);
+            return GetClassList<T>(GetIndexOfName(var_name), list);
         }
-        public bool ToClassList<T>(int index, List<T> list) where T : IBaseObejct, new()
+        public bool GetClassList<T>(int index, List<T> list) where T : IBaseObejct, new()
         {
             list.Clear();
             if (index < 0 || index > this.Length)
                 return false;
-            JsonData node = JsonMapper.ToObject(ToStr(index));
+            JsonData node = JsonMapper.ToObject(GetStr(index));
             for (int i = 0; i < node.Count; i++)
             {
                 T obj = new T();
@@ -463,17 +463,17 @@ namespace Devarc
             return true;
         }
 
-        public bool ToList<T>(string var_name, List<T> list)
+        public bool GetList<T>(string var_name, List<T> list)
         {
-            return ToList<T>(GetIndexOfName(var_name), list);
+            return GetList<T>(GetIndexOfName(var_name), list);
         }
-        public bool ToList<T>(int index, List<T> list)
+        public bool GetList<T>(int index, List<T> list)
         {
             list.Clear();
             if (index < 0 || index > this.Length)
                 return false;
             VAR_TYPE var_type = this.GetVarType(index);
-            string json = ToStr(index);
+            string json = GetStr(index);
             if (string.IsNullOrEmpty(json))
             {
                 return true;

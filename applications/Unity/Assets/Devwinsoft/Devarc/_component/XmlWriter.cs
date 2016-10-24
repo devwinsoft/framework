@@ -120,7 +120,7 @@ namespace Devarc
                 data_type.Value = "String";
                 data.Attributes.Append(data_type);
 
-                data.InnerXml = tb.ToStr(i).Replace("\r", "").Replace("\n", "@#n@");
+                data.InnerXml = tb.GetStr(i).Replace("\r", "").Replace("\n", "@#n@");
             }
         }
 

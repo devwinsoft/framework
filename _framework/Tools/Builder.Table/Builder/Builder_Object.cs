@@ -97,6 +97,10 @@ namespace Devarc
 
         void _build(string _data, string file_path)
         {
+            m_EnumList.Clear();
+            m_ClassNames.Clear();
+            m_ClassList.Clear();
+
             // Get Class List
             using (XmlReader reader = new Devarc.XmlReader())
             {
@@ -429,69 +433,69 @@ namespace Devarc
                     {
                         case VAR_TYPE.BOOL:
                             if (is_list)
-                                sw.WriteLine("\t\t\tobj.ToList<bool>(\"{0}\", {0});", var_name);
+                                sw.WriteLine("\t\t\tobj.GetList<bool>(\"{0}\", {0});", var_name);
                             else
                                 sw.WriteLine("\t\t\t{0,-20}= obj.ToBoolean(\"{0}\");", var_name);
                             break;
                         case VAR_TYPE.INT16:
                             if (is_list)
-                                sw.WriteLine("\t\t\tobj.ToList<short>(\"{0}\", {0});", var_name);
+                                sw.WriteLine("\t\t\tobj.GetList<short>(\"{0}\", {0});", var_name);
                             else
-                                sw.WriteLine("\t\t\t{0,-20}= obj.ToInt16(\"{0}\");", var_name);
+                                sw.WriteLine("\t\t\t{0,-20}= obj.GetInt16(\"{0}\");", var_name);
                             break;
                         case VAR_TYPE.INT32:
                             if (is_list)
-                                sw.WriteLine("\t\t\tobj.ToList<int>(\"{0}\", {0});", var_name);
+                                sw.WriteLine("\t\t\tobj.GetList<int>(\"{0}\", {0});", var_name);
                             else
-                                sw.WriteLine("\t\t\t{0,-20}= obj.ToInt32(\"{0}\");", var_name);
+                                sw.WriteLine("\t\t\t{0,-20}= obj.GetInt32(\"{0}\");", var_name);
                             break;
                         case VAR_TYPE.INT64:
                             if (is_list)
-                                sw.WriteLine("\t\t\tobj.ToList<long>(\"{0}\", {0});", var_name);
+                                sw.WriteLine("\t\t\tobj.GetList<long>(\"{0}\", {0});", var_name);
                             else
                                 sw.WriteLine("\t\t\t{0,-20}= obj.ToInt64(\"{0}\");", var_name);
                             break;
                         case VAR_TYPE.HOST_ID:
                             if (is_list)
-                                sw.WriteLine("\t\t\tobj.ToList<HostID>(\"{0}\", {0});", var_name);
+                                sw.WriteLine("\t\t\tobj.GetList<HostID>(\"{0}\", {0});", var_name);
                             else
-                                sw.WriteLine("\t\t\t{0,-20}= (HostID)obj.ToInt16(\"{0}\");", var_name);
+                                sw.WriteLine("\t\t\t{0,-20}= (HostID)obj.GetInt16(\"{0}\");", var_name);
                             break;
                         case VAR_TYPE.FLOAT:
                             if (is_list)
-                                sw.WriteLine("\t\t\tobj.ToList<float>(\"{0}\", {0});", var_name);
+                                sw.WriteLine("\t\t\tobj.GetList<float>(\"{0}\", {0});", var_name);
                             else
-                                sw.WriteLine("\t\t\t{0,-20}= obj.ToFlt(\"{0}\");", var_name);
+                                sw.WriteLine("\t\t\t{0,-20}= obj.GetFloat(\"{0}\");", var_name);
                             break;
                         case VAR_TYPE.CSTRING:
                         case VAR_TYPE.STRING:
                             if (is_list)
-                                sw.WriteLine("\t\t\tobj.ToList<string>(\"{0}\", {0});", var_name);
+                                sw.WriteLine("\t\t\tobj.GetList<string>(\"{0}\", {0});", var_name);
                             else
-                                sw.WriteLine("\t\t\t{0,-20}= obj.ToStr(\"{0}\");", var_name);
+                                sw.WriteLine("\t\t\t{0,-20}= obj.GetStr(\"{0}\");", var_name);
                             break;
                         case VAR_TYPE.ENUM:
                             if (is_list)
                             {
                                 sw.WriteLine("\t\t\t{0}.Clear();", var_name);
-                                sw.WriteLine("\t\t\tJsonData __{0} = JsonMapper.ToObject(obj.ToStr(\"{0}\"));", var_name);
+                                sw.WriteLine("\t\t\tJsonData __{0} = JsonMapper.ToObject(obj.GetStr(\"{0}\"));", var_name);
                                 sw.WriteLine("\t\t\tif (__{0} != null && __{0}.IsArray) {{ foreach (var node in __{0} as IList) {{ {0}.Add(_{1}.Parse(node.ToString())); }} }}", var_name, type_name);
                             }
                             else
                             {
-                                sw.WriteLine("\t\t\t{0,-20}= _{1}.Parse(obj.ToStr(\"{0}\"));", var_name, type_name);
+                                sw.WriteLine("\t\t\t{0,-20}= _{1}.Parse(obj.GetStr(\"{0}\"));", var_name, type_name);
                             }
                             break;
                         case VAR_TYPE.CLASS:
                             if (is_list)
                             {
                                 sw.WriteLine("\t\t\t{0}.Clear();", var_name);
-                                sw.WriteLine("\t\t\tJsonData __{0} = JsonMapper.ToObject(obj.ToStr(\"{0}\"));", var_name);
+                                sw.WriteLine("\t\t\tJsonData __{0} = JsonMapper.ToObject(obj.GetStr(\"{0}\"));", var_name);
                                 sw.WriteLine("\t\t\tif (__{0} != null && __{0}.IsArray) {{ foreach (var node in __{0} as IList) {{ {1} _v = new {1}(); _v.Initialize(node as JsonData); {0}.Add(_v); }} }}", var_name, type_name);
                             }
                             else
                             {
-                                sw.WriteLine("\t\t\t_{0}.Initialize(obj.ToTable(\"{0}\"));", var_name);
+                                sw.WriteLine("\t\t\t_{0}.Initialize(obj.GetTable(\"{0}\"));", var_name);
                             }
                             break;
                         default:
@@ -524,13 +528,13 @@ namespace Devarc
                         case VAR_TYPE.INT16:
                         case VAR_TYPE.HOST_ID:
                             if (is_list)
-                                sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) foreach (JsonData node in obj[\"{0}\"]) {{ {0}.Add(Convert.ToInt16(node.ToString())); }}", var_name);
+                                sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) foreach (JsonData node in obj[\"{0}\"]) {{ {0}.Add(Convert.GetInt16(node.ToString())); }}", var_name);
                             else
                                 sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) HostID.TryParse(obj[\"{0}\"].ToString(), out {0}); else {0} = default(short);", var_name);
                             break;
                         case VAR_TYPE.INT32:
                             if (is_list)
-                                sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) foreach (JsonData node in obj[\"{0}\"]) {{ {0}.Add(Convert.ToInt32(node.ToString())); }}", var_name);
+                                sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) foreach (JsonData node in obj[\"{0}\"]) {{ {0}.Add(Convert.GetInt32(node.ToString())); }}", var_name);
                             else
                                 sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) int.TryParse(obj[\"{0}\"].ToString(), out {0}); else {0} = default(int);", var_name);
                             break;
@@ -1061,12 +1065,12 @@ namespace Devarc
                 enum_list = m_EnumList[enum_name] as List<ENUM_INFO>;
             }
             ENUM_INFO info = new ENUM_INFO();
-            info.Name = tb.ToStr(0);
-            if (tb.ToStr(1) != "")
-                info.ID = Int32.Parse(tb.ToStr(1));
+            info.Name = tb.GetStr(0);
+            if (tb.GetStr(1) != "")
+                info.ID = Int32.Parse(tb.GetStr(1));
             else
                 info.ID = 0;
-            info.Desc = tb.ToStr(2);
+            info.Desc = tb.GetStr(2);
             enum_list.Add(info);
         }
 

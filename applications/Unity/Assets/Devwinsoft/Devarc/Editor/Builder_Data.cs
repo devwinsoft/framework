@@ -64,6 +64,9 @@ namespace Devarc
 
         void _build(string _data, string file_path)
         {
+            m_ClassNames.Clear();
+            m_ClassList.Clear();
+
             using (TextWriter sw = new StreamWriter(file_path, false))
             {
                 sw.WriteLine("using System;");
@@ -237,23 +240,23 @@ namespace Devarc
                         sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(tb.ToBoolean(\"{1}\")))", container_name, item_var_name);
                         break;
                     case VAR_TYPE.INT16:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(tb.ToInt16(\"{1}\")))", container_name, item_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(tb.GetInt16(\"{1}\")))", container_name, item_var_name);
                         break;
                     case VAR_TYPE.INT32:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(tb.ToInt32(\"{1}\")))", container_name, item_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(tb.GetInt32(\"{1}\")))", container_name, item_var_name);
                         break;
                     case VAR_TYPE.INT64:
                     case VAR_TYPE.HOST_ID:
                         sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(tb.ToInt64(\"{1}\")))", container_name, item_var_name);
                         break;
                     case VAR_TYPE.FLOAT:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(tb.ToFlt(\"{1}\")))", container_name, item_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(tb.GetFloat(\"{1}\")))", container_name, item_var_name);
                         break;
                     case VAR_TYPE.STRING:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(tb.ToStr(\"{1}\")))", container_name, item_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(tb.GetStr(\"{1}\")))", container_name, item_var_name);
                         break;
                     case VAR_TYPE.ENUM:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(_{1}.Parse(tb.ToStr(\"{2}\"))))", container_name, item_type_name, item_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(_{1}.Parse(tb.GetStr(\"{2}\"))))", container_name, item_type_name, item_var_name);
                         break;
                     default:
                         // error
@@ -325,19 +328,19 @@ namespace Devarc
             {
                 if (tb.GetVarType(item_key_index) == VAR_TYPE.STRING)
                 {
-                    sw.WriteLine("\t\t\tusing(T_{0} obj = T_{0}.LIST.Alloc(\"{1}\"))", class_name, tb.ToStr(item_key_index));
+                    sw.WriteLine("\t\t\tusing(T_{0} obj = T_{0}.LIST.Alloc(\"{1}\"))", class_name, tb.GetStr(item_key_index));
                 }
                 else if (tb.GetVarType(item_key_index) == VAR_TYPE.ENUM)
                 {
                     int temp;
-                    if (int.TryParse(tb.ToStr(item_key_index), out temp))
-                        sw.WriteLine("\t\t\tusing(T_{0} obj = T_{0}.LIST.Alloc(({1}){2}))", class_name, item_type_name, tb.ToStr(item_key_index));
+                    if (int.TryParse(tb.GetStr(item_key_index), out temp))
+                        sw.WriteLine("\t\t\tusing(T_{0} obj = T_{0}.LIST.Alloc(({1}){2}))", class_name, item_type_name, tb.GetStr(item_key_index));
                     else
-                        sw.WriteLine("\t\t\tusing(T_{0} obj = T_{0}.LIST.Alloc({1}.{2}))", class_name, item_type_name, tb.ToStr(item_key_index));
+                        sw.WriteLine("\t\t\tusing(T_{0} obj = T_{0}.LIST.Alloc({1}.{2}))", class_name, item_type_name, tb.GetStr(item_key_index));
                 }
                 else
                 {
-                    sw.WriteLine("\t\t\tusing(T_{0} obj = T_{0}.LIST.Alloc(({1}){2}))", class_name, item_type_name, tb.ToStr(item_key_index));
+                    sw.WriteLine("\t\t\tusing(T_{0} obj = T_{0}.LIST.Alloc(({1}){2}))", class_name, item_type_name, tb.GetStr(item_key_index));
                 }
                 sw.WriteLine("\t\t\t{");
                 for (int i = 0; i < tb.Length; i++)
@@ -353,7 +356,7 @@ namespace Devarc
                         {
                             case VAR_TYPE.BOOL:
                                 {
-                                    int val = tb.ToInt32(i);
+                                    int val = tb.GetInt32(i);
                                     if(val != 0)
                                         sw.WriteLine("\t\t\t\tobj.{0} = true;", var_name);
                                     else
@@ -365,7 +368,7 @@ namespace Devarc
                             case VAR_TYPE.INT64:
                             case VAR_TYPE.HOST_ID:
                                 {
-                                    string temp = tb.ToStr(i);
+                                    string temp = tb.GetStr(i);
                                     if (temp.Length == 0)
                                     {
                                         sw.WriteLine("\t\t\t\tobj.{0} = ({1}){2};", var_name, type_name, 0);
@@ -378,7 +381,7 @@ namespace Devarc
                                 break;
                             case VAR_TYPE.FLOAT:
                                 {
-                                    string temp = tb.ToStr(i);
+                                    string temp = tb.GetStr(i);
                                     if (temp.Length == 0)
                                     {
                                         sw.WriteLine("\t\t\t\tobj.{0} = ({1}){2}f;", var_name, type_name, 0);
@@ -390,12 +393,12 @@ namespace Devarc
                                 }
                                 break;
                             case VAR_TYPE.STRING:
-                                sw.WriteLine("\t\t\t\tobj.{0} = \"{1}\";", var_name, tb.ToStr(i).Replace("\"", "\\\"").Replace("\r\n", "\\n").Replace("\n\r", "\\n").Replace("\n", "\\n").Replace("\r", "\\n"));
+                                sw.WriteLine("\t\t\t\tobj.{0} = \"{1}\";", var_name, tb.GetStr(i).Replace("\"", "\\\"").Replace("\r\n", "\\n").Replace("\n\r", "\\n").Replace("\n", "\\n").Replace("\r", "\\n"));
                                 break;
 
                             case VAR_TYPE.ENUM:
                                 {
-                                    string temp = tb.ToStr(i);
+                                    string temp = tb.GetStr(i);
                                     int number = 0;
                                     if (temp.Length == 0)
                                     {
@@ -412,7 +415,7 @@ namespace Devarc
                                 }
                                 break;
                             case VAR_TYPE.CLASS:
-                                MakeDataCode(sw, tb.ToTable(var_name), var_name);
+                                MakeDataCode(sw, tb.GetTable(var_name), var_name);
                                 break;
                             default:
                                 break;
@@ -439,7 +442,7 @@ namespace Devarc
                         case VAR_TYPE.BOOL:
                             {
                                 bool temp_value;
-                                if (bool.TryParse(tb.ToStr(i), out temp_value))
+                                if (bool.TryParse(tb.GetStr(i), out temp_value))
                                     sw.WriteLine("\t\t\t\tobj.{0}.{1} = {2};", pre_fix.Replace('/', '.'), var_name, temp_value);
                                 else
                                     sw.WriteLine("\t\t\t\tobj.{0}.{1} = false;", pre_fix.Replace('/', '.'), var_name);
@@ -450,37 +453,37 @@ namespace Devarc
                         case VAR_TYPE.INT64:
                         case VAR_TYPE.HOST_ID:
                             {
-                                string temp = tb.ToStr(i);
+                                string temp = tb.GetStr(i);
                                 if (temp.Length == 0)
                                 {
                                     sw.WriteLine("\t\t\t\tobj.{0}.{1} = ({2}){3};", pre_fix.Replace('/', '.'), var_name, type_name, 0);
                                 }
                                 else
                                 {
-                                    sw.WriteLine("\t\t\t\tobj.{0}.{1} = {2};", pre_fix.Replace('/', '.'), var_name, tb.ToStr(i));
+                                    sw.WriteLine("\t\t\t\tobj.{0}.{1} = {2};", pre_fix.Replace('/', '.'), var_name, tb.GetStr(i));
                                 }
                             }
                             break;
                         case VAR_TYPE.FLOAT:
                             {
-                                string temp = tb.ToStr(i);
+                                string temp = tb.GetStr(i);
                                 if (temp.Length == 0)
                                 {
                                     sw.WriteLine("\t\t\t\tobj.{0}.{1} = ({2}){3}f;", pre_fix.Replace('/', '.'), var_name, type_name, 0);
                                 }
                                 else
                                 {
-                                    sw.WriteLine("\t\t\t\tobj.{0}.{1} = {2}f;", pre_fix.Replace('/', '.'), var_name, tb.ToStr(i));
+                                    sw.WriteLine("\t\t\t\tobj.{0}.{1} = {2}f;", pre_fix.Replace('/', '.'), var_name, tb.GetStr(i));
                                 }
                             }
                             break;
                         case VAR_TYPE.STRING:
-                            sw.WriteLine("\t\t\t\tobj.{0}.{1} = \"{2}\";", pre_fix.Replace('/', '.'), var_name, tb.ToStr(i).Replace("\"", "\\\"").Replace("\r\n", "\\n").Replace("\n\r", "\\n").Replace("\n", "\\n").Replace("\r", "\\n"));
+                            sw.WriteLine("\t\t\t\tobj.{0}.{1} = \"{2}\";", pre_fix.Replace('/', '.'), var_name, tb.GetStr(i).Replace("\"", "\\\"").Replace("\r\n", "\\n").Replace("\n\r", "\\n").Replace("\n", "\\n").Replace("\r", "\\n"));
                             break;
 
                         case VAR_TYPE.ENUM:
                             {
-                                string temp = tb.ToStr(i);
+                                string temp = tb.GetStr(i);
                                 if (temp.Length == 0)
                                 {
                                     sw.WriteLine("\t\t\t\tobj.{0}.{1} = ({2}){3};", pre_fix.Replace('/', '.'), var_name, type_name, 0);
@@ -488,15 +491,15 @@ namespace Devarc
                                 else
                                 {
                                     int temp_value;
-                                    if (int.TryParse(tb.ToStr(i), out temp_value))
+                                    if (int.TryParse(tb.GetStr(i), out temp_value))
                                         sw.WriteLine("\t\t\t\tobj.{0}.{1} = ({2}){3};", pre_fix.Replace('/', '.'), var_name, type_name, temp_value);
                                     else
-                                        sw.WriteLine("\t\t\t\tobj.{0}.{1} = {2}.{3};", pre_fix.Replace('/', '.'), var_name, type_name, tb.ToStr(i));
+                                        sw.WriteLine("\t\t\t\tobj.{0}.{1} = {2}.{3};", pre_fix.Replace('/', '.'), var_name, type_name, tb.GetStr(i));
                                 }
                             }
                             break;
                         case VAR_TYPE.CLASS:
-                            MakeDataCode(sw, tb.ToTable(var_name), pre_fix + "/" + var_name);
+                            MakeDataCode(sw, tb.GetTable(var_name), pre_fix + "/" + var_name);
                             break;
                         default:
                             break;

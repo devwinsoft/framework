@@ -10,7 +10,7 @@ namespace Devarc
 		static void Callback_DataCharacter_XML(string sheet_name, PropTable tb)
 		{
 			 m_isLoad_TestSchema = true;
-			using(T_DataCharacter obj = T_DataCharacter.LIST.Alloc(_UNIT.Parse(tb.ToStr("unit_type"))))
+			using(T_DataCharacter obj = T_DataCharacter.LIST.Alloc(_UNIT.Parse(tb.GetStr("unit_type"))))
 			{
 				obj.Initialize(tb);
 			}
@@ -27,7 +27,7 @@ namespace Devarc
 		static void Callback_UNIT_XML(string sheet_name, PropTable tb)
 		{
 			 m_isLoad_TestSchema = true;
-			using(T_UNIT obj = T_UNIT.LIST.Alloc(_UNIT.Parse(tb.ToStr("ID"))))
+			using(T_UNIT obj = T_UNIT.LIST.Alloc(_UNIT.Parse(tb.GetStr("ID"))))
 			{
 				obj.Initialize(tb);
 			}
@@ -44,7 +44,7 @@ namespace Devarc
 		static void Callback_DIRECTION_XML(string sheet_name, PropTable tb)
 		{
 			 m_isLoad_TestSchema = true;
-			using(T_DIRECTION obj = T_DIRECTION.LIST.Alloc(_DIRECTION.Parse(tb.ToStr("ID"))))
+			using(T_DIRECTION obj = T_DIRECTION.LIST.Alloc(_DIRECTION.Parse(tb.GetStr("ID"))))
 			{
 				obj.Initialize(tb);
 			}
