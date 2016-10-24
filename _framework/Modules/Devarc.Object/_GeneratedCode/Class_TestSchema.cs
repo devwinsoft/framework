@@ -38,7 +38,8 @@ namespace Devarc
 			name                = obj.name;
 			items.Clear();
 			items.AddRange(obj.items);
-			stats               = obj.stats;
+			stats.Clear();
+			foreach(DataAbility _obj in stats) { DataAbility _new = new DataAbility(_obj); stats.Add(_new); }
 			ability.Initialize(obj.ability);
 			nodes.Clear();
 			nodes.AddRange(obj.nodes);

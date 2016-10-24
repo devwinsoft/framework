@@ -407,6 +407,10 @@ namespace Devarc
                         case CLASS_TYPE.CLASS:
                             sw.WriteLine("\t\t\t{0}.Initialize(obj.{0});", var_name);
                             break;
+                        case CLASS_TYPE.CLASS_LIST:
+                            sw.WriteLine("\t\t\t{0}.Clear();", var_name);
+                            sw.WriteLine("\t\t\tforeach({1} _obj in {0}) {{ {1} _new = new {1}(_obj); {0}.Add(_new); }}", var_name, type_name);
+                            break;
                         case CLASS_TYPE.VALUE_LIST:
                             sw.WriteLine("\t\t\t{0}.Clear();", var_name);
                             sw.WriteLine("\t\t\t{0}.AddRange(obj.{0});", var_name);
