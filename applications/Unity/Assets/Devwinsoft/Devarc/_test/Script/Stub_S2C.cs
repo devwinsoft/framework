@@ -36,6 +36,10 @@ public class Stub_S2C : IClientStub, S2C.IStub
     {
     }
 
+    public void RMI_S2C_Notify_Chat(HostID remote, int channel, string _msg)
+    {
+        Log.Info(_msg);
+    }
     public void RMI_S2C_Notify_Chat(HostID remote, string _msg)
     {
         Log.Info(_msg);

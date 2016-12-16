@@ -123,9 +123,13 @@ namespace Devarc
 	        int			index = 0;
 	        bool		function_called = false;;
 	        string		tempString;
+	        bool		alreadyRead = false;;
+            bool        inCommentField = false;
+            bool        inDataField = false;
 
-            while (xrd.Read())
+            while (alreadyRead || xrd.Read())
             {
+                alreadyRead = false;
                 if (xrd.NodeType == XmlNodeType.Element)
                 {
                     if ("Worksheet" == xrd.Name)
@@ -170,6 +174,7 @@ namespace Devarc
                     }
                     else if ("Cell" == xrd.Name)
                     {
+                        inDataField = true;
                         // Column 인덱스 업데이트
                         if (xrd.MoveToAttribute("ss:Index"))
                         {
@@ -180,6 +185,10 @@ namespace Devarc
                         {
                             index++;
                         }
+                    }
+                    else if ("Comment" == xrd.Name)
+                    {
+                        inCommentField = true;
                     }
                     else if ("Data" == xrd.Name)
                     {
@@ -234,6 +243,18 @@ namespace Devarc
                             temp_table.SetData(index - 1, xrd.Value);
                         }
                     }
+                    else if ("ss:Data" == xrd.Name)
+                    {
+                        if (inCommentField == false && inDataField)
+                        {
+                            alreadyRead = true;
+                            xrd.Read();
+                            if (xrd.NodeType != XmlNodeType.EndElement)
+                            {
+                                throw new Exception(string.Format("Not supported tag is found! (sheet:\"{0}\" tag:\"{1}\" line:{2})", m_SheetName, xrd.Name, line_count));
+                            }
+                        }
+                    }
                 }
                 else if (xrd.NodeType == XmlNodeType.EndElement)
                 {
@@ -267,6 +288,14 @@ namespace Devarc
                         {
                             _CallFunction_Line(m_SheetName, temp_table);
                         }
+                    }
+                    else if ("Comment" == xrd.Name)
+                    {
+                        inCommentField = false;
+                    }
+                    else if ("Cell" == xrd.Name)
+                    {
+                        inDataField = false;
                     }
                 }
             }

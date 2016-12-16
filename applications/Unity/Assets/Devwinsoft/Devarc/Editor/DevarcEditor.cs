@@ -75,6 +75,7 @@ public class DevarcEditor : EditorWindow
         {
             return;
         }
+        EditorUtility.SetDirty(buildConfigData);
 
         {
             GUI.backgroundColor = Color.cyan;
@@ -131,7 +132,6 @@ public class DevarcEditor : EditorWindow
                             builderData.BuildFromData(buildConfigData.inObjTables[i].name, buildConfigData.inObjTables[i].text, tempDir);
                         }
                     }
-                    EditorUtility.SetDirty(buildConfigData);
                     AssetDatabase.SaveAssets();
                     AssetDatabase.Refresh(ImportAssetOptions.Default);
                     EditorUtility.DisplayDialog("Compile Tables", "Build Completed.", "Success");
@@ -184,7 +184,6 @@ public class DevarcEditor : EditorWindow
                     DataManager.Load_TestSchema_XmlData(asset.text);
                 }
                 DataManager.Save_TestSchema_JsonFile(Application.dataPath + @"/Devwinsoft/Devarc/_test/TestSchema.json");
-                EditorUtility.SetDirty(buildConfigData);
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh(ImportAssetOptions.Default);
                 EditorUtility.DisplayDialog("Make Json Files", "Build Completed.", "Success");
@@ -222,7 +221,6 @@ public class DevarcEditor : EditorWindow
                         continue;
                     builderNet.BuildFromAssem(protocolAssem, tempDir);
                 }
-                EditorUtility.SetDirty(buildConfigData);
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh(ImportAssetOptions.Default);
                 EditorUtility.DisplayDialog("Compile Protocols", "Build Completed.", "Success");
