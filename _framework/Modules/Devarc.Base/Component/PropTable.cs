@@ -38,7 +38,8 @@ namespace Devarc
         INT64,
         HOST_ID,
         FLOAT,
-        CSTRING,
+        LSTRING, // localizing
+        CSTRING, // encrypt
         STRING,
         ENUM,
         CLASS,
@@ -174,6 +175,7 @@ namespace Devarc
                 switch(val_type)
                 {
                     case VAR_TYPE.ENUM:
+                    case VAR_TYPE.LSTRING:
                     case VAR_TYPE.CSTRING:
                     case VAR_TYPE.STRING:
                         sb.Append("\"");
@@ -255,6 +257,10 @@ namespace Devarc
                     else if (var_type == "float")
                     {
                         return VAR_TYPE.FLOAT;
+                    }
+                    else if (var_type == "lstr" || var_type == "lstring")
+                    {
+                        return VAR_TYPE.LSTRING;
                     }
                     else if (var_type == "cstr" || var_type == "cstring")
                     {

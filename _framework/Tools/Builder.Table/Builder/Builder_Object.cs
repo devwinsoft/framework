@@ -348,6 +348,10 @@ namespace Devarc
                             else
                                 sw.WriteLine("\t\tpublic {0,-20}{1} = \"\";", "string", var_name);
                             break;
+                        case VAR_TYPE.LSTRING:
+                            sw.WriteLine("\t\tprivate {0,-19}_{1} = null;", "string", var_name);
+                            sw.WriteLine("\t\tpublic {0,-20}{1} {{ get {{ return _{1} != null ? _{1} : FrameworkUtil.GetLString(\"{2}\", \"{1}\", {3}.ToString()); }} set {{ _{1} = value; }} }}", "string", var_name, enum_name, tb.KeyVarName);
+                            break;
                         case VAR_TYPE.ENUM:
                             if (is_list)
                                 sw.WriteLine("\t\tpublic List<{0}> {1} = new List<{0}>();", type_name, var_name);
@@ -402,6 +406,8 @@ namespace Devarc
                     {
                         continue;
                     }
+                    if (tb.GetVarType(i) == VAR_TYPE.LSTRING)
+                        continue;
                     switch (tb.GetClassType(i))
                     {
                         case CLASS_TYPE.CLASS:
@@ -439,7 +445,7 @@ namespace Devarc
                             if (is_list)
                                 sw.WriteLine("\t\t\tobj.GetList<bool>(\"{0}\", {0});", var_name);
                             else
-                                sw.WriteLine("\t\t\t{0,-20}= obj.ToBoolean(\"{0}\");", var_name);
+                                sw.WriteLine("\t\t\t{0,-20}= obj.GetBool(\"{0}\");", var_name);
                             break;
                         case VAR_TYPE.INT16:
                             if (is_list)
@@ -457,7 +463,7 @@ namespace Devarc
                             if (is_list)
                                 sw.WriteLine("\t\t\tobj.GetList<long>(\"{0}\", {0});", var_name);
                             else
-                                sw.WriteLine("\t\t\t{0,-20}= obj.ToInt64(\"{0}\");", var_name);
+                                sw.WriteLine("\t\t\t{0,-20}= obj.GetInt64(\"{0}\");", var_name);
                             break;
                         case VAR_TYPE.HOST_ID:
                             if (is_list)
@@ -477,6 +483,8 @@ namespace Devarc
                                 sw.WriteLine("\t\t\tobj.GetList<string>(\"{0}\", {0});", var_name);
                             else
                                 sw.WriteLine("\t\t\t{0,-20}= obj.GetStr(\"{0}\");", var_name);
+                            break;
+                        case VAR_TYPE.LSTRING:
                             break;
                         case VAR_TYPE.ENUM:
                             if (is_list)
@@ -544,7 +552,7 @@ namespace Devarc
                             break;
                         case VAR_TYPE.INT64:
                             if (is_list)
-                                sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) foreach (JsonData node in obj[\"{0}\"]) {{ {0}.Add(Convert.ToInt64(node.ToString())); }}", var_name);
+                                sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) foreach (JsonData node in obj[\"{0}\"]) {{ {0}.Add(Convert.GetInt64(node.ToString())); }}", var_name);
                             else
                                 sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) long.TryParse(obj[\"{0}\"].ToString(), out {0}); else {0} = default(long);", var_name);
                             break;
@@ -553,6 +561,8 @@ namespace Devarc
                                 sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) foreach (JsonData node in obj[\"{0}\"]) {{ {0}.Add(Convert.ToSingle(node.ToString())); }}", var_name);
                             else
                                 sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) float.TryParse(obj[\"{0}\"].ToString(), out {0}); else {0} = default(float);", var_name);
+                            break;
+                        case VAR_TYPE.LSTRING:
                             break;
                         case VAR_TYPE.CSTRING:
                             if (is_list)
@@ -626,6 +636,9 @@ namespace Devarc
                                 sw.WriteLine(" sb.Append(\"\\\"\"); sb.Append({0}); sb.Append(\"\\\"\");", var_name);
                             }
                             break;
+                        case VAR_TYPE.LSTRING:
+                            sw.WriteLine(" sb.Append(\"\\\"\"); sb.Append({0}); sb.Append(\"\\\"\");", var_name);
+                            break;
                         case VAR_TYPE.CLASS:
                             if (is_list)
                             {
@@ -679,6 +692,8 @@ namespace Devarc
                     {
                         switch (tb.GetVarType(i))
                         {
+                            case VAR_TYPE.LSTRING:
+                                break;
                             case VAR_TYPE.CSTRING:
                                 if (j == 0)
                                 {
@@ -757,6 +772,8 @@ namespace Devarc
                     {
                         switch (tb.GetVarType(i))
                         {
+                            case VAR_TYPE.LSTRING:
+                                break;
                             case VAR_TYPE.CSTRING:
                                 if (j == 0)
                                 {

@@ -40,6 +40,7 @@ namespace Devarc
         FLOAT,
         CSTRING,
         STRING,
+        LSTRING,
         ENUM,
         CLASS,
     }
@@ -259,6 +260,10 @@ namespace Devarc
                     else if (var_type == "cstr" || var_type == "cstring")
                     {
                         return VAR_TYPE.CSTRING;
+                    }
+                    else if (var_type == "lstr" || var_type == "lstring")
+                    {
+                        return VAR_TYPE.LSTRING;
                     }
                     else if (var_type == "str" || var_type == "string")
                     {

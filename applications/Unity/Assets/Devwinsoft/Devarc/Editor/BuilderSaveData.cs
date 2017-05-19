@@ -11,5 +11,6 @@ public class BuilderSaveData : ScriptableObject
     public TextAsset[] inDataTables = new TextAsset[0];
     public string[] outDataTables = new string[0];
 
-    public string[] outProtocols = new string[0];
+    public string workingPath = "";
+    public TextAsset[] localizeTables = new TextAsset[0];
 }
