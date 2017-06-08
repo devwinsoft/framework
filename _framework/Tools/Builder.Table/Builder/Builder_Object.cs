@@ -415,7 +415,7 @@ namespace Devarc
                             break;
                         case CLASS_TYPE.CLASS_LIST:
                             sw.WriteLine("\t\t\t{0}.Clear();", var_name);
-                            sw.WriteLine("\t\t\tforeach({1} _obj in {0}) {{ {1} _new = new {1}(_obj); {0}.Add(_new); }}", var_name, type_name);
+                            sw.WriteLine("\t\t\tforeach({1} _obj in obj.{0}) {{ {1} _new = new {1}(_obj); {0}.Add(_new); }}", var_name, type_name);
                             break;
                         case CLASS_TYPE.VALUE_LIST:
                             sw.WriteLine("\t\t\t{0}.Clear();", var_name);
@@ -540,19 +540,19 @@ namespace Devarc
                         case VAR_TYPE.INT16:
                         case VAR_TYPE.HOST_ID:
                             if (is_list)
-                                sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) foreach (JsonData node in obj[\"{0}\"]) {{ {0}.Add(Convert.GetInt16(node.ToString())); }}", var_name);
+                                sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) foreach (JsonData node in obj[\"{0}\"]) {{ {0}.Add(Convert.ToInt16(node.ToString())); }}", var_name);
                             else
                                 sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) HostID.TryParse(obj[\"{0}\"].ToString(), out {0}); else {0} = default(short);", var_name);
                             break;
                         case VAR_TYPE.INT32:
                             if (is_list)
-                                sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) foreach (JsonData node in obj[\"{0}\"]) {{ {0}.Add(Convert.GetInt32(node.ToString())); }}", var_name);
+                                sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) foreach (JsonData node in obj[\"{0}\"]) {{ {0}.Add(Convert.ToInt32(node.ToString())); }}", var_name);
                             else
                                 sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) int.TryParse(obj[\"{0}\"].ToString(), out {0}); else {0} = default(int);", var_name);
                             break;
                         case VAR_TYPE.INT64:
                             if (is_list)
-                                sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) foreach (JsonData node in obj[\"{0}\"]) {{ {0}.Add(Convert.GetInt64(node.ToString())); }}", var_name);
+                                sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) foreach (JsonData node in obj[\"{0}\"]) {{ {0}.Add(Convert.ToInt64(node.ToString())); }}", var_name);
                             else
                                 sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) long.TryParse(obj[\"{0}\"].ToString(), out {0}); else {0} = default(long);", var_name);
                             break;
