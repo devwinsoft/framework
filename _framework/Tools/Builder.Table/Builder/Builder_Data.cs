@@ -40,9 +40,14 @@ namespace Devarc
 
         public void BuildFromFile(string _input_file, string _out_dir)
         {
-            this.FileName = Path.GetFileNameWithoutExtension(_input_file);
+            string tmpFileName = Path.GetFileNameWithoutExtension(_input_file);
+            int tmpIndex = tmpFileName.IndexOf('@');
+            if (tmpIndex >= 0)
+                this.FileName = tmpFileName.Substring(0, tmpIndex);
+            else
+                this.FileName = tmpFileName;
             this.OutDir = _out_dir; 
-            string file_path = this.OutDir + "\\DataManager_" + this.FileName + ".cs";
+            string file_path = Path.Combine(this.OutDir, "TableManager_" + this.FileName + ".cs");
 
             if (File.Exists(_input_file) == false)
             {
@@ -55,9 +60,14 @@ namespace Devarc
 
         public void BuildFromData(string _file_name, string _input_data, string _out_dir)
         {
-            this.FileName = _file_name;
+            string tmpFileName = Path.GetFileNameWithoutExtension(_file_name);
+            int tmpIndex = tmpFileName.IndexOf('@');
+            if (tmpIndex >= 0)
+                this.FileName = tmpFileName.Substring(0, tmpIndex);
+            else
+                this.FileName = tmpFileName;
             this.OutDir = _out_dir;
-            string file_path = this.OutDir + "\\DataManager_" + this.FileName + ".cs";
+            string file_path = Path.Combine(this.OutDir, "TableManager_" + this.FileName + ".cs");
 
             this._build(_input_data, file_path);
         }
@@ -74,10 +84,8 @@ namespace Devarc
                 sw.WriteLine("using LitJson;");
                 sw.WriteLine("namespace {0}", this.NameSpace);
                 sw.WriteLine("{");
-                sw.WriteLine("\tpublic partial class DataManager");
+                sw.WriteLine("\tpublic partial class TableManager");
                 sw.WriteLine("\t{");
-                sw.WriteLine("\t\tpublic static bool isLoad_{0} {{ get {{ return m_isLoad_{0};}} set {{ m_isLoad_{0} = value; }} }}", this.FileName);
-                sw.WriteLine("\t\tprivate static bool m_isLoad_{0} = false;", this.FileName);
             }
 
             using (XmlReader reader1 = new XmlReader())
@@ -88,6 +96,18 @@ namespace Devarc
 
             using (TextWriter sw = new StreamWriter(file_path, true))
             {
+                sw.WriteLine("\t\tpublic static bool isLoad_{0}", this.FileName);
+                sw.WriteLine("\t\t{");
+                sw.WriteLine("\t\t\tget");
+                sw.WriteLine("\t\t\t{");
+                foreach (ClassInfo info in m_ClassList)
+                {
+                    sw.WriteLine("\t\t\t\tif (T_{0}.LIST.Count > 0) return true;", info.enum_name);
+                }
+                sw.WriteLine("\t\t\t\treturn false;");
+                sw.WriteLine("\t\t\t}");
+                sw.WriteLine("\t\t}");
+
                 // UnLoad
                 sw.WriteLine("\t\tpublic static void UnLoad_{0}()", this.FileName);
                 sw.WriteLine("\t\t{");
@@ -111,7 +131,7 @@ namespace Devarc
                 sw.WriteLine("\t\t}");
 
                 // Load XML
-                sw.WriteLine("\t\tpublic static bool Load_{0}_XmlData(string file_path)", this.FileName);
+                sw.WriteLine("\t\tpublic static bool Load_{0}_XmlData(string _data)", this.FileName);
                 sw.WriteLine("\t\t{");
                 sw.WriteLine("\t\t\tusing (XmlReader reader = new XmlReader())");
                 sw.WriteLine("\t\t\t{");
@@ -119,7 +139,7 @@ namespace Devarc
                 {
                     sw.WriteLine("\t\t\t\treader.RegisterCallback_Line(\"{0}\", Callback_{0}_XML);", info.enum_name);
                 }
-                sw.WriteLine("\t\t\t\treturn reader.ReadData(file_path);");
+                sw.WriteLine("\t\t\t\treturn reader.ReadData(_data);");
                 sw.WriteLine("\t\t\t}");
                 sw.WriteLine("\t\t}");
 
@@ -206,11 +226,11 @@ namespace Devarc
                 container_name = "T_" + enum_name;
             }
             
-            string item_var_name = tb.KeyVarName;
-            string item_type_name = tb.KeyTypeName;
-            int item_key_index = tb.KeyIndex;
+            string key_var_name = tb.KeyVarName;
+            string key_type_name = tb.KeyTypeName;
+            int key_index = tb.KeyIndex;
 
-            if (item_key_index >= 0 && m_ClassNames.Contains(class_name) == false)
+            if (key_index >= 0 && m_ClassNames.Contains(class_name) == false)
             {
                 m_ClassNames.Add(class_name);
                 ClassInfo info = new ClassInfo();
@@ -218,83 +238,84 @@ namespace Devarc
                 info.enum_name = enum_name;
                 info.container_name = container_name;
                 info.is_enum = is_enum;
-                info.key_type = item_type_name;
-                info.key_name = item_var_name;
+                info.key_type = key_type_name;
+                info.key_name = key_var_name;
                 m_ClassList.Add(info);
             }
 
-            if (item_key_index < 0 || item_var_name == "" || item_type_name == "")
+            if (key_index < 0 || key_var_name == "" || key_type_name == "")
             {
                 return;
             }
 
-            string file_path = this.OutDir + "\\DataManager_" + this.FileName + ".cs";
+            string file_path = this.OutDir + "\\TableManager_" + this.FileName + ".cs";
             using (TextWriter sw = new StreamWriter(file_path, true))
             {
                 sw.WriteLine("\t\tstatic void Callback_{0}_XML(string sheet_name, PropTable tb)", enum_name);
                 sw.WriteLine("\t\t{");
-                sw.WriteLine("\t\t\t m_isLoad_{0} = true;", this.FileName);
-                switch (tb.GetVarType(item_key_index))
+                switch (tb.GetVarType(key_index))
                 {
                     case VAR_TYPE.BOOL:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(tb.ToBoolean(\"{1}\")))", container_name, item_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(tb.ToBoolean(\"{1}\")))", container_name, key_var_name);
                         break;
                     case VAR_TYPE.INT16:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(tb.GetInt16(\"{1}\")))", container_name, item_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(tb.GetInt16(\"{1}\")))", container_name, key_var_name);
                         break;
                     case VAR_TYPE.INT32:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(tb.GetInt32(\"{1}\")))", container_name, item_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(tb.GetInt32(\"{1}\")))", container_name, key_var_name);
                         break;
                     case VAR_TYPE.INT64:
                     case VAR_TYPE.HOST_ID:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(tb.ToInt64(\"{1}\")))", container_name, item_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(tb.ToInt64(\"{1}\")))", container_name, key_var_name);
                         break;
                     case VAR_TYPE.FLOAT:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(tb.GetFloat(\"{1}\")))", container_name, item_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(tb.GetFloat(\"{1}\")))", container_name, key_var_name);
                         break;
                     case VAR_TYPE.STRING:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(tb.GetStr(\"{1}\")))", container_name, item_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(tb.GetStr(\"{1}\")))", container_name, key_var_name);
                         break;
                     case VAR_TYPE.ENUM:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(_{1}.Parse(tb.GetStr(\"{2}\"))))", container_name, item_type_name, item_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(_{1}.Parse(tb.GetStr(\"{2}\"))))", container_name, key_type_name, key_var_name);
                         break;
                     default:
                         // error
                         break;
                 }
                 sw.WriteLine("\t\t\t{");
+                sw.WriteLine("\t\t\t\tif (obj == null)");
+                sw.WriteLine("\t\t\t\t{");
+                sw.WriteLine("\t\t\t\t\tLog.Error(\"[TableManager]Cannot create '{0}'. (id={{0}})\", tb.GetStr(\"{1}\"));", enum_name, key_var_name);
+                sw.WriteLine("\t\t\t\t}");
                 sw.WriteLine("\t\t\t\tobj.Initialize(tb);");
                 sw.WriteLine("\t\t\t}");
                 sw.WriteLine("\t\t}");
 
-
                 sw.WriteLine("\t\tstatic void Callback_{0}_JSON(string sheet_name, JsonData node)", enum_name);
                 sw.WriteLine("\t\t{");
                 sw.WriteLine("\t\t\tif (node.Keys.Contains(\"unit_type\") == false) return;");
-                sw.WriteLine("\t\t\tm_isLoad_{0} = true;", this.FileName);
-                switch (tb.GetVarType(item_key_index))
+                switch (tb.GetVarType(key_index))
                 {
                     case VAR_TYPE.BOOL:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc((bool)node[\"{1}\"]))", container_name, item_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc((bool)node[\"{1}\"]))", container_name, key_var_name);
                         break;
                     case VAR_TYPE.INT16:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc((short)node[\"{1}\"]))", container_name, item_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc((short)node[\"{1}\"]))", container_name, key_var_name);
                         break;
                     case VAR_TYPE.INT32:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc((int)node[\"{1}\"]))", container_name, item_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc((int)node[\"{1}\"]))", container_name, key_var_name);
                         break;
                     case VAR_TYPE.INT64:
                     case VAR_TYPE.HOST_ID:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc((long)node[\"{1}\"]))", container_name, item_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc((long)node[\"{1}\"]))", container_name, key_var_name);
                         break;
                     case VAR_TYPE.FLOAT:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc((float)node[\"{1}\"]))", container_name, item_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc((float)node[\"{1}\"]))", container_name, key_var_name);
                         break;
                     case VAR_TYPE.STRING:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(node[\"{1}\"].ToString()))", container_name, item_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(node[\"{1}\"].ToString()))", container_name, key_var_name);
                         break;
                     case VAR_TYPE.ENUM:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(_{1}.Parse(node[\"{2}\"].ToString())))", container_name, item_type_name, item_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(_{1}.Parse(node[\"{2}\"].ToString())))", container_name, key_type_name, key_var_name);
                         break;
                     default:
                         // error
@@ -323,7 +344,7 @@ namespace Devarc
                 return;
             }
 
-            string file_path = this.OutDir + "\\DataManager_" + this.FileName + ".cs";
+            string file_path = this.OutDir + "\\TableManager_" + this.FileName + ".cs";
             using (TextWriter sw = new StreamWriter(file_path, true))
             {
                 if (tb.GetVarType(item_key_index) == VAR_TYPE.STRING)

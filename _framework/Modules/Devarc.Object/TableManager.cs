@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Devarc
 {
-    public partial class DataManager
+    public partial class TableManager
     {
     }
 }

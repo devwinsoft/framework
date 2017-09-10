@@ -4,12 +4,12 @@ set TMPDIR=..\_TMP
 set OUTDIR1=..\..\applications\Unity\Assets\Devwinsoft\Devarc\_GeneratedCode
 set OUTDIR2=..\Modules\Devarc.Object\_GeneratedCode
 
-%CMD%     -obj           %INDIR%\TestSchema.xml %TMPDIR%
-xcopy /Y  %TMPDIR%\*.cs   %OUTDIR1%\
-move      %TMPDIR%\*.cs   %OUTDIR2%\
+%CMD%     -obj           %INDIR%\TestSchema.xml  %TMPDIR%
+xcopy /Y  %TMPDIR%\*.cs  %OUTDIR1%\
+move      %TMPDIR%\*.cs  %OUTDIR2%\
 
-%CMD%     -data          %INDIR%\TestSchema.xml %TMPDIR%
-xcopy /Y  %TMPDIR%\*.cs   %OUTDIR1%\
-move      %TMPDIR%\*.cs   %OUTDIR2%\
+%CMD%     -data          %INDIR%\TestSchema.xml  %TMPDIR%
+xcopy /Y  %TMPDIR%\*.cs  %OUTDIR1%\
+move      %TMPDIR%\*.cs  %OUTDIR2%\
 
 pause

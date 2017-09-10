@@ -30,29 +30,24 @@ namespace Devarc
     {
         INFO,
         DEBUG,
+        EXCEPTION,
         ERROR,
     }
 
     public class Log
     {
         public delegate void CALLBACK_MESSAGE(LOG_TYPE tp, string msg);
-        public delegate void CALLBACK_EXCEPTION(Exception e);
 
         public static Log Instance { get { if (ms_Instance == null) ms_Instance = new Log(); return ms_Instance; } }
         private static Log ms_Instance = null;
 
         private CALLBACK_MESSAGE callback_message = null;
-        private CALLBACK_EXCEPTION callback_exception = null;
 
-        public static void SetCallback(CALLBACK_MESSAGE func)
+        public static void SetMessageCallback(CALLBACK_MESSAGE func)
         {
             Log.Instance.callback_message = func;
         }
 
-        public static void SetCallback(CALLBACK_EXCEPTION func)
-        {
-            Log.Instance.callback_exception = func;
-        }
 
         public static void Info(string msg, params object[] args)
         {
@@ -73,6 +68,12 @@ namespace Devarc
                 else
                     Log.Instance.callback_message(LOG_TYPE.DEBUG, msg);
             }
+            else
+            {
+#if UNITY_EDITOR
+                UnityEngine.Debug.LogFormat(msg, args);
+#endif
+            }
         }
 
         public static void Error(string msg, params object[] args)
@@ -84,16 +85,27 @@ namespace Devarc
                 else
                     Log.Instance.callback_message(LOG_TYPE.ERROR, msg);
             }
+            else
+            {
+#if UNITY_EDITOR
+                UnityEngine.Debug.LogErrorFormat(msg, args);
+#endif
+            }
         }
 
         public static void Exception(Exception e)
         {
-            if (Log.Instance.callback_exception != null)
+            if (Log.Instance.callback_message != null)
             {
-                Log.Instance.callback_exception(e);
+                Log.Instance.callback_message(LOG_TYPE.EXCEPTION, e.StackTrace);
+                Log.Instance.callback_message(LOG_TYPE.EXCEPTION, e.Message);
+            }
+            else
+            {
+#if UNITY_EDITOR
+                UnityEngine.Debug.LogException(e);
+#endif
             }
         }
-
-
     }
 }

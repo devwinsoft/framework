@@ -73,9 +73,14 @@ namespace Devarc
 
         public void BuildFromFile(string _input_file, string _out_dir)
         {
-            this.FileName = Path.GetFileNameWithoutExtension(_input_file);
+            string tmpFileName = Path.GetFileNameWithoutExtension(_input_file);
+            int tmpIndex = tmpFileName.IndexOf('@');
+            if (tmpIndex >= 0)
+                this.FileName = tmpFileName.Substring(0, tmpIndex);
+            else
+                this.FileName = tmpFileName;
             this.OutDir = _out_dir;
-            string file_path = this.OutDir + "\\Class_" + this.FileName + ".cs";
+            string file_path = Path.Combine(this.OutDir, "Class_" + this.FileName + ".cs");
 
             if (File.Exists(_input_file) == false)
             {
@@ -88,9 +93,14 @@ namespace Devarc
 
         public void BuildFromData(string _file_name, string _input_data, string _out_dir)
         {
-            this.FileName = _file_name;
+            string tmpFileName = Path.GetFileNameWithoutExtension(_file_name);
+            int tmpIndex = tmpFileName.IndexOf('@');
+            if (tmpIndex >= 0)
+                this.FileName = tmpFileName.Substring(0, tmpIndex);
+            else
+                this.FileName = tmpFileName;
             this.OutDir = _out_dir;
-            string file_path = this.OutDir + "\\Class_" + this.FileName + ".cs";
+            string file_path = Path.Combine(this.OutDir, "Class_" + this.FileName + ".cs");
 
             this._build(_input_data, file_path);
         }
@@ -267,9 +277,10 @@ namespace Devarc
                 enum_name = sheet_name.Substring(1);
                 container_name = "T_" + enum_name;
             }
-            string file_path = this.OutDir + "\\Class_" + this.FileName + ".cs";
+            string file_path = Path.Combine(this.OutDir, "Class_" + this.FileName + ".cs");
             using (TextWriter sw = new StreamWriter(file_path, true))
             {
+                sw.WriteLine("\t[System.Serializable]");
                 sw.WriteLine("\tpublic class {0} : IBaseObejct", class_name);
                 sw.WriteLine("\t{");
                 if (is_enum)
@@ -365,8 +376,7 @@ namespace Devarc
                             }
                             else
                             {
-                                sw.WriteLine("\t\tprivate {0,-19}_{1} = new {0}();", type_name, var_name);
-                                sw.WriteLine("\t\tpublic {0,-20}{1} {{ get {{ return _{1}; }} set {{ _{1}.Initialize(value); }} }}", type_name, var_name);
+                                sw.WriteLine("\t\tpublic {0,-20}{1} = new {0}();", type_name, var_name);
                             }
                             break;
                         default:
@@ -389,6 +399,54 @@ namespace Devarc
                 sw.WriteLine("\t\t\tInitialize(obj);");
                 sw.WriteLine("\t\t}");
 
+                sw.WriteLine("\t\tpublic bool IsDefault", class_name);
+                sw.WriteLine("\t\t{");
+                sw.WriteLine("\t\t\tget");
+                sw.WriteLine("\t\t\t{");
+                for (int i = 0; i < tb.Length; i++)
+                {
+                    string type_name = tb.GetTypeName(i);
+                    string var_name = tb.GetVarName(i);
+                    if (var_name == "" || type_name == "" || var_name.Contains('/'))
+                    {
+                        continue;
+                    }
+                    if (tb.GetVarType(i) == VAR_TYPE.LSTRING)
+                        continue;
+                    switch (tb.GetClassType(i))
+                    {
+                        case CLASS_TYPE.CLASS:
+                            sw.WriteLine("\t\t\t\tif ({0}.IsDefault == false) return false;", var_name);
+                            break;
+                        case CLASS_TYPE.CLASS_LIST:
+                        case CLASS_TYPE.VALUE_LIST:
+                            sw.WriteLine("\t\t\t\tif ({0}.Count > 0) return false;", var_name);
+                            break;
+                        default:
+                            switch(tb.GetVarType(i))
+                            {
+                                case VAR_TYPE.CSTRING:
+                                case VAR_TYPE.LSTRING:
+                                    break;
+                                case VAR_TYPE.BOOL:
+                                    sw.WriteLine("\t\t\t\tif ({0}) return false;", var_name);
+                                    break;
+                                case VAR_TYPE.STRING:
+                                    sw.WriteLine("\t\t\t\tif (string.IsNullOrEmpty({0}) == false) return false;", var_name);
+                                    break;
+                                case VAR_TYPE.ENUM:
+                                    sw.WriteLine("\t\t\t\tif ((int){0} != 0) return false;", var_name);
+                                    break;
+                                default:
+                                    sw.WriteLine("\t\t\t\tif ({0} != 0) return false;", var_name);
+                                    break;
+                            }
+                            break;
+                    }
+                }
+                sw.WriteLine("\t\t\t\treturn true;");
+                sw.WriteLine("\t\t\t}");
+                sw.WriteLine("\t\t}");
 
                 sw.WriteLine("\t\tpublic void Initialize(IBaseObejct from)");
                 sw.WriteLine("\t\t{");
@@ -507,7 +565,7 @@ namespace Devarc
                             }
                             else
                             {
-                                sw.WriteLine("\t\t\t_{0}.Initialize(obj.GetTable(\"{0}\"));", var_name);
+                                sw.WriteLine("\t\t\t{0}.Initialize(obj.GetTable(\"{0}\"));", var_name);
                             }
                             break;
                         default:
@@ -589,7 +647,7 @@ namespace Devarc
                             }
                             else
                             {
-                                sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) _{0}.Initialize(obj[\"{0}\"]);", var_name);
+                                sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) {0}.Initialize(obj[\"{0}\"]);", var_name);
                             }
                             break;
                         default:
@@ -677,6 +735,10 @@ namespace Devarc
                 //
                 sw.WriteLine("\t\tpublic string ToJson()");
                 sw.WriteLine("\t\t{");
+                if (is_enum == false)
+                {
+                    sw.WriteLine("\t\t    if (IsDefault) { return \"{}\"; }");
+                }
                 sw.WriteLine("\t\t    StringBuilder sb = new StringBuilder();");
                 for (int i = 0, j = 0; i < tb.Length; i++)
                 {
@@ -736,7 +798,7 @@ namespace Devarc
                                     sw.Write("\t\t    sb.Append(\"{\");");
                                     sw.Write(" sb.Append(\"\\\"{0}\\\":\");", var_name);
                                     sw.Write(" sb.Append(\"[\");");
-                                    sw.Write(" for (int i = 0; i < {0}.Count; i++) {{ sb.Append({0}[i].ToJson()); }}", var_name, type_name);
+                                    sw.Write(" for (int i = 0; i < {0}.Count; i++) {{ if (i > 0) sb.Append(\",\"); sb.Append({0}[i].ToJson()); }}", var_name, type_name);
                                     sw.WriteLine(" sb.Append(\"]\");");
                                 }
                                 else
@@ -744,7 +806,7 @@ namespace Devarc
                                     sw.Write("\t\t\tif ({0}.Count > 0) {{ sb.Append(\",\");", var_name, type_name);
                                     sw.Write(" sb.Append(\"\\\"{0}\\\":\");", var_name);
                                     sw.Write(" sb.Append(\"[\");");
-                                    sw.Write(" for (int i = 0; i < {0}.Count; i++) {{ sb.Append({0}[i].ToJson()); }}", var_name, type_name);
+                                    sw.Write(" for (int i = 0; i < {0}.Count; i++) {{ if (i > 0) sb.Append(\",\"); sb.Append({0}[i].ToJson()); }}", var_name, type_name);
                                     sw.WriteLine(" sb.Append(\"]\"); }");
                                 }
                                 break;

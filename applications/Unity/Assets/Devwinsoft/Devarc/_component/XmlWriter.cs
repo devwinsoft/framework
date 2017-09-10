@@ -65,11 +65,11 @@ namespace Devarc
             XmlAttribute attr_col = m_XmlDoc.CreateAttribute("ss:ExpandedColumnCount", "urn:schemas-microsoft-com:office:spreadsheet");
             XmlAttribute attr_row = m_XmlDoc.CreateAttribute("ss:ExpandedRowCount", "urn:schemas-microsoft-com:office:spreadsheet");
             attr_col.Value = tb.Length.ToString();
-            attr_row.Value = (cnt + (int)META.DATA_FIELD).ToString();
+            attr_row.Value = (cnt + (int)ROW_TYPE.DATA_FIELD).ToString();
             table.Attributes.Append(attr_col);
             table.Attributes.Append(attr_row);
 
-            for (int line = 0; line < (int)META.DATA_FIELD - 1; line++)
+            for (int line = 0; line < (int)ROW_TYPE.DATA_FIELD - 1; line++)
             {
                 XmlNode row = m_XmlDoc.CreateNode("element", "Row", "urn:schemas-microsoft-com:office:spreadsheet");
                 table.AppendChild(row);
@@ -83,18 +83,18 @@ namespace Devarc
                     data_type.Value = "String";
                     data.Attributes.Append(data_type);
 
-                    switch ((META)(line+1))
+                    switch ((ROW_TYPE)(line+1))
                     {
-                        case META.VAR_NAME:
+                        case ROW_TYPE.VAR_NAME:
                             data.InnerText = tb.GetVarName(i);
                             break;
-                        case META.TYPE_NAME:
+                        case ROW_TYPE.TYPE_NAME:
                             data.InnerText = tb.GetTypeName(i);
                             break;
-                        case META.CLASS_TYPE:
+                        case ROW_TYPE.CLASS_TYPE:
                             data.InnerText = tb.GetClassType(i).ToString();
                             break;
-                        case META.IS_DATA_KEY:
+                        case ROW_TYPE.KEY_TYPE:
                             data.InnerText = (tb.GetKeyType(i)).ToString();
                             break;
                         default:

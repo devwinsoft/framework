@@ -38,8 +38,9 @@ namespace Devarc
                 obj = msg.ReadByte() != 0 ? true : false;
                 return true;
             }
-            catch(Exception)
+            catch(Exception ex)
             {
+                Log.Exception(ex);
                 return false;
             }
         }
@@ -50,8 +51,9 @@ namespace Devarc
                 obj = msg.ReadByte();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.Exception(ex);
                 return false;
             }
         }
@@ -62,8 +64,9 @@ namespace Devarc
                 obj = msg.ReadInt16();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.Exception(ex);
                 return false;
             }
         }
@@ -74,8 +77,9 @@ namespace Devarc
                 obj = msg.ReadInt32();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.Exception(ex);
                 return false;
             }
         }
@@ -86,8 +90,9 @@ namespace Devarc
                 obj = msg.ReadInt64();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.Exception(ex);
                 return false;
             }
         }
@@ -98,8 +103,9 @@ namespace Devarc
                 obj = msg.ReadInt16();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.Exception(ex);
                 return false;
             }
         }
@@ -110,8 +116,9 @@ namespace Devarc
                 obj = msg.ReadFloat();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.Exception(ex);
                 return false;
             }
         }
@@ -122,8 +129,9 @@ namespace Devarc
                 obj = msg.ReadString();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.Exception(ex);
                 return false;
             }
         }
@@ -140,8 +148,9 @@ namespace Devarc
                 }
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.Exception(ex);
                 obj = null;
                 return false;
             }
@@ -154,8 +163,9 @@ namespace Devarc
                 obj = msg.ReadBytes(cnt);
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.Exception(ex);
                 obj = null;
                 return false;
             }
@@ -172,8 +182,9 @@ namespace Devarc
                 }
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.Exception(ex);
                 obj = null;
                 return false;
             }
@@ -190,8 +201,9 @@ namespace Devarc
                 }
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.Exception(ex);
                 obj = null;
                 return false;
             }
@@ -208,8 +220,9 @@ namespace Devarc
                 }
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.Exception(ex);
                 obj = null;
                 return false;
             }
@@ -226,8 +239,9 @@ namespace Devarc
                 }
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.Exception(ex);
                 obj = null;
                 return false;
             }
@@ -244,8 +258,9 @@ namespace Devarc
                 }
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.Exception(ex);
                 obj = null;
                 return false;
             }
@@ -262,8 +277,9 @@ namespace Devarc
                 }
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.Exception(ex);
                 obj = null;
                 return false;
             }
@@ -274,16 +290,33 @@ namespace Devarc
             try
             {
                 int cnt = msg.ReadInt16();
-                if (list == null)
-                    list = new List<int>();
                 for (int i = 0; i < cnt; i++)
                 {
                     list.Add(msg.ReadInt32());
                 }
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.Exception(ex);
+                return false;
+            }
+        }
+
+        public static bool Read(NetBuffer msg, List<float> list)
+        {
+            try
+            {
+                int cnt = msg.ReadInt16();
+                for (int i = 0; i < cnt; i++)
+                {
+                    list.Add(msg.ReadFloat());
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Exception(ex);
                 return false;
             }
         }
@@ -293,16 +326,15 @@ namespace Devarc
             try
             {
                 int cnt = msg.ReadInt16();
-                if (list == null)
-                    list = new List<string>();
                 for (int i = 0; i < cnt; i++)
                 {
                     list.Add(msg.ReadString());
                 }
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.Exception(ex);
                 return false;
             }
         }

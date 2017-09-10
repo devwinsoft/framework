@@ -45,7 +45,7 @@ public class SceneTest : MonoBehaviour
 
     void Start()
     {
-        Log.SetCallback(callback_Message);
+        Log.SetMessageCallback(callback_Message);
         server.InitStub(this.stubC2S);
         client.InitStub(this.stubS2C);
     }

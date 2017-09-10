@@ -30,15 +30,6 @@ namespace Devarc
 {
     public delegate void CallbackXmlReader(string sheet_name, PropTable tb);
 
-    enum META
-    {
-        VAR_NAME = 1,
-        TYPE_NAME,
-        CLASS_TYPE, // value, class, list
-        IS_DATA_KEY,
-        DATA_FIELD,
-    }
-
     public class XmlReader : IDisposable
     {
         public XmlReader()
@@ -130,7 +121,12 @@ namespace Devarc
                 {
                     if ("Worksheet" == xrd.Name)
                     {
-                        m_SheetName = xrd.GetAttribute("ss:Name");
+                        string tmpSheetName = xrd.GetAttribute("ss:Name");
+                        int tmpIndex = tmpSheetName.IndexOf('@');
+                        if (tmpIndex >= 0)
+                            m_SheetName = tmpSheetName.Substring(0, tmpIndex);
+                        else
+                            m_SheetName = tmpSheetName;
                     }
                     if ("Table" == xrd.Name)
                     {
@@ -153,7 +149,7 @@ namespace Devarc
                             line_count++;
                         }
 
-                        if (line_count >= (int)META.DATA_FIELD)
+                        if (line_count >= (int)ROW_TYPE.DATA_FIELD)
                         {
                             if (function_called == false)
                             {
@@ -186,15 +182,15 @@ namespace Devarc
                         // Data 다음에는 무조건 Text 데이타가 오는 것으로 간주.
                         xrd.Read();
 
-                        if (line_count == (int)META.VAR_NAME)
+                        if (line_count == (int)ROW_TYPE.VAR_NAME)
                         {
                             temp_table.initVarName(index - 1, xrd.Value);
                         }
-                        else if (line_count == (int)META.TYPE_NAME)
+                        else if (line_count == (int)ROW_TYPE.TYPE_NAME)
                         {
                             temp_table.initVarType(index - 1, xrd.Value);
                         }
-                        else if (line_count == (int)META.CLASS_TYPE)
+                        else if (line_count == (int)ROW_TYPE.CLASS_TYPE)
                         {
                             string _value = xrd.Value;
                             if (string.IsNullOrEmpty(_value))
@@ -218,7 +214,7 @@ namespace Devarc
                                 temp_table.initClassType(index - 1, CLASS_TYPE.VALUE);
                             }
                         }
-                        else if (line_count == (int)META.IS_DATA_KEY)
+                        else if (line_count == (int)ROW_TYPE.KEY_TYPE)
                         {
                             if (xrd.Value != null && xrd.Value != "" && xrd.Value != "0" && string.Compare(xrd.Value.ToLower(), "false") != 0)
                             {
@@ -263,7 +259,7 @@ namespace Devarc
                     }
                     else if ("Row" == xrd.Name)
                     {
-                        if (line_count >= (int)META.DATA_FIELD)
+                        if (line_count >= (int)ROW_TYPE.DATA_FIELD)
                         {
                             _CallFunction_Line(m_SheetName, temp_table);
                         }

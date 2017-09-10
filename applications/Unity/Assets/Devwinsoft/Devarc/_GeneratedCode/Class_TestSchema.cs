@@ -5,14 +5,14 @@ using System.Collections.Generic;
 using LitJson;
 namespace Devarc
 {
+	[System.Serializable]
 	public class DataCharacter : IBaseObejct
 	{
 		public UNIT                unit_type;
 		public string              name = "";
 		public List<UNIT> items = new List<UNIT>();
 		public List<DataAbility> stats = new List<DataAbility>();
-		private DataAbility        _ability = new DataAbility();
-		public DataAbility         ability { get { return _ability; } set { _ability.Initialize(value); } }
+		public DataAbility         ability = new DataAbility();
 		public List<string> nodes = new List<string>();
 
 		public DataCharacter()
@@ -25,6 +25,19 @@ namespace Devarc
 		public DataCharacter(PropTable obj)
 		{
 			Initialize(obj);
+		}
+		public bool IsDefault
+		{
+			get
+			{
+				if ((int)unit_type != 0) return false;
+				if (string.IsNullOrEmpty(name) == false) return false;
+				if (items.Count > 0) return false;
+				if (stats.Count > 0) return false;
+				if (ability.IsDefault == false) return false;
+				if (nodes.Count > 0) return false;
+				return true;
+			}
 		}
 		public void Initialize(IBaseObejct from)
 		{
@@ -39,7 +52,7 @@ namespace Devarc
 			items.Clear();
 			items.AddRange(obj.items);
 			stats.Clear();
-			foreach(DataAbility _obj in stats) { DataAbility _new = new DataAbility(_obj); stats.Add(_new); }
+			foreach(DataAbility _obj in obj.stats) { DataAbility _new = new DataAbility(_obj); stats.Add(_new); }
 			ability.Initialize(obj.ability);
 			nodes.Clear();
 			nodes.AddRange(obj.nodes);
@@ -54,7 +67,7 @@ namespace Devarc
 			stats.Clear();
 			JsonData __stats = JsonMapper.ToObject(obj.GetStr("stats"));
 			if (__stats != null && __stats.IsArray) { foreach (var node in __stats as IList) { DataAbility _v = new DataAbility(); _v.Initialize(node as JsonData); stats.Add(_v); } }
-			_ability.Initialize(obj.GetTable("ability"));
+			ability.Initialize(obj.GetTable("ability"));
 			obj.GetList<string>("nodes", nodes);
 		}
 		public void Initialize(JsonData obj)
@@ -63,8 +76,8 @@ namespace Devarc
 			if (obj.Keys.Contains("name")) name = obj["name"].ToString(); else name = default(string);
 			if (obj.Keys.Contains("items")) foreach (JsonData node in obj["items"]) { items.Add(_UNIT.Parse(node.ToString())); }
 			if (obj.Keys.Contains("stats")) foreach (JsonData node in obj["stats"]) { DataAbility _v = new DataAbility(); _v.Initialize(node); stats.Add(_v); }
-			if (obj.Keys.Contains("ability")) _ability.Initialize(obj["ability"]);
-			if (obj.Keys.Contains("nodes")) foreach (JsonData node in obj["nodes"]) { nodes.Add(DES.Decrypt(node.ToString())); }
+			if (obj.Keys.Contains("ability")) ability.Initialize(obj["ability"]);
+			if (obj.Keys.Contains("nodes")) foreach (JsonData node in obj["nodes"]) { nodes.Add(node.ToString()); }
 		}
 		public override string ToString()
 		{
@@ -80,13 +93,14 @@ namespace Devarc
 		}
 		public string ToJson()
 		{
+		    if (IsDefault) { return "{}"; }
 		    StringBuilder sb = new StringBuilder();
 		    sb.Append("{"); sb.Append("\"unit_type\":"); sb.Append("\""); sb.Append(unit_type.ToString()); sb.Append("\"");
 			if (string.IsNullOrEmpty(name) == false) { sb.Append(","); sb.Append("\"name\":"); sb.Append("\""); sb.Append(name); sb.Append("\""); }
 			if (items.Count > 0) { sb.Append(","); sb.Append("\"items\":"); sb.Append("["); for (int i = 0; i < items.Count; i++) { UNIT _obj = items[i]; if (i > 0) sb.Append(","); sb.Append(string.Format("\"{0}\"", _obj)); } sb.Append("]"); }
-			if (stats.Count > 0) { sb.Append(","); sb.Append("\"stats\":"); sb.Append("["); for (int i = 0; i < stats.Count; i++) { sb.Append(stats[i].ToJson()); } sb.Append("]"); }
+			if (stats.Count > 0) { sb.Append(","); sb.Append("\"stats\":"); sb.Append("["); for (int i = 0; i < stats.Count; i++) { if (i > 0) sb.Append(","); sb.Append(stats[i].ToJson()); } sb.Append("]"); }
 		    sb.Append(","); sb.Append("\"ability\":"); sb.Append(ability != null ? ability.ToJson() : "{}");
-			if (nodes.Count > 0) { sb.Append(","); sb.Append("\"nodes\":"); sb.Append("["); for (int i = 0; i < nodes.Count; i++) { string _obj = nodes[i]; if (i > 0) sb.Append(","); sb.Append("\""); sb.Append(DES.Encrypt(_obj)); sb.Append("\""); } sb.Append("]"); }
+			if (nodes.Count > 0) { sb.Append(","); sb.Append("\"nodes\":"); sb.Append("["); for (int i = 0; i < nodes.Count; i++) { string _obj = nodes[i]; if (i > 0) sb.Append(","); sb.Append("\""); sb.Append(_obj); sb.Append("\""); } sb.Append("]"); }
 		    sb.Append("}");
 		    return sb.ToString();
 		}
@@ -98,7 +112,7 @@ namespace Devarc
 			obj.Attach_List<UNIT>("items", "UNIT", VAR_TYPE.ENUM, items);
 			obj.Attach_List<DataAbility>("stats", "DataAbility", VAR_TYPE.CLASS, stats);
 			obj.Attach_Class("ability", "DataAbility", ability.ToTable());
-			obj.Attach_List<string>("nodes", "string", VAR_TYPE.CSTRING, nodes);
+			obj.Attach_List<string>("nodes", "string", VAR_TYPE.STRING, nodes);
 			return obj;
 		}
 	}
@@ -112,6 +126,7 @@ namespace Devarc
 			success = success ? Marshaler.Read(msg, obj.items) : false;
 			success = success ? Marshaler.Read(msg, obj.stats) : false;
 			success = success ? Marshaler.Read(msg, obj.ability) : false;
+			success = success ? Marshaler.Read(msg, obj.nodes) : false;
 	        return success;
 	    }
 	    public static void Write(NetBuffer msg, DataCharacter obj)
@@ -135,6 +150,7 @@ namespace Devarc
 				success = success ? Marshaler.Read(msg, obj.items) : false;
 				success = success ? Marshaler.Read(msg, obj.stats) : false;
 				success = success ? Marshaler.Read(msg, obj.ability) : false;
+				success = success ? Marshaler.Read(msg, obj.nodes) : false;
 				list.Add(obj);
 	        }
 	        return success;
@@ -171,6 +187,7 @@ namespace Devarc
 	    {
 	    }
 	}
+	[System.Serializable]
 	public class DataAbility : IBaseObejct
 	{
 		public Int32               str;
@@ -187,6 +204,16 @@ namespace Devarc
 		public DataAbility(PropTable obj)
 		{
 			Initialize(obj);
+		}
+		public bool IsDefault
+		{
+			get
+			{
+				if (str != 0) return false;
+				if (dex != 0) return false;
+				if (vit != 0) return false;
+				return true;
+			}
 		}
 		public void Initialize(IBaseObejct from)
 		{
@@ -223,6 +250,7 @@ namespace Devarc
 		}
 		public string ToJson()
 		{
+		    if (IsDefault) { return "{}"; }
 		    StringBuilder sb = new StringBuilder();
 		    sb.Append("{"); sb.Append("\"str\":"); sb.Append("\""); sb.Append(str.ToString()); sb.Append("\"");
 			if (default(int) != dex) { sb.Append(","); sb.Append("\"dex\":"); sb.Append("\""); sb.Append(dex.ToString()); sb.Append("\""); }
@@ -280,11 +308,11 @@ namespace Devarc
 	        }
 	    }
 	}
+	[System.Serializable]
 	public class DataPlayer : IBaseObejct
 	{
 		public HostID              id;
-		private VECTOR3            _pos = new VECTOR3();
-		public VECTOR3             pos { get { return _pos; } set { _pos.Initialize(value); } }
+		public VECTOR3             pos = new VECTOR3();
 
 		public DataPlayer()
 		{
@@ -296,6 +324,15 @@ namespace Devarc
 		public DataPlayer(PropTable obj)
 		{
 			Initialize(obj);
+		}
+		public bool IsDefault
+		{
+			get
+			{
+				if (id != 0) return false;
+				if (pos.IsDefault == false) return false;
+				return true;
+			}
 		}
 		public void Initialize(IBaseObejct from)
 		{
@@ -311,12 +348,12 @@ namespace Devarc
 		public void Initialize(PropTable obj)
 		{
 			id                  = (HostID)obj.GetInt16("id");
-			_pos.Initialize(obj.GetTable("pos"));
+			pos.Initialize(obj.GetTable("pos"));
 		}
 		public void Initialize(JsonData obj)
 		{
 			if (obj.Keys.Contains("id")) HostID.TryParse(obj["id"].ToString(), out id); else id = default(short);
-			if (obj.Keys.Contains("pos")) _pos.Initialize(obj["pos"]);
+			if (obj.Keys.Contains("pos")) pos.Initialize(obj["pos"]);
 		}
 		public override string ToString()
 		{
@@ -328,6 +365,7 @@ namespace Devarc
 		}
 		public string ToJson()
 		{
+		    if (IsDefault) { return "{}"; }
 		    StringBuilder sb = new StringBuilder();
 		    sb.Append("{"); sb.Append("\"id\":"); sb.Append("\""); sb.Append(id.ToString()); sb.Append("\"");
 		    sb.Append(","); sb.Append("\"pos\":"); sb.Append(pos != null ? pos.ToJson() : "{}");
@@ -379,6 +417,7 @@ namespace Devarc
 	        }
 	    }
 	}
+	[System.Serializable]
 	public class VECTOR3 : IBaseObejct
 	{
 		public float               x;
@@ -395,6 +434,16 @@ namespace Devarc
 		public VECTOR3(PropTable obj)
 		{
 			Initialize(obj);
+		}
+		public bool IsDefault
+		{
+			get
+			{
+				if (x != 0) return false;
+				if (y != 0) return false;
+				if (z != 0) return false;
+				return true;
+			}
 		}
 		public void Initialize(IBaseObejct from)
 		{
@@ -431,6 +480,7 @@ namespace Devarc
 		}
 		public string ToJson()
 		{
+		    if (IsDefault) { return "{}"; }
 		    StringBuilder sb = new StringBuilder();
 		    sb.Append("{"); sb.Append("\"x\":"); sb.Append("\""); sb.Append(x.ToString()); sb.Append("\"");
 			if (default(float) != y) { sb.Append(","); sb.Append("\"y\":"); sb.Append("\""); sb.Append(y.ToString()); sb.Append("\""); }
@@ -488,6 +538,7 @@ namespace Devarc
 	        }
 	    }
 	}
+	[System.Serializable]
 	public class _UNIT : IBaseObejct
 	{
 		public static UNIT Parse(string name)
@@ -545,6 +596,14 @@ namespace Devarc
 		public _UNIT(PropTable obj)
 		{
 			Initialize(obj);
+		}
+		public bool IsDefault
+		{
+			get
+			{
+				if ((int)ID != 0) return false;
+				return true;
+			}
 		}
 		public void Initialize(IBaseObejct from)
 		{
@@ -637,6 +696,7 @@ namespace Devarc
 	    {
 	    }
 	}
+	[System.Serializable]
 	public class _DIRECTION : IBaseObejct
 	{
 		public static DIRECTION Parse(string name)
@@ -676,6 +736,14 @@ namespace Devarc
 		public _DIRECTION(PropTable obj)
 		{
 			Initialize(obj);
+		}
+		public bool IsDefault
+		{
+			get
+			{
+				if ((int)ID != 0) return false;
+				return true;
+			}
 		}
 		public void Initialize(IBaseObejct from)
 		{

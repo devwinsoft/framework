@@ -137,6 +137,16 @@ namespace Devarc
                 msg.Write(obj);
             }
         }
+
+        public static void Write(NetBuffer msg, List<float> list)
+        {
+            msg.Write((float)list.Count);
+            foreach (float obj in list)
+            {
+                msg.Write(obj);
+            }
+        }
+
         public static void Write(NetBuffer msg, List<string> list)
         {
             msg.Write((Int16)list.Count);

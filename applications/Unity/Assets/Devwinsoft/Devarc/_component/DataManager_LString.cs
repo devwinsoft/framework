@@ -3,7 +3,7 @@ using System.IO;
 using LitJson;
 namespace Devarc
 {
-	public partial class DataManager
+	public partial class TableManager
 	{
 		public static bool isLoad_LString { get { return m_isLoad_LString;} set { m_isLoad_LString = value; } }
 		private static bool m_isLoad_LString = false;

@@ -3,6 +3,11 @@ using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.IO;
+using NPOI.SS.UserModel;
+using NPOI.HSSF.UserModel;
+using NPOI.XSSF.UserModel;
+using System.Text;
 using Devarc;
 
 
@@ -31,8 +36,6 @@ public class DevarcEditor : EditorWindow
     
     const string buildConfigPath = "Assets/Devwinsoft/Devarc/BuildSettings.asset";
     BuilderSaveData buildConfigData = null;
-    //Assembly protocolAssem = null;
-    string protocolNames = "";
 
     Builder_Object builderObject = new Builder_Object();
     Builder_Data builderData = new Builder_Data();
@@ -55,6 +58,15 @@ public class DevarcEditor : EditorWindow
     bool showStrConfig = true;
     bool showStrInput = false;
     List<TextAsset> backupStrInput = new List<TextAsset>();
+
+    string _get_table_name(string _raw_name)
+    {
+        int tmpIndex = _raw_name.IndexOf('@');
+        if (tmpIndex >= 0)
+            return _raw_name.Substring(0, tmpIndex);
+        else
+            return _raw_name;
+    }
 
     void OnEnable()
     {
@@ -91,30 +103,6 @@ public class DevarcEditor : EditorWindow
             }
         }
 
-        //if (protocolAssem == null)
-        //{
-        //    Assembly[] _assems = System.AppDomain.CurrentDomain.GetAssemblies();
-        //    for (int i = 0; i < _assems.Length && protocolAssem == null; i++)
-        //    {
-        //        if (_assems[i].FullName.Contains("Assembly")
-        //            && _assems[i].FullName.Contains("Editor"))
-        //        {
-        //            protocolAssem = _assems[i];
-        //            break;
-        //        }
-        //    }
-        //    if (protocolAssem != null)
-        //    {
-        //        System.Text.StringBuilder sbuilder = new System.Text.StringBuilder();
-        //        foreach (System.Type _type in protocolAssem.GetTypes())
-        //        {
-        //            if (builderNet.IsProtocol(_type) == false)
-        //                continue;
-        //            sbuilder.AppendLine(_type.ToString());
-        //        }
-        //        this.protocolNames = sbuilder.ToString();
-        //    }
-        //}
         if (buildConfigData == null)
         {
             return;
@@ -145,8 +133,6 @@ public class DevarcEditor : EditorWindow
                     }
                 }
                 EditorGUI.indentLevel--;
-
-                GUILayout.Space(10f);
 
                 GUI.backgroundColor = Color.white;
                 showObjectInput = EditorGUILayout.Foldout(showObjectInput, "Input Tables");
@@ -217,8 +203,6 @@ public class DevarcEditor : EditorWindow
             }
             EditorGUI.indentLevel--;
 
-            GUILayout.Space(10f);
-
             showDataInput = EditorGUILayout.Foldout(showDataInput, "Input Tables");
             EditorGUI.indentLevel++;
             if (showDataInput)
@@ -236,33 +220,66 @@ public class DevarcEditor : EditorWindow
             EditorGUI.indentLevel--;
         }
         EditorGUI.indentLevel--;
+        if (GUILayout.Button("Make Json Files !!"))
+        {
+            Assembly assem = null;
+            Assembly[] _assems = System.AppDomain.CurrentDomain.GetAssemblies();
+            for (int i = 0; i < _assems.Length; i++)
+            {
+                if (_assems[i].FullName.Contains("Assembly") && _assems[i].FullName.Contains("Editor") == false)
+                {
+                    assem = _assems[i];
+                    break;
+                }
+            }
+            if (assem != null)
+            {
+                System.Type _type = typeof(TableManager);
+                foreach (MethodInfo m in _type.GetMethods())
+                {
+                    if (m.Name.StartsWith("UnLoad"))
+                    {
+                        m.Invoke(null, null);
+                    }
+                }
 
-        //if (GUILayout.Button("Make Json Files !!"))
-        //{
-        //    LoadInfo[] tmpList = new LoadInfo[]
-        //    { new LoadInfo("TestSchema", DataManager.Load_TestSchema_XmlData, DataManager.Save_TestSchema_JsonFile)
-        //    , new LoadInfo("Character", DataManager.Load_Character_XmlData, DataManager.Save_Character_JsonFile)
-        //    , new LoadInfo("Skill", DataManager.Load_Skill_XmlData, DataManager.Save_Skill_JsonFile)
-        //    };
-        //    DataManager.UnLoad_TestSchema();
-        //    foreach (LoadInfo tmp in tmpList)
-        //    {
-        //        foreach (TextAsset asset in buildConfigData.inObjTables)
-        //        {
-        //            if (string.Compare(asset.name.ToLower(), tmp.name.ToLower()) != 0)
-        //            {
-        //                continue;
-        //            }
-        //            tmp.load(asset.text);
-        //            tmp.save(System.IO.Path.Combine(Application.dataPath, string.Format("Bundles/TableJson/{0}.json", asset.name)));
-        //        }
-        //    }
-        //    //DataManager.Save_TestSchema_JsonFile(Application.dataPath + @"/Devwinsoft/Devarc/_test/TestSchema.json");
+                List<string> tmpSaveList = new List<string>();
+                foreach (TextAsset asset in buildConfigData.inObjTables)
+                {
+                    string tmpTableName = _get_table_name(asset.name);
+                    string tmpMethodName = string.Format("Load_{0}_XmlData", tmpTableName);
+                    foreach (MethodInfo m in _type.GetMethods())
+                    {
+                        if (m.Name.Equals(tmpMethodName))
+                        {
+                            m.Invoke(null, new object[] { asset.text });
+                        }
+                    }
+                    if (tmpSaveList.Contains(tmpTableName) == false)
+                        tmpSaveList.Add(tmpTableName);
+                }
+                foreach (string tmpTableName in tmpSaveList)
+                {
+                    for (int i = 0; i < buildConfigData.outDataTables.Length; i++)
+                    {
+                        string subPath = System.IO.Path.Combine(buildConfigData.outDataTables[i], tmpTableName + ".json");
+                        string savePath = System.IO.Path.Combine(Application.dataPath, subPath);
+                        string tmpMethodName = string.Format("Save_{0}_JsonFile", tmpTableName);
+                        foreach (MethodInfo m in _type.GetMethods())
+                        {
+                            if (m.Name.Equals(tmpMethodName))
+                            {
+                                m.Invoke(null, new object[] { savePath });
+                            }
+                        }
+                    }
+                }
+            }
 
-        //    AssetDatabase.SaveAssets();
-        //    AssetDatabase.Refresh(ImportAssetOptions.Default);
-        //    EditorUtility.DisplayDialog("Make Json Files", "Build Completed.", "Success");
-        //}
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh(ImportAssetOptions.Default);
+            EditorUtility.DisplayDialog("Make Json Files", "Build Completed.", "Success");
+        }
 
         GUILayout.Space(20f);
 
@@ -292,9 +309,9 @@ public class DevarcEditor : EditorWindow
 
         if (GUILayout.Button("Build Localized String."))
         {
-            //BuildUtil util = new BuildUtil();
-            //util.BuildLString(buildConfigData.workingPath, buildConfigData.localizeTables);
-            //EditorUtility.DisplayDialog("Build Localized String", "Build Completed.", "Success");
+            BuildUtil util = new BuildUtil();
+            util.BuildLString(buildConfigData.workingPath, buildConfigData.localizeTables);
+            EditorUtility.DisplayDialog("Build Localized String", "Build Completed.", "Success");
         }
 
         GUILayout.EndScrollView();
