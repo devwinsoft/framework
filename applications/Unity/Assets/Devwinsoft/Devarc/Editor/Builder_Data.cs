@@ -102,7 +102,7 @@ namespace Devarc
                 sw.WriteLine("\t\t\t{");
                 foreach (ClassInfo info in m_ClassList)
                 {
-                    sw.WriteLine("\t\t\t\tif (T_{0}.LIST.Count > 0) return true;", info.enum_name);
+                    sw.WriteLine("\t\t\t\tif (T_{0}.MAP.Count > 0) return true;", info.enum_name);
                 }
                 sw.WriteLine("\t\t\t\treturn false;");
                 sw.WriteLine("\t\t\t}");
@@ -113,7 +113,7 @@ namespace Devarc
                 sw.WriteLine("\t\t{");
                 foreach (ClassInfo info in m_ClassList)
                 {
-                    sw.WriteLine("\t\t\t{0}.LIST.Clear();", info.container_name);
+                    sw.WriteLine("\t\t\t{0}.MAP.Clear();", info.container_name);
                 }
                 sw.WriteLine("\t\t}");
 
@@ -167,10 +167,10 @@ namespace Devarc
                     sw.WriteLine("\t\t\t\t{");
                     sw.WriteLine("\t\t\t\t    {0} temp = new {0}();", info.class_name);
                     sw.WriteLine("\t\t\t\t    PropTable tb_header = temp.ToTable();");
-                    sw.WriteLine("\t\t\t\t    System.Xml.XmlNode node = writer.Write_Header(tb_header, {0}.LIST.Count, {1});", info.container_name, info.is_enum.ToString().ToLower());
-                    sw.WriteLine("\t\t\t\t    for (int i = 0; i < {0}.LIST.Count; i++)", info.container_name);
+                    sw.WriteLine("\t\t\t\t    System.Xml.XmlNode node = writer.Write_Header(tb_header, {0}.MAP.Count, {1});", info.container_name, info.is_enum.ToString().ToLower());
+                    sw.WriteLine("\t\t\t\t    for (int i = 0; i < {0}.MAP.Count; i++)", info.container_name);
                     sw.WriteLine("\t\t\t\t    {");
-                    sw.WriteLine("\t\t\t\t        {0} obj = {0}.LIST.ElementAt(i);", info.container_name);
+                    sw.WriteLine("\t\t\t\t        {0} obj = {0}.MAP.ElementAt(i);", info.container_name);
                     sw.WriteLine("\t\t\t\t        PropTable tb = obj.ToTable();");
                     sw.WriteLine("\t\t\t\t        writer.Write_Contents(node, tb);");
                     sw.WriteLine("\t\t\t\t    }");
@@ -192,10 +192,10 @@ namespace Devarc
                         sw.WriteLine("\t\t\tsw.WriteLine(\"\\\"{0}\\\":[\");", info.enum_name);
                     else
                         sw.WriteLine("\t\t\tsw.WriteLine(\",\\\"{0}\\\":[\");", info.enum_name);
-                    sw.WriteLine("\t\t\tfor (int i = 0; i < {0}.LIST.Count; i++)", info.container_name);
+                    sw.WriteLine("\t\t\tfor (int i = 0; i < {0}.MAP.Count; i++)", info.container_name);
                     sw.WriteLine("\t\t\t{");
                     sw.WriteLine("\t\t\t    if (i > 0) sw.WriteLine(\",\");");
-                    sw.WriteLine("\t\t\t    sw.Write({0}.LIST.ElementAt(i).ToJson());", info.container_name);
+                    sw.WriteLine("\t\t\t    sw.Write({0}.MAP.ElementAt(i).ToJson());", info.container_name);
                     sw.WriteLine("\t\t\t}");
                     sw.WriteLine("\t\t\tsw.WriteLine(\"]\");");
                 }
@@ -256,26 +256,26 @@ namespace Devarc
                 switch (tb.GetVarType(key_index))
                 {
                     case VAR_TYPE.BOOL:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(tb.ToBoolean(\"{1}\")))", container_name, key_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.MAP.Alloc(tb.ToBoolean(\"{1}\")))", container_name, key_var_name);
                         break;
                     case VAR_TYPE.INT16:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(tb.GetInt16(\"{1}\")))", container_name, key_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.MAP.Alloc(tb.GetInt16(\"{1}\")))", container_name, key_var_name);
                         break;
                     case VAR_TYPE.INT32:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(tb.GetInt32(\"{1}\")))", container_name, key_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.MAP.Alloc(tb.GetInt32(\"{1}\")))", container_name, key_var_name);
                         break;
                     case VAR_TYPE.INT64:
                     case VAR_TYPE.HOST_ID:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(tb.ToInt64(\"{1}\")))", container_name, key_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.MAP.Alloc(tb.ToInt64(\"{1}\")))", container_name, key_var_name);
                         break;
                     case VAR_TYPE.FLOAT:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(tb.GetFloat(\"{1}\")))", container_name, key_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.MAP.Alloc(tb.GetFloat(\"{1}\")))", container_name, key_var_name);
                         break;
                     case VAR_TYPE.STRING:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(tb.GetStr(\"{1}\")))", container_name, key_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.MAP.Alloc(tb.GetStr(\"{1}\")))", container_name, key_var_name);
                         break;
                     case VAR_TYPE.ENUM:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(_{1}.Parse(tb.GetStr(\"{2}\"))))", container_name, key_type_name, key_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.MAP.Alloc(_{1}.Parse(tb.GetStr(\"{2}\"))))", container_name, key_type_name, key_var_name);
                         break;
                     default:
                         // error
@@ -296,26 +296,26 @@ namespace Devarc
                 switch (tb.GetVarType(key_index))
                 {
                     case VAR_TYPE.BOOL:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc((bool)node[\"{1}\"]))", container_name, key_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.MAP.Alloc((bool)node[\"{1}\"]))", container_name, key_var_name);
                         break;
                     case VAR_TYPE.INT16:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc((short)node[\"{1}\"]))", container_name, key_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.MAP.Alloc((short)node[\"{1}\"]))", container_name, key_var_name);
                         break;
                     case VAR_TYPE.INT32:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc((int)node[\"{1}\"]))", container_name, key_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.MAP.Alloc((int)node[\"{1}\"]))", container_name, key_var_name);
                         break;
                     case VAR_TYPE.INT64:
                     case VAR_TYPE.HOST_ID:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc((long)node[\"{1}\"]))", container_name, key_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.MAP.Alloc((long)node[\"{1}\"]))", container_name, key_var_name);
                         break;
                     case VAR_TYPE.FLOAT:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc((float)node[\"{1}\"]))", container_name, key_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.MAP.Alloc((float)node[\"{1}\"]))", container_name, key_var_name);
                         break;
                     case VAR_TYPE.STRING:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(node[\"{1}\"].ToString()))", container_name, key_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.MAP.Alloc(node[\"{1}\"].ToString()))", container_name, key_var_name);
                         break;
                     case VAR_TYPE.ENUM:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.LIST.Alloc(_{1}.Parse(node[\"{2}\"].ToString())))", container_name, key_type_name, key_var_name);
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.MAP.Alloc(_{1}.Parse(node[\"{2}\"].ToString())))", container_name, key_type_name, key_var_name);
                         break;
                     default:
                         // error
@@ -349,19 +349,19 @@ namespace Devarc
             {
                 if (tb.GetVarType(item_key_index) == VAR_TYPE.STRING)
                 {
-                    sw.WriteLine("\t\t\tusing(T_{0} obj = T_{0}.LIST.Alloc(\"{1}\"))", class_name, tb.GetStr(item_key_index));
+                    sw.WriteLine("\t\t\tusing(T_{0} obj = T_{0}.MAP.Alloc(\"{1}\"))", class_name, tb.GetStr(item_key_index));
                 }
                 else if (tb.GetVarType(item_key_index) == VAR_TYPE.ENUM)
                 {
                     int temp;
                     if (int.TryParse(tb.GetStr(item_key_index), out temp))
-                        sw.WriteLine("\t\t\tusing(T_{0} obj = T_{0}.LIST.Alloc(({1}){2}))", class_name, item_type_name, tb.GetStr(item_key_index));
+                        sw.WriteLine("\t\t\tusing(T_{0} obj = T_{0}.MAP.Alloc(({1}){2}))", class_name, item_type_name, tb.GetStr(item_key_index));
                     else
-                        sw.WriteLine("\t\t\tusing(T_{0} obj = T_{0}.LIST.Alloc({1}.{2}))", class_name, item_type_name, tb.GetStr(item_key_index));
+                        sw.WriteLine("\t\t\tusing(T_{0} obj = T_{0}.MAP.Alloc({1}.{2}))", class_name, item_type_name, tb.GetStr(item_key_index));
                 }
                 else
                 {
-                    sw.WriteLine("\t\t\tusing(T_{0} obj = T_{0}.LIST.Alloc(({1}){2}))", class_name, item_type_name, tb.GetStr(item_key_index));
+                    sw.WriteLine("\t\t\tusing(T_{0} obj = T_{0}.MAP.Alloc(({1}){2}))", class_name, item_type_name, tb.GetStr(item_key_index));
                 }
                 sw.WriteLine("\t\t\t{");
                 for (int i = 0; i < tb.Length; i++)

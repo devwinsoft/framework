@@ -61,8 +61,8 @@ namespace Devarc
 		public PropTable ToTable()
 		{
 			PropTable obj = new PropTable("LString");
-			obj.Attach("Key", "string", CLASS_TYPE.VALUE, true, Key);
-			obj.Attach("Value", "string", CLASS_TYPE.VALUE, false, Value);
+			obj.Attach("Key", "string", CLASS_TYPE.VALUE, KEY_TYPE.MAP, Key);
+			obj.Attach("Value", "string", CLASS_TYPE.VALUE, KEY_TYPE.NONE, Value);
 			return obj;
 		}
 	}
@@ -105,7 +105,7 @@ namespace Devarc
 	}
 	public class T_LString : LString, IContents<string>, IDisposable
 	{
-	    public static Container_C1<T_LString, string> LIST = new Container_C1<T_LString, string>();
+	    public static Container<T_LString, string> MAP = new Container<T_LString, string>();
 	    public string GetKey1()
 	    {
 	        return base.Key;

@@ -65,9 +65,9 @@ namespace TestClient
                 //TableData.Load_ClientObject_JSON(openFileDialog1.FileName + ".json");
 
                 StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < T_DataCharacter.LIST.Count;i++ )
+                for (int i = 0; i < T_DataCharacter.MAP.Count;i++ )
                 {
-                    sb.Append(T_DataCharacter.LIST.ElementAt(i).ToJson().Replace("\n","\\n"));
+                    sb.Append(T_DataCharacter.MAP.ElementAt(i).ToJson().Replace("\n","\\n"));
                     sb.Append("\r\n");
                 }
                 textBox2.Text = sb.ToString();

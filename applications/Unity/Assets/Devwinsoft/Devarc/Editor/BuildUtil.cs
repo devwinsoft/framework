@@ -71,12 +71,12 @@ public class BuildUtil
                             listBuilt.TryGetValue(key, out saveValue);
                         }
                     }
-                    if (T_LString.LIST.Contains1(key))
+                    if (T_LString.MAP.Contains(key))
                     {
                         Debug.Log(string.Format("Duplicated key: {0}", key));
                         continue;
                     }
-                    LString obj = T_LString.LIST.Alloc(key);
+                    LString obj = T_LString.MAP.Alloc(key);
                     obj.Key = key;
                     obj.Value = saveValue;
                 }

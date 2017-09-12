@@ -192,38 +192,11 @@ namespace Devarc
                         }
                         else if (line_count == (int)ROW_TYPE.CLASS_TYPE)
                         {
-                            string _value = xrd.Value;
-                            if (string.IsNullOrEmpty(_value))
-                            {
-                                temp_table.initClassType(index - 1, CLASS_TYPE.VALUE);
-                            }
-                            else if (string.Compare(_value.ToLower(), "class_list") == 0)
-                            {
-                                temp_table.initClassType(index - 1, CLASS_TYPE.CLASS_LIST);
-                            }
-                            else if (string.Compare(_value.ToLower(), "class") == 0 || _value == "1" || _value.ToLower() == "true")
-                            {
-                                temp_table.initClassType(index - 1, CLASS_TYPE.CLASS);
-                            }
-                            else if (string.Compare(_value.ToLower(), "list") == 0)
-                            {
-                                temp_table.initClassType(index - 1, CLASS_TYPE.VALUE_LIST);
-                            }
-                            else
-                            {
-                                temp_table.initClassType(index - 1, CLASS_TYPE.VALUE);
-                            }
+                            temp_table.initClassType(index - 1, xrd.Value);
                         }
                         else if (line_count == (int)ROW_TYPE.KEY_TYPE)
                         {
-                            if (xrd.Value != null && xrd.Value != "" && xrd.Value != "0" && string.Compare(xrd.Value.ToLower(), "false") != 0)
-                            {
-                                temp_table.initKeyType(index - 1, true);
-                            }
-                            else
-                            {
-                                temp_table.initKeyType(index - 1, false);
-                            }
+                            temp_table.initKeyType(index - 1, xrd.Value);
                         }
                         else
                         {

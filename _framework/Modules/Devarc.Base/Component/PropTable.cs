@@ -53,6 +53,13 @@ namespace Devarc
         CLASS_LIST,
     }
 
+    public enum KEY_TYPE
+    {
+        NONE,
+        LIST,
+        MAP,
+    }
+
     enum ROW_TYPE
     {
         VAR_NAME = 1,
@@ -68,7 +75,7 @@ namespace Devarc
         public string VarName { get; set; }
         public string TypeName { get; set; }
         public CLASS_TYPE ClassType { get; set; }
-        public bool IsKey { get; set; }
+        public KEY_TYPE KeyType { get; set; }
         public string Data { get; set; }
     }
 
@@ -181,20 +188,21 @@ namespace Devarc
             }
         }
 
-        public static bool ToKeyType(string _name)
+        public static KEY_TYPE ToKeyType(string _name)
         {
-            bool value = false;
             if (string.IsNullOrEmpty(_name))
-                return false;
-            else if (bool.TryParse(_name, out value))
-                return value;
-            else
+                return KEY_TYPE.NONE;
+            switch(_name.ToUpper())
             {
-                int iValue = 0;
-                if (int.TryParse(_name, out iValue))
-                    return iValue != 0;
+                case "1":
+                case "TRUE":
+                case "MAP":
+                    return KEY_TYPE.MAP;
+                case "LIST":
+                    return KEY_TYPE.LIST;
+                default:
+                    return KEY_TYPE.NONE;
             }
-            return false;
         }
 
         public PropTable()
@@ -248,21 +256,66 @@ namespace Devarc
             m_PropTable.Add(name, index);
         }
 
-        public void initVarType(int index, string _raw_type)
+        public void initVarType(int index, string _typeName)
         {
-            m_PropList[index].TypeName = PropTable.ToTypeName(_raw_type);
+            m_PropList[index].TypeName = PropTable.ToTypeName(_typeName);
         }
 
+        public void initClassType(int index, string _typeName)
+        {
+            if (string.IsNullOrEmpty(_typeName))
+                m_PropList[index].ClassType = CLASS_TYPE.VALUE;
+            switch (_typeName.ToUpper())
+            {
+                case "CLASS":
+                    m_PropList[index].ClassType = CLASS_TYPE.CLASS;
+                    break;
+                case "CLASS_LIST":
+                    m_PropList[index].ClassType = CLASS_TYPE.CLASS_LIST;
+                    break;
+                case "LIST":
+                    m_PropList[index].ClassType = CLASS_TYPE.VALUE_LIST;
+                    break;
+                default:
+                    m_PropList[index].ClassType = CLASS_TYPE.VALUE;
+                    break;
+            }
+        }
         public void initClassType(int index, CLASS_TYPE _type)
         {
             m_PropList[index].ClassType = _type;
         }
-
-        public void initKeyType(int index, bool is_key)
+        public void initKeyType(int index, string _keyType)
         {
-            m_PropList[index].IsKey = is_key;
-            if (is_key)
-                m_ItemKeyIndex = index;
+            if (string.IsNullOrEmpty(_keyType))
+                initKeyType(index, KEY_TYPE.NONE);
+            switch (_keyType.ToUpper())
+            {
+                case "TRUE":
+                case "MAP":
+                    initKeyType(index, KEY_TYPE.MAP);
+                    break;
+                case "LIST":
+                    initKeyType(index, KEY_TYPE.LIST);
+                    break;
+                default:
+                    initKeyType(index, KEY_TYPE.NONE);
+                    break;
+            }
+        }
+        public void initKeyType(int index, KEY_TYPE _keyType)
+        {
+            m_PropList[index].KeyType = _keyType;
+            switch (_keyType)
+            {
+                case KEY_TYPE.MAP:
+                    m_ItemKeyIndex = index;
+                    break;
+                case KEY_TYPE.LIST:
+                    break;
+                default:
+                    break;
+            }
         }
 
         public void SetData(int index, string val)
@@ -271,14 +324,14 @@ namespace Devarc
         }
 
 
-        public void Attach(string var_name, string _typeName, CLASS_TYPE _type, bool is_key, string val)
+        public void Attach(string var_name, string _typeName, CLASS_TYPE _type, KEY_TYPE _keyType, string _value)
         {
             int index = m_Length;
             initVarName(index, var_name);
             initVarType(index, _typeName);
             initClassType(index, _type);
-            initKeyType(index, is_key);
-            SetData(index, val);
+            initKeyType(index, _keyType);
+            SetData(index, _value);
         }
         public void Attach_List<T>(string var_name, string _typeName, VAR_TYPE val_type, List<T> _list)
         {
@@ -294,7 +347,7 @@ namespace Devarc
                     initClassType(index, CLASS_TYPE.VALUE_LIST);
                     break;
             }
-            initKeyType(index, false);
+            initKeyType(index, KEY_TYPE.NONE);
             StringBuilder sb = new StringBuilder();
             sb.Append("[");
             for (int i = 0;i<_list.Count;i++)
@@ -320,7 +373,7 @@ namespace Devarc
         }
         public void Attach_Class(string var_name, string _raw_type, PropTable obj)
         {
-            Attach(var_name, _raw_type, CLASS_TYPE.CLASS, false, "");
+            Attach(var_name, _raw_type, CLASS_TYPE.CLASS, KEY_TYPE.NONE, "");
             string temp_full_name;
             string temp_var_name;
             string temp_type_name;
@@ -380,16 +433,16 @@ namespace Devarc
                 return CLASS_TYPE.VALUE;
         }
 
-        public bool GetKeyType(string var_name)
+        public KEY_TYPE GetKeyType(string var_name)
         {
             return GetKeyType(GetIndexOfName(var_name));
         }
-        public bool GetKeyType(int index)
+        public KEY_TYPE GetKeyType(int index)
         {
             if (index >= 0 && index < m_PropList.Length)
-                return m_PropList[index].IsKey;
+                return m_PropList[index].KeyType;
             else
-                return false;
+                return KEY_TYPE.NONE;
         }
 
         public string GetStr(string var_name)

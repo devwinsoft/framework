@@ -35,7 +35,39 @@
     <Reference Include="LitJson">
       <HintPath>..\..\_externals\LitJson\LitJson.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\_externals\SuperSocket\Net45\Debug\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Scripting">
+      <HintPath>..\..\_externals\SuperSocket\Net45\Debug\Microsoft.Scripting.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\_externals\SuperSocket\Net45\Debug\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.Common">
+      <HintPath>..\..\_externals\SuperSocket\Net45\Debug\SuperSocket.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.Dlr">
+      <HintPath>..\..\_externals\SuperSocket\Net45\Debug\SuperSocket.Dlr.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.Facility">
+      <HintPath>..\..\_externals\SuperSocket\Net45\Debug\SuperSocket.Facility.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.ServerManager">
+      <HintPath>..\..\_externals\SuperSocket\Net45\Debug\SuperSocket.ServerManager.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.SocketBase">
+      <HintPath>..\..\_externals\SuperSocket\Net45\Debug\SuperSocket.SocketBase.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.SocketEngine">
+      <HintPath>..\..\_externals\SuperSocket\Net45\Debug\SuperSocket.SocketEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.WebSocket">
+      <HintPath>..\..\_externals\SuperSocket\Net45\Debug\SuperSocket.WebSocket.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -91,6 +123,10 @@
     <ProjectReference Include="..\..\_framework\Modules\Devarc.Net.Client\Devarc.Net.Client.csproj">
       <Project>{44aafade-bcd3-45be-8077-0dd9d1c98374}</Project>
       <Name>Devarc.Net.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\_framework\Modules\Devarc.Net.Server\Devarc.Net.Server.csproj">
+      <Project>{2270f366-f6eb-4804-8e04-39f2303ed03e}</Project>
+      <Name>Devarc.Net.Server</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\_framework\Modules\Devarc.Object\Devarc.Object.csproj">
       <Project>{e9b1af6b-c4c0-4684-9b1c-de66b1b96ce8}</Project>

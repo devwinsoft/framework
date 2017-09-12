@@ -5,7 +5,7 @@ using Devarc;
 
 public class PlayerData : IContents<HostID>
 {
-    public static Container_S1<PlayerData, HostID> LIST = new Container_S1<PlayerData, HostID>(100);
+    public static Container_S1<PlayerData, HostID> MAP = new Container_S1<PlayerData, HostID>(100);
 
     public DataPlayer data;
 

@@ -15,7 +15,7 @@ namespace Devarc
         public static string GetLString(string _class_name, string _field_name, string _id)
         {
             string key = MakeLStringKey(_class_name, _field_name, _id);
-            LString obj = T_LString.LIST.GetAt1(key);
+            LString obj = T_LString.MAP.GetAt(key);
             if (obj == null)
                 return string.Empty;
             return obj.Value;

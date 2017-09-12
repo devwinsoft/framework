@@ -85,8 +85,8 @@ namespace Devarc
         public PropTable ToTable()
         {
             PropTable obj = new PropTable("SpineAnimationName");
-            obj.Attach("value", "string", CLASS_TYPE.VALUE, false, value);
-            obj.Attach("speed", "float", CLASS_TYPE.VALUE, false, speed.ToString());
+            obj.Attach("value", "string", CLASS_TYPE.VALUE, KEY_TYPE.NONE, value);
+            obj.Attach("speed", "float", CLASS_TYPE.VALUE, KEY_TYPE.NONE, speed.ToString());
             return obj;
         }
     }
@@ -201,7 +201,7 @@ namespace Devarc
         public PropTable ToTable()
         {
             PropTable obj = new PropTable("SpineBoneName");
-            obj.Attach("value", "string", CLASS_TYPE.VALUE, false, value);
+            obj.Attach("value", "string", CLASS_TYPE.VALUE, KEY_TYPE.NONE, value);
             return obj;
         }
     }

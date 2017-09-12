@@ -7,25 +7,25 @@ public class Stub_C2S : IServerStub, C2S.IStub
 {
     public void OnNotifyUserConnect(HostID host_hid)
     {
-        using (PlayerData.LIST.WRITE_LOCK())
+        using (PlayerData.MAP.WRITE_LOCK())
         {
-            PlayerData.LIST.Alloc(host_hid);
+            PlayerData.MAP.Alloc(host_hid);
         } // unlock
     }
 
     public void OnNotifyUserDisonnect(HostID host_hid)
     {
-        using (PlayerData.LIST.WRITE_LOCK())
+        using (PlayerData.MAP.WRITE_LOCK())
         {
-            PlayerData.LIST.Free1(host_hid);
+            PlayerData.MAP.Free1(host_hid);
         } // unlock
     }
 
     public void RMI_C2S_Move(HostID remote, VECTOR3 _look, DIRECTION _move)
     {
-        using (PlayerData.LIST.READ_LOCK())
+        using (PlayerData.MAP.READ_LOCK())
         {
-            List<PlayerData>.Enumerator enumerator = PlayerData.LIST.GetEnumerator();
+            List<PlayerData>.Enumerator enumerator = PlayerData.MAP.GetEnumerator();
             while(enumerator.MoveNext())
             {
                 PlayerData obj = enumerator.Current;

@@ -8,6 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Devarc;
+using SuperSocket.SocketBase;
+using SuperSocket.SocketBase.Config;
+using SuperSocket.SocketBase.Protocol;
 
 namespace TestServer
 {
@@ -43,9 +46,28 @@ namespace TestServer
         private void button_start_Click(object sender, EventArgs e)
         {
             int port = 5000;
-            if (int.TryParse(textBox_port.Text, out port) && TestServer.Instance.IsRunning == false)
+            if (int.TryParse(textBox_port.Text, out port))
             {
-                TestServer.Instance.Run(port);
+                TestServer server = TestServer.Instance;
+                if (server.State == ServerState.NotInitialized)
+                {
+                    ServerConfig serverConfig = new ServerConfig
+                    {
+                        Ip = "127.0.0.1",
+                        Port = port,
+                        Mode = SocketMode.Tcp
+                    };
+                    bool setup = server.Setup(serverConfig);
+                }
+
+                switch (server.State)
+                {
+                    case ServerState.NotStarted:
+                        server.Start();
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
@@ -62,7 +84,7 @@ namespace TestServer
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            TestServer.Instance.server.Tick();
+            //TestServer.Instance.server.Tick();
         }
 
     }

@@ -91,6 +91,42 @@
     <Reference Include="LitJson">
       <HintPath>Assets\plugins\LitJson.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>Assets\plugins\SuperSocket(1.6.6)\Net35\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Scripting.Core">
+      <HintPath>Assets\plugins\SuperSocket(1.6.6)\Net35\Microsoft.Scripting.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Scripting">
+      <HintPath>Assets\plugins\SuperSocket(1.6.6)\Net35\Microsoft.Scripting.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Assets\plugins\SuperSocket(1.6.6)\Net35\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.Common">
+      <HintPath>Assets\plugins\SuperSocket(1.6.6)\Net35\SuperSocket.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.Dlr">
+      <HintPath>Assets\plugins\SuperSocket(1.6.6)\Net35\SuperSocket.Dlr.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.Facility">
+      <HintPath>Assets\plugins\SuperSocket(1.6.6)\Net35\SuperSocket.Facility.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.ServerManager">
+      <HintPath>Assets\plugins\SuperSocket(1.6.6)\Net35\SuperSocket.ServerManager.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.SocketBase">
+      <HintPath>Assets\plugins\SuperSocket(1.6.6)\Net35\SuperSocket.SocketBase.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.SocketEngine">
+      <HintPath>Assets\plugins\SuperSocket(1.6.6)\Net35\SuperSocket.SocketEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.WebSocket">
+      <HintPath>Assets\plugins\SuperSocket(1.6.6)\Net35\SuperSocket.WebSocket.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading">
+      <HintPath>Assets\plugins\SuperSocket(1.6.6)\Net35\System.Threading.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Devwinsoft\Devarc\_GeneratedCode\C2S.cs" />
@@ -141,9 +177,17 @@
     <None Include="Assets\Devwinsoft\Devarc\Editor\npoi\NPOI.OOXML.XML" />
     <None Include="Assets\Devwinsoft\Devarc\Editor\npoi\NPOI.OpenXml4Net.XML" />
     <None Include="Assets\Devwinsoft\Devarc\Editor\npoi\NPOI.XML" />
-    <None Include="Assets\Devwinsoft\Devarc\_test\Editor\TestSchema.xml" />
     <None Include="Assets\Devwinsoft\Devarc\_test\Graphics\shaderCharacter.shader" />
     <None Include="Assets\Devwinsoft\Devarc\_test\Graphics\shaderTerrain.shader" />
+    <None Include="Assets\Devwinsoft\Devarc\_test\TestSchema.xml" />
+    <None Include="Assets\plugins\SuperSocket(1.6.6)\Net35\Microsoft.Scripting.Core.xml" />
+    <None Include="Assets\plugins\SuperSocket(1.6.6)\Net35\Microsoft.Scripting.xml" />
+    <None Include="Assets\plugins\SuperSocket(1.6.6)\Net35\Newtonsoft.Json.xml" />
+    <None Include="Assets\plugins\SuperSocket(1.6.6)\Net35\SuperSocket.Common.XML" />
+    <None Include="Assets\plugins\SuperSocket(1.6.6)\Net35\SuperSocket.Dlr.XML" />
+    <None Include="Assets\plugins\SuperSocket(1.6.6)\Net35\SuperSocket.Facility.XML" />
+    <None Include="Assets\plugins\SuperSocket(1.6.6)\Net35\SuperSocket.SocketBase.XML" />
+    <None Include="Assets\plugins\SuperSocket(1.6.6)\Net35\SuperSocket.SocketEngine.XML" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

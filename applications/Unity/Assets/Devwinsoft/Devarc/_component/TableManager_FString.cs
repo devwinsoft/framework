@@ -10,7 +10,7 @@ namespace Devarc
 		static void Callback_FString_XML(string sheet_name, PropTable tb)
 		{
 			 m_isLoad_FString = true;
-			using(T_FString obj = T_FString.LIST.Alloc(tb.GetStr("Key")))
+			using(T_FString obj = T_FString.MAP.Alloc(tb.GetStr("Key")))
 			{
 				obj.Initialize(tb);
 			}
@@ -19,14 +19,14 @@ namespace Devarc
 		{
 			if (node.Keys.Contains("unit_type") == false) return;
 			m_isLoad_FString = true;
-			using(T_FString obj = T_FString.LIST.Alloc(node["Key"].ToString()))
+			using(T_FString obj = T_FString.MAP.Alloc(node["Key"].ToString()))
 			{
 				obj.Initialize(node);
 			}
 		}
 		public static void UnLoad_FString()
 		{
-			T_FString.LIST.Clear();
+			T_FString.MAP.Clear();
 		}
 		public static bool Load_FString_XmlFile(string file_path)
 		{
@@ -59,10 +59,10 @@ namespace Devarc
 				{
 				    FString temp = new FString();
 				    PropTable tb_header = temp.ToTable();
-				    System.Xml.XmlNode node = writer.Write_Header(tb_header, T_FString.LIST.Count, false);
-				    for (int i = 0; i < T_FString.LIST.Count; i++)
+				    System.Xml.XmlNode node = writer.Write_Header(tb_header, T_FString.MAP.Count, false);
+				    for (int i = 0; i < T_FString.MAP.Count; i++)
 				    {
-				        T_FString obj = T_FString.LIST.ElementAt(i);
+				        T_FString obj = T_FString.MAP.ElementAt(i);
 				        PropTable tb = obj.ToTable();
 				        writer.Write_Contents(node, tb);
 				    }
@@ -75,10 +75,10 @@ namespace Devarc
 			TextWriter sw = new StreamWriter(file_path, false);
 			sw.WriteLine("{");
 			sw.WriteLine("\"FString\":[");
-			for (int i = 0; i < T_FString.LIST.Count; i++)
+			for (int i = 0; i < T_FString.MAP.Count; i++)
 			{
 			    if (i > 0) sw.WriteLine(",");
-			    sw.Write(T_FString.LIST.ElementAt(i).ToJson());
+			    sw.Write(T_FString.MAP.ElementAt(i).ToJson());
 			}
 			sw.WriteLine("]");
 			sw.WriteLine("}");

@@ -914,15 +914,15 @@ namespace Devarc
                     string type_name = tb.GetTypeName(i);
                     string var_name = tb.GetVarName(i);
                     bool is_list = tb.GetClassType(i) == CLASS_TYPE.VALUE_LIST || tb.GetClassType(i) == CLASS_TYPE.CLASS_LIST;
-                    bool key_type = tb.GetKeyType(i);
+                    KEY_TYPE key_type = tb.GetKeyType(i);
                     if (var_name == "" || type_name == "" || var_name.Contains('/'))
                     {
                         continue;
                     }
-                    if (is_enum)
-                    {
-                        sw.WriteLine("\t\t\tobj.Attach(\"Name\", \"\", CLASS_TYPE.VALUE, false, {0}.ToString());", var_name, type_name, tb.KeyVarName);
-                    }
+                    //if (is_enum)
+                    //{
+                    //    sw.WriteLine("\t\t\tobj.Attach(\"Name\", \"\", CLASS_TYPE.VALUE, KEY_TYPE.NONE, {0}.ToString());", var_name, type_name, tb.KeyVarName);
+                    //}
                     if (is_list)
                     {
                         sw.WriteLine("\t\t\tobj.Attach_List<{1}>(\"{0}\", \"{1}\", VAR_TYPE.{3}, {0});", var_name, type_name, tb.GetClassType(i), tb.GetVarType(i));
@@ -938,23 +938,23 @@ namespace Devarc
                             case VAR_TYPE.HOST_ID:
                             case VAR_TYPE.FLOAT:
                                 if (is_list)
-                                    sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE_LIST, {2}, {0}.ToString());", var_name, type_name, key_type.ToString().ToLower());
+                                    sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE_LIST, KEY_TYPE.{2}, {0}.ToString());", var_name, type_name, key_type);
                                 else
-                                    sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, {2}, {0}.ToString());", var_name, type_name, key_type.ToString().ToLower());
+                                    sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, KEY_TYPE.{2}, {0}.ToString());", var_name, type_name, key_type);
                                 break;
                             case VAR_TYPE.STRING:
                                 if (is_list)
-                                    sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, {2}, {0});", var_name, type_name, key_type.ToString().ToLower());
+                                    sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, KEY_TYPE.{2}, {0});", var_name, type_name, key_type);
                                 else
-                                    sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, {2}, {0});", var_name, type_name, key_type.ToString().ToLower());
+                                    sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, KEY_TYPE.{2}, {0});", var_name, type_name, key_type);
                                 break;
                             case VAR_TYPE.ENUM:
                                 if (is_enum)
-                                    sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, {2}, ((int){0}).ToString());", var_name, type_name, key_type.ToString().ToLower());
+                                    sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, KEY_TYPE.{2}, ((int){0}).ToString());", var_name, type_name, key_type);
                                 else if (is_list)
-                                    sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE_LIST, {2}, {0}.ToString());", var_name, type_name, key_type.ToString().ToLower());
+                                    sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE_LIST, KEY_TYPE.{2}, {0}.ToString());", var_name, type_name, key_type);
                                 else
-                                    sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, {2}, {0}.ToString());", var_name, type_name, key_type.ToString().ToLower());
+                                    sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, KEY_TYPE.{2}, {0}.ToString());", var_name, type_name, key_type);
                                 break;
                             case VAR_TYPE.CLASS:
                                 //sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", {0}.ToTable());", var_name, type_name);
@@ -1100,7 +1100,7 @@ namespace Devarc
                 {
                     sw.WriteLine("\tpublic class {0} : {1}, IContents<{2}>, IDisposable", container_name, class_name, tb.KeyTypeName);
                     sw.WriteLine("\t{");
-                    sw.WriteLine("\t    public static Container_C1<{0}, {1}> LIST = new Container_C1<{0}, {1}>();", container_name, tb.KeyTypeName);
+                    sw.WriteLine("\t    public static Container<{0}, {1}> MAP = new Container<{0}, {1}>();", container_name, tb.KeyTypeName);
                     sw.WriteLine("\t    public {0} GetKey1()", tb.KeyTypeName);
                     sw.WriteLine("\t    {");
                     sw.WriteLine("\t        return base.{0};", tb.KeyVarName);

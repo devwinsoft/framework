@@ -107,8 +107,8 @@ namespace Devarc
 		public PropTable ToTable()
 		{
 			PropTable obj = new PropTable("DataCharacter");
-			obj.Attach("unit_type", "UNIT", CLASS_TYPE.VALUE, true, unit_type.ToString());
-			obj.Attach("name", "string", CLASS_TYPE.VALUE, false, name);
+			obj.Attach("unit_type", "UNIT", CLASS_TYPE.VALUE, KEY_TYPE.MAP, unit_type.ToString());
+			obj.Attach("name", "string", CLASS_TYPE.VALUE, KEY_TYPE.NONE, name);
 			obj.Attach_List<UNIT>("items", "UNIT", VAR_TYPE.ENUM, items);
 			obj.Attach_List<DataAbility>("stats", "DataAbility", VAR_TYPE.CLASS, stats);
 			obj.Attach_Class("ability", "DataAbility", ability.ToTable());
@@ -171,7 +171,7 @@ namespace Devarc
 	}
 	public class T_DataCharacter : DataCharacter, IContents<UNIT>, IDisposable
 	{
-	    public static Container_C1<T_DataCharacter, UNIT> LIST = new Container_C1<T_DataCharacter, UNIT>();
+	    public static Container<T_DataCharacter, UNIT> MAP = new Container<T_DataCharacter, UNIT>();
 	    public UNIT GetKey1()
 	    {
 	        return base.unit_type;
@@ -261,9 +261,9 @@ namespace Devarc
 		public PropTable ToTable()
 		{
 			PropTable obj = new PropTable("DataAbility");
-			obj.Attach("str", "int", CLASS_TYPE.VALUE, false, str.ToString());
-			obj.Attach("dex", "int", CLASS_TYPE.VALUE, false, dex.ToString());
-			obj.Attach("vit", "int", CLASS_TYPE.VALUE, false, vit.ToString());
+			obj.Attach("str", "int", CLASS_TYPE.VALUE, KEY_TYPE.NONE, str.ToString());
+			obj.Attach("dex", "int", CLASS_TYPE.VALUE, KEY_TYPE.NONE, dex.ToString());
+			obj.Attach("vit", "int", CLASS_TYPE.VALUE, KEY_TYPE.NONE, vit.ToString());
 			return obj;
 		}
 	}
@@ -375,7 +375,7 @@ namespace Devarc
 		public PropTable ToTable()
 		{
 			PropTable obj = new PropTable("DataPlayer");
-			obj.Attach("id", "HostID", CLASS_TYPE.VALUE, false, id.ToString());
+			obj.Attach("id", "HostID", CLASS_TYPE.VALUE, KEY_TYPE.NONE, id.ToString());
 			obj.Attach_Class("pos", "VECTOR3", pos.ToTable());
 			return obj;
 		}
@@ -491,9 +491,9 @@ namespace Devarc
 		public PropTable ToTable()
 		{
 			PropTable obj = new PropTable("VECTOR3");
-			obj.Attach("x", "float", CLASS_TYPE.VALUE, false, x.ToString());
-			obj.Attach("y", "float", CLASS_TYPE.VALUE, false, y.ToString());
-			obj.Attach("z", "float", CLASS_TYPE.VALUE, false, z.ToString());
+			obj.Attach("x", "float", CLASS_TYPE.VALUE, KEY_TYPE.NONE, x.ToString());
+			obj.Attach("y", "float", CLASS_TYPE.VALUE, KEY_TYPE.NONE, y.ToString());
+			obj.Attach("z", "float", CLASS_TYPE.VALUE, KEY_TYPE.NONE, z.ToString());
 			return obj;
 		}
 	}
@@ -584,6 +584,7 @@ namespace Devarc
 				return UNIT.DRAGON_UNDEAD;
 			return (UNIT)0;
 		}
+		public string              Name = "";
 		public UNIT                ID;
 
 		public _UNIT()
@@ -601,6 +602,7 @@ namespace Devarc
 		{
 			get
 			{
+				if (string.IsNullOrEmpty(Name) == false) return false;
 				if ((int)ID != 0) return false;
 				return true;
 			}
@@ -613,35 +615,40 @@ namespace Devarc
 				Log.Error("Cannot Initialize [name]:_UNIT");
 				return;
 			}
+			Name                = obj.Name;
 			ID                  = obj.ID;
 		}
 		public void Initialize(PropTable obj)
 		{
+			Name                = obj.GetStr("Name");
 			ID                  = _UNIT.Parse(obj.GetStr("ID"));
 		}
 		public void Initialize(JsonData obj)
 		{
+			if (obj.Keys.Contains("Name")) Name = obj["Name"].ToString(); else Name = default(string);
 			if (obj.Keys.Contains("ID")) ID = _UNIT.Parse(obj["ID"].ToString()); else ID = default(UNIT);
 		}
 		public override string ToString()
 		{
 		    StringBuilder sb = new StringBuilder();
-		    sb.Append("{"); sb.Append(" \"ID\":"); sb.Append("\""); sb.Append(ID.ToString()); sb.Append("\"");
+		    sb.Append("{"); sb.Append(" \"Name\":"); sb.Append("\""); sb.Append(Name); sb.Append("\"");
+		    sb.Append(","); sb.Append(" \"ID\":"); sb.Append("\""); sb.Append(ID.ToString()); sb.Append("\"");
 		    sb.Append("}");
 		    return sb.ToString();
 		}
 		public string ToJson()
 		{
 		    StringBuilder sb = new StringBuilder();
-		    sb.Append("{"); sb.Append("\"ID\":"); sb.Append("\""); sb.Append(ID.ToString()); sb.Append("\"");
+		    sb.Append("{"); sb.Append("\"Name\":"); sb.Append("\""); sb.Append(Name); sb.Append("\"");
+			if (default(UNIT) != ID) { sb.Append(","); sb.Append("\"ID\":"); sb.Append("\""); sb.Append(ID.ToString()); sb.Append("\""); }
 		    sb.Append("}");
 		    return sb.ToString();
 		}
 		public PropTable ToTable()
 		{
 			PropTable obj = new PropTable("_UNIT");
-			obj.Attach("Name", "", CLASS_TYPE.VALUE, false, ID.ToString());
-			obj.Attach("ID", "UNIT", CLASS_TYPE.VALUE, true, ((int)ID).ToString());
+			obj.Attach("Name", "string", CLASS_TYPE.VALUE, KEY_TYPE.NONE, Name);
+			obj.Attach("ID", "UNIT", CLASS_TYPE.VALUE, KEY_TYPE.MAP, ((int)ID).ToString());
 			return obj;
 		}
 	}
@@ -650,11 +657,13 @@ namespace Devarc
 	    public static bool Read(NetBuffer msg, _UNIT obj)
 	    {
 	        bool success = true;
+			success = success ? Marshaler.Read(msg, ref obj.Name) : false;
 			success = success ? Marshaler.Read(msg, ref obj.ID) : false;
 	        return success;
 	    }
 	    public static void Write(NetBuffer msg, _UNIT obj)
 	    {
+			Marshaler.Write(msg, obj.Name);
 			Marshaler.Write(msg, obj.ID);
 	    }
 	    public static bool Read(NetBuffer msg, List<_UNIT> list)
@@ -664,6 +673,7 @@ namespace Devarc
 	        for (int i = 0; i < cnt; i++)
 	        {
 				_UNIT obj = new _UNIT();
+				success = success ? Marshaler.Read(msg, ref obj.Name) : false;
 				success = success ? Marshaler.Read(msg, ref obj.ID) : false;
 				list.Add(obj);
 	        }
@@ -674,13 +684,14 @@ namespace Devarc
 	        msg.Write((Int16)list.Count);
 	        foreach (_UNIT obj in list)
 	        {
+				Marshaler.Write(msg, obj.Name);
 				Marshaler.Write(msg, obj.ID);
 	        }
 	    }
 	}
 	public class T_UNIT : _UNIT, IContents<UNIT>, IDisposable
 	{
-	    public static Container_C1<T_UNIT, UNIT> LIST = new Container_C1<T_UNIT, UNIT>();
+	    public static Container<T_UNIT, UNIT> MAP = new Container<T_UNIT, UNIT>();
 	    public UNIT GetKey1()
 	    {
 	        return base.ID;
@@ -724,6 +735,7 @@ namespace Devarc
 				return DIRECTION.BR;
 			return (DIRECTION)0;
 		}
+		public string              Name = "";
 		public DIRECTION           ID;
 
 		public _DIRECTION()
@@ -741,6 +753,7 @@ namespace Devarc
 		{
 			get
 			{
+				if (string.IsNullOrEmpty(Name) == false) return false;
 				if ((int)ID != 0) return false;
 				return true;
 			}
@@ -753,35 +766,40 @@ namespace Devarc
 				Log.Error("Cannot Initialize [name]:_DIRECTION");
 				return;
 			}
+			Name                = obj.Name;
 			ID                  = obj.ID;
 		}
 		public void Initialize(PropTable obj)
 		{
+			Name                = obj.GetStr("Name");
 			ID                  = _DIRECTION.Parse(obj.GetStr("ID"));
 		}
 		public void Initialize(JsonData obj)
 		{
+			if (obj.Keys.Contains("Name")) Name = obj["Name"].ToString(); else Name = default(string);
 			if (obj.Keys.Contains("ID")) ID = _DIRECTION.Parse(obj["ID"].ToString()); else ID = default(DIRECTION);
 		}
 		public override string ToString()
 		{
 		    StringBuilder sb = new StringBuilder();
-		    sb.Append("{"); sb.Append(" \"ID\":"); sb.Append("\""); sb.Append(ID.ToString()); sb.Append("\"");
+		    sb.Append("{"); sb.Append(" \"Name\":"); sb.Append("\""); sb.Append(Name); sb.Append("\"");
+		    sb.Append(","); sb.Append(" \"ID\":"); sb.Append("\""); sb.Append(ID.ToString()); sb.Append("\"");
 		    sb.Append("}");
 		    return sb.ToString();
 		}
 		public string ToJson()
 		{
 		    StringBuilder sb = new StringBuilder();
-		    sb.Append("{"); sb.Append("\"ID\":"); sb.Append("\""); sb.Append(ID.ToString()); sb.Append("\"");
+		    sb.Append("{"); sb.Append("\"Name\":"); sb.Append("\""); sb.Append(Name); sb.Append("\"");
+			if (default(DIRECTION) != ID) { sb.Append(","); sb.Append("\"ID\":"); sb.Append("\""); sb.Append(ID.ToString()); sb.Append("\""); }
 		    sb.Append("}");
 		    return sb.ToString();
 		}
 		public PropTable ToTable()
 		{
 			PropTable obj = new PropTable("_DIRECTION");
-			obj.Attach("Name", "", CLASS_TYPE.VALUE, false, ID.ToString());
-			obj.Attach("ID", "DIRECTION", CLASS_TYPE.VALUE, true, ((int)ID).ToString());
+			obj.Attach("Name", "string", CLASS_TYPE.VALUE, KEY_TYPE.NONE, Name);
+			obj.Attach("ID", "DIRECTION", CLASS_TYPE.VALUE, KEY_TYPE.MAP, ((int)ID).ToString());
 			return obj;
 		}
 	}
@@ -790,11 +808,13 @@ namespace Devarc
 	    public static bool Read(NetBuffer msg, _DIRECTION obj)
 	    {
 	        bool success = true;
+			success = success ? Marshaler.Read(msg, ref obj.Name) : false;
 			success = success ? Marshaler.Read(msg, ref obj.ID) : false;
 	        return success;
 	    }
 	    public static void Write(NetBuffer msg, _DIRECTION obj)
 	    {
+			Marshaler.Write(msg, obj.Name);
 			Marshaler.Write(msg, obj.ID);
 	    }
 	    public static bool Read(NetBuffer msg, List<_DIRECTION> list)
@@ -804,6 +824,7 @@ namespace Devarc
 	        for (int i = 0; i < cnt; i++)
 	        {
 				_DIRECTION obj = new _DIRECTION();
+				success = success ? Marshaler.Read(msg, ref obj.Name) : false;
 				success = success ? Marshaler.Read(msg, ref obj.ID) : false;
 				list.Add(obj);
 	        }
@@ -814,13 +835,14 @@ namespace Devarc
 	        msg.Write((Int16)list.Count);
 	        foreach (_DIRECTION obj in list)
 	        {
+				Marshaler.Write(msg, obj.Name);
 				Marshaler.Write(msg, obj.ID);
 	        }
 	    }
 	}
 	public class T_DIRECTION : _DIRECTION, IContents<DIRECTION>, IDisposable
 	{
-	    public static Container_C1<T_DIRECTION, DIRECTION> LIST = new Container_C1<T_DIRECTION, DIRECTION>();
+	    public static Container<T_DIRECTION, DIRECTION> MAP = new Container<T_DIRECTION, DIRECTION>();
 	    public DIRECTION GetKey1()
 	    {
 	        return base.ID;
