@@ -238,30 +238,6 @@ namespace Devarc
             {
                 sw.WriteLine("} // end of namespace");
             }
-
-
-            // BinReader
-            {
-                using (TextWriter sw = new StreamWriter(file_path, true))
-                {
-                    sw.WriteLine("namespace {0}", this.NameSpace);
-                    sw.WriteLine("{");
-                    sw.WriteLine("} // end of namespace");
-                }
-            }
-
-            // BinWriter
-            {
-                using (TextWriter sw = new StreamWriter(file_path, true))
-                {
-                    sw.WriteLine("namespace {0}", this.NameSpace);
-                    sw.WriteLine("{");
-                    sw.WriteLine("\tpublic partial class BinWriter");
-                    sw.WriteLine("\t{");
-                    sw.WriteLine("\t}");
-                    sw.WriteLine("} // end of namespace");
-                }
-            }
         }
 
         void Callback_ClassSheet(string sheet_name, PropTable tb)

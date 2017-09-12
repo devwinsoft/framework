@@ -1034,12 +1034,3 @@ namespace Devarc
 	    }
 	}
 } // end of namespace
-namespace Devarc
-{
-} // end of namespace
-namespace Devarc
-{
-	public partial class BinWriter
-	{
-	}
-} // end of namespace
