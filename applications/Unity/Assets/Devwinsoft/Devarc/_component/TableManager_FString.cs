@@ -30,7 +30,7 @@ namespace Devarc
 		}
 		public static bool Load_FString_XmlFile(string file_path)
 		{
-			using (XmlReader reader = new XmlReader())
+			using (XmlSheetReader reader = new XmlSheetReader())
 			{
 				reader.RegisterCallback_Line("FString", Callback_FString_XML);
 				return reader.ReadFile(file_path);
@@ -38,7 +38,7 @@ namespace Devarc
 		}
 		public static bool Load_FString_XmlData(string file_path)
 		{
-			using (XmlReader reader = new XmlReader())
+			using (XmlSheetReader reader = new XmlSheetReader())
 			{
 				reader.RegisterCallback_Line("FString", Callback_FString_XML);
 				return reader.ReadData(file_path);
@@ -54,7 +54,7 @@ namespace Devarc
 		}
 		public static void Save_FString_XmlFile(string file_path)
 		{
-			using (XmlWriter writer = new XmlWriter())
+			using (XmlSheetWriter writer = new XmlSheetWriter())
 			{
 				{
 				    FString temp = new FString();

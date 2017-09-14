@@ -88,7 +88,7 @@ namespace Devarc
                 sw.WriteLine("\t{");
             }
 
-            using (XmlReader reader1 = new XmlReader())
+            using (XmlSheetReader reader1 = new XmlSheetReader())
             {
                 reader1.RegisterCallback_EveryTable(Callback_LoadSheet);
                 reader1.ReadData(_data);
@@ -120,7 +120,7 @@ namespace Devarc
                 // Load XML
                 sw.WriteLine("\t\tpublic static bool Load_{0}_XmlFile(string file_path)", this.FileName);
                 sw.WriteLine("\t\t{");
-                sw.WriteLine("\t\t\tusing (XmlReader reader = new XmlReader())");
+                sw.WriteLine("\t\t\tusing (XmlSheetReader reader = new XmlSheetReader())");
                 sw.WriteLine("\t\t\t{");
                 foreach (ClassInfo info in m_ClassList)
                 {
@@ -133,7 +133,7 @@ namespace Devarc
                 // Load XML
                 sw.WriteLine("\t\tpublic static bool Load_{0}_XmlData(string _data)", this.FileName);
                 sw.WriteLine("\t\t{");
-                sw.WriteLine("\t\t\tusing (XmlReader reader = new XmlReader())");
+                sw.WriteLine("\t\t\tusing (XmlSheetReader reader = new XmlSheetReader())");
                 sw.WriteLine("\t\t\t{");
                 foreach (ClassInfo info in m_ClassList)
                 {
@@ -160,7 +160,7 @@ namespace Devarc
                 // Save XML
                 sw.WriteLine("\t\tpublic static void Save_{0}_XmlFile(string file_path)", this.FileName);
                 sw.WriteLine("\t\t{");
-                sw.WriteLine("\t\t\tusing (XmlWriter writer = new XmlWriter())");
+                sw.WriteLine("\t\t\tusing (XmlSheetWriter writer = new XmlSheetWriter())");
                 sw.WriteLine("\t\t\t{");
                 foreach (ClassInfo info in m_ClassList)
                 {

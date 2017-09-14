@@ -30,7 +30,7 @@ namespace Devarc
 		}
 		public static bool Load_LString_XmlFile(string file_path)
 		{
-			using (XmlReader reader = new XmlReader())
+			using (XmlSheetReader reader = new XmlSheetReader())
 			{
 				reader.RegisterCallback_Line("LString", Callback_LString_XML);
 				return reader.ReadFile(file_path);
@@ -38,7 +38,7 @@ namespace Devarc
 		}
 		public static bool Load_LString_XmlData(string file_path)
 		{
-			using (XmlReader reader = new XmlReader())
+			using (XmlSheetReader reader = new XmlSheetReader())
 			{
 				reader.RegisterCallback_Line("LString", Callback_LString_XML);
 				return reader.ReadData(file_path);
@@ -54,7 +54,7 @@ namespace Devarc
 		}
 		public static void Save_LString_XmlFile(string file_path)
 		{
-			using (XmlWriter writer = new XmlWriter())
+			using (XmlSheetWriter writer = new XmlSheetWriter())
 			{
 				{
 				    LString temp = new LString();

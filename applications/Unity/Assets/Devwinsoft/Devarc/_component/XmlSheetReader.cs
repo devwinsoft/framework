@@ -30,9 +30,9 @@ namespace Devarc
 {
     public delegate void CallbackXmlReader(string sheet_name, PropTable tb);
 
-    public class XmlReader : IDisposable
+    public class XmlSheetReader : IDisposable
     {
-        public XmlReader()
+        public XmlSheetReader()
         {
         }
         public void Dispose()

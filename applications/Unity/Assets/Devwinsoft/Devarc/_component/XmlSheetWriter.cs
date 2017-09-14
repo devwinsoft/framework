@@ -30,11 +30,11 @@ using System.Xml;
 
 namespace Devarc
 {
-    public class XmlWriter : IDisposable
+    public class XmlSheetWriter : IDisposable
     {
         XmlDocument m_XmlDoc = new XmlDocument();
 
-        public XmlWriter()
+        public XmlSheetWriter()
         {
             m_XmlDoc.LoadXml(xml_source);
         }

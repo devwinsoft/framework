@@ -80,7 +80,7 @@ namespace Devarc
 		}
 		public static bool Load_TestSchema_XmlFile(string file_path)
 		{
-			using (XmlReader reader = new XmlReader())
+			using (XmlSheetReader reader = new XmlSheetReader())
 			{
 				reader.RegisterCallback_Line("DataCharacter", Callback_DataCharacter_XML);
 				reader.RegisterCallback_Line("UNIT", Callback_UNIT_XML);
@@ -90,7 +90,7 @@ namespace Devarc
 		}
 		public static bool Load_TestSchema_XmlData(string _data)
 		{
-			using (XmlReader reader = new XmlReader())
+			using (XmlSheetReader reader = new XmlSheetReader())
 			{
 				reader.RegisterCallback_Line("DataCharacter", Callback_DataCharacter_XML);
 				reader.RegisterCallback_Line("UNIT", Callback_UNIT_XML);
@@ -110,7 +110,7 @@ namespace Devarc
 		}
 		public static void Save_TestSchema_XmlFile(string file_path)
 		{
-			using (XmlWriter writer = new XmlWriter())
+			using (XmlSheetWriter writer = new XmlSheetWriter())
 			{
 				{
 				    DataCharacter temp = new DataCharacter();

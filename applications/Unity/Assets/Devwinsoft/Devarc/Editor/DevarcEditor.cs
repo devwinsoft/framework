@@ -3,6 +3,7 @@ using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Xml.Serialization;
 using System.IO;
 using NPOI.SS.UserModel;
 using NPOI.HSSF.UserModel;
@@ -10,6 +11,22 @@ using NPOI.XSSF.UserModel;
 using System.Text;
 using Devarc;
 
+[XmlRoot("MonsterCollection")]
+public class MonsterContainer
+{
+    //[XmlArray("Monsters")]
+    //[XmlArrayItem("Monster")]
+    //public List<Monster> Monsters = new List<Monster>();
+    [XmlArray("Monsters"), XmlArrayItem("Monster")]
+    public Monster[] Monsters;
+}
+public class Monster
+{
+    [XmlAttribute("Name")]
+    public string Name;
+
+    public int Health;
+}
 
 public class DevarcEditor : EditorWindow
 {
@@ -108,6 +125,17 @@ public class DevarcEditor : EditorWindow
             return;
         }
         EditorUtility.SetDirty(buildConfigData);
+
+        if (GUILayout.Button("test"))
+        {
+            MonsterContainer data = new MonsterContainer();
+            data.Monsters = new Monster[] { new Monster() };
+            var serializer = new XmlSerializer(typeof(MonsterContainer));
+            using (var stream = new FileStream(Path.Combine(Application.dataPath, "test.xml"), FileMode.Create))
+            {
+                serializer.Serialize(stream, data);
+            }
+        }
 
         scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
 

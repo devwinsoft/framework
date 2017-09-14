@@ -112,7 +112,7 @@ namespace Devarc
             m_ClassList.Clear();
 
             // Get Class List
-            using (XmlReader reader = new Devarc.XmlReader())
+            using (XmlSheetReader reader = new Devarc.XmlSheetReader())
             {
                 reader.RegisterCallback_EveryTable(Callback_LoadSheet);
                 reader.ReadData(_data);
@@ -129,13 +129,13 @@ namespace Devarc
                 sw.WriteLine("{");
                 sw.Close();
             }
-            using (XmlReader reader = new XmlReader())
+            using (XmlSheetReader reader = new XmlSheetReader())
             {
                 reader.RegisterCallback_EveryLine(Callback_EnumSheet);
                 reader.ReadData(_data);
                 System.Threading.Thread.Sleep(0);
             }
-            using (XmlReader reader = new XmlReader())
+            using (XmlSheetReader reader = new XmlSheetReader())
             {
                 reader.RegisterCallback_EveryTable(Callback_ClassSheet);
                 reader.ReadData(_data);

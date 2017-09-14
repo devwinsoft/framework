@@ -13,7 +13,7 @@ public class BuildUtil
         listBuilt.Clear();
 
         string workingPath = Path.Combine(Application.dataPath, _workingFolder);
-        using (XmlReader readerCur = new XmlReader())
+        using (XmlSheetReader readerCur = new XmlSheetReader())
         {
             readerCur.RegisterCallback_EveryLine(callbackCurrent);
             for (int i = 0; i < _inputList.Length; i++)
@@ -27,14 +27,14 @@ public class BuildUtil
         string tempPath = Path.Combine(workingPath, "LString_.xml");
         if (File.Exists(tempPath))
         {
-            using (XmlReader readerTemp = new XmlReader())
+            using (XmlSheetReader readerTemp = new XmlSheetReader())
             {
                 readerTemp.RegisterCallback_EveryLine(callbackHistory);
                 readerTemp.ReadFile(tempPath);
             }
         }
 
-        using (XmlReader readerBuilt = new XmlReader())
+        using (XmlSheetReader readerBuilt = new XmlSheetReader())
         {
             string[] locales = new string[]
             { "" // main language
