@@ -310,6 +310,12 @@ namespace Devarc
                             else
                                 sw.WriteLine("\t\tpublic {0,-20}{1};", "Int32", var_name);
                             break;
+                        case VAR_TYPE.UINT32:
+                            if (is_list)
+                                sw.WriteLine("\t\tpublic List<{0}> {1} = new List<{0}>();", "UInt32", var_name);
+                            else
+                                sw.WriteLine("\t\tpublic {0,-20}{1};", "UInt32", var_name);
+                            break;
                         case VAR_TYPE.INT64:
                             if (is_list)
                                 sw.WriteLine("\t\tpublic List<{0}> {1} = new List<{0}>();", "Int64", var_name);
@@ -493,6 +499,12 @@ namespace Devarc
                             else
                                 sw.WriteLine("\t\t\t{0,-20}= obj.GetInt32(\"{0}\");", var_name);
                             break;
+                        case VAR_TYPE.UINT32:
+                            if (is_list)
+                                sw.WriteLine("\t\t\tobj.GetList<uint>(\"{0}\", {0});", var_name);
+                            else
+                                sw.WriteLine("\t\t\t{0,-20}= obj.GetUInt32(\"{0}\");", var_name);
+                            break;
                         case VAR_TYPE.INT64:
                             if (is_list)
                                 sw.WriteLine("\t\t\tobj.GetList<long>(\"{0}\", {0});", var_name);
@@ -583,6 +595,12 @@ namespace Devarc
                                 sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) foreach (JsonData node in obj[\"{0}\"]) {{ {0}.Add(Convert.ToInt32(node.ToString())); }}", var_name);
                             else
                                 sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) int.TryParse(obj[\"{0}\"].ToString(), out {0}); else {0} = default(int);", var_name);
+                            break;
+                        case VAR_TYPE.UINT32:
+                            if (is_list)
+                                sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) foreach (JsonData node in obj[\"{0}\"]) {{ {0}.Add(Convert.ToUInt32(node.ToString())); }}", var_name);
+                            else
+                                sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) uint.TryParse(obj[\"{0}\"].ToString(), out {0}); else {0} = default(uint);", var_name);
                             break;
                         case VAR_TYPE.INT64:
                             if (is_list)
@@ -910,6 +928,7 @@ namespace Devarc
                             case VAR_TYPE.BOOL:
                             case VAR_TYPE.INT16:
                             case VAR_TYPE.INT32:
+                            case VAR_TYPE.UINT32:
                             case VAR_TYPE.INT64:
                             case VAR_TYPE.HOST_ID:
                             case VAR_TYPE.FLOAT:
@@ -967,6 +986,7 @@ namespace Devarc
                         case VAR_TYPE.BOOL:
                         case VAR_TYPE.INT16:
                         case VAR_TYPE.INT32:
+                        case VAR_TYPE.UINT32:
                         case VAR_TYPE.INT64:
                         case VAR_TYPE.HOST_ID:
                         case VAR_TYPE.FLOAT:
@@ -1025,6 +1045,7 @@ namespace Devarc
                         case VAR_TYPE.BOOL:
                         case VAR_TYPE.INT16:
                         case VAR_TYPE.INT32:
+                        case VAR_TYPE.UINT32:
                         case VAR_TYPE.INT64:
                         case VAR_TYPE.HOST_ID:
                         case VAR_TYPE.FLOAT:

@@ -36,6 +36,7 @@ namespace Devarc
         INT16,
         INT32,
         INT64,
+        UINT32,
         HOST_ID,
         FLOAT,
         CSTRING,
@@ -92,6 +93,10 @@ namespace Devarc
             {
                 return "int";
             }
+            else if (_raw_name.Equals("uint") || _raw_name.Equals("uint32"))
+            {
+                return "uint";
+            }
             else if (_raw_name.Equals("long") || _raw_name.Equals("int64"))
             {
                 return "long";
@@ -132,6 +137,10 @@ namespace Devarc
             else if (var_type.Equals("int") || var_type.Equals("int32"))
             {
                 return VAR_TYPE.INT32;
+            }
+            else if (var_type.Equals("uint") || var_type.Equals("uint32"))
+            {
+                return VAR_TYPE.UINT32;
             }
             else if (var_type.Equals("long") || var_type.Equals("int64"))
             {
@@ -507,6 +516,18 @@ namespace Devarc
             return temp;
         }
 
+        public UInt32 GetUInt32(string var_name)
+        {
+            return GetUInt32(GetIndexOfName(var_name));
+        }
+        public UInt32 GetUInt32(int index)
+        {
+            string data = GetStr(index);
+            UInt32 temp = 0;
+            UInt32.TryParse(data, out temp);
+            return temp;
+        }
+
         public float GetFloat(string var_name)
         {
             return GetFloat(GetIndexOfName(var_name));
@@ -625,6 +646,18 @@ namespace Devarc
                             for (int i = 0; i < node.Count; i++)
                             {
                                 temp_list.Add(Convert.ToInt64(node[i].ToString()));
+                            }
+                        }
+                    }
+                    break;
+                case VAR_TYPE.UINT32:
+                    {
+                        List<UInt32> temp_list = list as List<UInt32>;
+                        if (temp_list != null)
+                        {
+                            for (int i = 0; i < node.Count; i++)
+                            {
+                                temp_list.Add(Convert.ToUInt32(node[i].ToString()));
                             }
                         }
                     }

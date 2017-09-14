@@ -29,21 +29,11 @@ namespace Devarc
 {
     public class NetBuffer
     {
-        MemoryStream stream;
+        MemoryStream stream = new MemoryStream();
         UnicodeEncoding encoding = new UnicodeEncoding();
         byte[] buf = new byte[1024];
         public int Length { get { return Convert.ToInt32(stream.Length); } }
         public int Pos { get { return (int)stream.Position; } }
-
-        public NetBuffer()
-        {
-            stream = new MemoryStream();
-        }
-
-        public NetBuffer(byte[] _data)
-        {
-            stream = new MemoryStream(_data);
-        }
 
         public void Clear()
         {
@@ -90,6 +80,12 @@ namespace Devarc
             return BitConverter.ToInt32(buf, len - sizeof(Int32));
         }
 
+        public UInt32 ReadUInt32()
+        {
+            int len = stream.Read(buf, 0, sizeof(UInt32));
+            return BitConverter.ToUInt32(buf, len - sizeof(UInt32));
+        }
+
         public Int64 ReadInt64()
         {
             int len = stream.Read(buf, 0, sizeof(Int64));
@@ -125,6 +121,11 @@ namespace Devarc
         public void Write(Int32 val)
         {
             stream.Write(BitConverter.GetBytes(val), 0, sizeof(Int32));
+        }
+
+        public void Write(UInt32 val)
+        {
+            stream.Write(BitConverter.GetBytes(val), 0, sizeof(UInt32));
         }
 
         public void Write(Int64 val)

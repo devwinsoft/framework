@@ -264,6 +264,9 @@ namespace Devarc
                     case VAR_TYPE.INT32:
                         sw.WriteLine("\t\t\tusing({0} obj = {0}.MAP.Alloc(tb.GetInt32(\"{1}\")))", container_name, key_var_name);
                         break;
+                    case VAR_TYPE.UINT32:
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.MAP.Alloc(tb.GetUInt32(\"{1}\")))", container_name, key_var_name);
+                        break;
                     case VAR_TYPE.INT64:
                     case VAR_TYPE.HOST_ID:
                         sw.WriteLine("\t\t\tusing({0} obj = {0}.MAP.Alloc(tb.ToInt64(\"{1}\")))", container_name, key_var_name);
@@ -303,6 +306,9 @@ namespace Devarc
                         break;
                     case VAR_TYPE.INT32:
                         sw.WriteLine("\t\t\tusing({0} obj = {0}.MAP.Alloc((int)node[\"{1}\"]))", container_name, key_var_name);
+                        break;
+                    case VAR_TYPE.UINT32:
+                        sw.WriteLine("\t\t\tusing({0} obj = {0}.MAP.Alloc((uint)node[\"{1}\"]))", container_name, key_var_name);
                         break;
                     case VAR_TYPE.INT64:
                     case VAR_TYPE.HOST_ID:
@@ -386,6 +392,7 @@ namespace Devarc
                                 break;
                             case VAR_TYPE.INT16:
                             case VAR_TYPE.INT32:
+                            case VAR_TYPE.UINT32:
                             case VAR_TYPE.INT64:
                             case VAR_TYPE.HOST_ID:
                                 {
@@ -471,6 +478,7 @@ namespace Devarc
                             break;
                         case VAR_TYPE.INT16:
                         case VAR_TYPE.INT32:
+                        case VAR_TYPE.UINT32:
                         case VAR_TYPE.INT64:
                         case VAR_TYPE.HOST_ID:
                             {

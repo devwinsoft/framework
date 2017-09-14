@@ -96,6 +96,19 @@ namespace Devarc
                 return false;
             }
         }
+        public static bool Read(NetBuffer msg, ref UInt32 obj)
+        {
+            try
+            {
+                obj = msg.ReadUInt32();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Exception(ex);
+                return false;
+            }
+        }
         public static bool Read(NetBuffer msg, ref HostID obj)
         {
             try

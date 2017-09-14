@@ -14,6 +14,7 @@ namespace Devarc
 		public List<DataAbility> stats = new List<DataAbility>();
 		public DataAbility         ability = new DataAbility();
 		public List<string> nodes = new List<string>();
+		public UInt32              unit_uid;
 
 		public DataCharacter()
 		{
@@ -36,6 +37,7 @@ namespace Devarc
 				if (stats.Count > 0) return false;
 				if (ability.IsDefault == false) return false;
 				if (nodes.Count > 0) return false;
+				if (unit_uid != 0) return false;
 				return true;
 			}
 		}
@@ -56,6 +58,7 @@ namespace Devarc
 			ability.Initialize(obj.ability);
 			nodes.Clear();
 			nodes.AddRange(obj.nodes);
+			unit_uid            = obj.unit_uid;
 		}
 		public void Initialize(PropTable obj)
 		{
@@ -69,6 +72,7 @@ namespace Devarc
 			if (__stats != null && __stats.IsArray) { foreach (var node in __stats as IList) { DataAbility _v = new DataAbility(); _v.Initialize(node as JsonData); stats.Add(_v); } }
 			ability.Initialize(obj.GetTable("ability"));
 			obj.GetList<string>("nodes", nodes);
+			unit_uid            = obj.GetUInt32("unit_uid");
 		}
 		public void Initialize(JsonData obj)
 		{
@@ -78,6 +82,7 @@ namespace Devarc
 			if (obj.Keys.Contains("stats")) foreach (JsonData node in obj["stats"]) { DataAbility _v = new DataAbility(); _v.Initialize(node); stats.Add(_v); }
 			if (obj.Keys.Contains("ability")) ability.Initialize(obj["ability"]);
 			if (obj.Keys.Contains("nodes")) foreach (JsonData node in obj["nodes"]) { nodes.Add(node.ToString()); }
+			if (obj.Keys.Contains("unit_uid")) uint.TryParse(obj["unit_uid"].ToString(), out unit_uid); else unit_uid = default(uint);
 		}
 		public override string ToString()
 		{
@@ -88,6 +93,7 @@ namespace Devarc
 		    sb.Append(","); sb.Append(" \"stats\":"); sb.Append("["); for (int i = 0; i < stats.Count; i++) { sb.Append(stats[i].ToString()); } sb.Append("]");
 		    sb.Append(","); sb.Append(" \"ability\":"); sb.Append(ability != null ? ability.ToString() : "{}");
 		    sb.Append(","); sb.Append(" \"nodes\":"); sb.Append("["); for (int i = 0; i < nodes.Count; i++) { string _obj = nodes[i]; if (i > 0) sb.Append(","); sb.Append("\""); sb.Append(_obj); sb.Append("\""); } sb.Append("]");
+		    sb.Append(","); sb.Append(" \"unit_uid\":"); sb.Append("\""); sb.Append(unit_uid.ToString()); sb.Append("\"");
 		    sb.Append("}");
 		    return sb.ToString();
 		}
@@ -101,6 +107,7 @@ namespace Devarc
 			if (stats.Count > 0) { sb.Append(","); sb.Append("\"stats\":"); sb.Append("["); for (int i = 0; i < stats.Count; i++) { if (i > 0) sb.Append(","); sb.Append(stats[i].ToJson()); } sb.Append("]"); }
 		    sb.Append(","); sb.Append("\"ability\":"); sb.Append(ability != null ? ability.ToJson() : "{}");
 			if (nodes.Count > 0) { sb.Append(","); sb.Append("\"nodes\":"); sb.Append("["); for (int i = 0; i < nodes.Count; i++) { string _obj = nodes[i]; if (i > 0) sb.Append(","); sb.Append("\""); sb.Append(_obj); sb.Append("\""); } sb.Append("]"); }
+			if (default(uint) != unit_uid) { sb.Append(","); sb.Append("\"unit_uid\":"); sb.Append("\""); sb.Append(unit_uid.ToString()); sb.Append("\""); }
 		    sb.Append("}");
 		    return sb.ToString();
 		}
@@ -113,6 +120,7 @@ namespace Devarc
 			obj.Attach_List<DataAbility>("stats", "DataAbility", VAR_TYPE.CLASS, stats);
 			obj.Attach_Class("ability", "DataAbility", ability.ToTable());
 			obj.Attach_List<string>("nodes", "string", VAR_TYPE.STRING, nodes);
+			obj.Attach("unit_uid", "uint", CLASS_TYPE.VALUE, KEY_TYPE.NONE, unit_uid.ToString());
 			return obj;
 		}
 	}
@@ -127,6 +135,7 @@ namespace Devarc
 			success = success ? Marshaler.Read(msg, obj.stats) : false;
 			success = success ? Marshaler.Read(msg, obj.ability) : false;
 			success = success ? Marshaler.Read(msg, obj.nodes) : false;
+			success = success ? Marshaler.Read(msg, ref obj.unit_uid) : false;
 	        return success;
 	    }
 	    public static void Write(NetBuffer msg, DataCharacter obj)
@@ -137,6 +146,7 @@ namespace Devarc
 			Marshaler.Write(msg, obj.stats);
 			Marshaler.Write(msg, obj.ability);
 			Marshaler.Write(msg, obj.nodes);
+			Marshaler.Write(msg, obj.unit_uid);
 	    }
 	    public static bool Read(NetBuffer msg, List<DataCharacter> list)
 	    {
@@ -151,6 +161,7 @@ namespace Devarc
 				success = success ? Marshaler.Read(msg, obj.stats) : false;
 				success = success ? Marshaler.Read(msg, obj.ability) : false;
 				success = success ? Marshaler.Read(msg, obj.nodes) : false;
+				success = success ? Marshaler.Read(msg, ref obj.unit_uid) : false;
 				list.Add(obj);
 	        }
 	        return success;
@@ -166,6 +177,7 @@ namespace Devarc
 				Marshaler.Write(msg, obj.stats);
 				Marshaler.Write(msg, obj.ability);
 				Marshaler.Write(msg, obj.nodes);
+				Marshaler.Write(msg, obj.unit_uid);
 	        }
 	    }
 	}

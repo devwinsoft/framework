@@ -17,7 +17,6 @@
   <WindowTopX>1350</WindowTopX>
   <WindowTopY>345</WindowTopY>
   <TabRatio>730</TabRatio>
-  <ActiveSheet>5</ActiveSheet>
   <RefModeR1C1/>
   <ProtectStructure>False</ProtectStructure>
   <ProtectWindows>False</ProtectWindows>
@@ -34,7 +33,7 @@
   </Style>
  </Styles>
  <Worksheet ss:Name="DataCharacter">
-  <Table ss:ExpandedColumnCount="6" ss:ExpandedRowCount="21" x:FullColumns="1"
+  <Table ss:ExpandedColumnCount="7" ss:ExpandedRowCount="21" x:FullColumns="1"
    x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="16.5">
    <Column ss:Width="113.25"/>
    <Column ss:Width="69.75"/>
@@ -48,6 +47,7 @@
     <Cell><Data ss:Type="String">stats</Data></Cell>
     <Cell><Data ss:Type="String">ability</Data></Cell>
     <Cell><Data ss:Type="String">nodes</Data></Cell>
+    <Cell><Data ss:Type="String">unit_uid</Data></Cell>
    </Row>
    <Row ss:AutoFitHeight="0">
     <Cell><Data ss:Type="String">UNIT</Data></Cell>
@@ -56,6 +56,7 @@
     <Cell><Data ss:Type="String">DataAbility</Data></Cell>
     <Cell><Data ss:Type="String">DataAbility</Data></Cell>
     <Cell><Data ss:Type="String">cstr</Data></Cell>
+    <Cell><Data ss:Type="String">uint</Data></Cell>
    </Row>
    <Row ss:AutoFitHeight="0">
     <Cell ss:Index="3"><Data ss:Type="String">list</Data></Cell>
@@ -72,14 +73,17 @@
     <Cell><Data ss:Type="String">[&quot;ELF_MALE&quot;,&quot;ELF_FEMALE&quot;]</Data></Cell>
     <Cell><Data ss:Type="String">[{&quot;str&quot;:&quot;11&quot;}]</Data></Cell>
     <Cell ss:Index="6"><Data ss:Type="String">[&quot;1&quot;,&quot;2&quot;,&quot;3&quot;]</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
    </Row>
    <Row ss:AutoFitHeight="0">
     <Cell><Data ss:Type="String">HUMAN_MALE</Data></Cell>
     <Cell><Data ss:Type="String">인간(남)</Data></Cell>
+    <Cell ss:Index="7"><Data ss:Type="Number">2</Data></Cell>
    </Row>
    <Row ss:AutoFitHeight="0">
     <Cell><Data ss:Type="String">ELF_FEMALE</Data></Cell>
     <Cell><Data ss:Type="String">엘프(여)</Data></Cell>
+    <Cell ss:Index="7"><Data ss:Type="Number">3</Data></Cell>
    </Row>
    <Row ss:AutoFitHeight="0">
     <Cell><Data ss:Type="String">ELF_MALE</Data></Cell>
@@ -145,10 +149,12 @@
     <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
    </PageSetup>
    <Unsynced/>
+   <Selected/>
    <Panes>
     <Pane>
      <Number>3</Number>
-     <ActiveRow>3</ActiveRow>
+     <ActiveRow>7</ActiveRow>
+     <ActiveCol>6</ActiveCol>
     </Pane>
    </Panes>
    <ProtectObjects>False</ProtectObjects>
@@ -209,12 +215,6 @@
     <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
    </PageSetup>
    <Unsynced/>
-   <Panes>
-    <Pane>
-     <Number>3</Number>
-     <ActiveCol>1</ActiveCol>
-    </Pane>
-   </Panes>
    <ProtectObjects>False</ProtectObjects>
    <ProtectScenarios>False</ProtectScenarios>
   </WorksheetOptions>
@@ -411,7 +411,6 @@
     <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
    </PageSetup>
    <Unsynced/>
-   <Selected/>
    <ProtectObjects>False</ProtectObjects>
    <ProtectScenarios>False</ProtectScenarios>
   </WorksheetOptions>

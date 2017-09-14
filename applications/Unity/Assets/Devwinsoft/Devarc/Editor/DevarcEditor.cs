@@ -117,24 +117,6 @@ public class DevarcEditor : EditorWindow
             EditorGUI.indentLevel++;
             {
                 GUI.backgroundColor = Color.white;
-                showObjectOutput = EditorGUILayout.Foldout(showObjectOutput, "Output Directory");
-
-                EditorGUI.indentLevel++;
-                if (showObjectOutput)
-                {
-                    int newDirCount = EditorGUILayout.IntField("Output Directory Count", buildConfigData.outObjTables.Length);
-                    if (newDirCount != buildConfigData.outObjTables.Length)
-                    {
-                        buildConfigData.outObjTables = resize<string>(buildConfigData.outObjTables, backupObjectOutput, newDirCount);
-                    }
-                    for (int i = 0; i < buildConfigData.outObjTables.Length; i++)
-                    {
-                        buildConfigData.outObjTables[i] = EditorGUILayout.TextField(string.Format("Output Directory-{0}", i), buildConfigData.outObjTables[i]);
-                    }
-                }
-                EditorGUI.indentLevel--;
-
-                GUI.backgroundColor = Color.white;
                 showObjectInput = EditorGUILayout.Foldout(showObjectInput, "Input Tables");
 
                 EditorGUI.indentLevel++;
@@ -148,6 +130,24 @@ public class DevarcEditor : EditorWindow
                     for (int i = 0; i < buildConfigData.inObjTables.Length; i++)
                     {
                         buildConfigData.inObjTables[i] = (TextAsset)EditorGUILayout.ObjectField(string.Format("Table-{0}", i), buildConfigData.inObjTables[i], typeof(TextAsset));
+                    }
+                }
+                EditorGUI.indentLevel--;
+
+                GUI.backgroundColor = Color.white;
+                showObjectOutput = EditorGUILayout.Foldout(showObjectOutput, "Output Directory");
+
+                EditorGUI.indentLevel++;
+                if (showObjectOutput)
+                {
+                    int newDirCount = EditorGUILayout.IntField("Output Directory Count", buildConfigData.outObjTables.Length);
+                    if (newDirCount != buildConfigData.outObjTables.Length)
+                    {
+                        buildConfigData.outObjTables = resize<string>(buildConfigData.outObjTables, backupObjectOutput, newDirCount);
+                    }
+                    for (int i = 0; i < buildConfigData.outObjTables.Length; i++)
+                    {
+                        buildConfigData.outObjTables[i] = EditorGUILayout.TextField(string.Format("Output Directory-{0}", i), buildConfigData.outObjTables[i]);
                     }
                 }
                 EditorGUI.indentLevel--;
@@ -187,22 +187,6 @@ public class DevarcEditor : EditorWindow
         EditorGUI.indentLevel++;
         if (showDataConfig)
         {
-            showDataOutput = EditorGUILayout.Foldout(showDataOutput, "Output Directory");
-            EditorGUI.indentLevel++;
-            if (showDataOutput)
-            {
-                int newDirCount = EditorGUILayout.IntField("Output Directory Count", buildConfigData.outDataTables.Length);
-                if (newDirCount != buildConfigData.outDataTables.Length)
-                {
-                    buildConfigData.outDataTables = resize<string>(buildConfigData.outDataTables, backupDataOutput, newDirCount);
-                }
-                for (int i = 0; i < buildConfigData.outDataTables.Length; i++)
-                {
-                    buildConfigData.outDataTables[i] = EditorGUILayout.TextField(string.Format("Output Directory-{0}", i), buildConfigData.outDataTables[i]);
-                }
-            }
-            EditorGUI.indentLevel--;
-
             showDataInput = EditorGUILayout.Foldout(showDataInput, "Input Tables");
             EditorGUI.indentLevel++;
             if (showDataInput)
@@ -215,6 +199,22 @@ public class DevarcEditor : EditorWindow
                 for (int i = 0; i < buildConfigData.inDataTables.Length; i++)
                 {
                     buildConfigData.inDataTables[i] = (TextAsset)EditorGUILayout.ObjectField(string.Format("Table-{0}", i), buildConfigData.inDataTables[i], typeof(TextAsset));
+                }
+            }
+            EditorGUI.indentLevel--;
+
+            showDataOutput = EditorGUILayout.Foldout(showDataOutput, "Output Directory");
+            EditorGUI.indentLevel++;
+            if (showDataOutput)
+            {
+                int newDirCount = EditorGUILayout.IntField("Output Directory Count", buildConfigData.outDataTables.Length);
+                if (newDirCount != buildConfigData.outDataTables.Length)
+                {
+                    buildConfigData.outDataTables = resize<string>(buildConfigData.outDataTables, backupDataOutput, newDirCount);
+                }
+                for (int i = 0; i < buildConfigData.outDataTables.Length; i++)
+                {
+                    buildConfigData.outDataTables[i] = EditorGUILayout.TextField(string.Format("Output Directory-{0}", i), buildConfigData.outDataTables[i]);
                 }
             }
             EditorGUI.indentLevel--;
