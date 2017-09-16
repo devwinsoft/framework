@@ -64,6 +64,7 @@ namespace Devarc
 
     class Builder_Object
     {
+        DATA_FILE_TYPE dataFileType = DATA_FILE_TYPE.SHEET;
         string NameSpace = "Devarc";
         string FileName = "";
         string OutDir = "";
@@ -71,54 +72,70 @@ namespace Devarc
         HashSet<string> m_ClassNames = new HashSet<string>();
         List<ClassInfo> m_ClassList = new List<ClassInfo>();
 
-        public void BuildFromFile(string _input_file, string _out_dir)
+        BaseDataReader _createReader()
         {
-            string tmpFileName = Path.GetFileNameWithoutExtension(_input_file);
+            switch (dataFileType)
+            {
+                case DATA_FILE_TYPE.EXCEL:
+                    return new ExcelReader();
+                case DATA_FILE_TYPE.SHEET:
+                default:
+                    return new XmlSheetReader();
+            }
+        }
+
+        public void Build_ExcelFile(string _inFilePath, string _outDir)
+        {
+            this.dataFileType = DATA_FILE_TYPE.EXCEL;
+            string tmpFileName = Path.GetFileNameWithoutExtension(_inFilePath);
             int tmpIndex = tmpFileName.IndexOf('@');
             if (tmpIndex >= 0)
                 this.FileName = tmpFileName.Substring(0, tmpIndex);
             else
                 this.FileName = tmpFileName;
-            this.OutDir = _out_dir;
-            string file_path = Path.Combine(this.OutDir, "Class_" + this.FileName + ".cs");
-
-            if (File.Exists(_input_file) == false)
+            this.OutDir = _outDir;
+            string _outFilePath = Path.Combine(this.OutDir, "Class_" + this.FileName + ".cs");
+            if (File.Exists(_inFilePath) == false)
             {
-                Log.Info("Cannot find file: " + _input_file);
+                Log.Info("Cannot find file: " + _inFilePath);
                 return;
             }
-
-            this._build(File.ReadAllText(_input_file), file_path);
+            this._build(_inFilePath, _outFilePath);
         }
 
-        public void BuildFromData(string _file_name, string _input_data, string _out_dir)
+        public void Build_SheetFile(string _inFilePath, string _outDir)
         {
-            string tmpFileName = Path.GetFileNameWithoutExtension(_file_name);
+            this.dataFileType = DATA_FILE_TYPE.SHEET;
+            string tmpFileName = Path.GetFileNameWithoutExtension(_inFilePath);
             int tmpIndex = tmpFileName.IndexOf('@');
             if (tmpIndex >= 0)
                 this.FileName = tmpFileName.Substring(0, tmpIndex);
             else
                 this.FileName = tmpFileName;
-            this.OutDir = _out_dir;
-            string file_path = Path.Combine(this.OutDir, "Class_" + this.FileName + ".cs");
-
-            this._build(_input_data, file_path);
+            this.OutDir = _outDir;
+            string _outFilePath = Path.Combine(this.OutDir, "Class_" + this.FileName + ".cs");
+            if (File.Exists(_inFilePath) == false)
+            {
+                Log.Info("Cannot find file: " + _inFilePath);
+                return;
+            }
+            this._build(_inFilePath, _outFilePath);
         }
 
-        void _build(string _data, string file_path)
+        void _build(string _inFilePath, string _outFilePath)
         {
             m_EnumList.Clear();
             m_ClassNames.Clear();
             m_ClassList.Clear();
 
             // Get Class List
-            using (XmlSheetReader reader = new Devarc.XmlSheetReader())
+            using (BaseDataReader reader = _createReader())
             {
                 reader.RegisterCallback_EveryTable(Callback_LoadSheet);
-                reader.ReadData(_data);
+                reader.ReadFile(_inFilePath);
             }
 
-            using (TextWriter sw = new StreamWriter(file_path, false))
+            using (TextWriter sw = new StreamWriter(_outFilePath, false))
             {
                 sw.WriteLine("using System;");
                 sw.WriteLine("using System.Text;");
@@ -129,24 +146,25 @@ namespace Devarc
                 sw.WriteLine("{");
                 sw.Close();
             }
-            using (XmlSheetReader reader = new XmlSheetReader())
+            using (BaseDataReader reader = _createReader())
             {
                 reader.RegisterCallback_EveryLine(Callback_EnumSheet);
-                reader.ReadData(_data);
+                reader.ReadFile(_inFilePath);
                 System.Threading.Thread.Sleep(0);
             }
-            using (XmlSheetReader reader = new XmlSheetReader())
+            using (BaseDataReader reader = _createReader())
             {
                 reader.RegisterCallback_EveryTable(Callback_ClassSheet);
-                reader.ReadData(_data);
+                reader.ReadFile(_inFilePath);
                 System.Threading.Thread.Sleep(0);
             }
 
-            foreach (string enum_name in m_EnumList.Keys)
+            using (TextWriter sw = new StreamWriter(_outFilePath, true))
             {
-                List<ENUM_INFO> enum_list = m_EnumList[enum_name] as List<ENUM_INFO>;
-                using (TextWriter sw = new StreamWriter(file_path, true))
+                foreach (string enum_name in m_EnumList.Keys)
                 {
+                    List<ENUM_INFO> enum_list = m_EnumList[enum_name] as List<ENUM_INFO>;
+
                     sw.WriteLine("\tpublic enum {0}", enum_name);
                     sw.WriteLine("\t{");
                     foreach (ENUM_INFO info in enum_list)
@@ -230,12 +248,8 @@ namespace Devarc
                     sw.WriteLine("\t            msg.Write((Int32)obj);");
                     sw.WriteLine("\t        }");
                     sw.WriteLine("\t    }");
-
                     sw.WriteLine("\t}");
-                } // close file
-            } // end of foreach
-            using (TextWriter sw = new StreamWriter(file_path, true))
-            {
+                } // end of foreach
                 sw.WriteLine("} // end of namespace");
             }
         }

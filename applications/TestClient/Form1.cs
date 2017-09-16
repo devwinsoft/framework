@@ -60,7 +60,7 @@ namespace TestClient
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 TableManager.UnLoad_TestSchema();
-                TableManager.Load_TestSchema_XmlFile(openFileDialog1.FileName);
+                TableManager.Load_TestSchema_SheetFile(openFileDialog1.FileName);
                 //TableData.UnLoad_ClientObject();
                 //TableData.Load_ClientObject_JSON(openFileDialog1.FileName + ".json");
 
@@ -84,7 +84,7 @@ namespace TestClient
         {
             if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                TableManager.Save_TestSchema_XmlFile(saveFileDialog1.FileName);
+                TableManager.Save_TestSchema_SheetFile(saveFileDialog1.FileName);
                 TableManager.Save_TestSchema_JsonFile(saveFileDialog1.FileName + ".json");
             }
         }

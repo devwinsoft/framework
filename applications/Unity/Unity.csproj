@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.6.3f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -129,59 +127,83 @@
     <Reference Include="System.Threading">
       <HintPath>Assets\plugins\SuperSocket(1.6.6)\Net35\System.Threading.dll</HintPath>
     </Reference>
+    <Reference Include="NPOI.OOXML">
+      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats">
+      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net">
+      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI">
+      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\NPOI.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Unity.Plugins.csproj">
+      <Project>{D1FDB199-0FB7-099D-3771-C6A942E4E326}</Project>
+      <Name>Unity.Plugins</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\Devwinsoft\Devarc\Script\Character\BaseController.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\Script\Character\MainController.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\Script\Character\PlayerData.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\Script\Character\PlayerObject.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\Script\Character\UserController.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\Script\SceneTest.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\Script\Stub_C2S.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\Script\Stub_S2C.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_Component\Class_FString.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_Component\Class_LString.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_Component\Classes.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_Component\Container_C1.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_Component\Container_S1.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_Component\Contents.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_Component\DES.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_Component\FrameworkUtil.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_Component\HostID.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_Component\JsonReader.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_Component\Lock.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_Component\Log.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_Component\Marshaler.Read.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_Component\Marshaler.Write.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_Component\NetBuffer.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_Component\NetClient.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_Component\NetDataRecv.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_Component\NetDataSend.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_Component\NetHost.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_Component\NetMessage.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_Component\NetServer.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_Component\NetThread.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_Component\NetworkObject.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_Component\PropItem.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_Component\PropTable.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_Component\TableManager_FString.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_Component\TableManager_LString.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_Component\ThreadBase.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_Component\ThreadContainer.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_Component\XmlSheetReader.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_Component\XmlSheetWriter.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\_GeneratedCode\C2S.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\_GeneratedCode\Class_TestSchema.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\_GeneratedCode\S2C.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\_GeneratedCode\TableManager_TestSchema.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_component\Class_FString.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_component\Class_LString.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_component\Classes.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_component\Container_C1.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_component\Container_S1.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_component\Contents.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_component\DES.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_component\FrameworkUtil.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_component\HostID.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_component\JsonReader.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_component\Lock.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_component\Log.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_component\Marshaler.Read.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_component\Marshaler.Write.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_component\NetBuffer.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_component\NetClient.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_component\NetDataRecv.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_component\NetDataSend.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_component\NetHost.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_component\NetMessage.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_component\NetServer.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_component\NetThread.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_component\NetworkObject.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_component\PropItem.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_component\PropTable.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_component\TableManager_FString.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_component\TableManager_LString.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_component\ThreadBase.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_component\ThreadContainer.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_component\XmlSheetReader.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_component\XmlSheetWriter.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\Character\BaseController.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\Character\MainController.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\Character\PlayerData.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\Character\PlayerObject.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\Character\UserController.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\SceneTest.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\Stub_C2S.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_test\Script\Stub_S2C.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Devwinsoft\Devarc\Editor\npoi\NPOI.OOXML.XML" />
-    <None Include="Assets\Devwinsoft\Devarc\Editor\npoi\NPOI.OpenXml4Net.XML" />
-    <None Include="Assets\Devwinsoft\Devarc\Editor\npoi\NPOI.XML" />
-    <None Include="Assets\Devwinsoft\Devarc\_test\Graphics\shaderCharacter.shader" />
-    <None Include="Assets\Devwinsoft\Devarc\_test\Graphics\shaderTerrain.shader" />
-    <None Include="Assets\Devwinsoft\Devarc\_test\TestSchema.xml" />
+    <None Include="Assets\Devwinsoft\Devarc\Graphics\shaderCharacter.shader" />
+    <None Include="Assets\Devwinsoft\Devarc\Graphics\shaderTerrain.shader" />
+    <None Include="Assets\Devwinsoft\Devarc\_Plugins\NPOI.OOXML.XML" />
+    <None Include="Assets\Devwinsoft\Devarc\_Plugins\NPOI.OpenXml4Net.XML" />
+    <None Include="Assets\Devwinsoft\Devarc\_Plugins\NPOI.XML" />
+    <None Include="Assets\Resources\TableData\Localize\LString_.xml" />
+    <None Include="Assets\Resources\TableData\Localize\LString_ENG.xml" />
+    <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
+    <None Include="Assets\Standard Assets\Fonts\OpenSans\License!.txt" />
     <None Include="Assets\plugins\SuperSocket(1.6.6)\Net35\Microsoft.Scripting.Core.xml" />
     <None Include="Assets\plugins\SuperSocket(1.6.6)\Net35\Microsoft.Scripting.xml" />
     <None Include="Assets\plugins\SuperSocket(1.6.6)\Net35\Newtonsoft.Json.xml" />

@@ -12,7 +12,12 @@ namespace Devarc
 			 m_isLoad_FString = true;
 			using(T_FString obj = T_FString.MAP.Alloc(tb.GetStr("Key")))
 			{
-				obj.Initialize(tb);
+                if (obj == null)
+                {
+                    Log.Error("[TableManager]Cannot create 'DataCharacter'. (id={0})", tb.GetStr("Key"));
+                    return;
+                }
+                obj.Initialize(tb);
 			}
 		}
 		static void Callback_FString_JSON(string sheet_name, JsonData node)
@@ -28,31 +33,31 @@ namespace Devarc
 		{
 			T_FString.MAP.Clear();
 		}
-		public static bool Load_FString_XmlFile(string file_path)
+		public static bool Load_FString_SheetFile(string _filePath)
 		{
 			using (XmlSheetReader reader = new XmlSheetReader())
 			{
-				reader.RegisterCallback_Line("FString", Callback_FString_XML);
-				return reader.ReadFile(file_path);
+				reader.RegisterCallback_DataLine("FString", Callback_FString_XML);
+				return reader.ReadFile(_filePath);
 			}
 		}
-		public static bool Load_FString_XmlData(string file_path)
+		public static bool Load_FString_SheetData(string _data)
 		{
 			using (XmlSheetReader reader = new XmlSheetReader())
 			{
-				reader.RegisterCallback_Line("FString", Callback_FString_XML);
-				return reader.ReadData(file_path);
+				reader.RegisterCallback_DataLine("FString", Callback_FString_XML);
+				return reader.ReadData(_data);
 			}
 		}
-		public static bool Load_FString_JsonFile(string file_path)
+		public static bool Load_FString_JsonFile(string _filePath)
 		{
 			using (JsonReader reader = new JsonReader())
 			{
 				reader.RegisterCallback("FString", Callback_FString_JSON);
-				return reader.ReadFile(file_path);
+				return reader.ReadFile(_filePath);
 			}
 		}
-		public static void Save_FString_XmlFile(string file_path)
+		public static void Save_FString_SheetFile(string _filePAth)
 		{
 			using (XmlSheetWriter writer = new XmlSheetWriter())
 			{
@@ -67,12 +72,12 @@ namespace Devarc
 				        writer.Write_Contents(node, tb);
 				    }
 				}
-			    writer.Write_End(file_path);
+			    writer.Write_End(_filePAth);
 			}
 		}
-		public static void Save_FString_JsonFile(string file_path)
+		public static void Save_FString_JsonFile(string _filePath)
 		{
-			TextWriter sw = new StreamWriter(file_path, false);
+			TextWriter sw = new StreamWriter(_filePath, false);
 			sw.WriteLine("{");
 			sw.WriteLine("\"FString\":[");
 			for (int i = 0; i < T_FString.MAP.Count; i++)

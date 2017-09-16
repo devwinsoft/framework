@@ -2,29 +2,124 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using Devarc;
 
 public class BuildUtil
 {
-    public void BuildLString(string _workingFolder, TextAsset[] _inputList)
+    Dictionary<string, string> listCurrent = new Dictionary<string, string>();
+    Dictionary<string, string> listHistory = new Dictionary<string, string>();
+    Dictionary<string, string> listBuilt = new Dictionary<string, string>();
+
+    public bool BuildDataFile(DATA_FILE_TYPE _fileType, string[] _inFileList, string[] _outDirList)
+    {
+        if (_fileType == DATA_FILE_TYPE.EXCEL)
+        {
+            Log.Error("Cannot support excel format.");
+            return false;
+        }
+        Assembly assem = null;
+        Assembly[] _assems = System.AppDomain.CurrentDomain.GetAssemblies();
+        for (int i = 0; i < _assems.Length; i++)
+        {
+            if (_assems[i].FullName.Contains("Assembly") && _assems[i].FullName.Contains("Editor") == false)
+            {
+                assem = _assems[i];
+                break;
+            }
+        }
+        if (assem != null)
+        {
+            System.Type _type = typeof(TableManagerEx);
+            foreach (MethodInfo m in _type.GetMethods())
+            {
+                if (m.Name.StartsWith("UnLoad"))
+                {
+                    m.Invoke(null, null);
+                }
+            }
+
+            List<string> tmpSaveList = new List<string>();
+            foreach (string tmpFile in _inFileList)
+            {
+                string tmpFilePath = Path.Combine(Application.dataPath, tmpFile);
+                string tmpTableName = FrameworkUtil.GetClassNameEx(tmpFile);
+                string tmpMethodName = string.Format("Load_{0}_ExcelFile", tmpTableName);
+                foreach (MethodInfo m in _type.GetMethods())
+                {
+                    if (m.Name.Equals(tmpMethodName))
+                    {
+                        m.Invoke(null, new object[] { tmpFilePath });
+                        break;
+                    }
+                }
+                if (tmpSaveList.Contains(tmpTableName) == false)
+                    tmpSaveList.Add(tmpTableName);
+            }
+            foreach (string tmpTableName in tmpSaveList)
+            {
+                for (int i = 0; i < _outDirList.Length; i++)
+                {
+                    string subPath = System.IO.Path.Combine(Application.dataPath, _outDirList[i]);
+                    string savePath;
+                    string tmpMethodName;
+                    switch (_fileType)
+                    {
+                        case DATA_FILE_TYPE.JSON:
+                            savePath = System.IO.Path.Combine(subPath, tmpTableName + ".json");
+                            tmpMethodName = string.Format("Save_{0}_JsonFile", tmpTableName);
+                            break;
+                        case DATA_FILE_TYPE.SHEET:
+                            savePath = System.IO.Path.Combine(subPath, tmpTableName + ".xml");
+                            tmpMethodName = string.Format("Save_{0}_SheetFile", tmpTableName);
+                            break;
+                        default:
+                            subPath = "";
+                            savePath = "";
+                            tmpMethodName = "";
+                            break;
+                    }
+                    foreach (MethodInfo m in _type.GetMethods())
+                    {
+                        if (m.Name.Equals(tmpMethodName))
+                        {
+                            m.Invoke(null, new object[] { savePath });
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    public void BuildLString(string[] _inputList, string _outputFolder)
     {
         listCurrent.Clear();
         listHistory.Clear();
         listBuilt.Clear();
 
-        string workingPath = Path.Combine(Application.dataPath, _workingFolder);
-        using (XmlSheetReader readerCur = new XmlSheetReader())
+        string outputDir = Path.Combine(Application.dataPath, _outputFolder);
+        if (Directory.Exists(outputDir) == false)
+        {
+            if (Directory.CreateDirectory(outputDir) == null)
+            {
+                Log.Debug("Cannot Create Path: {0}", outputDir);
+                return;
+            }
+        }
+
+        using (ExcelReader readerCur = new ExcelReader())
         {
             readerCur.RegisterCallback_EveryLine(callbackCurrent);
             for (int i = 0; i < _inputList.Length; i++)
             {
                 if (_inputList[i] == null)
                     continue;
-                readerCur.ReadData(_inputList[i].text);
+                readerCur.ReadFile(Path.Combine(Application.dataPath, _inputList[i]));
             }
         }
 
-        string tempPath = Path.Combine(workingPath, "LString_.xml");
+        string tempPath = Path.Combine(outputDir, "LString_.xml"); // main language
         if (File.Exists(tempPath))
         {
             using (XmlSheetReader readerTemp = new XmlSheetReader())
@@ -47,7 +142,7 @@ public class BuildUtil
                 listBuilt.Clear();
                 TableManager.UnLoad_LString();
 
-                string destPath = Path.Combine(workingPath, string.Format("LString_{0}.xml", locales[i]));
+                string destPath = Path.Combine(outputDir, string.Format("LString_{0}.xml", locales[i]));
                 // read old data
                 if (File.Exists(destPath))
                 {
@@ -82,19 +177,20 @@ public class BuildUtil
                 }
 
                 // save
-                TableManager.Save_LString_XmlFile(destPath);
+                TableManager.Save_LString_SheetFile(destPath);
             }
         }
     }
 
     void callbackCurrent(string sheet_name, PropTable tb)
     {
+        string className = FrameworkUtil.GetClassName(sheet_name);
         for (int i = 0; i < tb.Length; i++)
         {
             if (tb.GetVarType(i) != VAR_TYPE.LSTRING)
                 continue;
 
-            string key = FrameworkUtil.MakeLStringKey("LString", "Key", tb.GetStr(tb.KeyIndex));
+            string key = FrameworkUtil.MakeLStringKey(className, tb.GetVarName(i), tb.GetStr(tb.KeyIndex));
             if (listCurrent.ContainsKey(key))
                 continue;
 
@@ -120,7 +216,4 @@ public class BuildUtil
         listBuilt.Add(key, value);
     }
 
-    Dictionary<string, string> listCurrent = new Dictionary<string, string>();
-    Dictionary<string, string> listHistory = new Dictionary<string, string>();
-    Dictionary<string, string> listBuilt = new Dictionary<string, string>();
 }

@@ -31,70 +31,135 @@ namespace Devarc
 {
     class Builder_Data
     {
+        DATA_FILE_TYPE dataFileType = DATA_FILE_TYPE.SHEET;
+        bool buildEx = false; // Build classes in unity editor mode.
+
         string NameSpace = "Devarc";
         string FileName = "";
-        string OutDir = "";
+        string OutFilePath = "";
         HashSet<string> m_ClassNames = new HashSet<string>();
         List<ClassInfo> m_ClassList = new List<ClassInfo>();
 
-
-        public void BuildFromFile(string _input_file, string _out_dir)
+        BaseDataReader _createReader()
         {
-            string tmpFileName = Path.GetFileNameWithoutExtension(_input_file);
+            switch (dataFileType)
+            {
+                case DATA_FILE_TYPE.EXCEL:
+                    return new ExcelReader();
+                case DATA_FILE_TYPE.SHEET:
+                default:
+                    return new XmlSheetReader();
+            }
+        }
+
+        public void Build_ExcelFile(string _inFilePath, string _outDir)
+        {
+            dataFileType = DATA_FILE_TYPE.EXCEL;
+
+            string tmpFileName = Path.GetFileNameWithoutExtension(_inFilePath);
             int tmpIndex = tmpFileName.IndexOf('@');
             if (tmpIndex >= 0)
                 this.FileName = tmpFileName.Substring(0, tmpIndex);
             else
                 this.FileName = tmpFileName;
-            this.OutDir = _out_dir; 
-            string file_path = Path.Combine(this.OutDir, "TableManager_" + this.FileName + ".cs");
 
-            if (File.Exists(_input_file) == false)
+            if (File.Exists(_inFilePath) == false)
             {
-                Log.Info("Cannot find file: " + _input_file);
+                Log.Info("Cannot find file: " + _inFilePath);
                 return;
             }
 
-            this._build(File.ReadAllText(_input_file), file_path);
+            buildEx = false;
+            string OutDir = _outDir;
+            this.OutFilePath = Path.Combine(OutDir, "TableManager_" + this.FileName + ".cs");
+            if (Directory.Exists(OutDir) == false)
+            {
+                if (Directory.CreateDirectory(OutDir) == null)
+                {
+                    Log.Info("Cannot find directory: " + OutDir);
+                    return;
+                }
+            }
+            this._build(_inFilePath);
+
+            buildEx = true;
+            string OutDirEx = Path.Combine(_outDir, "Editor");
+            this.OutFilePath = Path.Combine(OutDirEx, "TableManagerEx_" + this.FileName + ".cs");
+            if (Directory.Exists(OutDirEx) == false)
+            {
+                if (Directory.CreateDirectory(OutDirEx) == null)
+                {
+                    Log.Info("Cannot find directory: " + OutDirEx);
+                    return;
+                }
+            }
+            this._build(_inFilePath);
         }
 
-        public void BuildFromData(string _file_name, string _input_data, string _out_dir)
+        public void Build_SheetData(string _file_name, string _inFilePath, string _outDir)
         {
+            dataFileType = DATA_FILE_TYPE.SHEET;
+
             string tmpFileName = Path.GetFileNameWithoutExtension(_file_name);
             int tmpIndex = tmpFileName.IndexOf('@');
             if (tmpIndex >= 0)
                 this.FileName = tmpFileName.Substring(0, tmpIndex);
             else
                 this.FileName = tmpFileName;
-            this.OutDir = _out_dir;
-            string file_path = Path.Combine(this.OutDir, "TableManager_" + this.FileName + ".cs");
 
-            this._build(_input_data, file_path);
+            buildEx = false;
+            string OutDir = _outDir;
+            this.OutFilePath = Path.Combine(OutDir, "TableManager_" + this.FileName + ".cs");
+            if (Directory.Exists(OutDir) == false)
+            {
+                if (Directory.CreateDirectory(OutDir) == null)
+                {
+                    Log.Info("Cannot find directory: " + OutDir);
+                    return;
+                }
+            }
+            this._build(_inFilePath);
+
+            buildEx = true;
+            string OutDirEx = Path.Combine(_outDir, "Editor");
+            this.OutFilePath = Path.Combine(OutDirEx, "TableManagerEx_" + this.FileName + ".cs");
+            if (Directory.Exists(OutDirEx) == false)
+            {
+                if (Directory.CreateDirectory(OutDirEx) == null)
+                {
+                    Log.Info("Cannot find directory: " + OutDirEx);
+                    return;
+                }
+            }
+            this._build(_inFilePath);
         }
 
-        void _build(string _data, string file_path)
+        void _build(string _inFilePath)
         {
             m_ClassNames.Clear();
             m_ClassList.Clear();
 
-            using (TextWriter sw = new StreamWriter(file_path, false))
+            using (TextWriter sw = new StreamWriter(this.OutFilePath, false))
             {
                 sw.WriteLine("using System;");
                 sw.WriteLine("using System.IO;");
                 sw.WriteLine("using LitJson;");
                 sw.WriteLine("namespace {0}", this.NameSpace);
                 sw.WriteLine("{");
-                sw.WriteLine("\tpublic partial class TableManager");
+                if (this.buildEx)
+                    sw.WriteLine("\tpublic partial class TableManagerEx");
+                else
+                    sw.WriteLine("\tpublic partial class TableManager");
                 sw.WriteLine("\t{");
             }
 
-            using (XmlSheetReader reader1 = new XmlSheetReader())
+            using (BaseDataReader reader1 = _createReader())
             {
                 reader1.RegisterCallback_EveryTable(Callback_LoadSheet);
-                reader1.ReadData(_data);
+                reader1.ReadFile(_inFilePath);
             }
 
-            using (TextWriter sw = new StreamWriter(file_path, true))
+            using (TextWriter sw = new StreamWriter(this.OutFilePath, true))
             {
                 sw.WriteLine("\t\tpublic static bool isLoad_{0}", this.FileName);
                 sw.WriteLine("\t\t{");
@@ -117,27 +182,45 @@ namespace Devarc
                 }
                 sw.WriteLine("\t\t}");
 
+                // Load EXCEL
+                if (this.buildEx)
+                {
+                    sw.WriteLine("#if UNITY_EDITOR");
+                    sw.WriteLine("\t\tpublic static bool Load_{0}_ExcelFile(string file_path)", this.FileName);
+                    sw.WriteLine("\t\t{");
+                    sw.WriteLine("\t\t\tusing (ExcelReader reader = new ExcelReader())");
+                    sw.WriteLine("\t\t\t{");
+                    foreach (ClassInfo info in m_ClassList)
+                    {
+                        sw.WriteLine("\t\t\t\treader.RegisterCallback_DataLine(\"{0}\", Callback_{0}_Sheet);", info.enum_name);
+                    }
+                    sw.WriteLine("\t\t\t\treturn reader.ReadFile(file_path);");
+                    sw.WriteLine("\t\t\t}");
+                    sw.WriteLine("\t\t}");
+                    sw.WriteLine("#endif");
+                }
+
                 // Load XML
-                sw.WriteLine("\t\tpublic static bool Load_{0}_XmlFile(string file_path)", this.FileName);
+                sw.WriteLine("\t\tpublic static bool Load_{0}_SheetFile(string file_path)", this.FileName);
                 sw.WriteLine("\t\t{");
                 sw.WriteLine("\t\t\tusing (XmlSheetReader reader = new XmlSheetReader())");
                 sw.WriteLine("\t\t\t{");
                 foreach (ClassInfo info in m_ClassList)
                 {
-                    sw.WriteLine("\t\t\t\treader.RegisterCallback_Line(\"{0}\", Callback_{0}_XML);", info.enum_name);
+                    sw.WriteLine("\t\t\t\treader.RegisterCallback_DataLine(\"{0}\", Callback_{0}_Sheet);", info.enum_name);
                 }
                 sw.WriteLine("\t\t\t\treturn reader.ReadFile(file_path);");
                 sw.WriteLine("\t\t\t}");
                 sw.WriteLine("\t\t}");
 
                 // Load XML
-                sw.WriteLine("\t\tpublic static bool Load_{0}_XmlData(string _data)", this.FileName);
+                sw.WriteLine("\t\tpublic static bool Load_{0}_SheetData(string _data)", this.FileName);
                 sw.WriteLine("\t\t{");
                 sw.WriteLine("\t\t\tusing (XmlSheetReader reader = new XmlSheetReader())");
                 sw.WriteLine("\t\t\t{");
                 foreach (ClassInfo info in m_ClassList)
                 {
-                    sw.WriteLine("\t\t\t\treader.RegisterCallback_Line(\"{0}\", Callback_{0}_XML);", info.enum_name);
+                    sw.WriteLine("\t\t\t\treader.RegisterCallback_DataLine(\"{0}\", Callback_{0}_Sheet);", info.enum_name);
                 }
                 sw.WriteLine("\t\t\t\treturn reader.ReadData(_data);");
                 sw.WriteLine("\t\t\t}");
@@ -158,7 +241,7 @@ namespace Devarc
 
 
                 // Save XML
-                sw.WriteLine("\t\tpublic static void Save_{0}_XmlFile(string file_path)", this.FileName);
+                sw.WriteLine("\t\tpublic static void Save_{0}_SheetFile(string file_path)", this.FileName);
                 sw.WriteLine("\t\t{");
                 sw.WriteLine("\t\t\tusing (XmlSheetWriter writer = new XmlSheetWriter())");
                 sw.WriteLine("\t\t\t{");
@@ -202,11 +285,6 @@ namespace Devarc
                 sw.WriteLine("\t\t\tsw.WriteLine(\"}\");");
                 sw.WriteLine("\t\t\tsw.Close();");
                 sw.WriteLine("\t\t}");
-            }
-
-            using (TextWriter sw = new StreamWriter(file_path, true))
-            {
-                //sw.WriteLine("\t\t}");
                 sw.WriteLine("\t}");
                 sw.WriteLine("} // end of namespace");
             }
@@ -248,10 +326,9 @@ namespace Devarc
                 return;
             }
 
-            string file_path = this.OutDir + "\\TableManager_" + this.FileName + ".cs";
-            using (TextWriter sw = new StreamWriter(file_path, true))
+            using (TextWriter sw = new StreamWriter(this.OutFilePath, true))
             {
-                sw.WriteLine("\t\tstatic void Callback_{0}_XML(string sheet_name, PropTable tb)", enum_name);
+                sw.WriteLine("\t\tstatic void Callback_{0}_Sheet(string sheet_name, PropTable tb)", enum_name);
                 sw.WriteLine("\t\t{");
                 switch (tb.GetVarType(key_index))
                 {
@@ -288,6 +365,7 @@ namespace Devarc
                 sw.WriteLine("\t\t\t\tif (obj == null)");
                 sw.WriteLine("\t\t\t\t{");
                 sw.WriteLine("\t\t\t\t\tLog.Error(\"[TableManager]Cannot create '{0}'. (id={{0}})\", tb.GetStr(\"{1}\"));", enum_name, key_var_name);
+                sw.WriteLine("\t\t\t\t\treturn;");
                 sw.WriteLine("\t\t\t\t}");
                 sw.WriteLine("\t\t\t\tobj.Initialize(tb);");
                 sw.WriteLine("\t\t\t}");
@@ -296,38 +374,46 @@ namespace Devarc
                 sw.WriteLine("\t\tstatic void Callback_{0}_JSON(string sheet_name, JsonData node)", enum_name);
                 sw.WriteLine("\t\t{");
                 sw.WriteLine("\t\t\tif (node.Keys.Contains(\"unit_type\") == false) return;");
+                string keyString;
                 switch (tb.GetVarType(key_index))
                 {
                     case VAR_TYPE.BOOL:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.MAP.Alloc((bool)node[\"{1}\"]))", container_name, key_var_name);
+                        keyString = string.Format("(bool)node[\"{1}\"]", container_name, key_var_name);
                         break;
                     case VAR_TYPE.INT16:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.MAP.Alloc((short)node[\"{1}\"]))", container_name, key_var_name);
+                        keyString = string.Format("(short)node[\"{1}\"]", container_name, key_var_name);
                         break;
                     case VAR_TYPE.INT32:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.MAP.Alloc((int)node[\"{1}\"]))", container_name, key_var_name);
+                        keyString = string.Format("(int)node[\"{1}\"]", container_name, key_var_name);
                         break;
                     case VAR_TYPE.UINT32:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.MAP.Alloc((uint)node[\"{1}\"]))", container_name, key_var_name);
+                        keyString = string.Format("(uint)node[\"{1}\"]", container_name, key_var_name);
                         break;
                     case VAR_TYPE.INT64:
                     case VAR_TYPE.HOST_ID:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.MAP.Alloc((long)node[\"{1}\"]))", container_name, key_var_name);
+                        keyString = string.Format("(long)node[\"{1}\"])", container_name, key_var_name);
                         break;
                     case VAR_TYPE.FLOAT:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.MAP.Alloc((float)node[\"{1}\"]))", container_name, key_var_name);
+                        keyString = string.Format("(float)node[\"{1}\"]", container_name, key_var_name);
                         break;
                     case VAR_TYPE.STRING:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.MAP.Alloc(node[\"{1}\"].ToString()))", container_name, key_var_name);
+                        keyString = string.Format("node[\"{1}\"].ToString()", container_name, key_var_name);
                         break;
                     case VAR_TYPE.ENUM:
-                        sw.WriteLine("\t\t\tusing({0} obj = {0}.MAP.Alloc(_{1}.Parse(node[\"{2}\"].ToString())))", container_name, key_type_name, key_var_name);
+                        keyString = string.Format("_{1}.Parse(node[\"{2}\"].ToString())", container_name, key_type_name, key_var_name);
                         break;
                     default:
                         // error
+                        keyString = "0";
                         break;
                 }
+                sw.WriteLine("\t\t\tusing({0} obj = {0}.MAP.Alloc({1}))", container_name, keyString);
                 sw.WriteLine("\t\t\t{");
+                sw.WriteLine("\t\t\t\tif (obj == null)");
+                sw.WriteLine("\t\t\t\t{");
+                sw.WriteLine("\t\t\t\t\tLog.Error(\"[TableManager]Cannot create '{0}'. (id={{0}})\", {1});", enum_name, keyString);
+                sw.WriteLine("\t\t\t\t\treturn;");
+                sw.WriteLine("\t\t\t\t}");
                 sw.WriteLine("\t\t\t\tobj.Initialize(node);");
                 sw.WriteLine("\t\t\t}");
                 sw.WriteLine("\t\t}");
@@ -350,8 +436,7 @@ namespace Devarc
                 return;
             }
 
-            string file_path = this.OutDir + "\\TableManager_" + this.FileName + ".cs";
-            using (TextWriter sw = new StreamWriter(file_path, true))
+            using (TextWriter sw = new StreamWriter(this.OutFilePath, true))
             {
                 if (tb.GetVarType(item_key_index) == VAR_TYPE.STRING)
                 {

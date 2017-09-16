@@ -28,56 +28,20 @@ using System.Xml;
 
 namespace Devarc
 {
-    public delegate void CallbackXmlReader(string sheet_name, PropTable tb);
-
-    public class XmlSheetReader : IDisposable
+    public class XmlSheetReader : BaseDataReader
     {
-        public XmlSheetReader()
+        public override bool ReadFile(string _filePath)
         {
-        }
-        public void Dispose()
-        {
-            Clear();
-        }
-
-        public void RegisterCallback_EveryTable(CallbackXmlReader func)
-        {
-            m_CallbackEveryTable = func;
-        }
-
-        public void RegisterCallback_EveryLine(CallbackXmlReader func)
-        {
-            m_CallbackEveryLine = func;
-        }
-
-        public void RegisterCallback_Line(string sheet_name, CallbackXmlReader func)
-        {
-            if (m_CallbackList_Line.Contains(sheet_name) == false)
+            if (System.IO.File.Exists(_filePath) == false)
             {
-                m_CallbackList_Line.Add(sheet_name, func);
-            }
-        }
-
-        public void Clear()
-        {
-            m_CallbackEveryTable = null;
-            m_CallbackEveryLine = null;
-            m_CallbackList_Line.Clear();
-            m_SheetName = "";
-        }
-
-        public bool ReadFile(string _file_path)
-        {
-            if (System.IO.File.Exists(_file_path) == false)
-            {
-                Log.Debug("Cannot find file: " + _file_path);
+                Log.Debug("Cannot find file: " + _filePath);
                 return false;
             }
             XmlDocument doc = new XmlDocument();
             XmlNodeReader reader = null;
             try
             {
-                doc.Load(_file_path);
+                doc.Load(_filePath);
                 reader = new XmlNodeReader(doc);
                 _Parse(reader);
             }
@@ -89,7 +53,7 @@ namespace Devarc
             return true;
         }
 
-        public bool ReadData(string _data)
+        public override bool ReadData(string _data)
         {
             XmlDocument doc = new XmlDocument();
             XmlNodeReader reader = null;
@@ -154,9 +118,9 @@ namespace Devarc
                             if (function_called == false)
                             {
                                 function_called = true;
-                                if (m_CallbackEveryTable != null)
+                                if (callback_every_header != null)
                                 {
-                                    m_CallbackEveryTable(m_SheetName, temp_table);
+                                    callback_every_header(m_SheetName, temp_table);
                                 }
                             }
                         }
@@ -211,9 +175,9 @@ namespace Devarc
                     {
                         if (function_called == false)
                         {
-                            if (m_CallbackEveryTable != null)
+                            if (callback_every_header != null)
                             {
-                                m_CallbackEveryTable(m_SheetName, temp_table);
+                                callback_every_header(m_SheetName, temp_table);
                             }
                             function_called = true;
                         }
@@ -222,9 +186,9 @@ namespace Devarc
                     {
                         if (function_called == false && line_count > 1)
                         {
-                            if (m_CallbackEveryTable != null)
+                            if (callback_every_header != null)
                             {
-                                m_CallbackEveryTable(m_SheetName, temp_table);
+                                callback_every_header(m_SheetName, temp_table);
                             }
                             function_called = true;
                         }
@@ -243,25 +207,19 @@ namespace Devarc
 
         bool _CallFunction_Line(string sheet_name, PropTable tb)
         {
-            if (m_CallbackEveryLine != null)
+            if (callback_every_data != null)
             {
-                m_CallbackEveryLine(m_SheetName, tb);
+                callback_every_data(m_SheetName, tb);
             }
 
+            CallbackDataReader func = null;
             string class_name = sheet_name.Replace("!", "");
-            CallbackXmlReader func = m_CallbackList_Line[class_name] as CallbackXmlReader;
-            if (func != null)
+            if (callback_data_list.TryGetValue(class_name, out func))
             {
                 func(sheet_name, tb);
                 return true;
             }
             return false;
         }
-
-
-        private CallbackXmlReader m_CallbackEveryTable = null;
-        private CallbackXmlReader m_CallbackEveryLine = null;
-        private Hashtable m_CallbackList_Line = new Hashtable();
-        private string m_SheetName = "";
     }
 }

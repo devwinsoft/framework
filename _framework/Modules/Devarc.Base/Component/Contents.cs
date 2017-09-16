@@ -29,6 +29,57 @@ using LitJson;
 
 namespace Devarc
 {
+    public enum DATA_FILE_TYPE
+    {
+        SHEET,
+        EXCEL,
+        JSON,
+    }
+
+    public delegate void CallbackDataReader(string sheet_name, PropTable tb);
+
+    public abstract class BaseDataReader : IDisposable
+    {
+        protected CallbackDataReader callback_every_header = null;
+        protected CallbackDataReader callback_every_data = null;
+        protected Dictionary<string, CallbackDataReader> callback_data_list = new Dictionary<string, CallbackDataReader>();
+        protected string m_SheetName = "";
+
+        public virtual bool ReadFile(string _filePath) { return false; }
+        public virtual bool ReadData(string _data) { return false; }
+
+        public void Clear()
+        {
+            callback_every_header = null;
+            callback_every_data = null;
+            callback_data_list.Clear();
+            m_SheetName = "";
+        }
+
+        public void Dispose()
+        {
+            Clear();
+        }
+
+        public void RegisterCallback_EveryTable(CallbackDataReader func)
+        {
+            callback_every_header = func;
+        }
+
+        public void RegisterCallback_EveryLine(CallbackDataReader func)
+        {
+            callback_every_data = func;
+        }
+
+        public void RegisterCallback_DataLine(string sheet_name, CallbackDataReader func)
+        {
+            if (callback_data_list.ContainsKey(sheet_name) == false)
+            {
+                callback_data_list.Add(sheet_name, func);
+            }
+        }
+    }
+
     public interface IBaseObejct
     {
         void Initialize(IBaseObejct obj);

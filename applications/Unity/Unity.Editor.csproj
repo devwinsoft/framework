@@ -139,21 +139,6 @@
     <Reference Include="Facebook.Unity.Settings">
       <HintPath>Library\FacebookSDK\Facebook.Unity.Settings.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>Assets\Devwinsoft\Devarc\Editor\npoi\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI">
-      <HintPath>Assets\Devwinsoft\Devarc\Editor\npoi\NPOI.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OOXML">
-      <HintPath>Assets\Devwinsoft\Devarc\Editor\npoi\NPOI.OOXML.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OpenXml4Net">
-      <HintPath>Assets\Devwinsoft\Devarc\Editor\npoi\NPOI.OpenXml4Net.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OpenXmlFormats">
-      <HintPath>Assets\Devwinsoft\Devarc\Editor\npoi\NPOI.OpenXmlFormats.dll</HintPath>
-    </Reference>
     <Reference Include="LitJson">
       <HintPath>Assets\plugins\LitJson.dll</HintPath>
     </Reference>
@@ -193,11 +178,34 @@
     <Reference Include="System.Threading">
       <HintPath>Assets\plugins\SuperSocket(1.6.6)\Net35\System.Threading.dll</HintPath>
     </Reference>
+    <Reference Include="NPOI.OOXML">
+      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats">
+      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net">
+      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI">
+      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\NPOI.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Unity.Plugins.csproj">
+      <Project>{D1FDB199-0FB7-099D-3771-C6A942E4E326}</Project>
+      <Name>Unity.Plugins</Name>
+    </ProjectReference>
     <ProjectReference Include="Unity.csproj">
       <Project>{CF118143-7E37-744F-BE45-3F55345FEC40}</Project>
       <Name>Unity</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Editor.Plugins.csproj">
+      <Project>{81A6E58E-BFF2-F1C8-1C4E-6316985F642C}</Project>
+      <Name>Unity.Editor.Plugins</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -208,15 +216,18 @@
     <Compile Include="Assets\Devwinsoft\Devarc\Editor\Builder_Object.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\Editor\DevarcEditor.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\Editor\ExcelReader.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_test\Editor\Protocols.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\_GeneratedCode\Editor\TableManagerEx_TestSchema.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Devwinsoft\Devarc\Editor\npoi\NPOI.OOXML.XML" />
-    <None Include="Assets\Devwinsoft\Devarc\Editor\npoi\NPOI.OpenXml4Net.XML" />
-    <None Include="Assets\Devwinsoft\Devarc\Editor\npoi\NPOI.XML" />
-    <None Include="Assets\Devwinsoft\Devarc\_test\Graphics\shaderCharacter.shader" />
-    <None Include="Assets\Devwinsoft\Devarc\_test\Graphics\shaderTerrain.shader" />
-    <None Include="Assets\Devwinsoft\Devarc\_test\TestSchema.xml" />
+    <None Include="Assets\Devwinsoft\Devarc\Graphics\shaderCharacter.shader" />
+    <None Include="Assets\Devwinsoft\Devarc\Graphics\shaderTerrain.shader" />
+    <None Include="Assets\Devwinsoft\Devarc\_Plugins\NPOI.OOXML.XML" />
+    <None Include="Assets\Devwinsoft\Devarc\_Plugins\NPOI.OpenXml4Net.XML" />
+    <None Include="Assets\Devwinsoft\Devarc\_Plugins\NPOI.XML" />
+    <None Include="Assets\Resources\TableData\Localize\LString_.xml" />
+    <None Include="Assets\Resources\TableData\Localize\LString_ENG.xml" />
+    <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
+    <None Include="Assets\Standard Assets\Fonts\OpenSans\License!.txt" />
     <None Include="Assets\plugins\SuperSocket(1.6.6)\Net35\Microsoft.Scripting.Core.xml" />
     <None Include="Assets\plugins\SuperSocket(1.6.6)\Net35\Microsoft.Scripting.xml" />
     <None Include="Assets\plugins\SuperSocket(1.6.6)\Net35\Newtonsoft.Json.xml" />

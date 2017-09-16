@@ -5,13 +5,14 @@ namespace Devarc
 {
 	public partial class TableManager
 	{
-		static void Callback_DataCharacter_XML(string sheet_name, PropTable tb)
+		static void Callback_DataCharacter_Sheet(string sheet_name, PropTable tb)
 		{
 			using(T_DataCharacter obj = T_DataCharacter.MAP.Alloc(_UNIT.Parse(tb.GetStr("unit_type"))))
 			{
 				if (obj == null)
 				{
 					Log.Error("[TableManager]Cannot create 'DataCharacter'. (id={0})", tb.GetStr("unit_type"));
+					return;
 				}
 				obj.Initialize(tb);
 			}
@@ -21,16 +22,22 @@ namespace Devarc
 			if (node.Keys.Contains("unit_type") == false) return;
 			using(T_DataCharacter obj = T_DataCharacter.MAP.Alloc(_UNIT.Parse(node["unit_type"].ToString())))
 			{
+				if (obj == null)
+				{
+					Log.Error("[TableManager]Cannot create 'DataCharacter'. (id={0})", _UNIT.Parse(node["unit_type"].ToString()));
+					return;
+				}
 				obj.Initialize(node);
 			}
 		}
-		static void Callback_UNIT_XML(string sheet_name, PropTable tb)
+		static void Callback_UNIT_Sheet(string sheet_name, PropTable tb)
 		{
 			using(T_UNIT obj = T_UNIT.MAP.Alloc(_UNIT.Parse(tb.GetStr("ID"))))
 			{
 				if (obj == null)
 				{
 					Log.Error("[TableManager]Cannot create 'UNIT'. (id={0})", tb.GetStr("ID"));
+					return;
 				}
 				obj.Initialize(tb);
 			}
@@ -40,16 +47,22 @@ namespace Devarc
 			if (node.Keys.Contains("unit_type") == false) return;
 			using(T_UNIT obj = T_UNIT.MAP.Alloc(_UNIT.Parse(node["ID"].ToString())))
 			{
+				if (obj == null)
+				{
+					Log.Error("[TableManager]Cannot create 'UNIT'. (id={0})", _UNIT.Parse(node["ID"].ToString()));
+					return;
+				}
 				obj.Initialize(node);
 			}
 		}
-		static void Callback_DIRECTION_XML(string sheet_name, PropTable tb)
+		static void Callback_DIRECTION_Sheet(string sheet_name, PropTable tb)
 		{
 			using(T_DIRECTION obj = T_DIRECTION.MAP.Alloc(_DIRECTION.Parse(tb.GetStr("ID"))))
 			{
 				if (obj == null)
 				{
 					Log.Error("[TableManager]Cannot create 'DIRECTION'. (id={0})", tb.GetStr("ID"));
+					return;
 				}
 				obj.Initialize(tb);
 			}
@@ -59,6 +72,11 @@ namespace Devarc
 			if (node.Keys.Contains("unit_type") == false) return;
 			using(T_DIRECTION obj = T_DIRECTION.MAP.Alloc(_DIRECTION.Parse(node["ID"].ToString())))
 			{
+				if (obj == null)
+				{
+					Log.Error("[TableManager]Cannot create 'DIRECTION'. (id={0})", _DIRECTION.Parse(node["ID"].ToString()));
+					return;
+				}
 				obj.Initialize(node);
 			}
 		}
@@ -78,23 +96,23 @@ namespace Devarc
 			T_UNIT.MAP.Clear();
 			T_DIRECTION.MAP.Clear();
 		}
-		public static bool Load_TestSchema_XmlFile(string file_path)
+		public static bool Load_TestSchema_SheetFile(string file_path)
 		{
 			using (XmlSheetReader reader = new XmlSheetReader())
 			{
-				reader.RegisterCallback_Line("DataCharacter", Callback_DataCharacter_XML);
-				reader.RegisterCallback_Line("UNIT", Callback_UNIT_XML);
-				reader.RegisterCallback_Line("DIRECTION", Callback_DIRECTION_XML);
+				reader.RegisterCallback_DataLine("DataCharacter", Callback_DataCharacter_Sheet);
+				reader.RegisterCallback_DataLine("UNIT", Callback_UNIT_Sheet);
+				reader.RegisterCallback_DataLine("DIRECTION", Callback_DIRECTION_Sheet);
 				return reader.ReadFile(file_path);
 			}
 		}
-		public static bool Load_TestSchema_XmlData(string _data)
+		public static bool Load_TestSchema_SheetData(string _data)
 		{
 			using (XmlSheetReader reader = new XmlSheetReader())
 			{
-				reader.RegisterCallback_Line("DataCharacter", Callback_DataCharacter_XML);
-				reader.RegisterCallback_Line("UNIT", Callback_UNIT_XML);
-				reader.RegisterCallback_Line("DIRECTION", Callback_DIRECTION_XML);
+				reader.RegisterCallback_DataLine("DataCharacter", Callback_DataCharacter_Sheet);
+				reader.RegisterCallback_DataLine("UNIT", Callback_UNIT_Sheet);
+				reader.RegisterCallback_DataLine("DIRECTION", Callback_DIRECTION_Sheet);
 				return reader.ReadData(_data);
 			}
 		}
@@ -108,7 +126,7 @@ namespace Devarc
 				return reader.ReadFile(file_path);
 			}
 		}
-		public static void Save_TestSchema_XmlFile(string file_path)
+		public static void Save_TestSchema_SheetFile(string file_path)
 		{
 			using (XmlSheetWriter writer = new XmlSheetWriter())
 			{

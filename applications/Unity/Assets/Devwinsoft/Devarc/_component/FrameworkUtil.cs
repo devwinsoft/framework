@@ -7,6 +7,26 @@ namespace Devarc
 {
     public static class FrameworkUtil
     {
+        public static string GetClassName(string _path)
+        {
+            int startIndex = _path[0] == '!' ? 1 : 0;
+            int endIndex = _path.IndexOf('@');
+            if (endIndex >= 0)
+                return _path.Substring(startIndex, endIndex - startIndex);
+            else
+                return _path;
+        }
+        public static string GetClassNameEx(string _path)
+        {
+            string value = System.IO.Path.GetFileNameWithoutExtension(_path);
+            int startIndex = value[0] == '!' ? 1 : 0;
+            int endIndex = value.IndexOf('@');
+            if (endIndex >= 0)
+                return value.Substring(startIndex, endIndex - startIndex);
+            else
+                return value;
+        }
+
         public static string MakeLStringKey(string _class_name, string _field_name, string _id)
         {
             return string.Format("{0}_{1}_{2}", _class_name, _field_name, _id);

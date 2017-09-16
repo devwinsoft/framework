@@ -11,23 +11,6 @@ using NPOI.XSSF.UserModel;
 using System.Text;
 using Devarc;
 
-[XmlRoot("MonsterCollection")]
-public class MonsterContainer
-{
-    //[XmlArray("Monsters")]
-    //[XmlArrayItem("Monster")]
-    //public List<Monster> Monsters = new List<Monster>();
-    [XmlArray("Monsters"), XmlArrayItem("Monster")]
-    public Monster[] Monsters;
-}
-public class Monster
-{
-    [XmlAttribute("Name")]
-    public string Name;
-
-    public int Health;
-}
-
 public class DevarcEditor : EditorWindow
 {
     delegate bool callback_load(string _data);
@@ -45,7 +28,7 @@ public class DevarcEditor : EditorWindow
         public callback_save save;
     }
 
-    [@MenuItem("Tools/Devarc Framework")]
+    [@MenuItem("Tools/Devarc Build Tool")]
     static void BakingCharacterTexture()
     {
         EditorWindow.GetWindowWithRect(typeof(DevarcEditor), new Rect(0, 0, 540f, 500f), false);
@@ -54,27 +37,23 @@ public class DevarcEditor : EditorWindow
     const string buildConfigPath = "Assets/Devwinsoft/Devarc/BuildSettings.asset";
     BuilderSaveData buildConfigData = null;
 
-    Builder_Object builderObject = new Builder_Object();
-    Builder_Data builderData = new Builder_Data();
-    Builder_Net builderNet = new Builder_Net();
-
     Vector2 scrollPos = Vector2.zero;
 
     bool showObjectConfig = true;
     bool showObjectInput = false;
     bool showObjectOutput = false;
-    List<TextAsset> backupObjectInput = new List<TextAsset>();
+    List<string> backupObjectInput = new List<string>();
     List<string> backupObjectOutput = new List<string>();
 
     bool showDataConfig = true;
     bool showDataInput = false;
     bool showDataOutput = false;
-    List<TextAsset> backupDataInput = new List<TextAsset>();
+    List<string> backupDataInput = new List<string>();
     List<string> backupDataOutput = new List<string>();
 
     bool showStrConfig = true;
     bool showStrInput = false;
-    List<TextAsset> backupStrInput = new List<TextAsset>();
+    List<string> backupStrInput = new List<string>();
 
     string _get_table_name(string _raw_name)
     {
@@ -87,7 +66,7 @@ public class DevarcEditor : EditorWindow
 
     void OnEnable()
     {
-        this.titleContent.text = "Devarc";
+        this.titleContent.text = "Devarc Build";
     }
 
     T[] resize<T>(T[] _data, List<T> _backup, int _count)
@@ -126,17 +105,6 @@ public class DevarcEditor : EditorWindow
         }
         EditorUtility.SetDirty(buildConfigData);
 
-        if (GUILayout.Button("test"))
-        {
-            MonsterContainer data = new MonsterContainer();
-            data.Monsters = new Monster[] { new Monster() };
-            var serializer = new XmlSerializer(typeof(MonsterContainer));
-            using (var stream = new FileStream(Path.Combine(Application.dataPath, "test.xml"), FileMode.Create))
-            {
-                serializer.Serialize(stream, data);
-            }
-        }
-
         scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
 
         showObjectConfig = EditorGUILayout.Foldout(showObjectConfig, "Object Tables");
@@ -150,14 +118,14 @@ public class DevarcEditor : EditorWindow
                 EditorGUI.indentLevel++;
                 if (showObjectInput)
                 {
-                    int newTableCount = EditorGUILayout.IntField("Table Count", buildConfigData.inObjTables.Length);
-                    if (newTableCount != buildConfigData.inObjTables.Length)
+                    int newTableCount = EditorGUILayout.IntField("Excel Count", buildConfigData.inObjFiles.Length);
+                    if (newTableCount != buildConfigData.inObjFiles.Length)
                     {
-                        buildConfigData.inObjTables = resize<TextAsset>(buildConfigData.inObjTables, backupObjectInput, newTableCount);
+                        buildConfigData.inObjFiles = resize<string>(buildConfigData.inObjFiles, backupObjectInput, newTableCount);
                     }
-                    for (int i = 0; i < buildConfigData.inObjTables.Length; i++)
+                    for (int i = 0; i < buildConfigData.inObjFiles.Length; i++)
                     {
-                        buildConfigData.inObjTables[i] = (TextAsset)EditorGUILayout.ObjectField(string.Format("Table-{0}", i), buildConfigData.inObjTables[i], typeof(TextAsset));
+                        buildConfigData.inObjFiles[i] = EditorGUILayout.TextField(string.Format("Table-{0}", i), buildConfigData.inObjFiles[i]);
                     }
                 }
                 EditorGUI.indentLevel--;
@@ -186,6 +154,9 @@ public class DevarcEditor : EditorWindow
         GUI.backgroundColor = Color.white;
         if (GUILayout.Button("Compile Tables !!"))
         {
+            Builder_Object builderObject = new Builder_Object();
+            Builder_Data builderData = new Builder_Data();
+
             if (buildConfigData.outObjTables.Length == 0)
             {
                 EditorUtility.DisplayDialog("Compile Tables", "No Output Folder.", "Failed");
@@ -194,13 +165,14 @@ public class DevarcEditor : EditorWindow
             {
                 for (int k = 0; k < buildConfigData.outObjTables.Length; k++)
                 {
-                    string tempDir = System.IO.Path.Combine(Application.dataPath, buildConfigData.outObjTables[k]);
-                    for (int i = 0; i < buildConfigData.inObjTables.Length; i++)
+                    string tempOutDir = System.IO.Path.Combine(Application.dataPath, buildConfigData.outObjTables[k]);
+                    for (int i = 0; i < buildConfigData.inObjFiles.Length; i++)
                     {
-                        if (buildConfigData.inObjTables[i] == null)
+                        if (string.IsNullOrEmpty(buildConfigData.inObjFiles[i]))
                             continue;
-                        builderObject.BuildFromData(buildConfigData.inObjTables[i].name, buildConfigData.inObjTables[i].text, tempDir);
-                        builderData.BuildFromData(buildConfigData.inObjTables[i].name, buildConfigData.inObjTables[i].text, tempDir);
+                        string tempInPath = System.IO.Path.Combine(Application.dataPath, buildConfigData.inObjFiles[i]);
+                        builderObject.Build_ExcelFile(tempInPath, tempOutDir);
+                        builderData.Build_ExcelFile(tempInPath, tempOutDir);
                     }
                 }
                 AssetDatabase.SaveAssets();
@@ -219,14 +191,14 @@ public class DevarcEditor : EditorWindow
             EditorGUI.indentLevel++;
             if (showDataInput)
             {
-                int newTableCount = EditorGUILayout.IntField("Table Count", buildConfigData.inDataTables.Length);
-                if (newTableCount != buildConfigData.inDataTables.Length)
+                int newTableCount = EditorGUILayout.IntField("Table Count", buildConfigData.inDataFiles.Length);
+                if (newTableCount != buildConfigData.inDataFiles.Length)
                 {
-                    buildConfigData.inDataTables = resize<TextAsset>(buildConfigData.inDataTables, backupDataInput, newTableCount);
+                    buildConfigData.inDataFiles = resize<string>(buildConfigData.inDataFiles, backupDataInput, newTableCount);
                 }
-                for (int i = 0; i < buildConfigData.inDataTables.Length; i++)
+                for (int i = 0; i < buildConfigData.inDataFiles.Length; i++)
                 {
-                    buildConfigData.inDataTables[i] = (TextAsset)EditorGUILayout.ObjectField(string.Format("Table-{0}", i), buildConfigData.inDataTables[i], typeof(TextAsset));
+                    buildConfigData.inDataFiles[i] = EditorGUILayout.TextField(string.Format("Table-{0}", i), buildConfigData.inDataFiles[i]);
                 }
             }
             EditorGUI.indentLevel--;
@@ -248,62 +220,18 @@ public class DevarcEditor : EditorWindow
             EditorGUI.indentLevel--;
         }
         EditorGUI.indentLevel--;
+        if (GUILayout.Button("Make Spread Sheet Files !!"))
+        {
+            BuildUtil util = new BuildUtil();
+            util.BuildDataFile(DATA_FILE_TYPE.SHEET, buildConfigData.inDataFiles, buildConfigData.outDataTables);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh(ImportAssetOptions.Default);
+            EditorUtility.DisplayDialog("Make Spread Sheet Files", "Build Completed.", "Success");
+        }
         if (GUILayout.Button("Make Json Files !!"))
         {
-            Assembly assem = null;
-            Assembly[] _assems = System.AppDomain.CurrentDomain.GetAssemblies();
-            for (int i = 0; i < _assems.Length; i++)
-            {
-                if (_assems[i].FullName.Contains("Assembly") && _assems[i].FullName.Contains("Editor") == false)
-                {
-                    assem = _assems[i];
-                    break;
-                }
-            }
-            if (assem != null)
-            {
-                System.Type _type = typeof(TableManager);
-                foreach (MethodInfo m in _type.GetMethods())
-                {
-                    if (m.Name.StartsWith("UnLoad"))
-                    {
-                        m.Invoke(null, null);
-                    }
-                }
-
-                List<string> tmpSaveList = new List<string>();
-                foreach (TextAsset asset in buildConfigData.inObjTables)
-                {
-                    string tmpTableName = _get_table_name(asset.name);
-                    string tmpMethodName = string.Format("Load_{0}_XmlData", tmpTableName);
-                    foreach (MethodInfo m in _type.GetMethods())
-                    {
-                        if (m.Name.Equals(tmpMethodName))
-                        {
-                            m.Invoke(null, new object[] { asset.text });
-                        }
-                    }
-                    if (tmpSaveList.Contains(tmpTableName) == false)
-                        tmpSaveList.Add(tmpTableName);
-                }
-                foreach (string tmpTableName in tmpSaveList)
-                {
-                    for (int i = 0; i < buildConfigData.outDataTables.Length; i++)
-                    {
-                        string subPath = System.IO.Path.Combine(buildConfigData.outDataTables[i], tmpTableName + ".json");
-                        string savePath = System.IO.Path.Combine(Application.dataPath, subPath);
-                        string tmpMethodName = string.Format("Save_{0}_JsonFile", tmpTableName);
-                        foreach (MethodInfo m in _type.GetMethods())
-                        {
-                            if (m.Name.Equals(tmpMethodName))
-                            {
-                                m.Invoke(null, new object[] { savePath });
-                            }
-                        }
-                    }
-                }
-            }
-
+            BuildUtil util = new BuildUtil();
+            util.BuildDataFile(DATA_FILE_TYPE.JSON, buildConfigData.inDataFiles, buildConfigData.outDataTables);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh(ImportAssetOptions.Default);
             EditorUtility.DisplayDialog("Make Json Files", "Build Completed.", "Success");
@@ -315,30 +243,30 @@ public class DevarcEditor : EditorWindow
         EditorGUI.indentLevel++;
         if (showStrConfig)
         {
-            buildConfigData.workingPath = EditorGUILayout.TextField("Working Path", buildConfigData.workingPath);
-
             showStrInput = EditorGUILayout.Foldout(showStrInput, "Input Tables");
             EditorGUI.indentLevel++;
             if (showStrInput)
             {
-                int newTableCount = EditorGUILayout.IntField("Table Count", buildConfigData.localizeTables.Length);
-                if (newTableCount != buildConfigData.localizeTables.Length)
+                int newTableCount = EditorGUILayout.IntField("Table Count", buildConfigData.inStrTables.Length);
+                if (newTableCount != buildConfigData.inStrTables.Length)
                 {
-                    buildConfigData.localizeTables = resize<TextAsset>(buildConfigData.localizeTables, backupStrInput, newTableCount);
+                    buildConfigData.inStrTables = resize<string>(buildConfigData.inStrTables, backupStrInput, newTableCount);
                 }
-                for (int i = 0; i < buildConfigData.localizeTables.Length; i++)
+                for (int i = 0; i < buildConfigData.inStrTables.Length; i++)
                 {
-                    buildConfigData.localizeTables[i] = (TextAsset)EditorGUILayout.ObjectField(string.Format("Table-{0}", i), buildConfigData.localizeTables[i], typeof(TextAsset));
+                    buildConfigData.inStrTables[i] = EditorGUILayout.TextField(string.Format("Table-{0}", i), buildConfigData.inStrTables[i]);
                 }
             }
             EditorGUI.indentLevel--;
+
+            buildConfigData.outStrDir = EditorGUILayout.TextField("Output Directory", buildConfigData.outStrDir);
         }
         EditorGUI.indentLevel--;
 
         if (GUILayout.Button("Build Localized String."))
         {
             BuildUtil util = new BuildUtil();
-            util.BuildLString(buildConfigData.workingPath, buildConfigData.localizeTables);
+            util.BuildLString(buildConfigData.inStrTables, buildConfigData.outStrDir);
             EditorUtility.DisplayDialog("Build Localized String", "Build Completed.", "Success");
         }
 
