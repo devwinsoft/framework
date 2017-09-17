@@ -88,6 +88,21 @@
     <Reference Include="Facebook.Unity.Settings">
       <HintPath>Library\FacebookSDK\Facebook.Unity.Settings.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI">
+      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML">
+      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net">
+      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats">
+      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
     <Reference Include="LitJson">
       <HintPath>Assets\plugins\LitJson.dll</HintPath>
     </Reference>
@@ -126,21 +141,6 @@
     </Reference>
     <Reference Include="System.Threading">
       <HintPath>Assets\plugins\SuperSocket(1.6.6)\Net35\System.Threading.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OOXML">
-      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\NPOI.OOXML.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OpenXmlFormats">
-      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\NPOI.OpenXmlFormats.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OpenXml4Net">
-      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\NPOI.OpenXml4Net.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI">
-      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\NPOI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

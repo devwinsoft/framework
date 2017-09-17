@@ -41,7 +41,7 @@ namespace Devarc
                     IRow row = sheet.GetRow(r);
                     if (row != null)
                     {
-                        for (int c = 0; c < sheet.LastRowNum; c++)
+                        for (int c = 0; c < row.LastCellNum; c++)
                         {
                             ICell cell = row.GetCell(c);
                             if (cell == null)
