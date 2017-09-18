@@ -89,6 +89,7 @@ public class DevarcEditor : EditorWindow
 
     void OnGUI()
     {
+        Rect tempRect;
         if (buildConfigData == null)
         {
             buildConfigData = (BuilderSaveData)AssetDatabase.LoadAssetAtPath(buildConfigPath, typeof(BuilderSaveData));
@@ -107,43 +108,45 @@ public class DevarcEditor : EditorWindow
 
         scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
 
-        showObjectConfig = EditorGUILayout.Foldout(showObjectConfig, "Object Tables");
+        showObjectConfig = EditorGUILayout.Foldout(showObjectConfig, "Generate Source-Code");
         if (showObjectConfig)
         {
             EditorGUI.indentLevel++;
             {
                 GUI.backgroundColor = Color.white;
-                showObjectInput = EditorGUILayout.Foldout(showObjectInput, "Input Tables");
+                showObjectInput = EditorGUILayout.Foldout(showObjectInput, "Excel Files");
 
                 EditorGUI.indentLevel++;
                 if (showObjectInput)
                 {
-                    int newTableCount = EditorGUILayout.IntField("Excel Count", buildConfigData.inObjFiles.Length);
+                    int newTableCount = EditorGUILayout.IntField("File Count", buildConfigData.inObjFiles.Length);
                     if (newTableCount != buildConfigData.inObjFiles.Length)
                     {
                         buildConfigData.inObjFiles = resize<string>(buildConfigData.inObjFiles, backupObjectInput, newTableCount);
                     }
                     for (int i = 0; i < buildConfigData.inObjFiles.Length; i++)
                     {
-                        buildConfigData.inObjFiles[i] = EditorGUILayout.TextField(string.Format("Table-{0}", i), buildConfigData.inObjFiles[i]);
+                        buildConfigData.inObjFiles[i] = EditorGUILayout.TextField(string.Format("File-{0}", i), buildConfigData.inObjFiles[i]);
                     }
                 }
                 EditorGUI.indentLevel--;
 
+                GUILayout.Space(5f);
+
                 GUI.backgroundColor = Color.white;
-                showObjectOutput = EditorGUILayout.Foldout(showObjectOutput, "Output Directory");
+                showObjectOutput = EditorGUILayout.Foldout(showObjectOutput, "Output Source Code Directory");
 
                 EditorGUI.indentLevel++;
                 if (showObjectOutput)
                 {
-                    int newDirCount = EditorGUILayout.IntField("Output Directory Count", buildConfigData.outObjTables.Length);
+                    int newDirCount = EditorGUILayout.IntField("Directory Count", buildConfigData.outObjTables.Length);
                     if (newDirCount != buildConfigData.outObjTables.Length)
                     {
                         buildConfigData.outObjTables = resize<string>(buildConfigData.outObjTables, backupObjectOutput, newDirCount);
                     }
                     for (int i = 0; i < buildConfigData.outObjTables.Length; i++)
                     {
-                        buildConfigData.outObjTables[i] = EditorGUILayout.TextField(string.Format("Output Directory-{0}", i), buildConfigData.outObjTables[i]);
+                        buildConfigData.outObjTables[i] = EditorGUILayout.TextField(string.Format("Directory-{0}", i), buildConfigData.outObjTables[i]);
                     }
                 }
                 EditorGUI.indentLevel--;
@@ -152,14 +155,17 @@ public class DevarcEditor : EditorWindow
         }
 
         GUI.backgroundColor = Color.white;
-        if (GUILayout.Button("Compile Tables !!"))
+        tempRect = GUILayoutUtility.GetAspectRect(position.width / 18f);
+        tempRect.xMin = 20f;
+        tempRect.xMax = position.width - 20f;
+        if (GUI.Button(tempRect, "Generate Source Code"))
         {
             Builder_Object builderObject = new Builder_Object();
             Builder_Data builderData = new Builder_Data();
 
             if (buildConfigData.outObjTables.Length == 0)
             {
-                EditorUtility.DisplayDialog("Compile Tables", "No Output Folder.", "Failed");
+                EditorUtility.DisplayDialog("Generate Source Code", "No Output Folder.", "Failed");
             }
             else
             {
@@ -177,28 +183,61 @@ public class DevarcEditor : EditorWindow
                 }
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh(ImportAssetOptions.Default);
-                EditorUtility.DisplayDialog("Compile Tables", "Build Completed.", "Success");
+                EditorUtility.DisplayDialog("Generate Source Code", "Build Completed.", "Success");
             }
         }
 
         GUILayout.Space(20f);
 
-        showDataConfig = EditorGUILayout.Foldout(showDataConfig, "Data Tables");
+        showStrConfig = EditorGUILayout.Foldout(showStrConfig, "Generate String Tables");
+        EditorGUI.indentLevel++;
+        if (showStrConfig)
+        {
+            showStrInput = EditorGUILayout.Foldout(showStrInput, "Excel Files");
+            EditorGUI.indentLevel++;
+            if (showStrInput)
+            {
+                int newTableCount = EditorGUILayout.IntField("File Count", buildConfigData.inStrTables.Length);
+                if (newTableCount != buildConfigData.inStrTables.Length)
+                {
+                    buildConfigData.inStrTables = resize<string>(buildConfigData.inStrTables, backupStrInput, newTableCount);
+                }
+                for (int i = 0; i < buildConfigData.inStrTables.Length; i++)
+                {
+                    buildConfigData.inStrTables[i] = EditorGUILayout.TextField(string.Format("File-{0}", i), buildConfigData.inStrTables[i]);
+                }
+            }
+            EditorGUI.indentLevel--;
+
+            buildConfigData.outStrDir = EditorGUILayout.TextField("Output Directory", buildConfigData.outStrDir);
+        }
+        EditorGUI.indentLevel--;
+
+        if (GUILayout.Button("Build Localized String."))
+        {
+            BuildUtil util = new BuildUtil();
+            util.BuildLString(buildConfigData.inStrTables, buildConfigData.outStrDir);
+            EditorUtility.DisplayDialog("Build Localized String", "Build Completed.", "Success");
+        }
+
+        GUILayout.Space(20f);
+
+        showDataConfig = EditorGUILayout.Foldout(showDataConfig, "Generate Data-Table");
         EditorGUI.indentLevel++;
         if (showDataConfig)
         {
-            showDataInput = EditorGUILayout.Foldout(showDataInput, "Input Tables");
+            showDataInput = EditorGUILayout.Foldout(showDataInput, "Excel Files");
             EditorGUI.indentLevel++;
             if (showDataInput)
             {
-                int newTableCount = EditorGUILayout.IntField("Table Count", buildConfigData.inDataFiles.Length);
+                int newTableCount = EditorGUILayout.IntField("File Count", buildConfigData.inDataFiles.Length);
                 if (newTableCount != buildConfigData.inDataFiles.Length)
                 {
                     buildConfigData.inDataFiles = resize<string>(buildConfigData.inDataFiles, backupDataInput, newTableCount);
                 }
                 for (int i = 0; i < buildConfigData.inDataFiles.Length; i++)
                 {
-                    buildConfigData.inDataFiles[i] = EditorGUILayout.TextField(string.Format("Table-{0}", i), buildConfigData.inDataFiles[i]);
+                    buildConfigData.inDataFiles[i] = EditorGUILayout.TextField(string.Format("File-{0}", i), buildConfigData.inDataFiles[i]);
                 }
             }
             EditorGUI.indentLevel--;
@@ -220,54 +259,17 @@ public class DevarcEditor : EditorWindow
             EditorGUI.indentLevel--;
         }
         EditorGUI.indentLevel--;
-        if (GUILayout.Button("Make Spread Sheet Files !!"))
+
+        tempRect = GUILayoutUtility.GetAspectRect(position.width / 18f);
+        tempRect.xMin = 20f;
+        tempRect.xMax = position.width - 20f;
+        if (GUI.Button(tempRect, "Generate Json Files"))
         {
             BuildUtil util = new BuildUtil();
             util.BuildDataFile(DATA_FILE_TYPE.SHEET, buildConfigData.inDataFiles, buildConfigData.outDataTables);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh(ImportAssetOptions.Default);
-            EditorUtility.DisplayDialog("Make Spread Sheet Files", "Build Completed.", "Success");
-        }
-        if (GUILayout.Button("Make Json Files !!"))
-        {
-            BuildUtil util = new BuildUtil();
-            util.BuildDataFile(DATA_FILE_TYPE.JSON, buildConfigData.inDataFiles, buildConfigData.outDataTables);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh(ImportAssetOptions.Default);
             EditorUtility.DisplayDialog("Make Json Files", "Build Completed.", "Success");
-        }
-
-        GUILayout.Space(20f);
-
-        showStrConfig = EditorGUILayout.Foldout(showStrConfig, "String Tables");
-        EditorGUI.indentLevel++;
-        if (showStrConfig)
-        {
-            showStrInput = EditorGUILayout.Foldout(showStrInput, "Input Tables");
-            EditorGUI.indentLevel++;
-            if (showStrInput)
-            {
-                int newTableCount = EditorGUILayout.IntField("Table Count", buildConfigData.inStrTables.Length);
-                if (newTableCount != buildConfigData.inStrTables.Length)
-                {
-                    buildConfigData.inStrTables = resize<string>(buildConfigData.inStrTables, backupStrInput, newTableCount);
-                }
-                for (int i = 0; i < buildConfigData.inStrTables.Length; i++)
-                {
-                    buildConfigData.inStrTables[i] = EditorGUILayout.TextField(string.Format("Table-{0}", i), buildConfigData.inStrTables[i]);
-                }
-            }
-            EditorGUI.indentLevel--;
-
-            buildConfigData.outStrDir = EditorGUILayout.TextField("Output Directory", buildConfigData.outStrDir);
-        }
-        EditorGUI.indentLevel--;
-
-        if (GUILayout.Button("Build Localized String."))
-        {
-            BuildUtil util = new BuildUtil();
-            util.BuildLString(buildConfigData.inStrTables, buildConfigData.outStrDir);
-            EditorUtility.DisplayDialog("Build Localized String", "Build Completed.", "Success");
         }
 
         GUILayout.EndScrollView();

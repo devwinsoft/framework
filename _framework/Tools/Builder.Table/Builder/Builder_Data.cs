@@ -182,10 +182,9 @@ namespace Devarc
                 }
                 sw.WriteLine("\t\t}");
 
-                // Load EXCEL
                 if (this.buildEx)
                 {
-                    sw.WriteLine("#if UNITY_EDITOR");
+                    // Load EXCEL
                     sw.WriteLine("\t\tpublic static bool Load_{0}_ExcelFile(string file_path)", this.FileName);
                     sw.WriteLine("\t\t{");
                     sw.WriteLine("\t\t\tusing (ExcelReader reader = new ExcelReader())");
@@ -197,7 +196,29 @@ namespace Devarc
                     sw.WriteLine("\t\t\t\treturn reader.ReadFile(file_path);");
                     sw.WriteLine("\t\t\t}");
                     sw.WriteLine("\t\t}");
-                    sw.WriteLine("#endif");
+
+                    // Save EXCEL
+                    sw.WriteLine("\t\tpublic static void Save_{0}_ExcelFile(string file_path)", this.FileName);
+                    sw.WriteLine("\t\t{");
+                    sw.WriteLine("\t\t\tusing (ExcelWriter writer = new ExcelWriter())");
+                    sw.WriteLine("\t\t\t{");
+                    foreach (ClassInfo info in m_ClassList)
+                    {
+                        sw.WriteLine("\t\t\t\t{");
+                        sw.WriteLine("\t\t\t\t    {0} temp = new {0}();", info.class_name);
+                        sw.WriteLine("\t\t\t\t    PropTable tb_header = temp.ToTable();");
+                        sw.WriteLine("\t\t\t\t    writer.Write_Header(tb_header, {0});", info.is_enum.ToString().ToLower());
+                        sw.WriteLine("\t\t\t\t    for (int i = 0; i < {0}.MAP.Count; i++)", info.container_name);
+                        sw.WriteLine("\t\t\t\t    {");
+                        sw.WriteLine("\t\t\t\t        {0} obj = {0}.MAP.ElementAt(i);", info.container_name);
+                        sw.WriteLine("\t\t\t\t        PropTable tb = obj.ToTable();");
+                        sw.WriteLine("\t\t\t\t        writer.Write_Contents(tb);");
+                        sw.WriteLine("\t\t\t\t    }");
+                        sw.WriteLine("\t\t\t\t}");
+                    }
+                    sw.WriteLine("\t\t\t    writer.Write_End(file_path);");
+                    sw.WriteLine("\t\t\t}");
+                    sw.WriteLine("\t\t}");
                 }
 
                 // Load XML

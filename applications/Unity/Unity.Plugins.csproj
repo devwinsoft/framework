@@ -127,21 +127,6 @@
     <Reference Include="System.Threading">
       <HintPath>Assets\plugins\SuperSocket(1.6.6)\Net35\System.Threading.dll</HintPath>
     </Reference>
-    <Reference Include="NPOI.OOXML">
-      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\NPOI.OOXML.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OpenXmlFormats">
-      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\NPOI.OpenXmlFormats.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OpenXml4Net">
-      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\NPOI.OpenXml4Net.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI">
-      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\NPOI.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\AxisTouchButton.cs" />
@@ -183,9 +168,9 @@
   <ItemGroup>
     <None Include="Assets\Devwinsoft\Devarc\Graphics\shaderCharacter.shader" />
     <None Include="Assets\Devwinsoft\Devarc\Graphics\shaderTerrain.shader" />
-    <None Include="Assets\Devwinsoft\Devarc\_Plugins\NPOI.OOXML.XML" />
-    <None Include="Assets\Devwinsoft\Devarc\_Plugins\NPOI.OpenXml4Net.XML" />
-    <None Include="Assets\Devwinsoft\Devarc\_Plugins\NPOI.XML" />
+    <None Include="Assets\Devwinsoft\Devarc\_Plugins\Editor\NPOI.OOXML.XML" />
+    <None Include="Assets\Devwinsoft\Devarc\_Plugins\Editor\NPOI.OpenXml4Net.XML" />
+    <None Include="Assets\Devwinsoft\Devarc\_Plugins\Editor\NPOI.XML" />
     <None Include="Assets\Resources\TableData\Localize\LString_.xml" />
     <None Include="Assets\Resources\TableData\Localize\LString_ENG.xml" />
     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />

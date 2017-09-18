@@ -11,11 +11,11 @@ public class BuildUtil
     Dictionary<string, string> listHistory = new Dictionary<string, string>();
     Dictionary<string, string> listBuilt = new Dictionary<string, string>();
 
-    public bool BuildDataFile(DATA_FILE_TYPE _fileType, string[] _inFileList, string[] _outDirList)
+    public bool BuildDataFile(DATA_FILE_TYPE _saveFileType, string[] _inFileList, string[] _outDirList)
     {
-        if (_fileType == DATA_FILE_TYPE.EXCEL)
+        if (_saveFileType == DATA_FILE_TYPE.EXCEL)
         {
-            Log.Error("Cannot support excel format.");
+            Log.Error("Cannot save excel file.");
             return false;
         }
         Assembly assem = null;
@@ -44,7 +44,22 @@ public class BuildUtil
             {
                 string tmpFilePath = Path.Combine(Application.dataPath, tmpFile);
                 string tmpTableName = FrameworkUtil.GetClassNameEx(tmpFile);
-                string tmpMethodName = string.Format("Load_{0}_ExcelFile", tmpTableName);
+                string tmpMethodName;
+                switch (_saveFileType)
+                {
+                    case DATA_FILE_TYPE.JSON:
+                        tmpMethodName = string.Format("Load_{0}_JsonFile", tmpTableName);
+                        break;
+                    case DATA_FILE_TYPE.SHEET:
+                        tmpMethodName = string.Format("Load_{0}_SheetFile", tmpTableName);
+                        break;
+                    case DATA_FILE_TYPE.EXCEL:
+                        tmpMethodName = string.Format("Load_{0}_ExcelFile", tmpTableName);
+                        break;
+                    default:
+                        tmpMethodName = "";
+                        break;
+                }
                 foreach (MethodInfo m in _type.GetMethods())
                 {
                     if (m.Name.Equals(tmpMethodName))
@@ -63,7 +78,7 @@ public class BuildUtil
                     string subPath = System.IO.Path.Combine(Application.dataPath, _outDirList[i]);
                     string savePath;
                     string tmpMethodName;
-                    switch (_fileType)
+                    switch (_saveFileType)
                     {
                         case DATA_FILE_TYPE.JSON:
                             savePath = System.IO.Path.Combine(subPath, tmpTableName + ".json");
@@ -72,6 +87,10 @@ public class BuildUtil
                         case DATA_FILE_TYPE.SHEET:
                             savePath = System.IO.Path.Combine(subPath, tmpTableName + ".xml");
                             tmpMethodName = string.Format("Save_{0}_SheetFile", tmpTableName);
+                            break;
+                        case DATA_FILE_TYPE.EXCEL:
+                            savePath = System.IO.Path.Combine(subPath, tmpTableName + ".xlsx");
+                            tmpMethodName = string.Format("Save_{0}_ExcelFile", tmpTableName);
                             break;
                         default:
                             subPath = "";
@@ -177,7 +196,7 @@ public class BuildUtil
                 }
 
                 // save
-                TableManager.Save_LString_SheetFile(destPath);
+                TableManagerEx.Save_LString_SheetFile(destPath);
             }
         }
     }

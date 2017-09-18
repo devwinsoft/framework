@@ -139,21 +139,6 @@
     <Reference Include="Facebook.Unity.Settings">
       <HintPath>Library\FacebookSDK\Facebook.Unity.Settings.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI">
-      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\NPOI.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OOXML">
-      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\NPOI.OOXML.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OpenXml4Net">
-      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\NPOI.OpenXml4Net.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OpenXmlFormats">
-      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\NPOI.OpenXmlFormats.dll</HintPath>
-    </Reference>
     <Reference Include="LitJson">
       <HintPath>Assets\plugins\LitJson.dll</HintPath>
     </Reference>
@@ -193,6 +178,21 @@
     <Reference Include="System.Threading">
       <HintPath>Assets\plugins\SuperSocket(1.6.6)\Net35\System.Threading.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\Editor\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI">
+      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\Editor\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML">
+      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\Editor\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net">
+      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\Editor\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats">
+      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\Editor\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Unity.Plugins.csproj">
@@ -216,15 +216,17 @@
     <Compile Include="Assets\Devwinsoft\Devarc\Editor\Builder_Object.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\Editor\DevarcEditor.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\Editor\ExcelReader.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\Editor\TableManagerEx.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\Editor\ExcelWriter.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\Editor\TableManagerEx_FString.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\Editor\TableManagerEx_LString.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\_GeneratedCode\Editor\TableManagerEx_TestSchema.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Devwinsoft\Devarc\Graphics\shaderCharacter.shader" />
     <None Include="Assets\Devwinsoft\Devarc\Graphics\shaderTerrain.shader" />
-    <None Include="Assets\Devwinsoft\Devarc\_Plugins\NPOI.OOXML.XML" />
-    <None Include="Assets\Devwinsoft\Devarc\_Plugins\NPOI.OpenXml4Net.XML" />
-    <None Include="Assets\Devwinsoft\Devarc\_Plugins\NPOI.XML" />
+    <None Include="Assets\Devwinsoft\Devarc\_Plugins\Editor\NPOI.OOXML.XML" />
+    <None Include="Assets\Devwinsoft\Devarc\_Plugins\Editor\NPOI.OpenXml4Net.XML" />
+    <None Include="Assets\Devwinsoft\Devarc\_Plugins\Editor\NPOI.XML" />
     <None Include="Assets\Resources\TableData\Localize\LString_.xml" />
     <None Include="Assets\Resources\TableData\Localize\LString_ENG.xml" />
     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />

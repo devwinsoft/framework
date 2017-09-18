@@ -96,7 +96,6 @@ namespace Devarc
 			T_UNIT.MAP.Clear();
 			T_DIRECTION.MAP.Clear();
 		}
-#if UNITY_EDITOR
 		public static bool Load_TestSchema_ExcelFile(string file_path)
 		{
 			using (ExcelReader reader = new ExcelReader())
@@ -107,7 +106,46 @@ namespace Devarc
 				return reader.ReadFile(file_path);
 			}
 		}
-#endif
+		public static void Save_TestSchema_ExcelFile(string file_path)
+		{
+			using (ExcelWriter writer = new ExcelWriter())
+			{
+				{
+				    DataCharacter temp = new DataCharacter();
+				    PropTable tb_header = temp.ToTable();
+				    writer.Write_Header(tb_header, false);
+				    for (int i = 0; i < T_DataCharacter.MAP.Count; i++)
+				    {
+				        T_DataCharacter obj = T_DataCharacter.MAP.ElementAt(i);
+				        PropTable tb = obj.ToTable();
+				        writer.Write_Contents(tb);
+				    }
+				}
+				{
+				    _UNIT temp = new _UNIT();
+				    PropTable tb_header = temp.ToTable();
+				    writer.Write_Header(tb_header, true);
+				    for (int i = 0; i < T_UNIT.MAP.Count; i++)
+				    {
+				        T_UNIT obj = T_UNIT.MAP.ElementAt(i);
+				        PropTable tb = obj.ToTable();
+				        writer.Write_Contents(tb);
+				    }
+				}
+				{
+				    _DIRECTION temp = new _DIRECTION();
+				    PropTable tb_header = temp.ToTable();
+				    writer.Write_Header(tb_header, true);
+				    for (int i = 0; i < T_DIRECTION.MAP.Count; i++)
+				    {
+				        T_DIRECTION obj = T_DIRECTION.MAP.ElementAt(i);
+				        PropTable tb = obj.ToTable();
+				        writer.Write_Contents(tb);
+				    }
+				}
+			    writer.Write_End(file_path);
+			}
+		}
 		public static bool Load_TestSchema_SheetFile(string file_path)
 		{
 			using (XmlSheetReader reader = new XmlSheetReader())
