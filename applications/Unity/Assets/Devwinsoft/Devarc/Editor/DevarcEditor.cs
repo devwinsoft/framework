@@ -177,8 +177,21 @@ public class DevarcEditor : EditorWindow
                         if (string.IsNullOrEmpty(buildConfigData.inObjFiles[i]))
                             continue;
                         string tempInPath = System.IO.Path.Combine(Application.dataPath, buildConfigData.inObjFiles[i]);
-                        builderObject.Build_ExcelFile(tempInPath, tempOutDir);
-                        builderData.Build_ExcelFile(tempInPath, tempOutDir);
+                        string tempExt = Path.GetExtension(tempInPath);
+                        switch (tempExt.ToLower())
+                        {
+                            case ".xml":
+                                builderObject.Build_SheetFile(tempInPath, tempOutDir);
+                                builderData.Build_SheetFile(tempInPath, tempOutDir);
+                                break;
+                            case ".xls":
+                            case ".xlsx":
+                                builderObject.Build_ExcelFile(tempInPath, tempOutDir);
+                                builderData.Build_ExcelFile(tempInPath, tempOutDir);
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
                 AssetDatabase.SaveAssets();
@@ -266,7 +279,7 @@ public class DevarcEditor : EditorWindow
         if (GUI.Button(tempRect, "Generate Json Files"))
         {
             BuildUtil util = new BuildUtil();
-            util.BuildDataFile(DATA_FILE_TYPE.SHEET, buildConfigData.inDataFiles, buildConfigData.outDataTables);
+            util.BuildDataFile(DATA_FILE_TYPE.JSON, buildConfigData.inDataFiles, buildConfigData.outDataTables);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh(ImportAssetOptions.Default);
             EditorUtility.DisplayDialog("Make Json Files", "Build Completed.", "Success");

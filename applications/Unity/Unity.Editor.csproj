@@ -139,6 +139,21 @@
     <Reference Include="Facebook.Unity.Settings">
       <HintPath>Library\FacebookSDK\Facebook.Unity.Settings.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\Editor\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI">
+      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\Editor\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML">
+      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\Editor\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net">
+      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\Editor\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats">
+      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\Editor\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
     <Reference Include="LitJson">
       <HintPath>Assets\plugins\LitJson.dll</HintPath>
     </Reference>
@@ -178,20 +193,11 @@
     <Reference Include="System.Threading">
       <HintPath>Assets\plugins\SuperSocket(1.6.6)\Net35\System.Threading.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\Editor\ICSharpCode.SharpZipLib.dll</HintPath>
+    <Reference Include="Mono.Data.Sqlite">
+      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\Mono.Data.Sqlite.dll</HintPath>
     </Reference>
-    <Reference Include="NPOI">
-      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\Editor\NPOI.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OOXML">
-      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\Editor\NPOI.OOXML.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OpenXml4Net">
-      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\Editor\NPOI.OpenXml4Net.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OpenXmlFormats">
-      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\Editor\NPOI.OpenXmlFormats.dll</HintPath>
+    <Reference Include="System.Data">
+      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\System.Data.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -222,6 +228,7 @@
     <Compile Include="Assets\Devwinsoft\Devarc\_GeneratedCode\Editor\TableManagerEx_TestSchema.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Devwinsoft\Devarc\ExcelData\TestSchema.xml" />
     <None Include="Assets\Devwinsoft\Devarc\Graphics\shaderCharacter.shader" />
     <None Include="Assets\Devwinsoft\Devarc\Graphics\shaderTerrain.shader" />
     <None Include="Assets\Devwinsoft\Devarc\_Plugins\Editor\NPOI.OOXML.XML" />

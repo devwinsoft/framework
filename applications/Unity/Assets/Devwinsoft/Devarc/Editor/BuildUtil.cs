@@ -45,15 +45,17 @@ public class BuildUtil
                 string tmpFilePath = Path.Combine(Application.dataPath, tmpFile);
                 string tmpTableName = FrameworkUtil.GetClassNameEx(tmpFile);
                 string tmpMethodName;
-                switch (_saveFileType)
+                string tmpExt = Path.GetExtension(tmpFile);
+                switch(tmpExt.ToLower())
                 {
-                    case DATA_FILE_TYPE.JSON:
-                        tmpMethodName = string.Format("Load_{0}_JsonFile", tmpTableName);
-                        break;
-                    case DATA_FILE_TYPE.SHEET:
+                    case ".xml":
                         tmpMethodName = string.Format("Load_{0}_SheetFile", tmpTableName);
                         break;
-                    case DATA_FILE_TYPE.EXCEL:
+                    case ".json":
+                        tmpMethodName = string.Format("Load_{0}_JsonFile", tmpTableName);
+                        break;
+                    case ".xls":
+                    case ".xlsx":
                         tmpMethodName = string.Format("Load_{0}_ExcelFile", tmpTableName);
                         break;
                     default:
@@ -127,14 +129,28 @@ public class BuildUtil
             }
         }
 
-        using (ExcelReader readerCur = new ExcelReader())
+        ExcelReader excelReader = new ExcelReader();
+        XmlSheetReader sheetReader = new XmlSheetReader();
+        for (int i = 0; i < _inputList.Length; i++)
         {
-            readerCur.RegisterCallback_EveryLine(callbackCurrent);
-            for (int i = 0; i < _inputList.Length; i++)
+            if (string.IsNullOrEmpty(_inputList[i]))
+                continue;
+            string tmpExt = Path.GetExtension(_inputList[i]);
+            switch (tmpExt.ToLower())
             {
-                if (_inputList[i] == null)
-                    continue;
-                readerCur.ReadFile(Path.Combine(Application.dataPath, _inputList[i]));
+                case ".xml":
+                    sheetReader.RegisterCallback_EveryLine(callbackCurrent);
+                    sheetReader.ReadFile(Path.Combine(Application.dataPath, _inputList[i]));
+                    excelReader.Clear();
+                    break;
+                case ".xls":
+                case ".xlsx":
+                    excelReader.RegisterCallback_EveryLine(callbackCurrent);
+                    excelReader.ReadFile(Path.Combine(Application.dataPath, _inputList[i]));
+                    excelReader.Clear();
+                    break;
+                default:
+                    break;
             }
         }
 
