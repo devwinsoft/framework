@@ -2,6 +2,8 @@ using System;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
+using Mono.Data.Sqlite;
 using LitJson;
 namespace Devarc
 {
@@ -174,20 +176,9 @@ namespace Devarc
 	        }
 	    }
 	}
-	public class T_DataCharacter : DataCharacter, IContents<UNIT>, IDisposable
+	public class T_DataCharacter : DataCharacter, IBaseObejct, IDisposable
 	{
 	    public static Container<T_DataCharacter, UNIT> MAP = new Container<T_DataCharacter, UNIT>();
-	    public UNIT GetKey1()
-	    {
-	        return base.unit_type;
-	    }
-	    public void OnAlloc(UNIT key)
-	    {
-	        base.unit_type = key;
-	    }
-	    public void OnFree()
-	    {
-	    }
 	    public void Dispose()
 	    {
 	    }
@@ -694,20 +685,9 @@ namespace Devarc
 	        }
 	    }
 	}
-	public class T_UNIT : _UNIT, IContents<UNIT>, IDisposable
+	public class T_UNIT : _UNIT, IBaseObejct, IDisposable
 	{
 	    public static Container<T_UNIT, UNIT> MAP = new Container<T_UNIT, UNIT>();
-	    public UNIT GetKey1()
-	    {
-	        return base.ID;
-	    }
-	    public void OnAlloc(UNIT key)
-	    {
-	        base.ID = key;
-	    }
-	    public void OnFree()
-	    {
-	    }
 	    public void Dispose()
 	    {
 	    }
@@ -845,20 +825,9 @@ namespace Devarc
 	        }
 	    }
 	}
-	public class T_DIRECTION : _DIRECTION, IContents<DIRECTION>, IDisposable
+	public class T_DIRECTION : _DIRECTION, IBaseObejct, IDisposable
 	{
 	    public static Container<T_DIRECTION, DIRECTION> MAP = new Container<T_DIRECTION, DIRECTION>();
-	    public DIRECTION GetKey1()
-	    {
-	        return base.ID;
-	    }
-	    public void OnAlloc(DIRECTION key)
-	    {
-	        base.ID = key;
-	    }
-	    public void OnFree()
-	    {
-	    }
 	    public void Dispose()
 	    {
 	    }

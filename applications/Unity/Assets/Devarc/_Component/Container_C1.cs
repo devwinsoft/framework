@@ -82,7 +82,7 @@ namespace Devarc
     }
 
     public class Container<ME, KEY1>
-        where ME : IContents<KEY1>, new()
+        where ME : IBaseObejct, new()
     {
         private Dictionary<KEY1, ME> m_ObjTable1 = new Dictionary<KEY1, ME>();
         protected List<ME> m_ObjList = new List<ME>();
@@ -116,18 +116,16 @@ namespace Devarc
             {
                 return obj;
             }
-            obj.OnAlloc(key1);
             return obj;
         }
 
-        public void Free1(KEY1 key1)
+        public void Free(KEY1 key1)
         {
             ME obj;
             if (m_ObjTable1.TryGetValue(key1, out obj) == false)
             {
                 return;
             }
-            obj.OnFree();
             m_ObjTable1.Remove(key1);
             m_ObjList.Remove(obj);
             obj = default(ME);
@@ -138,6 +136,7 @@ namespace Devarc
             ME obj;
             return m_ObjTable1.TryGetValue(key1, out obj) ? obj : default(ME);
         }
+
         public bool Contains(KEY1 key1)
         {
             return m_ObjTable1.ContainsKey(key1);

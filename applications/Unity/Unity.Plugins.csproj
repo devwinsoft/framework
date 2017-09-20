@@ -88,14 +88,14 @@
     <Reference Include="Facebook.Unity.Settings">
       <HintPath>Library\FacebookSDK\Facebook.Unity.Settings.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Data.Sqlite">
-      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\Mono.Data.Sqlite.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data">
-      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\System.Data.dll</HintPath>
-    </Reference>
     <Reference Include="LitJson">
       <HintPath>Assets\plugins\LitJson.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Data.Sqlite">
+      <HintPath>Assets\Devarc\_Plugins\Mono.Data.Sqlite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data">
+      <HintPath>Assets\Devarc\_Plugins\System.Data.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -136,17 +136,16 @@
     <Compile Include="Assets\Standard Assets\Utility\WaypointProgressTracker.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Devwinsoft\Devarc\ExcelData\TestSchema.xml" />
-    <None Include="Assets\Devwinsoft\Devarc\Graphics\shaderCharacter.shader" />
-    <None Include="Assets\Devwinsoft\Devarc\Graphics\shaderTerrain.shader" />
-    <None Include="Assets\Devwinsoft\Devarc\_Plugins\Editor\NPOI.OOXML.XML" />
-    <None Include="Assets\Devwinsoft\Devarc\_Plugins\Editor\NPOI.OpenXml4Net.XML" />
-    <None Include="Assets\Devwinsoft\Devarc\_Plugins\Editor\NPOI.XML" />
+    <None Include="Assets\Devarc\ExcelData\TestSchema.xml" />
+    <None Include="Assets\Devarc\Graphics\shaderCharacter.shader" />
+    <None Include="Assets\Devarc\Graphics\shaderTerrain.shader" />
+    <None Include="Assets\Devarc\_Plugins\Editor\NPOI.OOXML.XML" />
+    <None Include="Assets\Devarc\_Plugins\Editor\NPOI.OpenXml4Net.XML" />
+    <None Include="Assets\Devarc\_Plugins\Editor\NPOI.XML" />
     <None Include="Assets\Resources\TableData\Localize\LString_.xml" />
     <None Include="Assets\Resources\TableData\Localize\LString_ENG.xml" />
     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
     <None Include="Assets\Standard Assets\Fonts\OpenSans\License!.txt" />
-    <None Include="Assets\test.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

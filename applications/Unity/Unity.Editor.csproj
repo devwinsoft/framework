@@ -139,29 +139,29 @@
     <Reference Include="Facebook.Unity.Settings">
       <HintPath>Library\FacebookSDK\Facebook.Unity.Settings.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Data.Sqlite">
-      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\Mono.Data.Sqlite.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data">
-      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\System.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\Editor\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI">
-      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\Editor\NPOI.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OOXML">
-      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\Editor\NPOI.OOXML.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OpenXml4Net">
-      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\Editor\NPOI.OpenXml4Net.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OpenXmlFormats">
-      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\Editor\NPOI.OpenXmlFormats.dll</HintPath>
-    </Reference>
     <Reference Include="LitJson">
       <HintPath>Assets\plugins\LitJson.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML">
+      <HintPath>Assets\Devarc\_Plugins\Editor\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats">
+      <HintPath>Assets\Devarc\_Plugins\Editor\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net">
+      <HintPath>Assets\Devarc\_Plugins\Editor\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Data.Sqlite">
+      <HintPath>Assets\Devarc\_Plugins\Mono.Data.Sqlite.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>Assets\Devarc\_Plugins\Editor\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data">
+      <HintPath>Assets\Devarc\_Plugins\System.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI">
+      <HintPath>Assets\Devarc\_Plugins\Editor\NPOI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -179,31 +179,30 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Devwinsoft\Devarc\Editor\BuildUtil.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\Editor\BuilderSaveData.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\Editor\Builder_Data.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\Editor\Builder_Net.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\Editor\Builder_Object.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\Editor\Builder_SQLite.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\Editor\DevarcEditor.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\Editor\ExcelReader.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\Editor\ExcelWriter.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\Editor\TableManagerEx_FString.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\Editor\TableManagerEx_LString.cs" />
-    <Compile Include="Assets\Devwinsoft\Devarc\_GeneratedCode\Editor\TableManagerEx_TestSchema.cs" />
+    <Compile Include="Assets\Devarc\Editor\BuildUtil.cs" />
+    <Compile Include="Assets\Devarc\Editor\BuilderSaveData.cs" />
+    <Compile Include="Assets\Devarc\Editor\Builder_Data.cs" />
+    <Compile Include="Assets\Devarc\Editor\Builder_Net.cs" />
+    <Compile Include="Assets\Devarc\Editor\Builder_Object.cs" />
+    <Compile Include="Assets\Devarc\Editor\Builder_SQLite.cs" />
+    <Compile Include="Assets\Devarc\Editor\DevarcEditor.cs" />
+    <Compile Include="Assets\Devarc\Editor\ExcelReader.cs" />
+    <Compile Include="Assets\Devarc\Editor\ExcelWriter.cs" />
+    <Compile Include="Assets\Devarc\Editor\TableManagerEx_FString.cs" />
+    <Compile Include="Assets\Devarc\Editor\TableManagerEx_LString.cs" />
+    <Compile Include="Assets\Devarc\_GeneratedCode\Editor\TableManagerEx_TestSchema.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Devwinsoft\Devarc\ExcelData\TestSchema.xml" />
-    <None Include="Assets\Devwinsoft\Devarc\Graphics\shaderCharacter.shader" />
-    <None Include="Assets\Devwinsoft\Devarc\Graphics\shaderTerrain.shader" />
-    <None Include="Assets\Devwinsoft\Devarc\_Plugins\Editor\NPOI.OOXML.XML" />
-    <None Include="Assets\Devwinsoft\Devarc\_Plugins\Editor\NPOI.OpenXml4Net.XML" />
-    <None Include="Assets\Devwinsoft\Devarc\_Plugins\Editor\NPOI.XML" />
+    <None Include="Assets\Devarc\ExcelData\TestSchema.xml" />
+    <None Include="Assets\Devarc\Graphics\shaderCharacter.shader" />
+    <None Include="Assets\Devarc\Graphics\shaderTerrain.shader" />
+    <None Include="Assets\Devarc\_Plugins\Editor\NPOI.OOXML.XML" />
+    <None Include="Assets\Devarc\_Plugins\Editor\NPOI.OpenXml4Net.XML" />
+    <None Include="Assets\Devarc\_Plugins\Editor\NPOI.XML" />
     <None Include="Assets\Resources\TableData\Localize\LString_.xml" />
     <None Include="Assets\Resources\TableData\Localize\LString_ENG.xml" />
     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
     <None Include="Assets\Standard Assets\Fonts\OpenSans\License!.txt" />
-    <None Include="Assets\test.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

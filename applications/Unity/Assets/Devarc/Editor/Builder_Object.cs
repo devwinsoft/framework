@@ -141,6 +141,8 @@ namespace Devarc
                 sw.WriteLine("using System.Text;");
                 sw.WriteLine("using System.Collections;");
                 sw.WriteLine("using System.Collections.Generic;");
+                sw.WriteLine("using System.Data;");
+                sw.WriteLine("using Mono.Data.Sqlite;");
                 sw.WriteLine("using LitJson;");
                 sw.WriteLine("namespace {0}", this.NameSpace);
                 sw.WriteLine("{");
@@ -1109,20 +1111,9 @@ namespace Devarc
                 // table start
                 if (tb.KeyTypeName.Length > 0)
                 {
-                    sw.WriteLine("\tpublic class {0} : {1}, IContents<{2}>, IDisposable", container_name, class_name, tb.KeyTypeName);
+                    sw.WriteLine("\tpublic class {0} : {1}, IBaseObejct, IDisposable", container_name, class_name);
                     sw.WriteLine("\t{");
                     sw.WriteLine("\t    public static Container<{0}, {1}> MAP = new Container<{0}, {1}>();", container_name, tb.KeyTypeName);
-                    sw.WriteLine("\t    public {0} GetKey1()", tb.KeyTypeName);
-                    sw.WriteLine("\t    {");
-                    sw.WriteLine("\t        return base.{0};", tb.KeyVarName);
-                    sw.WriteLine("\t    }");
-                    sw.WriteLine("\t    public void OnAlloc({0} key)", tb.KeyTypeName);
-                    sw.WriteLine("\t    {");
-                    sw.WriteLine("\t        base.{0} = key;", tb.KeyVarName);
-                    sw.WriteLine("\t    }");
-                    sw.WriteLine("\t    public void OnFree()");
-                    sw.WriteLine("\t    {");
-                    sw.WriteLine("\t    }");
                     sw.WriteLine("\t    public void Dispose()");
                     sw.WriteLine("\t    {");
                     sw.WriteLine("\t    }");

@@ -25,6 +25,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Data;
+using Mono.Data.Sqlite;
 using LitJson;
 
 namespace Devarc
@@ -80,25 +82,13 @@ namespace Devarc
         }
     }
 
+
     public interface IBaseObejct
     {
         void Initialize(IBaseObejct obj);
         void Initialize(PropTable obj);
-        //void Initialize(SimpleJSON.JSONNode obj);
+        //void Initialize(SqliteDataReader obj);
         void Initialize(LitJson.JsonData obj);
-    }
-
-    public interface IContents
-    {
-        void OnAlloc();
-        void OnFree();
-    }
-
-    public interface IContents<KEY1>
-    {
-        void OnAlloc(KEY1 k1);
-        void OnFree();
-        KEY1 GetKey1();
     }
 
     public interface IContents<KEY1, KEY2>

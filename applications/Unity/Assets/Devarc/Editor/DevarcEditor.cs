@@ -11,8 +11,20 @@ using NPOI.XSSF.UserModel;
 using System.Text;
 using Devarc;
 
+//public static _UNIT Get(SqliteConnection _conn, UNIT _key)
+//{
+//    SqliteCommand cmd = _conn.CreateCommand();
+//    cmd.CommandText = string.Format("select * from UNIT where='{0}'", _key);
+//    SqliteDataReader reader = cmd.ExecuteReader();
+//    _UNIT obj = new _UNIT();
+//    obj.Initialize(reader);
+//    return obj;
+//}
+
 public class DevarcEditor : EditorWindow
 {
+    const string buildConfigPath = "Assets/Devarc/BuildSettings.asset";
+
     delegate bool callback_load(string _data);
     delegate void callback_save(string _path);
     class LoadInfo
@@ -28,15 +40,13 @@ public class DevarcEditor : EditorWindow
         public callback_save save;
     }
 
-    [@MenuItem("Tools/Devarc Build Tool")]
+    [@MenuItem("Tools/Devarc")]
     static void BakingCharacterTexture()
     {
         EditorWindow.GetWindowWithRect(typeof(DevarcEditor), new Rect(0, 0, 540f, 500f), false);
     }
     
-    const string buildConfigPath = "Assets/Devwinsoft/Devarc/BuildSettings.asset";
     BuilderSaveData buildConfigData = null;
-
     Vector2 scrollPos = Vector2.zero;
 
     bool showObjectConfig = true;
@@ -70,7 +80,7 @@ public class DevarcEditor : EditorWindow
 
     void OnEnable()
     {
-        this.titleContent.text = "Devarc Build";
+        this.titleContent.text = "Devarc";
     }
 
     T[] resize<T>(T[] _data, List<T> _backup, int _count)
