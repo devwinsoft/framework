@@ -139,6 +139,12 @@
     <Reference Include="Facebook.Unity.Settings">
       <HintPath>Library\FacebookSDK\Facebook.Unity.Settings.dll</HintPath>
     </Reference>
+    <Reference Include="Mono.Data.Sqlite">
+      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\Mono.Data.Sqlite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data">
+      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\System.Data.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>Assets\Devwinsoft\Devarc\_Plugins\Editor\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
@@ -156,48 +162,6 @@
     </Reference>
     <Reference Include="LitJson">
       <HintPath>Assets\plugins\LitJson.dll</HintPath>
-    </Reference>
-    <Reference Include="log4net">
-      <HintPath>Assets\plugins\SuperSocket(1.6.6)\Net35\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Scripting.Core">
-      <HintPath>Assets\plugins\SuperSocket(1.6.6)\Net35\Microsoft.Scripting.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Scripting">
-      <HintPath>Assets\plugins\SuperSocket(1.6.6)\Net35\Microsoft.Scripting.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>Assets\plugins\SuperSocket(1.6.6)\Net35\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocket.Common">
-      <HintPath>Assets\plugins\SuperSocket(1.6.6)\Net35\SuperSocket.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocket.Dlr">
-      <HintPath>Assets\plugins\SuperSocket(1.6.6)\Net35\SuperSocket.Dlr.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocket.Facility">
-      <HintPath>Assets\plugins\SuperSocket(1.6.6)\Net35\SuperSocket.Facility.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocket.ServerManager">
-      <HintPath>Assets\plugins\SuperSocket(1.6.6)\Net35\SuperSocket.ServerManager.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocket.SocketBase">
-      <HintPath>Assets\plugins\SuperSocket(1.6.6)\Net35\SuperSocket.SocketBase.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocket.SocketEngine">
-      <HintPath>Assets\plugins\SuperSocket(1.6.6)\Net35\SuperSocket.SocketEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocket.WebSocket">
-      <HintPath>Assets\plugins\SuperSocket(1.6.6)\Net35\SuperSocket.WebSocket.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading">
-      <HintPath>Assets\plugins\SuperSocket(1.6.6)\Net35\System.Threading.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Data.Sqlite">
-      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\Mono.Data.Sqlite.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data">
-      <HintPath>Assets\Devwinsoft\Devarc\_Plugins\System.Data.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -220,6 +184,7 @@
     <Compile Include="Assets\Devwinsoft\Devarc\Editor\Builder_Data.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\Editor\Builder_Net.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\Editor\Builder_Object.cs" />
+    <Compile Include="Assets\Devwinsoft\Devarc\Editor\Builder_SQLite.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\Editor\DevarcEditor.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\Editor\ExcelReader.cs" />
     <Compile Include="Assets\Devwinsoft\Devarc\Editor\ExcelWriter.cs" />
@@ -238,14 +203,6 @@
     <None Include="Assets\Resources\TableData\Localize\LString_ENG.xml" />
     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
     <None Include="Assets\Standard Assets\Fonts\OpenSans\License!.txt" />
-    <None Include="Assets\plugins\SuperSocket(1.6.6)\Net35\Microsoft.Scripting.Core.xml" />
-    <None Include="Assets\plugins\SuperSocket(1.6.6)\Net35\Microsoft.Scripting.xml" />
-    <None Include="Assets\plugins\SuperSocket(1.6.6)\Net35\Newtonsoft.Json.xml" />
-    <None Include="Assets\plugins\SuperSocket(1.6.6)\Net35\SuperSocket.Common.XML" />
-    <None Include="Assets\plugins\SuperSocket(1.6.6)\Net35\SuperSocket.Dlr.XML" />
-    <None Include="Assets\plugins\SuperSocket(1.6.6)\Net35\SuperSocket.Facility.XML" />
-    <None Include="Assets\plugins\SuperSocket(1.6.6)\Net35\SuperSocket.SocketBase.XML" />
-    <None Include="Assets\plugins\SuperSocket(1.6.6)\Net35\SuperSocket.SocketEngine.XML" />
     <None Include="Assets\test.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -427,7 +427,6 @@ namespace Devarc
             }
         }
 
-
         public string GetTypeName(int index)
         {
             return m_PropList[index].TypeName;

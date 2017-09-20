@@ -14,7 +14,7 @@ namespace Devarc
             if (endIndex >= 0)
                 return _path.Substring(startIndex, endIndex - startIndex);
             else
-                return _path;
+                return _path.Substring(startIndex, _path.Length - startIndex);
         }
         public static string GetClassNameEx(string _path)
         {
@@ -24,7 +24,7 @@ namespace Devarc
             if (endIndex >= 0)
                 return value.Substring(startIndex, endIndex - startIndex);
             else
-                return value;
+                return value.Substring(startIndex, _path.Length - startIndex);
         }
 
         public static string MakeLStringKey(string _class_name, string _field_name, string _id)

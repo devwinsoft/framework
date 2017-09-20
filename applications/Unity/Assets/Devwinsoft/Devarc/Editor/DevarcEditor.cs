@@ -55,6 +55,10 @@ public class DevarcEditor : EditorWindow
     bool showStrInput = false;
     List<string> backupStrInput = new List<string>();
 
+
+    bool showSQLiteConfig = true;
+    bool showSQLiteInput = true;
+
     string _get_table_name(string _raw_name)
     {
         int tmpIndex = _raw_name.IndexOf('@');
@@ -194,8 +198,6 @@ public class DevarcEditor : EditorWindow
                         }
                     }
                 }
-                AssetDatabase.SaveAssets();
-                AssetDatabase.Refresh(ImportAssetOptions.Default);
                 EditorUtility.DisplayDialog("Generate Source Code", "Build Completed.", "Success");
             }
         }
@@ -226,7 +228,10 @@ public class DevarcEditor : EditorWindow
         }
         EditorGUI.indentLevel--;
 
-        if (GUILayout.Button("Build Localized String."))
+        tempRect = GUILayoutUtility.GetAspectRect(position.width / 18f);
+        tempRect.xMin = 20f;
+        tempRect.xMax = position.width - 20f;
+        if (GUI.Button(tempRect, "Build Localized String."))
         {
             BuildUtil util = new BuildUtil();
             util.BuildLString(buildConfigData.inStrTables, buildConfigData.outStrDir);
@@ -280,8 +285,49 @@ public class DevarcEditor : EditorWindow
         {
             BuildUtil util = new BuildUtil();
             util.BuildDataFile(DATA_FILE_TYPE.JSON, buildConfigData.inDataFiles, buildConfigData.outDataTables);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh(ImportAssetOptions.Default);
+            EditorUtility.DisplayDialog("Make Json Files", "Build Completed.", "Success");
+        }
+
+        GUILayout.Space(20f);
+
+        showSQLiteConfig = EditorGUILayout.Foldout(showDataConfig, "Generate SQLite");
+        EditorGUI.indentLevel++;
+        if (showSQLiteConfig)
+        {
+            showSQLiteInput = EditorGUILayout.Foldout(showSQLiteInput, "Excel Files");
+            EditorGUI.indentLevel++;
+            if (showSQLiteInput)
+            {
+                int newTableCount = EditorGUILayout.IntField("File Count", buildConfigData.inSQLiteFiles.Length);
+                if (newTableCount != buildConfigData.inSQLiteFiles.Length)
+                {
+                    buildConfigData.inSQLiteFiles = resize<string>(buildConfigData.inSQLiteFiles, backupDataInput, newTableCount);
+                }
+                for (int i = 0; i < buildConfigData.inSQLiteFiles.Length; i++)
+                {
+                    buildConfigData.inSQLiteFiles[i] = EditorGUILayout.TextField(string.Format("File-{0}", i), buildConfigData.inSQLiteFiles[i]);
+                }
+            }
+            EditorGUI.indentLevel--;
+
+            buildConfigData.outSQLitePath = EditorGUILayout.TextField("Output Path", buildConfigData.outSQLitePath);
+        }
+        EditorGUI.indentLevel--;
+
+        tempRect = GUILayoutUtility.GetAspectRect(position.width / 18f);
+        tempRect.xMin = 20f;
+        tempRect.xMax = position.width - 20f;
+        if (GUI.Button(tempRect, "Generate SQLite"))
+        {
+            string dbPath = Path.Combine(Application.dataPath, buildConfigData.outSQLitePath);
+            using (Builder_SQLite builder = new Builder_SQLite(dbPath))
+            {
+                for (int i = 0; i < buildConfigData.inDataFiles.Length; i++)
+                {
+                    string filePath = Path.Combine(Application.dataPath, buildConfigData.inSQLiteFiles[i]);
+                    builder.Build(filePath);
+                }
+            }
             EditorUtility.DisplayDialog("Make Json Files", "Build Completed.", "Success");
         }
 

@@ -55,16 +55,16 @@ namespace Devarc
         public void Build_ExcelFile(string _inFilePath, string _outDir)
         {
             dataFileType = DATA_FILE_TYPE.EXCEL;
-            BuildFile(_inFilePath, _outDir);
+            build_all(_inFilePath, _outDir);
         }
 
         public void Build_SheetFile(string _inFilePath, string _outDir)
         {
             dataFileType = DATA_FILE_TYPE.SHEET;
-            BuildFile(_inFilePath, _outDir);
+            build_all(_inFilePath, _outDir);
         }
 
-        bool BuildFile(string _inFilePath, string _outDir)
+        bool build_all(string _inFilePath, string _outDir)
         {
             string tmpFileName = Path.GetFileNameWithoutExtension(_inFilePath);
             int tmpIndex = tmpFileName.IndexOf('@');
