@@ -25,6 +25,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Mono.Data.Sqlite;
 using LitJson;
 
 namespace Devarc
@@ -331,7 +332,6 @@ namespace Devarc
         {
             m_PropList[index].Data = val;
         }
-
 
         public void Attach(string var_name, string _typeName, CLASS_TYPE _type, KEY_TYPE _keyType, string _value)
         {

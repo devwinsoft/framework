@@ -3,6 +3,8 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using LitJson;
+using Mono.Data.Sqlite;
+
 namespace Devarc
 {
 	public class LString : IBaseObejct
@@ -42,7 +44,12 @@ namespace Devarc
 			if (obj.Keys.Contains("Key")) Key = obj["Key"].ToString(); else Key = default(string);
 			if (obj.Keys.Contains("Value")) Value = obj["Value"].ToString(); else Value = default(string);
 		}
-		public override string ToString()
+        public void Initialize(SqliteDataReader obj)
+        {
+            Key = obj.GetString(0);
+            Value = obj.GetString(1);
+        }
+        public override string ToString()
 		{
 		    StringBuilder sb = new StringBuilder();
 		    sb.Append("{"); sb.Append(" \"Key\":"); sb.Append("\""); sb.Append(Key); sb.Append("\"");
@@ -103,7 +110,7 @@ namespace Devarc
 	        }
 	    }
 	}
-	public class T_LString : LString, IContents<string>, IDisposable
+	public class T_LString : LString, IBaseObejct, IDisposable
 	{
 	    public static Container<T_LString, string> MAP = new Container<T_LString, string>();
 	    public string GetKey1()
@@ -122,12 +129,4 @@ namespace Devarc
 	    }
 	}
 } // end of namespace
-namespace Devarc
-{
-} // end of namespace
-namespace Devarc
-{
-	public partial class BinWriter
-	{
-	}
-} // end of namespace
+

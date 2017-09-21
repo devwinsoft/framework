@@ -87,8 +87,15 @@ namespace Devarc
     {
         void Initialize(IBaseObejct obj);
         void Initialize(PropTable obj);
-        //void Initialize(SqliteDataReader obj);
+        void Initialize(SqliteDataReader obj);
         void Initialize(LitJson.JsonData obj);
+    }
+
+    public interface IContents<KEY1>
+    {
+        void OnAlloc(KEY1 k1);
+        void OnFree();
+        KEY1 GetKey1();
     }
 
     public interface IContents<KEY1, KEY2>

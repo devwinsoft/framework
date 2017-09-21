@@ -3,6 +3,8 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using LitJson;
+using Mono.Data.Sqlite;
+
 namespace Devarc
 {
     [System.Serializable]
@@ -64,6 +66,11 @@ namespace Devarc
         {
             if (obj.Keys.Contains("value")) value = obj["value"].ToString(); else value = default(string);
             if (obj.Keys.Contains("speed")) value = obj["speed"].ToString(); else speed = 1f;
+        }
+        public void Initialize(SqliteDataReader obj)
+        {
+            value = obj.GetString(0);
+            speed = obj.GetFloat(1);
         }
         public override string ToString()
         {
@@ -182,6 +189,10 @@ namespace Devarc
         public void Initialize(JsonData obj)
         {
             if (obj.Keys.Contains("value")) value = obj["value"].ToString(); else value = default(string);
+        }
+        public void Initialize(SqliteDataReader obj)
+        {
+            value = obj.GetString(0);
         }
         public override string ToString()
         {

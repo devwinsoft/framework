@@ -83,6 +83,15 @@ namespace Devarc
 			if (obj.Keys.Contains("nodes")) foreach (JsonData node in obj["nodes"]) { nodes.Add(node.ToString()); }
 			if (obj.Keys.Contains("unit_uid")) uint.TryParse(obj["unit_uid"].ToString(), out unit_uid); else unit_uid = default(uint);
 		}
+		public void Initialize(SqliteDataReader obj)
+		{
+			unit_type           = _UNIT.Parse(obj.GetString(0));
+			foreach (JsonData node in JsonMapper.ToObject(obj.GetString(2))) { items.Add(_UNIT.Parse(node.ToString())); };
+			FrameworkUtil.FillList<DataAbility>(obj.GetString(3), stats);
+			ability.Initialize(JsonMapper.ToObject(obj.GetString(4)));
+			foreach (JsonData node in JsonMapper.ToObject(obj.GetString(5))) { nodes.Add(node.ToString()); };
+			unit_uid            = (uint)obj.GetDecimal(6);
+		}
 		public override string ToString()
 		{
 		    StringBuilder sb = new StringBuilder();
@@ -235,6 +244,12 @@ namespace Devarc
 			if (obj.Keys.Contains("dex")) int.TryParse(obj["dex"].ToString(), out dex); else dex = default(int);
 			if (obj.Keys.Contains("vit")) int.TryParse(obj["vit"].ToString(), out vit); else vit = default(int);
 		}
+		public void Initialize(SqliteDataReader obj)
+		{
+			str                 = obj.GetInt32(0);
+			dex                 = obj.GetInt32(1);
+			vit                 = obj.GetInt32(2);
+		}
 		public override string ToString()
 		{
 		    StringBuilder sb = new StringBuilder();
@@ -351,6 +366,11 @@ namespace Devarc
 			if (obj.Keys.Contains("id")) HostID.TryParse(obj["id"].ToString(), out id); else id = default(short);
 			if (obj.Keys.Contains("pos")) pos.Initialize(obj["pos"]);
 		}
+		public void Initialize(SqliteDataReader obj)
+		{
+			id                  = (HostID)obj.GetInt16(0);
+			pos.Initialize(JsonMapper.ToObject(obj.GetString(1)));
+		}
 		public override string ToString()
 		{
 		    StringBuilder sb = new StringBuilder();
@@ -464,6 +484,12 @@ namespace Devarc
 			if (obj.Keys.Contains("x")) float.TryParse(obj["x"].ToString(), out x); else x = default(float);
 			if (obj.Keys.Contains("y")) float.TryParse(obj["y"].ToString(), out y); else y = default(float);
 			if (obj.Keys.Contains("z")) float.TryParse(obj["z"].ToString(), out z); else z = default(float);
+		}
+		public void Initialize(SqliteDataReader obj)
+		{
+			x                   = obj.GetFloat(0);
+			y                   = obj.GetFloat(1);
+			z                   = obj.GetFloat(2);
 		}
 		public override string ToString()
 		{
@@ -624,6 +650,11 @@ namespace Devarc
 			if (obj.Keys.Contains("Name")) Name = obj["Name"].ToString(); else Name = default(string);
 			if (obj.Keys.Contains("ID")) ID = _UNIT.Parse(obj["ID"].ToString()); else ID = default(UNIT);
 		}
+		public void Initialize(SqliteDataReader obj)
+		{
+			Name                = obj.GetString(0);
+			ID                  = _UNIT.Parse(obj.GetString(1));
+		}
 		public override string ToString()
 		{
 		    StringBuilder sb = new StringBuilder();
@@ -763,6 +794,11 @@ namespace Devarc
 		{
 			if (obj.Keys.Contains("Name")) Name = obj["Name"].ToString(); else Name = default(string);
 			if (obj.Keys.Contains("ID")) ID = _DIRECTION.Parse(obj["ID"].ToString()); else ID = default(DIRECTION);
+		}
+		public void Initialize(SqliteDataReader obj)
+		{
+			Name                = obj.GetString(0);
+			ID                  = _DIRECTION.Parse(obj.GetString(1));
 		}
 		public override string ToString()
 		{

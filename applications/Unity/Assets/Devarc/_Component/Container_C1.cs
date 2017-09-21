@@ -26,63 +26,7 @@ using System.Collections.Generic;
 
 namespace Devarc
 {
-    public class Container<ME> where ME : IContents, new()
-    {
-        protected List<ME> m_ObjList = new List<ME>();
-
-        public Container()
-        {
-        }
-        public void Clear()
-        {
-            m_ObjList.Clear();
-        }
-
-        private ME _Alloc()
-        {
-            ME obj = new ME();
-            m_ObjList.Add(obj);
-            return obj;
-        }
-        public ME Alloc()
-        {
-            ME obj = _Alloc();
-            obj.OnAlloc();
-            return obj;
-        }
-
-        public void Free1(ME obj)
-        {
-            if (m_ObjList.Contains(obj) == false)
-            {
-                return;
-            }
-            obj.OnFree();
-            m_ObjList.Remove(obj);
-            obj = default(ME);
-        }
-
-        public bool Contains(ME obj)
-        {
-            return m_ObjList.Contains(obj);
-        }
-        public ME ElementAt(int index)
-        {
-            if (m_ObjList.Count <= index)
-            {
-                return default(ME);
-            }
-            return m_ObjList[index];
-        }
-        public ME[] ToArray()
-        {
-            return m_ObjList.ToArray();
-        }
-        public int Count { get { return m_ObjList.Count; } }
-    }
-
-    public class Container<ME, KEY1>
-        where ME : IBaseObejct, new()
+    public class Container<ME, KEY1> where ME : IBaseObejct, new()
     {
         private Dictionary<KEY1, ME> m_ObjTable1 = new Dictionary<KEY1, ME>();
         protected List<ME> m_ObjList = new List<ME>();

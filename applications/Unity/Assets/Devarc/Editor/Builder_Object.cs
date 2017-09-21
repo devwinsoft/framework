@@ -668,6 +668,115 @@ namespace Devarc
 
 
 
+
+                sw.WriteLine("\t\tpublic void Initialize(SqliteDataReader obj)", class_name);
+                sw.WriteLine("\t\t{");
+                for (int i = 0; i < tb.Length; i++)
+                {
+                    string type_name = tb.GetTypeName(i);
+                    string var_name = tb.GetVarName(i);
+                    bool is_list = tb.GetClassType(i) == CLASS_TYPE.VALUE_LIST || tb.GetClassType(i) == CLASS_TYPE.CLASS_LIST;
+                    if (var_name == "" || type_name == "" || var_name.Contains('/'))
+                    {
+                        continue;
+                    }
+                    switch (tb.GetVarType(i))
+                    {
+                        case VAR_TYPE.BOOL:
+                            if (is_list)
+                            {
+                                sw.WriteLine("\t\t\tforeach (JsonData node in JsonMapper.ToObject(obj.GetString({1}))) {{ {0}.Add(Convert.ToBoolean(node.ToString())); }};", var_name, i);
+                            }
+                            else
+                                sw.WriteLine("\t\t\t{0,-20}= obj.GetBool({1});", var_name, i);
+                            break;
+                        case VAR_TYPE.INT16:
+                            if (is_list)
+                            {
+                                sw.WriteLine("\t\t\tforeach (JsonData node in JsonMapper.ToObject(obj.GetString({1}))) {{ {0}.Add(Convert.ToInt16(node.ToString())); }};", var_name, i);
+                            }
+                            else
+                                sw.WriteLine("\t\t\t{0,-20}= obj.GetInt16({1});", var_name, i);
+                            break;
+                        case VAR_TYPE.INT32:
+                            if (is_list)
+                            {
+                                sw.WriteLine("\t\t\tforeach (JsonData node in JsonMapper.ToObject(obj.GetString({1}))) {{ {0}.Add(Convert.ToInt32(node.ToString())); }};", var_name, i);
+                            }
+                            else
+                                sw.WriteLine("\t\t\t{0,-20}= obj.GetInt32({1});", var_name, i);
+                            break;
+                        case VAR_TYPE.UINT32:
+                            if (is_list)
+                            {
+                                sw.WriteLine("\t\t\tforeach (JsonData node in JsonMapper.ToObject(obj.GetString({1}))) {{ {0}.Add(Convert.ToUInt64(node.ToString())); }};", var_name, i);
+                            }
+                            else
+                                sw.WriteLine("\t\t\t{0,-20}= (uint)obj.GetDecimal({1});", var_name, i);
+                            break;
+                        case VAR_TYPE.INT64:
+                            if (is_list)
+                            {
+                                sw.WriteLine("\t\t\tforeach (JsonData node in JsonMapper.ToObject(obj.GetString({1}))) {{ {0}.Add(Convert.ToInt64(node.ToString())); }};", var_name, i);
+                            }
+                            else
+                                sw.WriteLine("\t\t\t{0,-20}= obj.GetInt64({1});", var_name, i);
+                            break;
+                        case VAR_TYPE.HOST_ID:
+                            if (is_list)
+                            {
+                                sw.WriteLine("\t\t\tforeach (JsonData node in JsonMapper.ToObject(obj.GetString({1}))) {{ {0}.Add(Convert.ToInt16(node.ToString())); }};", var_name, i);
+                            }
+                            else
+                                sw.WriteLine("\t\t\t{0,-20}= (HostID)obj.GetInt16({1});", var_name, i);
+                            break;
+                        case VAR_TYPE.FLOAT:
+                            if (is_list)
+                            {
+                                sw.WriteLine("\t\t\tforeach (JsonData node in JsonMapper.ToObject(obj.GetString({1}))) {{ {0}.Add(Convert.ToSingle(node.ToString())); }};", var_name, i);
+                            }
+                            else
+                                sw.WriteLine("\t\t\t{0,-20}= obj.GetFloat({1});", var_name, i);
+                            break;
+                        case VAR_TYPE.CSTRING:
+                        case VAR_TYPE.STRING:
+                            if (is_list)
+                            {
+                                sw.WriteLine("\t\t\tforeach (JsonData node in JsonMapper.ToObject(obj.GetString({1}))) {{ {0}.Add(node.ToString()); }};", var_name, i);
+                            }
+                            else
+                                sw.WriteLine("\t\t\t{0,-20}= obj.GetString({1});", var_name, i);
+                            break;
+                        case VAR_TYPE.LSTRING:
+                            break;
+                        case VAR_TYPE.ENUM:
+                            if (is_list)
+                            {
+                                sw.WriteLine("\t\t\tforeach (JsonData node in JsonMapper.ToObject(obj.GetString({1}))) {{ {0}.Add(_{2}.Parse(node.ToString())); }};", var_name, i, type_name);
+                            }
+                            else
+                            {
+                                sw.WriteLine("\t\t\t{0,-20}= _{2}.Parse(obj.GetString({1}));", var_name, i, type_name);
+                            }
+                            break;
+                        case VAR_TYPE.CLASS:
+                            if (is_list)
+                            {
+                                sw.WriteLine("\t\t\tFrameworkUtil.FillList<{2}>(obj.GetString({1}), {0});", var_name, i, type_name);
+                            }
+                            else
+                            {
+                                sw.WriteLine("\t\t\t{0}.Initialize(JsonMapper.ToObject(obj.GetString({1})));", var_name, i);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                sw.WriteLine("\t\t}");
+
+
+
                 //
                 // ToString()
                 //
