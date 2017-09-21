@@ -25,6 +25,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+#if UNITY_5
+using Mono.Data.Sqlite;
+#else
+using System.Data.SQLite;
+#endif
 using LitJson;
 
 namespace Devarc
@@ -332,7 +337,6 @@ namespace Devarc
             m_PropList[index].Data = val;
         }
 
-
         public void Attach(string var_name, string _typeName, CLASS_TYPE _type, KEY_TYPE _keyType, string _value)
         {
             int index = m_Length;
@@ -426,7 +430,6 @@ namespace Devarc
                     return PropTable.ToVarType(m_PropList[index].TypeName);
             }
         }
-
 
         public string GetTypeName(int index)
         {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using LitJson;
 
 namespace Devarc
 {
@@ -14,7 +15,7 @@ namespace Devarc
             if (endIndex >= 0)
                 return _path.Substring(startIndex, endIndex - startIndex);
             else
-                return _path;
+                return _path.Substring(startIndex, _path.Length - startIndex);
         }
         public static string GetClassNameEx(string _path)
         {
@@ -24,7 +25,26 @@ namespace Devarc
             if (endIndex >= 0)
                 return value.Substring(startIndex, endIndex - startIndex);
             else
-                return value;
+                return value.Substring(startIndex, _path.Length - startIndex);
+        }
+
+        public static int FillList<T>(string _jsonString, List<T> _list) where T : IBaseObejct, new()
+        {
+            if (_list == null)
+                return 0;
+            _list.Clear();
+            JsonData value = JsonMapper.ToObject(_jsonString);
+            if (value.IsArray == false)
+                return 0;
+            System.Collections.IList tempList = value as System.Collections.IList;
+            var enumer = tempList.GetEnumerator();
+            while (enumer.MoveNext())
+            {
+                T obj = new T();
+                obj.Initialize(value as JsonData);
+                _list.Add(obj);
+            }
+            return _list.Count;
         }
 
         public static string MakeLStringKey(string _class_name, string _field_name, string _id)

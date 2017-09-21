@@ -27,14 +27,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
-#if UNITY_5
 using Mono.Data.Sqlite;
-#else
-using System.Data.SQLite;
-using SqliteDataReader = System.Data.SQLite.SQLiteDataReader;
-using SqliteConnection = System.Data.SQLite.SQLiteConnection;
-using SqliteCommand = System.Data.SQLite.SQLiteCommand;
-#endif
 
 namespace Devarc
 {

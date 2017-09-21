@@ -10,7 +10,14 @@ using NPOI.HSSF.UserModel;
 using NPOI.XSSF.UserModel;
 using System.Text;
 using Devarc;
+#if UNITY_5
 using Mono.Data.Sqlite;
+#else
+using System.Data.SQLite;
+using SqliteDataReader = System.Data.SQLite.SQLiteDataReader;
+using SqliteConnection = System.Data.SQLite.SQLiteConnection;
+using SqliteCommand = System.Data.SQLite.SQLiteCommand;
+#endif
 
 public class DevarcEditor : EditorWindow
 {

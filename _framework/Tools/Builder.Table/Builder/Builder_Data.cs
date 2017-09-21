@@ -55,7 +55,17 @@ namespace Devarc
         public void Build_ExcelFile(string _inFilePath, string _outDir)
         {
             dataFileType = DATA_FILE_TYPE.EXCEL;
+            build_all(_inFilePath, _outDir);
+        }
 
+        public void Build_SheetFile(string _inFilePath, string _outDir)
+        {
+            dataFileType = DATA_FILE_TYPE.SHEET;
+            build_all(_inFilePath, _outDir);
+        }
+
+        bool build_all(string _inFilePath, string _outDir)
+        {
             string tmpFileName = Path.GetFileNameWithoutExtension(_inFilePath);
             int tmpIndex = tmpFileName.IndexOf('@');
             if (tmpIndex >= 0)
@@ -66,7 +76,7 @@ namespace Devarc
             if (File.Exists(_inFilePath) == false)
             {
                 Log.Info("Cannot find file: " + _inFilePath);
-                return;
+                return false;
             }
 
             buildEx = false;
@@ -77,7 +87,7 @@ namespace Devarc
                 if (Directory.CreateDirectory(OutDir) == null)
                 {
                     Log.Info("Cannot find directory: " + OutDir);
-                    return;
+                    return false;
                 }
             }
             this._build(_inFilePath);
@@ -90,11 +100,13 @@ namespace Devarc
                 if (Directory.CreateDirectory(OutDirEx) == null)
                 {
                     Log.Info("Cannot find directory: " + OutDirEx);
-                    return;
+                    return false;
                 }
             }
             this._build(_inFilePath);
+            return true;
         }
+
 
         public void Build_SheetData(string _file_name, string _inFilePath, string _outDir)
         {

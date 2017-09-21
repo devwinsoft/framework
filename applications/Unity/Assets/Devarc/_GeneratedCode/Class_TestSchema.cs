@@ -3,7 +3,14 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+#if UNITY_5
 using Mono.Data.Sqlite;
+#else
+using System.Data.SQLite;
+using SqliteDataReader = System.Data.SQLite.SQLiteDataReader;
+using SqliteConnection = System.Data.SQLite.SQLiteConnection;
+using SqliteCommand = System.Data.SQLite.SQLiteCommand;
+#endif
 using LitJson;
 namespace Devarc
 {
@@ -190,7 +197,7 @@ namespace Devarc
 	    public static Container<T_DataCharacter, UNIT> MAP = new Container<T_DataCharacter, UNIT>();
 	    public static T_DataCharacter Get(SqliteConnection _conn, UNIT _key)
 	    {
-	        SqliteCommand cmd = _conn.CreateCommand();
+	        SqliteCommand cmd = new SqliteCommand(_conn);
 	        cmd.CommandText = string.Format("select unit_type, name, items, stats, ability, nodes, unit_uid from DataCharacter where unit_type='{0}'", _key);
 	        SqliteDataReader reader = cmd.ExecuteReader();
 	        if (reader.Read())
@@ -734,7 +741,7 @@ namespace Devarc
 	    public static Container<T_UNIT, UNIT> MAP = new Container<T_UNIT, UNIT>();
 	    public static T_UNIT Get(SqliteConnection _conn, UNIT _key)
 	    {
-	        SqliteCommand cmd = _conn.CreateCommand();
+	        SqliteCommand cmd = new SqliteCommand(_conn);
 	        cmd.CommandText = string.Format("select Name, ID from UNIT where unit_type='{0}'", _key);
 	        SqliteDataReader reader = cmd.ExecuteReader();
 	        if (reader.Read())
@@ -892,7 +899,7 @@ namespace Devarc
 	    public static Container<T_DIRECTION, DIRECTION> MAP = new Container<T_DIRECTION, DIRECTION>();
 	    public static T_DIRECTION Get(SqliteConnection _conn, DIRECTION _key)
 	    {
-	        SqliteCommand cmd = _conn.CreateCommand();
+	        SqliteCommand cmd = new SqliteCommand(_conn);
 	        cmd.CommandText = string.Format("select Name, ID from DIRECTION where unit_type='{0}'", _key);
 	        SqliteDataReader reader = cmd.ExecuteReader();
 	        if (reader.Read())

@@ -42,45 +42,49 @@
     <Reference Include="LitJson">
       <HintPath>..\..\..\_externals\LitJson\LitJson.dll</HintPath>
     </Reference>
-    <Reference Include="log4net">
-      <HintPath>..\..\..\_externals\SuperSocket\Net45\Debug\log4net.dll</HintPath>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\_externals\SuperSocket\Net45\Release\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Scripting">
-      <HintPath>..\..\..\_externals\SuperSocket\Net45\Debug\Microsoft.Scripting.dll</HintPath>
+    <Reference Include="Microsoft.Scripting, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\_externals\SuperSocket\Net45\Release\Microsoft.Scripting.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\_externals\SuperSocket\Net45\Debug\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\_externals\SuperSocket\Net45\Release\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.Common">
-      <HintPath>..\..\..\_externals\SuperSocket\Net45\Debug\SuperSocket.Common.dll</HintPath>
+    <Reference Include="SuperSocket.Common, Version=1.6.6.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\_externals\SuperSocket\Net45\Release\SuperSocket.Common.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.Dlr">
-      <HintPath>..\..\..\_externals\SuperSocket\Net45\Debug\SuperSocket.Dlr.dll</HintPath>
+    <Reference Include="SuperSocket.Dlr, Version=1.6.6.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\_externals\SuperSocket\Net45\Release\SuperSocket.Dlr.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.Facility">
-      <HintPath>..\..\..\_externals\SuperSocket\Net45\Debug\SuperSocket.Facility.dll</HintPath>
+    <Reference Include="SuperSocket.Facility, Version=1.6.6.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\_externals\SuperSocket\Net45\Release\SuperSocket.Facility.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.ServerManager">
-      <HintPath>..\..\..\_externals\SuperSocket\Net45\Debug\SuperSocket.ServerManager.dll</HintPath>
+    <Reference Include="SuperSocket.ServerManager, Version=1.6.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\_externals\SuperSocket\Net45\Release\SuperSocket.ServerManager.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.SocketBase">
-      <HintPath>..\..\..\_externals\SuperSocket\Net45\Debug\SuperSocket.SocketBase.dll</HintPath>
+    <Reference Include="SuperSocket.SocketBase, Version=1.6.6.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\_externals\SuperSocket\Net45\Release\SuperSocket.SocketBase.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.SocketEngine">
-      <HintPath>..\..\..\_externals\SuperSocket\Net45\Debug\SuperSocket.SocketEngine.dll</HintPath>
+    <Reference Include="SuperSocket.SocketEngine, Version=1.6.6.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\_externals\SuperSocket\Net45\Release\SuperSocket.SocketEngine.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.WebSocket">
-      <HintPath>..\..\..\_externals\SuperSocket\Net45\Debug\SuperSocket.WebSocket.dll</HintPath>
+    <Reference Include="SuperSocket.WebSocket, Version=1.6.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\_externals\SuperSocket\Net45\Release\SuperSocket.WebSocket.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.105.2, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -110,6 +114,9 @@
     <Compile Include="Component\Contents.cs" />
     <Compile Include="Component\Container_C1.cs" />
     <Compile Include="Component\Container_S1.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

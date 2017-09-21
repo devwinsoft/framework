@@ -142,7 +142,14 @@ namespace Devarc
                 sw.WriteLine("using System.Collections;");
                 sw.WriteLine("using System.Collections.Generic;");
                 sw.WriteLine("using System.Data;");
+                sw.WriteLine("#if UNITY_5");
                 sw.WriteLine("using Mono.Data.Sqlite;");
+                sw.WriteLine("#else");
+                sw.WriteLine("using System.Data.SQLite;");
+                sw.WriteLine("using SqliteDataReader = System.Data.SQLite.SQLiteDataReader;");
+                sw.WriteLine("using SqliteConnection = System.Data.SQLite.SQLiteConnection;");
+                sw.WriteLine("using SqliteCommand = System.Data.SQLite.SQLiteCommand;"); 
+                sw.WriteLine("#endif");
                 sw.WriteLine("using LitJson;");
                 sw.WriteLine("namespace {0}", this.NameSpace);
                 sw.WriteLine("{");
@@ -1225,7 +1232,7 @@ namespace Devarc
                     sw.WriteLine("\t    public static Container<{0}, {1}> MAP = new Container<{0}, {1}>();", container_name, tb.KeyTypeName);
                     sw.WriteLine("\t    public static {0} Get(SqliteConnection _conn, {1} _key)", container_name, tb.KeyTypeName);
                     sw.WriteLine("\t    {");
-                    sw.WriteLine("\t        SqliteCommand cmd = _conn.CreateCommand();");
+                    sw.WriteLine("\t        SqliteCommand cmd = new SqliteCommand(_conn);");
                     sw.Write("\t        cmd.CommandText = string.Format(\"select ");
                     for (int i = 0; i < tb.Length; i++)
                     {
