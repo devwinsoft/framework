@@ -1223,6 +1223,15 @@ namespace Devarc
                     sw.WriteLine("\tpublic class {0} : {1}, IBaseObejct, IDisposable", container_name, class_name);
                     sw.WriteLine("\t{");
                     sw.WriteLine("\t    public static Container<{0}, {1}> MAP = new Container<{0}, {1}>();", container_name, tb.KeyTypeName);
+                    sw.WriteLine("\t    public static {0} Get(SqliteConnection _conn, {1} _key)", container_name, tb.KeyTypeName);
+                    sw.WriteLine("\t    {");
+                    sw.WriteLine("\t        SqliteCommand cmd = _conn.CreateCommand();");
+                    sw.WriteLine("\t        cmd.CommandText = string.Format(\"select * from {0} where unit_type='{{0}}'\", _key);", enum_name);
+                    sw.WriteLine("\t        SqliteDataReader reader = cmd.ExecuteReader();");
+                    sw.WriteLine("\t        {0} obj = new {0}();", container_name);
+                    sw.WriteLine("\t        obj.Initialize(reader);");
+                    sw.WriteLine("\t        return obj;");
+                    sw.WriteLine("\t    }");
                     sw.WriteLine("\t    public void Dispose()");
                     sw.WriteLine("\t    {");
                     sw.WriteLine("\t    }");

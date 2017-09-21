@@ -188,6 +188,15 @@ namespace Devarc
 	public class T_DataCharacter : DataCharacter, IBaseObejct, IDisposable
 	{
 	    public static Container<T_DataCharacter, UNIT> MAP = new Container<T_DataCharacter, UNIT>();
+	    public static T_DataCharacter Get(SqliteConnection _conn, UNIT _key)
+	    {
+	        SqliteCommand cmd = _conn.CreateCommand();
+	        cmd.CommandText = string.Format("select * from DataCharacter where unit_type='{0}'", _key);
+	        SqliteDataReader reader = cmd.ExecuteReader();
+	        T_DataCharacter obj = new T_DataCharacter();
+	        obj.Initialize(reader);
+	        return obj;
+	    }
 	    public void Dispose()
 	    {
 	    }
@@ -719,6 +728,15 @@ namespace Devarc
 	public class T_UNIT : _UNIT, IBaseObejct, IDisposable
 	{
 	    public static Container<T_UNIT, UNIT> MAP = new Container<T_UNIT, UNIT>();
+	    public static T_UNIT Get(SqliteConnection _conn, UNIT _key)
+	    {
+	        SqliteCommand cmd = _conn.CreateCommand();
+	        cmd.CommandText = string.Format("select * from UNIT where unit_type='{0}'", _key);
+	        SqliteDataReader reader = cmd.ExecuteReader();
+	        T_UNIT obj = new T_UNIT();
+	        obj.Initialize(reader);
+	        return obj;
+	    }
 	    public void Dispose()
 	    {
 	    }
@@ -864,6 +882,15 @@ namespace Devarc
 	public class T_DIRECTION : _DIRECTION, IBaseObejct, IDisposable
 	{
 	    public static Container<T_DIRECTION, DIRECTION> MAP = new Container<T_DIRECTION, DIRECTION>();
+	    public static T_DIRECTION Get(SqliteConnection _conn, DIRECTION _key)
+	    {
+	        SqliteCommand cmd = _conn.CreateCommand();
+	        cmd.CommandText = string.Format("select * from DIRECTION where unit_type='{0}'", _key);
+	        SqliteDataReader reader = cmd.ExecuteReader();
+	        T_DIRECTION obj = new T_DIRECTION();
+	        obj.Initialize(reader);
+	        return obj;
+	    }
 	    public void Dispose()
 	    {
 	    }
