@@ -86,10 +86,10 @@ namespace Devarc
 		public void Initialize(SqliteDataReader obj)
 		{
 			unit_type           = _UNIT.Parse(obj.GetString(0));
-			foreach (JsonData node in JsonMapper.ToObject(obj.GetString(2))) { items.Add(_UNIT.Parse(node.ToString())); };
-			FrameworkUtil.FillList<DataAbility>(obj.GetString(3), stats);
+			string __items = obj.GetString(2); items.Clear(); if (!string.IsNullOrEmpty(__items)) foreach (JsonData node in JsonMapper.ToObject(__items)) { items.Add(_UNIT.Parse(node.ToString())); };
+			string __stats = obj.GetString(3); stats.Clear(); if (!string.IsNullOrEmpty(__stats)) FrameworkUtil.FillList<DataAbility>(__stats, stats);
 			ability.Initialize(JsonMapper.ToObject(obj.GetString(4)));
-			foreach (JsonData node in JsonMapper.ToObject(obj.GetString(5))) { nodes.Add(node.ToString()); };
+			string __nodes = obj.GetString(5); nodes.Clear(); if (!string.IsNullOrEmpty(__nodes)) foreach (JsonData node in JsonMapper.ToObject(__nodes)) { nodes.Add(node.ToString()); };
 			unit_uid            = (uint)obj.GetDecimal(6);
 		}
 		public override string ToString()
@@ -191,11 +191,15 @@ namespace Devarc
 	    public static T_DataCharacter Get(SqliteConnection _conn, UNIT _key)
 	    {
 	        SqliteCommand cmd = _conn.CreateCommand();
-	        cmd.CommandText = string.Format("select * from DataCharacter where unit_type='{0}'", _key);
+	        cmd.CommandText = string.Format("select unit_type, name, items, stats, ability, nodes, unit_uid from DataCharacter where unit_type='{0}'", _key);
 	        SqliteDataReader reader = cmd.ExecuteReader();
-	        T_DataCharacter obj = new T_DataCharacter();
-	        obj.Initialize(reader);
-	        return obj;
+	        if (reader.Read())
+	        {
+	            T_DataCharacter obj = new T_DataCharacter();
+	            obj.Initialize(reader);
+	            return obj;
+	        }
+	        return null;
 	    }
 	    public void Dispose()
 	    {
@@ -731,11 +735,15 @@ namespace Devarc
 	    public static T_UNIT Get(SqliteConnection _conn, UNIT _key)
 	    {
 	        SqliteCommand cmd = _conn.CreateCommand();
-	        cmd.CommandText = string.Format("select * from UNIT where unit_type='{0}'", _key);
+	        cmd.CommandText = string.Format("select Name, ID from UNIT where unit_type='{0}'", _key);
 	        SqliteDataReader reader = cmd.ExecuteReader();
-	        T_UNIT obj = new T_UNIT();
-	        obj.Initialize(reader);
-	        return obj;
+	        if (reader.Read())
+	        {
+	            T_UNIT obj = new T_UNIT();
+	            obj.Initialize(reader);
+	            return obj;
+	        }
+	        return null;
 	    }
 	    public void Dispose()
 	    {
@@ -885,11 +893,15 @@ namespace Devarc
 	    public static T_DIRECTION Get(SqliteConnection _conn, DIRECTION _key)
 	    {
 	        SqliteCommand cmd = _conn.CreateCommand();
-	        cmd.CommandText = string.Format("select * from DIRECTION where unit_type='{0}'", _key);
+	        cmd.CommandText = string.Format("select Name, ID from DIRECTION where unit_type='{0}'", _key);
 	        SqliteDataReader reader = cmd.ExecuteReader();
-	        T_DIRECTION obj = new T_DIRECTION();
-	        obj.Initialize(reader);
-	        return obj;
+	        if (reader.Read())
+	        {
+	            T_DIRECTION obj = new T_DIRECTION();
+	            obj.Initialize(reader);
+	            return obj;
+	        }
+	        return null;
 	    }
 	    public void Dispose()
 	    {

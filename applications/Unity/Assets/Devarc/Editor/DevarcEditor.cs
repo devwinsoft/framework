@@ -10,16 +10,7 @@ using NPOI.HSSF.UserModel;
 using NPOI.XSSF.UserModel;
 using System.Text;
 using Devarc;
-
-//public static _UNIT Get(SqliteConnection _conn, UNIT _key)
-//{
-//    SqliteCommand cmd = _conn.CreateCommand();
-//    cmd.CommandText = string.Format("select * from UNIT where='{0}'", _key);
-//    SqliteDataReader reader = cmd.ExecuteReader();
-//    _UNIT obj = new _UNIT();
-//    obj.Initialize(reader);
-//    return obj;
-//}
+using Mono.Data.Sqlite;
 
 public class DevarcEditor : EditorWindow
 {
@@ -103,6 +94,13 @@ public class DevarcEditor : EditorWindow
 
     void OnGUI()
     {
+        if (GUILayout.Button("test"))
+        {
+            string conn = "URI=file:" + Path.Combine(Application.dataPath, buildConfigData.outSQLitePath);
+            SqliteConnection dbconn = new SqliteConnection(conn);
+            dbconn.Open();
+            DataCharacter data = T_DataCharacter.Get(dbconn, UNIT.DARKELF_FEMALE);
+        }
         Rect tempRect;
         if (buildConfigData == null)
         {
