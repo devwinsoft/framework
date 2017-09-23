@@ -23,10 +23,18 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+#if UNITY_5
+using Mono.Data.Sqlite;
+#else
+using System.Data.SQLite;
+using SqliteDataReader = System.Data.SQLite.SQLiteDataReader;
+using SqliteConnection = System.Data.SQLite.SQLiteConnection;
+using SqliteCommand = System.Data.SQLite.SQLiteCommand;
+#endif
 
 namespace Devarc
 {
-    public class Container<ME, KEY1> where ME : IBaseObejct, new()
+    public class Container<ME, KEY1> where ME : IBaseObejct<KEY1>, new()
     {
         private Dictionary<KEY1, ME> m_ObjTable1 = new Dictionary<KEY1, ME>();
         protected List<ME> m_ObjList = new List<ME>();
@@ -79,6 +87,19 @@ namespace Devarc
         {
             ME obj;
             return m_ObjTable1.TryGetValue(key1, out obj) ? obj : default(ME);
+        }
+        public bool TryGetAt(SqliteConnection _conn, KEY1 _key, out ME _obj)
+        {
+            _obj = new ME();
+            SqliteCommand cmd = new SqliteCommand(_conn);
+            cmd.CommandText = _obj.GetSelectQuery(_key);
+            SqliteDataReader reader = cmd.ExecuteReader();
+            if (reader.Read())
+            {
+                _obj.Initialize(reader);
+                return true;
+            }
+            return false;
         }
 
         public bool Contains(KEY1 key1)

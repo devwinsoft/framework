@@ -50,7 +50,11 @@ public class SceneTest : MonoBehaviour
         Log.SetMessageCallback(callback_Message);
 
         TextAsset txtAsset;
-        txtAsset = Resources.Load<TextAsset>("TableData/LString_"); TableManager.Load_LString_SheetData(txtAsset.text);
+        txtAsset = Resources.Load<TextAsset>("TableData/Localize/LString_"); TableManager.Load_LString_SheetData(txtAsset.text);
+
+        TableManager.SQLite_Connect(System.IO.Path.Combine(Application.streamingAssetsPath, "database.sqlite"));
+
+        //DataCharacter data = T_DataCharacter.Get(UNIT.HUMAN_FEMALE);
 
         server.InitStub(this.stubC2S);
         client.InitStub(this.stubS2C);

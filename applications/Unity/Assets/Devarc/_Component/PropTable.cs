@@ -267,6 +267,8 @@ namespace Devarc
 
         public void initVarName(int index, string name)
         {
+            if (index >= m_PropList.Length)
+                return;
             m_Length = Math.Max(index+1, m_Length);
             m_PropList[index].VarName = name;
             m_PropList[index].TypeName = "";
@@ -275,11 +277,15 @@ namespace Devarc
 
         public void initVarType(int index, string _typeName)
         {
+            if (index >= m_PropList.Length)
+                return;
             m_PropList[index].TypeName = PropTable.ToTypeName(_typeName);
         }
 
         public void initClassType(int index, string _typeName)
         {
+            if (index >= m_PropList.Length)
+                return;
             if (string.IsNullOrEmpty(_typeName))
                 m_PropList[index].ClassType = CLASS_TYPE.VALUE;
             switch (_typeName.ToUpper())
@@ -300,10 +306,14 @@ namespace Devarc
         }
         public void initClassType(int index, CLASS_TYPE _type)
         {
+            if (index >= m_PropList.Length)
+                return;
             m_PropList[index].ClassType = _type;
         }
         public void initKeyType(int index, string _keyType)
         {
+            if (index >= m_PropList.Length)
+                return;
             if (string.IsNullOrEmpty(_keyType))
                 initKeyType(index, KEY_TYPE.NONE);
             switch (_keyType.ToUpper())
@@ -322,6 +332,8 @@ namespace Devarc
         }
         public void initKeyType(int index, KEY_TYPE _keyType)
         {
+            if (index >= m_PropList.Length)
+                return;
             m_PropList[index].KeyType = _keyType;
             switch (_keyType)
             {
@@ -337,6 +349,8 @@ namespace Devarc
 
         public void SetData(int index, string val)
         {
+            if (index >= m_PropList.Length)
+                return;
             m_PropList[index].Data = val;
         }
 

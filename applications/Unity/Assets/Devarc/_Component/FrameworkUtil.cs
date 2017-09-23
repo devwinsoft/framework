@@ -41,7 +41,7 @@ namespace Devarc
             while (enumer.MoveNext())
             {
                 T obj = new T();
-                obj.Initialize(value as JsonData);
+                obj.Initialize(enumer.Current as JsonData);
                 _list.Add(obj);
             }
             return _list.Count;

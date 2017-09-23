@@ -7,29 +7,32 @@ namespace Devarc
 	{
 		public static bool isLoad_LString { get { return m_isLoad_LString;} set { m_isLoad_LString = value; } }
 		private static bool m_isLoad_LString = false;
-		static void Callback_LString_XML(string sheet_name, PropTable tb)
-		{
-			 m_isLoad_LString = true;
-			using(T_LString obj = T_LString.MAP.Alloc(tb.GetStr("Key")))
-			{
+        static void Callback_LString_Sheet(string sheet_name, PropTable tb)
+        {
+            using (T_LString obj = T_LString.MAP.Alloc(tb.GetStr("Key")))
+            {
                 if (obj == null)
                 {
-                    Log.Error("[TableManager]Cannot create 'DataCharacter'. (id={0})", tb.GetStr("Key"));
+                    Log.Error("[TableManager]Cannot create 'LString'. (id={0})", tb.GetStr("Key"));
                     return;
                 }
                 obj.Initialize(tb);
-			}
-		}
-		static void Callback_LString_JSON(string sheet_name, JsonData node)
-		{
-			if (node.Keys.Contains("unit_type") == false) return;
-			m_isLoad_LString = true;
-			using(T_LString obj = T_LString.MAP.Alloc(node["Key"].ToString()))
-			{
-				obj.Initialize(node);
-			}
-		}
-		public static void UnLoad_LString()
+            }
+        }
+        static void Callback_LString_JSON(string sheet_name, JsonData node)
+        {
+            if (node.Keys.Contains("unit_type") == false) return;
+            using (T_LString obj = T_LString.MAP.Alloc(node["Key"].ToString()))
+            {
+                if (obj == null)
+                {
+                    Log.Error("[TableManager]Cannot create 'LString'. (id={0})", node["Key"].ToString());
+                    return;
+                }
+                obj.Initialize(node);
+            }
+        }
+        public static void UnLoad_LString()
 		{
 			T_LString.MAP.Clear();
 		}
@@ -37,7 +40,7 @@ namespace Devarc
 		{
 			using (XmlSheetReader reader = new XmlSheetReader())
 			{
-				reader.RegisterCallback_DataLine("LString", Callback_LString_XML);
+				reader.RegisterCallback_DataLine("LString", Callback_LString_Sheet);
 				return reader.ReadFile(_filePath);
 			}
 		}
@@ -45,7 +48,7 @@ namespace Devarc
 		{
 			using (XmlSheetReader reader = new XmlSheetReader())
 			{
-				reader.RegisterCallback_DataLine("LString", Callback_LString_XML);
+				reader.RegisterCallback_DataLine("LString", Callback_LString_Sheet);
 				return reader.ReadData(_data);
 			}
 		}

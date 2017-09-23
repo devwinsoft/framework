@@ -7,29 +7,32 @@ namespace Devarc
 	{
 		public static bool isLoad_FString { get { return m_isLoad_FString;} set { m_isLoad_FString = value; } }
 		private static bool m_isLoad_FString = false;
-		static void Callback_FString_XML(string sheet_name, PropTable tb)
-		{
-			 m_isLoad_FString = true;
-			using(T_FString obj = T_FString.MAP.Alloc(tb.GetStr("Key")))
-			{
+        static void Callback_FString_Sheet(string sheet_name, PropTable tb)
+        {
+            using (T_FString obj = T_FString.MAP.Alloc(tb.GetStr("Key")))
+            {
                 if (obj == null)
                 {
-                    Log.Error("[TableManager]Cannot create 'DataCharacter'. (id={0})", tb.GetStr("Key"));
+                    Log.Error("[TableManager]Cannot create 'FString'. (id={0})", tb.GetStr("Key"));
                     return;
                 }
                 obj.Initialize(tb);
-			}
-		}
-		static void Callback_FString_JSON(string sheet_name, JsonData node)
-		{
-			if (node.Keys.Contains("unit_type") == false) return;
-			m_isLoad_FString = true;
-			using(T_FString obj = T_FString.MAP.Alloc(node["Key"].ToString()))
-			{
-				obj.Initialize(node);
-			}
-		}
-		public static void UnLoad_FString()
+            }
+        }
+        static void Callback_FString_JSON(string sheet_name, JsonData node)
+        {
+            if (node.Keys.Contains("unit_type") == false) return;
+            using (T_FString obj = T_FString.MAP.Alloc(node["Key"].ToString()))
+            {
+                if (obj == null)
+                {
+                    Log.Error("[TableManager]Cannot create 'FString'. (id={0})", node["Key"].ToString());
+                    return;
+                }
+                obj.Initialize(node);
+            }
+        }
+        public static void UnLoad_FString()
 		{
 			T_FString.MAP.Clear();
 		}
@@ -37,7 +40,7 @@ namespace Devarc
 		{
 			using (XmlSheetReader reader = new XmlSheetReader())
 			{
-				reader.RegisterCallback_DataLine("FString", Callback_FString_XML);
+				reader.RegisterCallback_DataLine("FString", Callback_FString_Sheet);
 				return reader.ReadFile(_filePath);
 			}
 		}
@@ -45,7 +48,7 @@ namespace Devarc
 		{
 			using (XmlSheetReader reader = new XmlSheetReader())
 			{
-				reader.RegisterCallback_DataLine("FString", Callback_FString_XML);
+				reader.RegisterCallback_DataLine("FString", Callback_FString_Sheet);
 				return reader.ReadData(_data);
 			}
 		}

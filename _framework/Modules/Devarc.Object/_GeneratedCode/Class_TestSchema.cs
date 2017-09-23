@@ -15,7 +15,7 @@ using LitJson;
 namespace Devarc
 {
 	[System.Serializable]
-	public class DataCharacter : IBaseObejct
+	public class DataCharacter : IBaseObejct<UNIT>
 	{
 		public UNIT                unit_type;
 		private string             _name = null;
@@ -37,6 +37,7 @@ namespace Devarc
 		{
 			Initialize(obj);
 		}
+		public string GetSelectQuery(UNIT _key) { return string.Format("select unit_type, name, items, stats, ability, nodes, unit_uid from unit_type where unit_type='{0}';", _key); }
 		public bool IsDefault
 		{
 			get
@@ -190,26 +191,6 @@ namespace Devarc
 				Marshaler.Write(msg, obj.nodes);
 				Marshaler.Write(msg, obj.unit_uid);
 	        }
-	    }
-	}
-	public class T_DataCharacter : DataCharacter, IBaseObejct, IDisposable
-	{
-	    public static Container<T_DataCharacter, UNIT> MAP = new Container<T_DataCharacter, UNIT>();
-	    public static T_DataCharacter Get(SqliteConnection _conn, UNIT _key)
-	    {
-	        SqliteCommand cmd = new SqliteCommand(_conn);
-	        cmd.CommandText = string.Format("select unit_type, name, items, stats, ability, nodes, unit_uid from DataCharacter where unit_type='{0}'", _key);
-	        SqliteDataReader reader = cmd.ExecuteReader();
-	        if (reader.Read())
-	        {
-	            T_DataCharacter obj = new T_DataCharacter();
-	            obj.Initialize(reader);
-	            return obj;
-	        }
-	        return null;
-	    }
-	    public void Dispose()
-	    {
 	    }
 	}
 	[System.Serializable]
@@ -581,7 +562,7 @@ namespace Devarc
 	    }
 	}
 	[System.Serializable]
-	public class _UNIT : IBaseObejct
+	public class _UNIT : IBaseObejct<UNIT>
 	{
 		public static UNIT Parse(string name)
 		{
@@ -640,6 +621,7 @@ namespace Devarc
 		{
 			Initialize(obj);
 		}
+		public string GetSelectQuery(UNIT _key) { return string.Format("select Name, ID from ID where ID='{0}';", _key); }
 		public bool IsDefault
 		{
 			get
@@ -736,28 +718,8 @@ namespace Devarc
 	        }
 	    }
 	}
-	public class T_UNIT : _UNIT, IBaseObejct, IDisposable
-	{
-	    public static Container<T_UNIT, UNIT> MAP = new Container<T_UNIT, UNIT>();
-	    public static T_UNIT Get(SqliteConnection _conn, UNIT _key)
-	    {
-	        SqliteCommand cmd = new SqliteCommand(_conn);
-	        cmd.CommandText = string.Format("select Name, ID from UNIT where unit_type='{0}'", _key);
-	        SqliteDataReader reader = cmd.ExecuteReader();
-	        if (reader.Read())
-	        {
-	            T_UNIT obj = new T_UNIT();
-	            obj.Initialize(reader);
-	            return obj;
-	        }
-	        return null;
-	    }
-	    public void Dispose()
-	    {
-	    }
-	}
 	[System.Serializable]
-	public class _DIRECTION : IBaseObejct
+	public class _DIRECTION : IBaseObejct<DIRECTION>
 	{
 		public static DIRECTION Parse(string name)
 		{
@@ -798,6 +760,7 @@ namespace Devarc
 		{
 			Initialize(obj);
 		}
+		public string GetSelectQuery(DIRECTION _key) { return string.Format("select Name, ID from ID where ID='{0}';", _key); }
 		public bool IsDefault
 		{
 			get
@@ -892,26 +855,6 @@ namespace Devarc
 				Marshaler.Write(msg, obj.Name);
 				Marshaler.Write(msg, obj.ID);
 	        }
-	    }
-	}
-	public class T_DIRECTION : _DIRECTION, IBaseObejct, IDisposable
-	{
-	    public static Container<T_DIRECTION, DIRECTION> MAP = new Container<T_DIRECTION, DIRECTION>();
-	    public static T_DIRECTION Get(SqliteConnection _conn, DIRECTION _key)
-	    {
-	        SqliteCommand cmd = new SqliteCommand(_conn);
-	        cmd.CommandText = string.Format("select Name, ID from DIRECTION where unit_type='{0}'", _key);
-	        SqliteDataReader reader = cmd.ExecuteReader();
-	        if (reader.Read())
-	        {
-	            T_DIRECTION obj = new T_DIRECTION();
-	            obj.Initialize(reader);
-	            return obj;
-	        }
-	        return null;
-	    }
-	    public void Dispose()
-	    {
 	    }
 	}
 	public enum DIRECTION

@@ -280,7 +280,10 @@ namespace Devarc
             using (TextWriter sw = new StreamWriter(file_path, true))
             {
                 sw.WriteLine("\t[System.Serializable]");
-                sw.WriteLine("\tpublic class {0} : IBaseObejct", class_name);
+                if (tb.KeyIndex >= 0)
+                    sw.WriteLine("\tpublic class {0} : IBaseObejct<{1}>", class_name, tb.KeyTypeName);
+                else
+                    sw.WriteLine("\tpublic class {0} : IBaseObejct", class_name);
                 sw.WriteLine("\t{");
                 if (is_enum)
                 {
@@ -403,6 +406,19 @@ namespace Devarc
                 sw.WriteLine("\t\t{");
                 sw.WriteLine("\t\t\tInitialize(obj);");
                 sw.WriteLine("\t\t}");
+
+                if (tb.KeyIndex >= 0)
+                {
+                    sw.Write("\t\tpublic string GetSelectQuery({0} _key) {{ return string.Format(\"select ", tb.KeyTypeName);
+                    for (int i = 0; i < tb.Length; i++)
+                    {
+                        if (i == 0)
+                            sw.Write(tb.GetVarName(i));
+                        else
+                            sw.Write(", {0}", tb.GetVarName(i));
+                    }
+                    sw.WriteLine(" from {0} where {0}='{{0}}';\", _key); }}", tb.KeyVarName, enum_name);
+                }
 
                 sw.WriteLine("\t\tpublic bool IsDefault", class_name);
                 sw.WriteLine("\t\t{");
@@ -1224,39 +1240,39 @@ namespace Devarc
                 // mashaler end
 
 
-                // table start
-                if (tb.KeyTypeName.Length > 0)
-                {
-                    sw.WriteLine("\tpublic class {0} : {1}, IBaseObejct, IDisposable", container_name, class_name);
-                    sw.WriteLine("\t{");
-                    sw.WriteLine("\t    public static Container<{0}, {1}> MAP = new Container<{0}, {1}>();", container_name, tb.KeyTypeName);
-                    sw.WriteLine("\t    public static {0} Get(SqliteConnection _conn, {1} _key)", container_name, tb.KeyTypeName);
-                    sw.WriteLine("\t    {");
-                    sw.WriteLine("\t        SqliteCommand cmd = new SqliteCommand(_conn);");
-                    sw.Write("\t        cmd.CommandText = string.Format(\"select ");
-                    for (int i = 0; i < tb.Length; i++)
-                    {
-                        if (i == 0)
-                            sw.Write(tb.GetVarName(i));
-                        else
-                            sw.Write(", {0}", tb.GetVarName(i));
-                    }
-                    sw.WriteLine(" from {0} where unit_type='{{0}}'\", _key);", enum_name);
-                    sw.WriteLine("\t        SqliteDataReader reader = cmd.ExecuteReader();");
-                    sw.WriteLine("\t        if (reader.Read())");
-                    sw.WriteLine("\t        {");
-                    sw.WriteLine("\t            {0} obj = new {0}();", container_name);
-                    sw.WriteLine("\t            obj.Initialize(reader);");
-                    sw.WriteLine("\t            return obj;");
-                    sw.WriteLine("\t        }");
-                    sw.WriteLine("\t        return null;");
-                    sw.WriteLine("\t    }");
-                    sw.WriteLine("\t    public void Dispose()");
-                    sw.WriteLine("\t    {");
-                    sw.WriteLine("\t    }");
-                    sw.WriteLine("\t}");
-                }
-                // table end
+                //// table start
+                //if (tb.KeyTypeName.Length > 0)
+                //{
+                //    sw.WriteLine("\tpublic class {0} : {1}, IBaseObejct<{2}>, IDisposable", container_name, class_name, tb.KeyTypeName);
+                //    sw.WriteLine("\t{");
+                //    sw.WriteLine("\t    public static Container<{0}, {1}> MAP = new Container<{0}, {1}>();", container_name, tb.KeyTypeName);
+                //    sw.WriteLine("\t    public static {0} Get({1} _key)", container_name, tb.KeyTypeName);
+                //    sw.WriteLine("\t    {");
+                //    sw.WriteLine("\t        SqliteCommand cmd = new SqliteCommand(TableManager.SQLite_Connection);");
+                //    sw.Write("\t        cmd.CommandText = string.Format(\"select ");
+                //    for (int i = 0; i < tb.Length; i++)
+                //    {
+                //        if (i == 0)
+                //            sw.Write(tb.GetVarName(i));
+                //        else
+                //            sw.Write(", {0}", tb.GetVarName(i));
+                //    }
+                //    sw.WriteLine(" from {0} where {0}='{{1}}';\", _key);", tb.KeyTypeName, enum_name);
+                //    sw.WriteLine("\t        SqliteDataReader reader = cmd.ExecuteReader();");
+                //    sw.WriteLine("\t        if (reader.Read())");
+                //    sw.WriteLine("\t        {");
+                //    sw.WriteLine("\t            {0} obj = new {0}();", container_name);
+                //    sw.WriteLine("\t            obj.Initialize(reader);");
+                //    sw.WriteLine("\t            return obj;");
+                //    sw.WriteLine("\t        }");
+                //    sw.WriteLine("\t        return null;");
+                //    sw.WriteLine("\t    }");
+                //    sw.WriteLine("\t    public void Dispose()");
+                //    sw.WriteLine("\t    {");
+                //    sw.WriteLine("\t    }");
+                //    sw.WriteLine("\t}");
+                //}
+                //// table end
 
             } // close file
         }

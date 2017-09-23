@@ -97,6 +97,10 @@ namespace Devarc
         void Initialize(SqliteDataReader obj);
         void Initialize(LitJson.JsonData obj);
     }
+    public interface IBaseObejct<T> : IBaseObejct
+    {
+        string GetSelectQuery(T _key);
+    }
 
     public interface IContents<KEY1>
     {

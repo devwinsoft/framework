@@ -7,7 +7,7 @@ namespace Devarc
 	{
 		static void Callback_DataCharacter_Sheet(string sheet_name, PropTable tb)
 		{
-			using(T_DataCharacter obj = T_DataCharacter.MAP.Alloc(_UNIT.Parse(tb.GetStr("unit_type"))))
+			DataCharacter obj = TableManager.T_DataCharacter.Alloc(_UNIT.Parse(tb.GetStr("unit_type")));
 			{
 				if (obj == null)
 				{
@@ -20,7 +20,7 @@ namespace Devarc
 		static void Callback_DataCharacter_JSON(string sheet_name, JsonData node)
 		{
 			if (node.Keys.Contains("unit_type") == false) return;
-			using(T_DataCharacter obj = T_DataCharacter.MAP.Alloc(_UNIT.Parse(node["unit_type"].ToString())))
+			DataCharacter obj = TableManager.T_DataCharacter.Alloc(_UNIT.Parse(node["unit_type"].ToString()));
 			{
 				if (obj == null)
 				{
@@ -32,7 +32,7 @@ namespace Devarc
 		}
 		static void Callback_UNIT_Sheet(string sheet_name, PropTable tb)
 		{
-			using(T_UNIT obj = T_UNIT.MAP.Alloc(_UNIT.Parse(tb.GetStr("ID"))))
+			_UNIT obj = TableManager.T_UNIT.Alloc(_UNIT.Parse(tb.GetStr("ID")));
 			{
 				if (obj == null)
 				{
@@ -45,7 +45,7 @@ namespace Devarc
 		static void Callback_UNIT_JSON(string sheet_name, JsonData node)
 		{
 			if (node.Keys.Contains("unit_type") == false) return;
-			using(T_UNIT obj = T_UNIT.MAP.Alloc(_UNIT.Parse(node["ID"].ToString())))
+			_UNIT obj = TableManager.T_UNIT.Alloc(_UNIT.Parse(node["ID"].ToString()));
 			{
 				if (obj == null)
 				{
@@ -57,7 +57,7 @@ namespace Devarc
 		}
 		static void Callback_DIRECTION_Sheet(string sheet_name, PropTable tb)
 		{
-			using(T_DIRECTION obj = T_DIRECTION.MAP.Alloc(_DIRECTION.Parse(tb.GetStr("ID"))))
+			_DIRECTION obj = TableManager.T_DIRECTION.Alloc(_DIRECTION.Parse(tb.GetStr("ID")));
 			{
 				if (obj == null)
 				{
@@ -70,7 +70,7 @@ namespace Devarc
 		static void Callback_DIRECTION_JSON(string sheet_name, JsonData node)
 		{
 			if (node.Keys.Contains("unit_type") == false) return;
-			using(T_DIRECTION obj = T_DIRECTION.MAP.Alloc(_DIRECTION.Parse(node["ID"].ToString())))
+			_DIRECTION obj = TableManager.T_DIRECTION.Alloc(_DIRECTION.Parse(node["ID"].ToString()));
 			{
 				if (obj == null)
 				{
@@ -80,21 +80,24 @@ namespace Devarc
 				obj.Initialize(node);
 			}
 		}
+	    public static Container<DataCharacter, UNIT> T_DataCharacter = new Container<DataCharacter, UNIT>();
+	    public static Container<_UNIT, UNIT> T_UNIT = new Container<_UNIT, UNIT>();
+	    public static Container<_DIRECTION, DIRECTION> T_DIRECTION = new Container<_DIRECTION, DIRECTION>();
 		public static bool isLoad_TestSchema
 		{
 			get
 			{
-				if (T_DataCharacter.MAP.Count > 0) return true;
-				if (T_UNIT.MAP.Count > 0) return true;
-				if (T_DIRECTION.MAP.Count > 0) return true;
+				if (TableManager.T_DataCharacter.Count > 0) return true;
+				if (TableManager.T_UNIT.Count > 0) return true;
+				if (TableManager.T_DIRECTION.Count > 0) return true;
 				return false;
 			}
 		}
 		public static void UnLoad_TestSchema()
 		{
-			T_DataCharacter.MAP.Clear();
-			T_UNIT.MAP.Clear();
-			T_DIRECTION.MAP.Clear();
+			TableManager.T_DataCharacter.Clear();
+			TableManager.T_UNIT.Clear();
+			TableManager.T_DIRECTION.Clear();
 		}
 		public static bool Load_TestSchema_SheetFile(string file_path)
 		{
@@ -133,10 +136,10 @@ namespace Devarc
 				{
 				    DataCharacter temp = new DataCharacter();
 				    PropTable tb_header = temp.ToTable();
-				    System.Xml.XmlNode node = writer.Write_Header(tb_header, T_DataCharacter.MAP.Count, false);
-				    for (int i = 0; i < T_DataCharacter.MAP.Count; i++)
+				    System.Xml.XmlNode node = writer.Write_Header(tb_header, TableManager.T_DataCharacter.Count, false);
+				    for (int i = 0; i < TableManager.T_DataCharacter.Count; i++)
 				    {
-				        T_DataCharacter obj = T_DataCharacter.MAP.ElementAt(i);
+				        DataCharacter obj = TableManager.T_DataCharacter.ElementAt(i);
 				        PropTable tb = obj.ToTable();
 				        writer.Write_Contents(node, tb);
 				    }
@@ -144,10 +147,10 @@ namespace Devarc
 				{
 				    _UNIT temp = new _UNIT();
 				    PropTable tb_header = temp.ToTable();
-				    System.Xml.XmlNode node = writer.Write_Header(tb_header, T_UNIT.MAP.Count, true);
-				    for (int i = 0; i < T_UNIT.MAP.Count; i++)
+				    System.Xml.XmlNode node = writer.Write_Header(tb_header, TableManager.T_UNIT.Count, true);
+				    for (int i = 0; i < TableManager.T_UNIT.Count; i++)
 				    {
-				        T_UNIT obj = T_UNIT.MAP.ElementAt(i);
+				        _UNIT obj = TableManager.T_UNIT.ElementAt(i);
 				        PropTable tb = obj.ToTable();
 				        writer.Write_Contents(node, tb);
 				    }
@@ -155,10 +158,10 @@ namespace Devarc
 				{
 				    _DIRECTION temp = new _DIRECTION();
 				    PropTable tb_header = temp.ToTable();
-				    System.Xml.XmlNode node = writer.Write_Header(tb_header, T_DIRECTION.MAP.Count, true);
-				    for (int i = 0; i < T_DIRECTION.MAP.Count; i++)
+				    System.Xml.XmlNode node = writer.Write_Header(tb_header, TableManager.T_DIRECTION.Count, true);
+				    for (int i = 0; i < TableManager.T_DIRECTION.Count; i++)
 				    {
-				        T_DIRECTION obj = T_DIRECTION.MAP.ElementAt(i);
+				        _DIRECTION obj = TableManager.T_DIRECTION.ElementAt(i);
 				        PropTable tb = obj.ToTable();
 				        writer.Write_Contents(node, tb);
 				    }
@@ -171,24 +174,24 @@ namespace Devarc
 			TextWriter sw = new StreamWriter(file_path, false);
 			sw.WriteLine("{");
 			sw.WriteLine("\"DataCharacter\":[");
-			for (int i = 0; i < T_DataCharacter.MAP.Count; i++)
+			for (int i = 0; i < TableManager.T_DataCharacter.Count; i++)
 			{
 			    if (i > 0) sw.WriteLine(",");
-			    sw.Write(T_DataCharacter.MAP.ElementAt(i).ToJson());
+			    sw.Write(TableManager.T_DataCharacter.ElementAt(i).ToJson());
 			}
 			sw.WriteLine("]");
 			sw.WriteLine(",\"UNIT\":[");
-			for (int i = 0; i < T_UNIT.MAP.Count; i++)
+			for (int i = 0; i < TableManager.T_UNIT.Count; i++)
 			{
 			    if (i > 0) sw.WriteLine(",");
-			    sw.Write(T_UNIT.MAP.ElementAt(i).ToJson());
+			    sw.Write(TableManager.T_UNIT.ElementAt(i).ToJson());
 			}
 			sw.WriteLine("]");
 			sw.WriteLine(",\"DIRECTION\":[");
-			for (int i = 0; i < T_DIRECTION.MAP.Count; i++)
+			for (int i = 0; i < TableManager.T_DIRECTION.Count; i++)
 			{
 			    if (i > 0) sw.WriteLine(",");
-			    sw.Write(T_DIRECTION.MAP.ElementAt(i).ToJson());
+			    sw.Write(TableManager.T_DIRECTION.ElementAt(i).ToJson());
 			}
 			sw.WriteLine("]");
 			sw.WriteLine("}");

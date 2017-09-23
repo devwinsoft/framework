@@ -94,17 +94,20 @@
     <Reference Include="System.Data">
       <HintPath>Assets\Devarc\_Plugins\System.Data.dll</HintPath>
     </Reference>
-    <Reference Include="LitJson">
-      <HintPath>Assets\plugins\LitJson.dll</HintPath>
+    <Reference Include="log4net">
+      <HintPath>Assets\Devarc\_Plugins\SuperSocket\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.WebSocket">
-      <HintPath>Assets\Devarc\_Plugins\SuperSocket\SuperSocket.WebSocket.dll</HintPath>
+    <Reference Include="Microsoft.Scripting.Core">
+      <HintPath>Assets\Devarc\_Plugins\SuperSocket\Microsoft.Scripting.Core.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.SocketBase">
-      <HintPath>Assets\Devarc\_Plugins\SuperSocket\SuperSocket.SocketBase.dll</HintPath>
+    <Reference Include="Microsoft.Scripting">
+      <HintPath>Assets\Devarc\_Plugins\SuperSocket\Microsoft.Scripting.dll</HintPath>
     </Reference>
-    <Reference Include="System.Threading">
-      <HintPath>Assets\Devarc\_Plugins\SuperSocket\System.Threading.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Assets\Devarc\_Plugins\SuperSocket\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.Common">
+      <HintPath>Assets\Devarc\_Plugins\SuperSocket\SuperSocket.Common.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.Dlr">
       <HintPath>Assets\Devarc\_Plugins\SuperSocket\SuperSocket.Dlr.dll</HintPath>
@@ -112,26 +115,23 @@
     <Reference Include="SuperSocket.Facility">
       <HintPath>Assets\Devarc\_Plugins\SuperSocket\SuperSocket.Facility.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.Common">
-      <HintPath>Assets\Devarc\_Plugins\SuperSocket\SuperSocket.Common.dll</HintPath>
+    <Reference Include="SuperSocket.ServerManager">
+      <HintPath>Assets\Devarc\_Plugins\SuperSocket\SuperSocket.ServerManager.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Scripting">
-      <HintPath>Assets\Devarc\_Plugins\SuperSocket\Microsoft.Scripting.dll</HintPath>
+    <Reference Include="SuperSocket.SocketBase">
+      <HintPath>Assets\Devarc\_Plugins\SuperSocket\SuperSocket.SocketBase.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.SocketEngine">
       <HintPath>Assets\Devarc\_Plugins\SuperSocket\SuperSocket.SocketEngine.dll</HintPath>
     </Reference>
-    <Reference Include="log4net">
-      <HintPath>Assets\Devarc\_Plugins\SuperSocket\log4net.dll</HintPath>
+    <Reference Include="SuperSocket.WebSocket">
+      <HintPath>Assets\Devarc\_Plugins\SuperSocket\SuperSocket.WebSocket.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>Assets\Devarc\_Plugins\SuperSocket\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="System.Threading">
+      <HintPath>Assets\Devarc\_Plugins\SuperSocket\System.Threading.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.ServerManager">
-      <HintPath>Assets\Devarc\_Plugins\SuperSocket\SuperSocket.ServerManager.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Scripting.Core">
-      <HintPath>Assets\Devarc\_Plugins\SuperSocket\Microsoft.Scripting.Core.dll</HintPath>
+    <Reference Include="LitJson">
+      <HintPath>Assets\plugins\LitJson.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -174,6 +174,7 @@
     <Compile Include="Assets\Devarc\_Component\NetworkObject.cs" />
     <Compile Include="Assets\Devarc\_Component\PropItem.cs" />
     <Compile Include="Assets\Devarc\_Component\PropTable.cs" />
+    <Compile Include="Assets\Devarc\_Component\TableManager.cs" />
     <Compile Include="Assets\Devarc\_Component\TableManager_FString.cs" />
     <Compile Include="Assets\Devarc\_Component\TableManager_LString.cs" />
     <Compile Include="Assets\Devarc\_Component\ThreadBase.cs" />

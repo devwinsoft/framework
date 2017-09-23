@@ -101,13 +101,6 @@ public class DevarcEditor : EditorWindow
 
     void OnGUI()
     {
-        if (GUILayout.Button("test"))
-        {
-            string conn = "URI=file:" + Path.Combine(Application.dataPath, buildConfigData.outSQLitePath);
-            SqliteConnection dbconn = new SqliteConnection(conn);
-            dbconn.Open();
-            DataCharacter data = T_DataCharacter.Get(dbconn, UNIT.DARKELF_FEMALE);
-        }
         Rect tempRect;
         if (buildConfigData == null)
         {
