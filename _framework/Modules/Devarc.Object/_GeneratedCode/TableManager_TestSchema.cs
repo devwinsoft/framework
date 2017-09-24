@@ -8,77 +8,65 @@ namespace Devarc
 		static void Callback_DataCharacter_Sheet(string sheet_name, PropTable tb)
 		{
 			DataCharacter obj = TableManager.T_DataCharacter.Alloc(_UNIT.Parse(tb.GetStr("unit_type")));
+			if (obj == null)
 			{
-				if (obj == null)
-				{
-					Log.Error("[TableManager]Cannot create 'DataCharacter'. (id={0})", tb.GetStr("unit_type"));
-					return;
-				}
-				obj.Initialize(tb);
+				Log.Error("[TableManager]Cannot create 'DataCharacter'. (id={0})", tb.GetStr("unit_type"));
+				return;
 			}
+			obj.Initialize(tb);
 		}
 		static void Callback_DataCharacter_JSON(string sheet_name, JsonData node)
 		{
 			if (node.Keys.Contains("unit_type") == false) return;
 			DataCharacter obj = TableManager.T_DataCharacter.Alloc(_UNIT.Parse(node["unit_type"].ToString()));
+			if (obj == null)
 			{
-				if (obj == null)
-				{
-					Log.Error("[TableManager]Cannot create 'DataCharacter'. (id={0})", _UNIT.Parse(node["unit_type"].ToString()));
-					return;
-				}
-				obj.Initialize(node);
+				Log.Error("[TableManager]Cannot create 'DataCharacter'. (id={0})", _UNIT.Parse(node["unit_type"].ToString()));
+				return;
 			}
+			obj.Initialize(node);
 		}
 		static void Callback_UNIT_Sheet(string sheet_name, PropTable tb)
 		{
 			_UNIT obj = TableManager.T_UNIT.Alloc(_UNIT.Parse(tb.GetStr("ID")));
+			if (obj == null)
 			{
-				if (obj == null)
-				{
-					Log.Error("[TableManager]Cannot create 'UNIT'. (id={0})", tb.GetStr("ID"));
-					return;
-				}
-				obj.Initialize(tb);
+				Log.Error("[TableManager]Cannot create 'UNIT'. (id={0})", tb.GetStr("ID"));
+				return;
 			}
+			obj.Initialize(tb);
 		}
 		static void Callback_UNIT_JSON(string sheet_name, JsonData node)
 		{
 			if (node.Keys.Contains("unit_type") == false) return;
 			_UNIT obj = TableManager.T_UNIT.Alloc(_UNIT.Parse(node["ID"].ToString()));
+			if (obj == null)
 			{
-				if (obj == null)
-				{
-					Log.Error("[TableManager]Cannot create 'UNIT'. (id={0})", _UNIT.Parse(node["ID"].ToString()));
-					return;
-				}
-				obj.Initialize(node);
+				Log.Error("[TableManager]Cannot create 'UNIT'. (id={0})", _UNIT.Parse(node["ID"].ToString()));
+				return;
 			}
+			obj.Initialize(node);
 		}
 		static void Callback_DIRECTION_Sheet(string sheet_name, PropTable tb)
 		{
 			_DIRECTION obj = TableManager.T_DIRECTION.Alloc(_DIRECTION.Parse(tb.GetStr("ID")));
+			if (obj == null)
 			{
-				if (obj == null)
-				{
-					Log.Error("[TableManager]Cannot create 'DIRECTION'. (id={0})", tb.GetStr("ID"));
-					return;
-				}
-				obj.Initialize(tb);
+				Log.Error("[TableManager]Cannot create 'DIRECTION'. (id={0})", tb.GetStr("ID"));
+				return;
 			}
+			obj.Initialize(tb);
 		}
 		static void Callback_DIRECTION_JSON(string sheet_name, JsonData node)
 		{
 			if (node.Keys.Contains("unit_type") == false) return;
 			_DIRECTION obj = TableManager.T_DIRECTION.Alloc(_DIRECTION.Parse(node["ID"].ToString()));
+			if (obj == null)
 			{
-				if (obj == null)
-				{
-					Log.Error("[TableManager]Cannot create 'DIRECTION'. (id={0})", _DIRECTION.Parse(node["ID"].ToString()));
-					return;
-				}
-				obj.Initialize(node);
+				Log.Error("[TableManager]Cannot create 'DIRECTION'. (id={0})", _DIRECTION.Parse(node["ID"].ToString()));
+				return;
 			}
+			obj.Initialize(node);
 		}
 	    public static Container<DataCharacter, UNIT> T_DataCharacter = new Container<DataCharacter, UNIT>();
 	    public static Container<_UNIT, UNIT> T_UNIT = new Container<_UNIT, UNIT>();

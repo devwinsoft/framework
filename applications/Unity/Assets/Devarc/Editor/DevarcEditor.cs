@@ -330,7 +330,7 @@ public class DevarcEditor : EditorWindow
             string dbPath = Path.Combine(Application.dataPath, buildConfigData.outSQLitePath);
             using (Builder_SQLite builder = new Builder_SQLite(dbPath))
             {
-                for (int i = 0; i < buildConfigData.inDataFiles.Length; i++)
+                for (int i = 0; i < buildConfigData.inSQLiteFiles.Length; i++)
                 {
                     string filePath = Path.Combine(Application.dataPath, buildConfigData.inSQLiteFiles[i]);
                     builder.Build(filePath);

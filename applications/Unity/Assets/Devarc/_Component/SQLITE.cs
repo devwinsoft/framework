@@ -13,12 +13,12 @@ using SqliteCommand = System.Data.SQLite.SQLiteCommand;
 
 namespace Devarc
 {
-    public partial class TableManager
+    public static class SQLITE
     {
-        public static SqliteConnection SQLite_Connection { get { return msConnection; } }
+        public static SqliteConnection Connection { get { return msConnection; } }
         static SqliteConnection msConnection = null;
 
-        public static bool SQLite_Connect(string _filePath)
+        public static bool Open(string _filePath)
         {
             string conn = "URI=file:" + _filePath;
             if (msConnection == null)
@@ -29,7 +29,7 @@ namespace Devarc
             return true;
         }
 
-        public static void SQLite_Close()
+        public static void Close()
         {
             if (msConnection != null)
             {

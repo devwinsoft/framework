@@ -399,14 +399,12 @@ namespace Devarc
                         // error
                         break;
                 }
+                sw.WriteLine("\t\t\tif (obj == null)");
                 sw.WriteLine("\t\t\t{");
-                sw.WriteLine("\t\t\t\tif (obj == null)");
-                sw.WriteLine("\t\t\t\t{");
-                sw.WriteLine("\t\t\t\t\tLog.Error(\"[TableManager]Cannot create '{0}'. (id={{0}})\", tb.GetStr(\"{1}\"));", enum_name, key_var_name);
-                sw.WriteLine("\t\t\t\t\treturn;");
-                sw.WriteLine("\t\t\t\t}");
-                sw.WriteLine("\t\t\t\tobj.Initialize(tb);");
+                sw.WriteLine("\t\t\t\tLog.Error(\"[TableManager]Cannot create '{0}'. (id={{0}})\", tb.GetStr(\"{1}\"));", enum_name, key_var_name);
+                sw.WriteLine("\t\t\t\treturn;");
                 sw.WriteLine("\t\t\t}");
+                sw.WriteLine("\t\t\tobj.Initialize(tb);");
                 sw.WriteLine("\t\t}");
 
                 sw.WriteLine("\t\tstatic void Callback_{0}_JSON(string sheet_name, JsonData node)", enum_name);
@@ -446,145 +444,17 @@ namespace Devarc
                         break;
                 }
                 sw.WriteLine("\t\t\t{0} obj = TableManager.{1}.Alloc({2});", class_name, container_name, keyString);
+                sw.WriteLine("\t\t\tif (obj == null)");
                 sw.WriteLine("\t\t\t{");
-                sw.WriteLine("\t\t\t\tif (obj == null)");
-                sw.WriteLine("\t\t\t\t{");
-                sw.WriteLine("\t\t\t\t\tLog.Error(\"[TableManager]Cannot create '{0}'. (id={{0}})\", {1});", enum_name, keyString);
-                sw.WriteLine("\t\t\t\t\treturn;");
-                sw.WriteLine("\t\t\t\t}");
-                sw.WriteLine("\t\t\t\tobj.Initialize(node);");
+                sw.WriteLine("\t\t\t\tLog.Error(\"[TableManager]Cannot create '{0}'. (id={{0}})\", {1});", enum_name, keyString);
+                sw.WriteLine("\t\t\t\treturn;");
                 sw.WriteLine("\t\t\t}");
+                sw.WriteLine("\t\t\tobj.Initialize(node);");
                 sw.WriteLine("\t\t}");
 
             }
         }
 
-
-        //void Callback_DataSheet(string sheet_name, PropTable tb)
-        //{
-        //    string class_name = sheet_name;
-        //    string enum_name = sheet_name;
-        //    string container_name = "T_" + sheet_name;
-        //    bool is_enum = false;
-        //    if (sheet_name.StartsWith("!"))
-        //    {
-        //        is_enum = true;
-        //        enum_name = sheet_name.Substring(1);
-        //        class_name = "_" + enum_name;
-        //        container_name = "T_" + enum_name;
-        //    }
-
-        //    string item_var_name = tb.KeyTypeName;
-        //    string item_type_name = tb.KeyTypeName;
-        //    int item_key_index = tb.KeyIndex;
-        //    if (item_key_index < 0 || item_var_name == "" || item_type_name == "")
-        //    {
-        //        return;
-        //    }
-
-        //    using (TextWriter sw = new StreamWriter(this.OutFilePath, true))
-        //    {
-        //        if (tb.GetVarType(item_key_index) == VAR_TYPE.STRING)
-        //        {
-        //            sw.WriteLine("\t\t\tusing({0} obj = TableManager.{1}.Alloc(\"{2}\"))", class_name, container_name, tb.GetStr(item_key_index));
-        //        }
-        //        else if (tb.GetVarType(item_key_index) == VAR_TYPE.ENUM)
-        //        {
-        //            //int temp;
-        //            //if (int.TryParse(tb.GetStr(item_key_index), out temp))
-        //            //    sw.WriteLine("\t\t\tusing(T_{0} obj = TableManager.{0}.Alloc(({1}){2}))", container_name, item_type_name, tb.GetStr(item_key_index));
-        //            //else
-        //            //    sw.WriteLine("\t\t\tusing(T_{0} obj = TableManager.{0}.Alloc({1}.{2}))", container_name, item_type_name, tb.GetStr(item_key_index));
-        //            sw.WriteLine("\t\t\tusing({0} obj = TableManager.{1}.Alloc({2}.{3}))", class_name, container_name, item_type_name, tb.GetStr(item_key_index));
-        //        }
-        //        else
-        //        {
-        //            sw.WriteLine("\t\t\tusing({0} obj = TableManager.{1}.Alloc(({2}){3}))", class_name, container_name, item_type_name, tb.GetStr(item_key_index));
-        //        }
-        //        sw.WriteLine("\t\t\t{");
-        //        for (int i = 0; i < tb.Length; i++)
-        //        {
-        //            string var_name = tb.GetVarName(i);
-        //            string type_name = tb.GetTypeName(i);
-
-        //            if (type_name.Length == 0 || var_name.Length == 0)
-        //                continue;
-        //            if (var_name.Contains('/') == false)
-        //            {
-        //                switch (tb.GetVarType(i))
-        //                {
-        //                    case VAR_TYPE.BOOL:
-        //                        {
-        //                            int val = tb.GetInt32(i);
-        //                            if(val != 0)
-        //                                sw.WriteLine("\t\t\t\tobj.{0} = true;", var_name);
-        //                            else
-        //                                sw.WriteLine("\t\t\t\tobj.{0} = false;", var_name);
-        //                        }
-        //                        break;
-        //                    case VAR_TYPE.INT16:
-        //                    case VAR_TYPE.INT32:
-        //                    case VAR_TYPE.UINT32:
-        //                    case VAR_TYPE.INT64:
-        //                    case VAR_TYPE.HOST_ID:
-        //                        {
-        //                            string temp = tb.GetStr(i);
-        //                            if (temp.Length == 0)
-        //                            {
-        //                                sw.WriteLine("\t\t\t\tobj.{0} = ({1}){2};", var_name, type_name, 0);
-        //                            }
-        //                            else
-        //                            {
-        //                                sw.WriteLine("\t\t\t\tobj.{0} = {1};", var_name, temp);
-        //                            }
-        //                        }
-        //                        break;
-        //                    case VAR_TYPE.FLOAT:
-        //                        {
-        //                            string temp = tb.GetStr(i);
-        //                            if (temp.Length == 0)
-        //                            {
-        //                                sw.WriteLine("\t\t\t\tobj.{0} = ({1}){2}f;", var_name, type_name, 0);
-        //                            }
-        //                            else
-        //                            {
-        //                                sw.WriteLine("\t\t\t\tobj.{0} = {1}f;", var_name, temp);
-        //                            }
-        //                        }
-        //                        break;
-        //                    case VAR_TYPE.STRING:
-        //                        sw.WriteLine("\t\t\t\tobj.{0} = \"{1}\";", var_name, tb.GetStr(i).Replace("\"", "\\\"").Replace("\r\n", "\\n").Replace("\n\r", "\\n").Replace("\n", "\\n").Replace("\r", "\\n"));
-        //                        break;
-
-        //                    case VAR_TYPE.ENUM:
-        //                        {
-        //                            string temp = tb.GetStr(i);
-        //                            int number = 0;
-        //                            if (temp.Length == 0)
-        //                            {
-        //                                sw.WriteLine("\t\t\t\tobj.{0} = ({1}){2};", var_name, type_name, 0);
-        //                            }
-        //                            else if (Int32.TryParse(temp, out number))
-        //                            {
-        //                                sw.WriteLine("\t\t\t\tobj.{0} = ({1}){2};", var_name, type_name, temp);
-        //                            }
-        //                            else
-        //                            {
-        //                                sw.WriteLine("\t\t\t\tobj.{0} = {1}.{2};", var_name, type_name, temp);
-        //                            }
-        //                        }
-        //                        break;
-        //                    case VAR_TYPE.CLASS:
-        //                        MakeDataCode(sw, tb.GetTable(var_name), var_name);
-        //                        break;
-        //                    default:
-        //                        break;
-        //                }
-        //            }
-        //        }
-        //        sw.WriteLine("\t\t\t}");
-        //    } // close
-        //}
 
         void MakeDataCode(TextWriter sw, PropTable tb, string pre_fix)
         {

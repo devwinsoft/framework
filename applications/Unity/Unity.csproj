@@ -149,8 +149,6 @@
     <Compile Include="Assets\Devarc\Script\SceneTest.cs" />
     <Compile Include="Assets\Devarc\Script\Stub_C2S.cs" />
     <Compile Include="Assets\Devarc\Script\Stub_S2C.cs" />
-    <Compile Include="Assets\Devarc\_Component\Class_FString.cs" />
-    <Compile Include="Assets\Devarc\_Component\Class_LString.cs" />
     <Compile Include="Assets\Devarc\_Component\Classes.cs" />
     <Compile Include="Assets\Devarc\_Component\Container_C1.cs" />
     <Compile Include="Assets\Devarc\_Component\Container_S1.cs" />
@@ -174,27 +172,31 @@
     <Compile Include="Assets\Devarc\_Component\NetworkObject.cs" />
     <Compile Include="Assets\Devarc\_Component\PropItem.cs" />
     <Compile Include="Assets\Devarc\_Component\PropTable.cs" />
-    <Compile Include="Assets\Devarc\_Component\TableManager.cs" />
-    <Compile Include="Assets\Devarc\_Component\TableManager_FString.cs" />
-    <Compile Include="Assets\Devarc\_Component\TableManager_LString.cs" />
+    <Compile Include="Assets\Devarc\_Component\SQLITE.cs" />
     <Compile Include="Assets\Devarc\_Component\ThreadBase.cs" />
     <Compile Include="Assets\Devarc\_Component\ThreadContainer.cs" />
     <Compile Include="Assets\Devarc\_Component\XmlSheetReader.cs" />
     <Compile Include="Assets\Devarc\_Component\XmlSheetWriter.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\C2S.cs" />
+    <Compile Include="Assets\Devarc\_GeneratedCode\Class_FString.cs" />
+    <Compile Include="Assets\Devarc\_GeneratedCode\Class_LString.cs" />
+    <Compile Include="Assets\Devarc\_GeneratedCode\Class_LStringEx.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\Class_TestSchema.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\S2C.cs" />
+    <Compile Include="Assets\Devarc\_GeneratedCode\TableManager_FString.cs" />
+    <Compile Include="Assets\Devarc\_GeneratedCode\TableManager_LString.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\TableManager_TestSchema.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Devarc\ExcelData\TestSchema.xml" />
+    <None Include="Assets\Devarc\ExcelData\FString.xml" />
+    <None Include="Assets\Devarc\ExcelData\LString.xml" />
     <None Include="Assets\Devarc\Graphics\shaderCharacter.shader" />
     <None Include="Assets\Devarc\Graphics\shaderTerrain.shader" />
     <None Include="Assets\Devarc\_Plugins\Editor\NPOI.OOXML.XML" />
     <None Include="Assets\Devarc\_Plugins\Editor\NPOI.OpenXml4Net.XML" />
     <None Include="Assets\Devarc\_Plugins\Editor\NPOI.XML" />
-    <None Include="Assets\Resources\TableData\Localize\LString_.xml" />
-    <None Include="Assets\Resources\TableData\Localize\LString_ENG.xml" />
+    <None Include="Assets\Resources\Localize\LString_.xml" />
+    <None Include="Assets\Resources\Localize\LString_ENG.xml" />
     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
     <None Include="Assets\Standard Assets\Fonts\OpenSans\License!.txt" />
   </ItemGroup>

@@ -46,7 +46,7 @@ public class BuildUtil
                 string tmpTableName = FrameworkUtil.GetClassNameEx(tmpFile);
                 string tmpMethodName;
                 string tmpExt = Path.GetExtension(tmpFile);
-                switch(tmpExt.ToLower())
+                switch (tmpExt.ToLower())
                 {
                     case ".xml":
                         tmpMethodName = string.Format("Load_{0}_SheetFile", tmpTableName);
@@ -201,12 +201,12 @@ public class BuildUtil
                             listBuilt.TryGetValue(key, out saveValue);
                         }
                     }
-                    if (T_LString.MAP.Contains(key))
+                    if (TableManager.T_LString.Contains(key))
                     {
                         Debug.Log(string.Format("Duplicated key: {0}", key));
                         continue;
                     }
-                    LString obj = T_LString.MAP.Alloc(key);
+                    LString obj = TableManager.T_LString.Alloc(key);
                     obj.Key = key;
                     obj.Value = saveValue;
                 }

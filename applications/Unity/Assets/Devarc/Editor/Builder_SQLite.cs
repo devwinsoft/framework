@@ -105,6 +105,8 @@ namespace Devarc
 
         void Callback_Header(string _sheetName, PropTable _prop)
         {
+            if (_prop.KeyIndex < 0)
+                return;
             string tableName = FrameworkUtil.GetClassName(_sheetName);
             IDbCommand dbcmd = dbconn.CreateCommand();
 
@@ -131,6 +133,8 @@ namespace Devarc
 
         void Callback_Data(string _sheetName, PropTable _prop)
         {
+            if (_prop.KeyIndex < 0)
+                return;
             string tableName = FrameworkUtil.GetClassName(_sheetName);
             IDbCommand dbcmd = dbconn.CreateCommand();
             StringBuilder sb = new StringBuilder();
@@ -151,7 +155,16 @@ namespace Devarc
                     sb.Append(" (");
                 else
                     sb.Append(", ");
-                sb.Append(string.Format("'{0}'", _prop.GetStr(i).Replace("\'","\\'")));
+                switch(_prop.GetVarType(i))
+                {
+                    case VAR_TYPE.LSTRING:
+                        sb.Append("''");
+                        break;
+                    default:
+                        string tempStr = _prop.GetStr(i).Replace("\'", "\'\'");
+                        sb.Append(string.Format("'{0}'", tempStr));
+                        break;
+                }
             }
             sb.Append(");");
             dbcmd.CommandText = sb.ToString();

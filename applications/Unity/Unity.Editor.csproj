@@ -224,19 +224,20 @@
     <Compile Include="Assets\Devarc\Editor\DevarcEditor.cs" />
     <Compile Include="Assets\Devarc\Editor\ExcelReader.cs" />
     <Compile Include="Assets\Devarc\Editor\ExcelWriter.cs" />
-    <Compile Include="Assets\Devarc\Editor\TableManagerEx_FString.cs" />
-    <Compile Include="Assets\Devarc\Editor\TableManagerEx_LString.cs" />
+    <Compile Include="Assets\Devarc\_GeneratedCode\Editor\TableManagerEx_FString.cs" />
+    <Compile Include="Assets\Devarc\_GeneratedCode\Editor\TableManagerEx_LString.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\Editor\TableManagerEx_TestSchema.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Devarc\ExcelData\TestSchema.xml" />
+    <None Include="Assets\Devarc\ExcelData\FString.xml" />
+    <None Include="Assets\Devarc\ExcelData\LString.xml" />
     <None Include="Assets\Devarc\Graphics\shaderCharacter.shader" />
     <None Include="Assets\Devarc\Graphics\shaderTerrain.shader" />
     <None Include="Assets\Devarc\_Plugins\Editor\NPOI.OOXML.XML" />
     <None Include="Assets\Devarc\_Plugins\Editor\NPOI.OpenXml4Net.XML" />
     <None Include="Assets\Devarc\_Plugins\Editor\NPOI.XML" />
-    <None Include="Assets\Resources\TableData\Localize\LString_.xml" />
-    <None Include="Assets\Resources\TableData\Localize\LString_ENG.xml" />
+    <None Include="Assets\Resources\Localize\LString_.xml" />
+    <None Include="Assets\Resources\Localize\LString_ENG.xml" />
     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
     <None Include="Assets\Standard Assets\Fonts\OpenSans\License!.txt" />
   </ItemGroup>

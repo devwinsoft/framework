@@ -281,7 +281,7 @@ namespace Devarc
             {
                 sw.WriteLine("\t[System.Serializable]");
                 if (tb.KeyIndex >= 0)
-                    sw.WriteLine("\tpublic class {0} : IBaseObejct<{1}>", class_name, tb.KeyTypeName);
+                    sw.WriteLine("\tpublic partial class {0} : IBaseObejct<{1}>", class_name, tb.KeyTypeName);
                 else
                     sw.WriteLine("\tpublic class {0} : IBaseObejct", class_name);
                 sw.WriteLine("\t{");
@@ -368,8 +368,9 @@ namespace Devarc
                                 sw.WriteLine("\t\tpublic {0,-20}{1} = \"\";", "string", var_name);
                             break;
                         case VAR_TYPE.LSTRING:
-                            sw.WriteLine("\t\tprivate {0,-19}_{1} = null;", "string", var_name);
-                            sw.WriteLine("\t\tpublic {0,-20}{1} {{ get {{ return _{1} != null ? _{1} : FrameworkUtil.GetLString(\"{2}\", \"{1}\", {3}.ToString()); }} set {{ _{1} = value; }} }}", "string", var_name, enum_name, tb.KeyVarName);
+                        case VAR_TYPE.FSTRING:
+                            sw.WriteLine("\t\tpublic {0,-20}{1} {{ get {{ return FrameworkUtil.GetLString(_{1}.Key); }} }}", "string", var_name);
+                            sw.WriteLine("\t\t{0,-20}_{1} = new {0}();", type_name, var_name);
                             break;
                         case VAR_TYPE.ENUM:
                             if (is_list)
@@ -446,12 +447,13 @@ namespace Devarc
                         default:
                             switch(tb.GetVarType(i))
                             {
-                                case VAR_TYPE.CSTRING:
                                 case VAR_TYPE.LSTRING:
+                                case VAR_TYPE.FSTRING:
                                     break;
                                 case VAR_TYPE.BOOL:
                                     sw.WriteLine("\t\t\t\tif ({0}) return false;", var_name);
                                     break;
+                                case VAR_TYPE.CSTRING:
                                 case VAR_TYPE.STRING:
                                     sw.WriteLine("\t\t\t\tif (string.IsNullOrEmpty({0}) == false) return false;", var_name);
                                     break;
@@ -485,8 +487,6 @@ namespace Devarc
                     {
                         continue;
                     }
-                    if (tb.GetVarType(i) == VAR_TYPE.LSTRING)
-                        continue;
                     switch (tb.GetClassType(i))
                     {
                         case CLASS_TYPE.CLASS:
@@ -501,7 +501,16 @@ namespace Devarc
                             sw.WriteLine("\t\t\t{0}.AddRange(obj.{0});", var_name);
                             break;
                         default:
-                            sw.WriteLine("\t\t\t{0,-20}= obj.{0};", var_name);
+                            switch(tb.GetVarType(i))
+                            {
+                                case VAR_TYPE.LSTRING:
+                                case VAR_TYPE.FSTRING:
+                                    sw.WriteLine("\t\t\t_{0}.Initialize(obj._{0});", var_name);
+                                    break;
+                                default:
+                                    sw.WriteLine("\t\t\t{0,-20}= obj.{0};", var_name);
+                                    break;
+                            }
                             break;
                     }
                 }
@@ -570,6 +579,15 @@ namespace Devarc
                                 sw.WriteLine("\t\t\t{0,-20}= obj.GetStr(\"{0}\");", var_name);
                             break;
                         case VAR_TYPE.LSTRING:
+                            if (tb.KeyIndex >= 0)
+                            {
+                                sw.WriteLine("\t\t\t_{1}.Key = FrameworkUtil.MakeLStringKey(\"{0}\", \"{1}\", {2}.ToString());", class_name, var_name, tb.KeyVarName);
+                                sw.WriteLine("\t\t\t_{0}.Value = obj.GetStr(\"{0}\");", var_name);
+                            }
+                            break;
+                        case VAR_TYPE.FSTRING:
+                            sw.WriteLine("\t\t\t_{0}.Key = obj.GetStr(\"{0}\");", var_name);
+                            sw.WriteLine("\t\t\t_{0}.Value = obj.GetStr(\"{0}\");", var_name);
                             break;
                         case VAR_TYPE.ENUM:
                             if (is_list)
@@ -654,6 +672,12 @@ namespace Devarc
                                 sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) float.TryParse(obj[\"{0}\"].ToString(), out {0}); else {0} = default(float);", var_name);
                             break;
                         case VAR_TYPE.LSTRING:
+                            sw.WriteLine("\t\t\t_{1}.Key = FrameworkUtil.MakeLStringKey(\"{0}\", \"{1}\", {2}.ToString());", class_name, var_name, tb.KeyVarName);
+                            //sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) _{0}.Value = obj[\"{0}\"].ToString(); else _{0}.Value = default(string);", var_name);
+                            break;
+                        case VAR_TYPE.FSTRING:
+                            sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) _{0}.Key = obj[\"{0}\"].ToString(); else _{0}.Key = default(string);", var_name);
+                            //sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) _{0}.Value = obj[\"{0}\"].ToString(); else _{0}.Value = default(string);", var_name);
                             break;
                         case VAR_TYPE.CSTRING:
                             if (is_list)
@@ -771,6 +795,15 @@ namespace Devarc
                                 sw.WriteLine("\t\t\t{0,-20}= obj.GetString({1});", var_name, i);
                             break;
                         case VAR_TYPE.LSTRING:
+                            if (tb.KeyIndex >= 0)
+                            {
+                                sw.WriteLine("\t\t\t_{1}.Key = FrameworkUtil.MakeLStringKey(\"{0}\", \"{1}\", {2}.ToString());", class_name, var_name, tb.KeyVarName);
+                            }
+                            //sw.WriteLine("\t\t\t_{0}.Value = obj.GetString({1});", var_name, i);
+                            break;
+                        case VAR_TYPE.FSTRING:
+                            sw.WriteLine("\t\t\t_{0}.Key = obj.GetString({1});", var_name, i);
+                            //sw.WriteLine("\t\t\t_{0}.Value = obj.GetString({1});", var_name, i);
                             break;
                         case VAR_TYPE.ENUM:
                             if (is_list)
@@ -825,6 +858,8 @@ namespace Devarc
                     {
                         case VAR_TYPE.CSTRING:
                         case VAR_TYPE.STRING:
+                        case VAR_TYPE.FSTRING:
+                        case VAR_TYPE.LSTRING:
                             if (is_list)
                             {
                                 sw.Write(" sb.Append(\"[\");");
@@ -836,9 +871,7 @@ namespace Devarc
                                 sw.WriteLine(" sb.Append(\"\\\"\"); sb.Append({0}); sb.Append(\"\\\"\");", var_name);
                             }
                             break;
-                        case VAR_TYPE.LSTRING:
-                            sw.WriteLine(" sb.Append(\"\\\"\"); sb.Append({0}); sb.Append(\"\\\"\");", var_name);
-                            break;
+
                         case VAR_TYPE.CLASS:
                             if (is_list)
                             {
@@ -897,6 +930,7 @@ namespace Devarc
                         switch (tb.GetVarType(i))
                         {
                             case VAR_TYPE.LSTRING:
+                            case VAR_TYPE.FSTRING:
                                 break;
                             case VAR_TYPE.CSTRING:
                                 if (j == 0)
@@ -977,6 +1011,11 @@ namespace Devarc
                         switch (tb.GetVarType(i))
                         {
                             case VAR_TYPE.LSTRING:
+                                break;
+                            case VAR_TYPE.FSTRING:
+                                sw.Write("\t\t\tif (string.IsNullOrEmpty(_{0}.Key) == false) {{ sb.Append(\",\");", var_name, type_name);
+                                sw.Write(" sb.Append(\"\\\"{0}\\\":\");", var_name);
+                                sw.WriteLine(" sb.Append(\"\\\"\"); sb.Append(_{0}.Key); sb.Append(\"\\\"\"); }}", var_name);
                                 break;
                             case VAR_TYPE.CSTRING:
                                 if (j == 0)
@@ -1085,6 +1124,12 @@ namespace Devarc
                                 else
                                     sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, KEY_TYPE.{2}, {0}.ToString());", var_name, type_name, key_type);
                                 break;
+                            case VAR_TYPE.LSTRING:
+                                sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, KEY_TYPE.{2}, _{0}.Value);", var_name, type_name, key_type);
+                                break;
+                            case VAR_TYPE.FSTRING:
+                                sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, KEY_TYPE.{2}, _{0}.Key);", var_name, type_name, key_type);
+                                break;
                             case VAR_TYPE.STRING:
                                 if (is_list)
                                     sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, KEY_TYPE.{2}, {0});", var_name, type_name, key_type);
@@ -1100,7 +1145,6 @@ namespace Devarc
                                     sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, KEY_TYPE.{2}, {0}.ToString());", var_name, type_name, key_type);
                                 break;
                             case VAR_TYPE.CLASS:
-                                //sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", {0}.ToTable());", var_name, type_name);
                                 sw.WriteLine("\t\t\tobj.Attach_Class(\"{0}\", \"{1}\", {0}.ToTable());", var_name, type_name);
                                 break;
                             default:

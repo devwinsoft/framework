@@ -34,10 +34,10 @@ using SqliteCommand = System.Data.SQLite.SQLiteCommand;
 
 namespace Devarc
 {
-    public class Container<ME, KEY1> where ME : IBaseObejct<KEY1>, new()
+    public class Container<ITEM, KEY> where ITEM : IBaseObejct<KEY>, new()
     {
-        private Dictionary<KEY1, ME> m_ObjTable1 = new Dictionary<KEY1, ME>();
-        protected List<ME> m_ObjList = new List<ME>();
+        private Dictionary<KEY, ITEM> mMap = new Dictionary<KEY, ITEM>();
+        protected List<ITEM> mList = new List<ITEM>();
 
         public Container()
         {
@@ -45,54 +45,56 @@ namespace Devarc
 
         public void Clear()
         {
-            m_ObjTable1.Clear();
-            m_ObjList.Clear();
+            mMap.Clear();
+            mList.Clear();
         }
 
-        private ME _Alloc(KEY1 key1)
+        public ITEM Alloc(KEY key1)
         {
-            if (m_ObjTable1.ContainsKey(key1))
+            if (mMap.ContainsKey(key1))
             {
-                Log.Debug("Cannot alloc. [name]:" + typeof(ME).ToString() + "[key1]:" + key1);
-                return default(ME);
+                Log.Debug("Cannot alloc. [name]:" + typeof(ITEM).ToString() + "[key1]:" + key1);
+                return default(ITEM);
             }
-            ME obj = new ME();
-            m_ObjTable1.Add(key1, obj);
-            m_ObjList.Add(obj);
-            return obj;
-        }
-        public ME Alloc(KEY1 key1)
-        {
-            ME obj = _Alloc(key1);
-            if (obj == null)
-            {
-                return obj;
-            }
+            ITEM obj = new ITEM();
+            mMap.Add(key1, obj);
+            mList.Add(obj);
             return obj;
         }
 
-        public void Free(KEY1 key1)
+        public void Free(KEY _key)
         {
-            ME obj;
-            if (m_ObjTable1.TryGetValue(key1, out obj) == false)
+            ITEM obj;
+            if (mMap.TryGetValue(_key, out obj) == false)
             {
                 return;
             }
-            m_ObjTable1.Remove(key1);
-            m_ObjList.Remove(obj);
-            obj = default(ME);
+            mMap.Remove(_key);
+            mList.Remove(obj);
+            obj = default(ITEM);
         }
 
-        public ME GetAt(KEY1 key1)
+        public ITEM GetAt(KEY _key)
         {
-            ME obj;
-            return m_ObjTable1.TryGetValue(key1, out obj) ? obj : default(ME);
+            ITEM obj;
+            return mMap.TryGetValue(_key, out obj) ? obj : default(ITEM);
         }
-        public bool TryGetAt(SqliteConnection _conn, KEY1 _key, out ME _obj)
+        public ITEM GetAt(SqliteConnection _conn, KEY key1)
         {
-            _obj = new ME();
+            ITEM obj;
+            if (TryGetAt(_conn, key1, out obj))
+            {
+                return obj;
+            }
+            return default(ITEM);
+        }
+        static ITEM defaultObject = new ITEM();
+        public bool TryGetAt(SqliteConnection _conn, KEY _key, out ITEM _obj)
+        {
+            _obj = new ITEM();
             SqliteCommand cmd = new SqliteCommand(_conn);
-            cmd.CommandText = _obj.GetSelectQuery(_key);
+            //cmd.CommandText = _obj.GetSelectQuery(_key);
+            cmd.CommandText = defaultObject.GetSelectQuery(_key);
             SqliteDataReader reader = cmd.ExecuteReader();
             if (reader.Read())
             {
@@ -102,23 +104,23 @@ namespace Devarc
             return false;
         }
 
-        public bool Contains(KEY1 key1)
+        public bool Contains(KEY key)
         {
-            return m_ObjTable1.ContainsKey(key1);
+            return mMap.ContainsKey(key);
         }
-        public ME ElementAt(int index)
+        public ITEM ElementAt(int index)
         {
-            if (m_ObjList.Count <= index)
+            if (mList.Count <= index)
             {
-                return default(ME);
+                return default(ITEM);
             }
-            return m_ObjList[index];
+            return mList[index];
         }
-        public List<ME>.Enumerator GetEnumerator()
+        public List<ITEM>.Enumerator GetEnumerator()
         {
-            return m_ObjList.GetEnumerator();
+            return mList.GetEnumerator();
         }
-        public int Count { get { return m_ObjList.Count; } }
+        public int Count { get { return mList.Count; } }
     }
 
 
