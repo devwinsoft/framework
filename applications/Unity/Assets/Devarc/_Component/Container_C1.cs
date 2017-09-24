@@ -91,16 +91,17 @@ namespace Devarc
         static ITEM defaultObject = new ITEM();
         public bool TryGetAt(SqliteConnection _conn, KEY _key, out ITEM _obj)
         {
-            _obj = new ITEM();
             SqliteCommand cmd = new SqliteCommand(_conn);
             //cmd.CommandText = _obj.GetSelectQuery(_key);
             cmd.CommandText = defaultObject.GetSelectQuery(_key);
             SqliteDataReader reader = cmd.ExecuteReader();
             if (reader.Read())
             {
+                _obj = new ITEM();
                 _obj.Initialize(reader);
                 return true;
             }
+            _obj = default(ITEM);
             return false;
         }
 

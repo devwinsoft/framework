@@ -172,15 +172,14 @@
     <Compile Include="Assets\Standard Assets\Utility\WaypointProgressTracker.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Devarc\ExcelData\FString.xml" />
     <None Include="Assets\Devarc\ExcelData\LString.xml" />
     <None Include="Assets\Devarc\Graphics\shaderCharacter.shader" />
     <None Include="Assets\Devarc\Graphics\shaderTerrain.shader" />
+    <None Include="Assets\Devarc\Localize\LString_.xml" />
+    <None Include="Assets\Devarc\Localize\LString_ENG.xml" />
     <None Include="Assets\Devarc\_Plugins\Editor\NPOI.OOXML.XML" />
     <None Include="Assets\Devarc\_Plugins\Editor\NPOI.OpenXml4Net.XML" />
     <None Include="Assets\Devarc\_Plugins\Editor\NPOI.XML" />
-    <None Include="Assets\Resources\Localize\LString_.xml" />
-    <None Include="Assets\Resources\Localize\LString_ENG.xml" />
     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
     <None Include="Assets\Standard Assets\Fonts\OpenSans\License!.txt" />
   </ItemGroup>

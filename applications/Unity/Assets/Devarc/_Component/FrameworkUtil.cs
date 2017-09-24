@@ -59,7 +59,8 @@ namespace Devarc
 
         public static string GetLString(string _lstrKey)
         {
-            LString obj = TableManager.T_LString.GetAt(_lstrKey);
+            LString obj;
+            TableManager.T_LString.TryGetAt(SQLITE.Connection, _lstrKey, out obj);
             if (obj == null)
                 return string.Empty;
             return obj.Value;

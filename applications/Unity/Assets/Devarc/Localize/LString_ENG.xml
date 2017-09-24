@@ -13,7 +13,7 @@
     <ProtectWindows>False</ProtectWindows>
   </ExcelWorkbook>
   <Worksheet ss:Name="LString">
-    <Table ss:ExpandedColumnCount="2" ss:ExpandedRowCount="23">
+    <Table ss:ExpandedColumnCount="2" ss:ExpandedRowCount="25">
       <Row>
         <Cell>
           <Data ss:Type="String">Key</Data>
@@ -185,6 +185,22 @@
       <Row>
         <Cell>
           <Data ss:Type="String">DataCharacter_name_DRAGON_UNDEAD</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String" />
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="String">MESSAGE_TEXT_0</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String" />
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="String">MESSAGE_TEXT_1</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String" />

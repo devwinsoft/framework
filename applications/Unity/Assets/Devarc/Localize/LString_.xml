@@ -13,7 +13,7 @@
     <ProtectWindows>False</ProtectWindows>
   </ExcelWorkbook>
   <Worksheet ss:Name="LString">
-    <Table ss:ExpandedColumnCount="2" ss:ExpandedRowCount="23">
+    <Table ss:ExpandedColumnCount="2" ss:ExpandedRowCount="25">
       <Row>
         <Cell>
           <Data ss:Type="String">Key</Data>
@@ -188,6 +188,22 @@
         </Cell>
         <Cell>
           <Data ss:Type="String">본 드래곤</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="String">MESSAGE_TEXT_0</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">성공</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="String">MESSAGE_TEXT_1</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">알 수 없는 오류</Data>
         </Cell>
       </Row>
     </Table>

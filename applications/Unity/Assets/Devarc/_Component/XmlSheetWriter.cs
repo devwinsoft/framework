@@ -134,7 +134,6 @@ namespace Devarc
                 if (data == null)
                     break;
                 sw.WriteLine(data.Replace("@#34;", "\"").Replace("@#n;", "&#10;"));
-                //.Replace("&lt;", "<").Replace("&gt;", ">")
             }
             sr.Close();
             sw.Close();

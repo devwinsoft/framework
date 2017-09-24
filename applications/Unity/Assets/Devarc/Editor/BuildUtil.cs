@@ -227,6 +227,12 @@ public class BuildUtil
                 case VAR_TYPE.LSTRING:
                     {
                         string key = FrameworkUtil.MakeLStringKey(className, tb.GetVarName(i), tb.GetStr(tb.KeyIndex));
+                        if (sheet_name.StartsWith("!"))
+                        {
+                        }
+                        else
+                        {
+                        }
                         string value = tb.GetStr(i);
                         if (string.IsNullOrEmpty(value))
                             continue;

@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Editor:5</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.6.3f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -230,17 +228,14 @@
     <Compile Include="Assets\Devarc\_GeneratedCode\Editor\TableManagerEx_TestSchema.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Devarc\ExcelData\FString.xml" />
     <None Include="Assets\Devarc\ExcelData\LString.xml" />
     <None Include="Assets\Devarc\Graphics\shaderCharacter.shader" />
     <None Include="Assets\Devarc\Graphics\shaderTerrain.shader" />
+    <None Include="Assets\Devarc\Localize\LString_.xml" />
+    <None Include="Assets\Devarc\Localize\LString_ENG.xml" />
     <None Include="Assets\Devarc\_Plugins\Editor\NPOI.OOXML.XML" />
     <None Include="Assets\Devarc\_Plugins\Editor\NPOI.OpenXml4Net.XML" />
     <None Include="Assets\Devarc\_Plugins\Editor\NPOI.XML" />
-    <None Include="Assets\Resources\Localize\LString_.xml">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Assets\Resources\Localize\LString_ENG.xml" />
     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
     <None Include="Assets\Standard Assets\Fonts\OpenSans\License!.txt" />
   </ItemGroup>

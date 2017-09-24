@@ -49,8 +49,8 @@ public class SceneTest : MonoBehaviour
     {
         Log.SetMessageCallback(callback_Message);
 
-        TextAsset txtAsset;
-        txtAsset = Resources.Load<TextAsset>("TableData/Localize/LString_"); TableManager.Load_LString_SheetData(txtAsset.text);
+        //TextAsset txtAsset;
+        //txtAsset = Resources.Load<TextAsset>("TableData/Localize/LString_"); TableManager.Load_LString_SheetData(txtAsset.text);
 
         SQLITE.Open(System.IO.Path.Combine(Application.streamingAssetsPath, "database.sqlite"));
 

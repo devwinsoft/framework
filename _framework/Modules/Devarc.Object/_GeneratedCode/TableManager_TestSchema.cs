@@ -68,9 +68,31 @@ namespace Devarc
 			}
 			obj.Initialize(node);
 		}
+		static void Callback_MESSAGE_Sheet(string sheet_name, PropTable tb)
+		{
+			_MESSAGE obj = TableManager.T_MESSAGE.Alloc(_MESSAGE.Parse(tb.GetStr("ID")));
+			if (obj == null)
+			{
+				Log.Error("[TableManager]Cannot create 'MESSAGE'. (id={0})", tb.GetStr("ID"));
+				return;
+			}
+			obj.Initialize(tb);
+		}
+		static void Callback_MESSAGE_JSON(string sheet_name, JsonData node)
+		{
+			if (node.Keys.Contains("unit_type") == false) return;
+			_MESSAGE obj = TableManager.T_MESSAGE.Alloc(_MESSAGE.Parse(node["ID"].ToString()));
+			if (obj == null)
+			{
+				Log.Error("[TableManager]Cannot create 'MESSAGE'. (id={0})", _MESSAGE.Parse(node["ID"].ToString()));
+				return;
+			}
+			obj.Initialize(node);
+		}
 	    public static Container<DataCharacter, UNIT> T_DataCharacter = new Container<DataCharacter, UNIT>();
 	    public static Container<_UNIT, UNIT> T_UNIT = new Container<_UNIT, UNIT>();
 	    public static Container<_DIRECTION, DIRECTION> T_DIRECTION = new Container<_DIRECTION, DIRECTION>();
+	    public static Container<_MESSAGE, MESSAGE> T_MESSAGE = new Container<_MESSAGE, MESSAGE>();
 		public static bool isLoad_TestSchema
 		{
 			get
@@ -78,6 +100,7 @@ namespace Devarc
 				if (TableManager.T_DataCharacter.Count > 0) return true;
 				if (TableManager.T_UNIT.Count > 0) return true;
 				if (TableManager.T_DIRECTION.Count > 0) return true;
+				if (TableManager.T_MESSAGE.Count > 0) return true;
 				return false;
 			}
 		}
@@ -86,6 +109,7 @@ namespace Devarc
 			TableManager.T_DataCharacter.Clear();
 			TableManager.T_UNIT.Clear();
 			TableManager.T_DIRECTION.Clear();
+			TableManager.T_MESSAGE.Clear();
 		}
 		public static bool Load_TestSchema_SheetFile(string file_path)
 		{
@@ -94,6 +118,7 @@ namespace Devarc
 				reader.RegisterCallback_DataLine("DataCharacter", Callback_DataCharacter_Sheet);
 				reader.RegisterCallback_DataLine("UNIT", Callback_UNIT_Sheet);
 				reader.RegisterCallback_DataLine("DIRECTION", Callback_DIRECTION_Sheet);
+				reader.RegisterCallback_DataLine("MESSAGE", Callback_MESSAGE_Sheet);
 				return reader.ReadFile(file_path);
 			}
 		}
@@ -104,6 +129,7 @@ namespace Devarc
 				reader.RegisterCallback_DataLine("DataCharacter", Callback_DataCharacter_Sheet);
 				reader.RegisterCallback_DataLine("UNIT", Callback_UNIT_Sheet);
 				reader.RegisterCallback_DataLine("DIRECTION", Callback_DIRECTION_Sheet);
+				reader.RegisterCallback_DataLine("MESSAGE", Callback_MESSAGE_Sheet);
 				return reader.ReadData(_data);
 			}
 		}
@@ -114,6 +140,7 @@ namespace Devarc
 				reader.RegisterCallback("DataCharacter", Callback_DataCharacter_JSON);
 				reader.RegisterCallback("UNIT", Callback_UNIT_JSON);
 				reader.RegisterCallback("DIRECTION", Callback_DIRECTION_JSON);
+				reader.RegisterCallback("MESSAGE", Callback_MESSAGE_JSON);
 				return reader.ReadFile(file_path);
 			}
 		}
@@ -154,6 +181,17 @@ namespace Devarc
 				        writer.Write_Contents(node, tb);
 				    }
 				}
+				{
+				    _MESSAGE temp = new _MESSAGE();
+				    PropTable tb_header = temp.ToTable();
+				    System.Xml.XmlNode node = writer.Write_Header(tb_header, TableManager.T_MESSAGE.Count, true);
+				    for (int i = 0; i < TableManager.T_MESSAGE.Count; i++)
+				    {
+				        _MESSAGE obj = TableManager.T_MESSAGE.ElementAt(i);
+				        PropTable tb = obj.ToTable();
+				        writer.Write_Contents(node, tb);
+				    }
+				}
 			    writer.Write_End(file_path);
 			}
 		}
@@ -180,6 +218,13 @@ namespace Devarc
 			{
 			    if (i > 0) sw.WriteLine(",");
 			    sw.Write(TableManager.T_DIRECTION.ElementAt(i).ToJson());
+			}
+			sw.WriteLine("]");
+			sw.WriteLine(",\"MESSAGE\":[");
+			for (int i = 0; i < TableManager.T_MESSAGE.Count; i++)
+			{
+			    if (i > 0) sw.WriteLine(",");
+			    sw.Write(TableManager.T_MESSAGE.ElementAt(i).ToJson());
 			}
 			sw.WriteLine("]");
 			sw.WriteLine("}");

@@ -873,6 +873,142 @@ namespace Devarc
 	        }
 	    }
 	}
+	[System.Serializable]
+	public partial class _MESSAGE : IBaseObejct<MESSAGE>
+	{
+		public static MESSAGE Parse(string name)
+		{
+			int result;
+			if (Int32.TryParse(name, out result))
+				return (MESSAGE)result;
+			if (name == "SUCCESS")
+				return MESSAGE.SUCCESS;
+			if (name == "ERROR_UNKNOWN")
+				return MESSAGE.ERROR_UNKNOWN;
+			return (MESSAGE)0;
+		}
+		public string              Name = "";
+		public MESSAGE             ID;
+		public string              TEXT { get { return FrameworkUtil.GetLString(_TEXT.Key); } }
+		LString             _TEXT = new LString();
+
+		public _MESSAGE()
+		{
+		}
+		public _MESSAGE(_MESSAGE obj)
+		{
+			Initialize(obj);
+		}
+		public _MESSAGE(PropTable obj)
+		{
+			Initialize(obj);
+		}
+		public string GetSelectQuery(MESSAGE _key) { return string.Format("select Name, ID, TEXT from ID where ID='{0}';", _key); }
+		public bool IsDefault
+		{
+			get
+			{
+				if (string.IsNullOrEmpty(Name) == false) return false;
+				if ((int)ID != 0) return false;
+				return true;
+			}
+		}
+		public void Initialize(IBaseObejct from)
+		{
+			_MESSAGE obj = from as _MESSAGE;
+			if (obj == null)
+			{
+				Log.Error("Cannot Initialize [name]:_MESSAGE");
+				return;
+			}
+			Name                = obj.Name;
+			ID                  = obj.ID;
+			_TEXT.Initialize(obj._TEXT);
+		}
+		public void Initialize(PropTable obj)
+		{
+			Name                = obj.GetStr("Name");
+			ID                  = _MESSAGE.Parse(obj.GetStr("ID"));
+			_TEXT.Key = FrameworkUtil.MakeLStringKey("_MESSAGE", "TEXT", ID.ToString());
+			_TEXT.Value = obj.GetStr("TEXT");
+		}
+		public void Initialize(JsonData obj)
+		{
+			if (obj.Keys.Contains("Name")) Name = obj["Name"].ToString(); else Name = default(string);
+			if (obj.Keys.Contains("ID")) ID = _MESSAGE.Parse(obj["ID"].ToString()); else ID = default(MESSAGE);
+			_TEXT.Key = FrameworkUtil.MakeLStringKey("_MESSAGE", "TEXT", ID.ToString());
+		}
+		public void Initialize(SqliteDataReader obj)
+		{
+			Name                = obj.GetString(0);
+			ID                  = _MESSAGE.Parse(obj.GetString(1));
+			_TEXT.Key = FrameworkUtil.MakeLStringKey("_MESSAGE", "TEXT", ID.ToString());
+		}
+		public override string ToString()
+		{
+		    StringBuilder sb = new StringBuilder();
+		    sb.Append("{"); sb.Append(" \"Name\":"); sb.Append("\""); sb.Append(Name); sb.Append("\"");
+		    sb.Append(","); sb.Append(" \"ID\":"); sb.Append("\""); sb.Append(ID.ToString()); sb.Append("\"");
+		    sb.Append(","); sb.Append(" \"TEXT\":"); sb.Append("\""); sb.Append(TEXT); sb.Append("\"");
+		    sb.Append("}");
+		    return sb.ToString();
+		}
+		public string ToJson()
+		{
+		    StringBuilder sb = new StringBuilder();
+		    sb.Append("{"); sb.Append("\"Name\":"); sb.Append("\""); sb.Append(Name); sb.Append("\"");
+			if (default(MESSAGE) != ID) { sb.Append(","); sb.Append("\"ID\":"); sb.Append("\""); sb.Append(ID.ToString()); sb.Append("\""); }
+		    sb.Append("}");
+		    return sb.ToString();
+		}
+		public PropTable ToTable()
+		{
+			PropTable obj = new PropTable("_MESSAGE");
+			obj.Attach("Name", "string", CLASS_TYPE.VALUE, KEY_TYPE.NONE, Name);
+			obj.Attach("ID", "MESSAGE", CLASS_TYPE.VALUE, KEY_TYPE.MAP, ((int)ID).ToString());
+			obj.Attach("TEXT", "LString", CLASS_TYPE.VALUE, KEY_TYPE.NONE, _TEXT.Value);
+			return obj;
+		}
+	}
+	public static partial class Marshaler
+	{
+	    public static bool Read(NetBuffer msg, _MESSAGE obj)
+	    {
+	        bool success = true;
+			success = success ? Marshaler.Read(msg, ref obj.Name) : false;
+			success = success ? Marshaler.Read(msg, ref obj.ID) : false;
+	        return success;
+	    }
+	    public static void Write(NetBuffer msg, _MESSAGE obj)
+	    {
+			Marshaler.Write(msg, obj.Name);
+			Marshaler.Write(msg, obj.ID);
+			Marshaler.Write(msg, obj.TEXT);
+	    }
+	    public static bool Read(NetBuffer msg, List<_MESSAGE> list)
+	    {
+	        bool success = true;
+	        int cnt = msg.ReadInt16();
+	        for (int i = 0; i < cnt; i++)
+	        {
+				_MESSAGE obj = new _MESSAGE();
+				success = success ? Marshaler.Read(msg, ref obj.Name) : false;
+				success = success ? Marshaler.Read(msg, ref obj.ID) : false;
+				list.Add(obj);
+	        }
+	        return success;
+	    }
+	    public static void Write(NetBuffer msg, List<_MESSAGE> list)
+	    {
+	        msg.Write((Int16)list.Count);
+	        foreach (_MESSAGE obj in list)
+	        {
+				Marshaler.Write(msg, obj.Name);
+				Marshaler.Write(msg, obj.ID);
+				Marshaler.Write(msg, obj.TEXT);
+	        }
+	    }
+	}
 	public enum DIRECTION
 	{
 		STOP                = 0,
@@ -951,6 +1087,82 @@ namespace Devarc
 	    {
 	        msg.Write((Int16)list.Count);
 	        foreach (DIRECTION obj in list)
+	        {
+	            msg.Write((Int32)obj);
+	        }
+	    }
+	}
+	public enum MESSAGE
+	{
+		SUCCESS             = 0,
+		ERROR_UNKNOWN       = 1,
+	}
+	public static partial class Marshaler
+	{
+	    public static bool Read(NetBuffer msg, ref MESSAGE obj)
+	    {
+	        try
+	        {
+	            obj = (MESSAGE)msg.ReadInt32();
+	            return true;
+	        }
+	        catch (System.Exception)
+	        {
+	            return false;
+	        }
+	    }
+	    public static void Write(NetBuffer msg, MESSAGE obj)
+	    {
+	        msg.Write((Int32)obj);
+	    }
+	    public static bool Read(NetBuffer msg, out MESSAGE[] obj)
+	    {
+	        try
+	        {
+	            int cnt = msg.ReadInt16();
+	            obj = new MESSAGE[cnt];
+	            for (int i = 0; i < cnt; i++)
+	            {
+	                obj[i] = (MESSAGE)msg.ReadInt32();
+	            }
+	            return true;
+	        }
+	        catch (System.Exception)
+	        {
+	            obj = null;;
+	            return false;
+	        }
+	    }
+	    public static bool Read(NetBuffer msg, List<MESSAGE> obj)
+	    {
+	        try
+	        {
+	            int cnt = msg.ReadInt16();
+	            obj = new List<MESSAGE>();
+	            for (int i = 0; i < cnt; i++)
+	            {
+	                obj[i] = (MESSAGE)msg.ReadInt32();
+	            }
+	            return true;
+	        }
+	        catch (System.Exception)
+	        {
+	            obj = null;;
+	            return false;
+	        }
+	    }
+	    public static void Write(NetBuffer msg, MESSAGE[] list)
+	    {
+	        msg.Write((Int16)list.Length);
+	        foreach (MESSAGE obj in list)
+	        {
+	            msg.Write((Int32)obj);
+	        }
+	    }
+	    public static void Write(NetBuffer msg, List<MESSAGE> list)
+	    {
+	        msg.Write((Int16)list.Count);
+	        foreach (MESSAGE obj in list)
 	        {
 	            msg.Write((Int32)obj);
 	        }
