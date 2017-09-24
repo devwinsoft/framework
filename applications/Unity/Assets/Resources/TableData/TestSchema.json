@@ -1,7 +1,7 @@
 {
 "DataCharacter":[
-{"unit_type":"HUMAN_FEMALE","items":["ELF_MALE","ELF_FEMALE"],"stats":[{"str":"11"}],"ability":{},"nodes":["1","2","3"],"unit_uid":"1"},
-{"unit_type":"HUMAN_MALE","ability":{},"unit_uid":"2"},
+{"unit_type":"HUMAN_FEMALE","items":["ELF_MALE","ELF_FEMALE"],"stats":[{"str":"11"}],"ability":{},"nodes":["Kz9YLvXB7Er0ifEnkl98iw==","m/bnbwzoQQhxbAxGwHORzw==","pCjE5VWiXHJTT88q642d3g=="],"unit_uid":"1"},
+{"unit_type":"HUMAN_MALE","stats":[{"str":"12"}],"ability":{},"unit_uid":"2","specialCode":"'"\;,./<>"},
 {"unit_type":"ELF_FEMALE","ability":{},"unit_uid":"3"},
 {"unit_type":"ELF_MALE","ability":{},"unit_uid":"4"},
 {"unit_type":"DARKELF_FEMALE","ability":{},"unit_uid":"5"},

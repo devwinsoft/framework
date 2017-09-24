@@ -76,7 +76,7 @@ namespace Devarc
 				        LString obj = TableManager.T_LString.ElementAt(i);
 				        PropTable tb = obj.ToTable();
 				        writer.Write_Contents(node, tb);
-				    }
+                    }
 				}
 			    writer.Write_End(file_path);
 			}

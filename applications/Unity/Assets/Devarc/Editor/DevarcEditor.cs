@@ -87,12 +87,12 @@ public class DevarcEditor : EditorWindow
         {
             _backup.Add(default(T));
         }
-        for (int i = 0; i < _data.Length; i++)
+        for (int i = 0; i < _data.Length && i < _backup.Count; i++)
         {
             _backup[i] = _data[i];
         }
         T[] returnList = new T[_count];
-        for (int i = 0; i < _count; i++)
+        for (int i = 0; i < _count && i < _backup.Count; i++)
         {
             returnList[i] = _backup[i];
         }
@@ -242,7 +242,7 @@ public class DevarcEditor : EditorWindow
         if (GUI.Button(tempRect, "Build Localized String."))
         {
             BuildUtil util = new BuildUtil();
-            util.BuildLString(buildConfigData.inStrTables, buildConfigData.outStrDir);
+            util.BuildStrTable(buildConfigData.inStrTables, buildConfigData.outStrDir);
             EditorUtility.DisplayDialog("Build Localized String", "Build Completed.", "Success");
         }
 

@@ -1,1 +1,195 @@
-<?xml version="1.0"?><?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:html="http://www.w3.org/TR/REC-html40">  <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">  </DocumentProperties>  <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">    <WindowHeight>11175</WindowHeight>    <WindowWidth>19815</WindowWidth>    <WindowTopX>1350</WindowTopX>    <WindowTopY>345</WindowTopY>    <TabRatio>571</TabRatio>    <ProtectStructure>False</ProtectStructure>    <ProtectWindows>False</ProtectWindows>  </ExcelWorkbook>  <Worksheet ss:Name="LString">    <Table ss:ExpandedColumnCount="2" ss:ExpandedRowCount="22">      <Row>        <Cell>          <Data ss:Type="String">Key</Data>        </Cell>        <Cell>          <Data ss:Type="String">Value</Data>        </Cell>      </Row>      <Row>        <Cell>          <Data ss:Type="String">string</Data>        </Cell>        <Cell>          <Data ss:Type="String">string</Data>        </Cell>      </Row>      <Row>        <Cell>          <Data ss:Type="String">VALUE</Data>        </Cell>        <Cell>          <Data ss:Type="String">VALUE</Data>        </Cell>      </Row>      <Row>        <Cell>          <Data ss:Type="String">MAP</Data>        </Cell>        <Cell>          <Data ss:Type="String">NONE</Data>        </Cell>      </Row>      <Row>        <Cell>          <Data ss:Type="String">DataCharacter_name_HUMAN_FEMALE</Data>        </Cell>        <Cell>          <Data ss:Type="String" />        </Cell>      </Row>      <Row>        <Cell>          <Data ss:Type="String">DataCharacter_name_HUMAN_MALE</Data>        </Cell>        <Cell>          <Data ss:Type="String" />        </Cell>      </Row>      <Row>        <Cell>          <Data ss:Type="String">DataCharacter_name_ELF_FEMALE</Data>        </Cell>        <Cell>          <Data ss:Type="String" />        </Cell>      </Row>      <Row>        <Cell>          <Data ss:Type="String">DataCharacter_name_ELF_MALE</Data>        </Cell>        <Cell>          <Data ss:Type="String" />        </Cell>      </Row>      <Row>        <Cell>          <Data ss:Type="String">DataCharacter_name_DARKELF_FEMALE</Data>        </Cell>        <Cell>          <Data ss:Type="String" />        </Cell>      </Row>      <Row>        <Cell>          <Data ss:Type="String">DataCharacter_name_DARKELF_MALE</Data>        </Cell>        <Cell>          <Data ss:Type="String" />        </Cell>      </Row>      <Row>        <Cell>          <Data ss:Type="String">DataCharacter_name_DWARF_FEMALE</Data>        </Cell>        <Cell>          <Data ss:Type="String" />        </Cell>      </Row>      <Row>        <Cell>          <Data ss:Type="String">DataCharacter_name_DWARF_MALE</Data>        </Cell>        <Cell>          <Data ss:Type="String" />        </Cell>      </Row>      <Row>        <Cell>          <Data ss:Type="String">DataCharacter_name_GOBLIN</Data>        </Cell>        <Cell>          <Data ss:Type="String" />        </Cell>      </Row>      <Row>        <Cell>          <Data ss:Type="String">DataCharacter_name_IMP</Data>        </Cell>        <Cell>          <Data ss:Type="String" />        </Cell>      </Row>      <Row>        <Cell>          <Data ss:Type="String">DataCharacter_name_MUMMY</Data>        </Cell>        <Cell>          <Data ss:Type="String" />        </Cell>      </Row>      <Row>        <Cell>          <Data ss:Type="String">DataCharacter_name_ORC</Data>        </Cell>        <Cell>          <Data ss:Type="String" />        </Cell>      </Row>      <Row>        <Cell>          <Data ss:Type="String">DataCharacter_name_TROLL</Data>        </Cell>        <Cell>          <Data ss:Type="String" />        </Cell>      </Row>      <Row>        <Cell>          <Data ss:Type="String">DataCharacter_name_UNDEAD</Data>        </Cell>        <Cell>          <Data ss:Type="String" />        </Cell>      </Row>      <Row>        <Cell>          <Data ss:Type="String">DataCharacter_name_DRAGON_BLACK</Data>        </Cell>        <Cell>          <Data ss:Type="String" />        </Cell>      </Row>      <Row>        <Cell>          <Data ss:Type="String">DataCharacter_name_DRAGON_RED</Data>        </Cell>        <Cell>          <Data ss:Type="String" />        </Cell>      </Row>      <Row>        <Cell>          <Data ss:Type="String">DataCharacter_name_DRAGON_UNDEAD</Data>        </Cell>        <Cell>          <Data ss:Type="String" />        </Cell>      </Row>    </Table>  </Worksheet></Workbook>
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:html="http://www.w3.org/TR/REC-html40">
+  <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  </DocumentProperties>
+  <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+    <WindowHeight>11175</WindowHeight>
+    <WindowWidth>19815</WindowWidth>
+    <WindowTopX>1350</WindowTopX>
+    <WindowTopY>345</WindowTopY>
+    <TabRatio>571</TabRatio>
+    <ProtectStructure>False</ProtectStructure>
+    <ProtectWindows>False</ProtectWindows>
+  </ExcelWorkbook>
+  <Worksheet ss:Name="LString">
+    <Table ss:ExpandedColumnCount="2" ss:ExpandedRowCount="23">
+      <Row>
+        <Cell>
+          <Data ss:Type="String">Key</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Value</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="String">string</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">string</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="String">VALUE</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">VALUE</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="String">MAP</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">NONE</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="String">DataCharacter_name_HUMAN_FEMALE</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String" />
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="String">DataCharacter_name_HUMAN_MALE</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String" />
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="String">'"\;,./&lt;&gt;</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String" />
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="String">DataCharacter_name_ELF_FEMALE</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String" />
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="String">DataCharacter_name_ELF_MALE</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String" />
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="String">DataCharacter_name_DARKELF_FEMALE</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String" />
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="String">DataCharacter_name_DARKELF_MALE</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String" />
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="String">DataCharacter_name_DWARF_FEMALE</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String" />
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="String">DataCharacter_name_DWARF_MALE</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String" />
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="String">DataCharacter_name_GOBLIN</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String" />
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="String">DataCharacter_name_IMP</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String" />
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="String">DataCharacter_name_MUMMY</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String" />
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="String">DataCharacter_name_ORC</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String" />
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="String">DataCharacter_name_TROLL</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String" />
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="String">DataCharacter_name_UNDEAD</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String" />
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="String">DataCharacter_name_DRAGON_BLACK</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String" />
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="String">DataCharacter_name_DRAGON_RED</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String" />
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="String">DataCharacter_name_DRAGON_UNDEAD</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String" />
+        </Cell>
+      </Row>
+    </Table>
+  </Worksheet>
+</Workbook>

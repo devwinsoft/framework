@@ -119,8 +119,7 @@ namespace Devarc
                 XmlAttribute data_type = m_XmlDoc.CreateAttribute("ss:Type", "urn:schemas-microsoft-com:office:spreadsheet");
                 data_type.Value = "String";
                 data.Attributes.Append(data_type);
-
-                data.InnerXml = tb.GetStr(i).Replace("\r", "").Replace("\n", "@#34;").Replace("\n", "@#n;");
+                data.InnerXml = tb.GetStr(i).Replace("<", "&lt;").Replace(">", "&gt;").Replace("\r", "").Replace("\n", "@#34;").Replace("\n", "@#n;");
             }
         }
 
@@ -134,7 +133,8 @@ namespace Devarc
                 string data = sr.ReadLine();
                 if (data == null)
                     break;
-                sw.Write(data.Replace("@#34;", "\"").Replace("@#n;", "&#10;"));
+                sw.WriteLine(data.Replace("@#34;", "\"").Replace("@#n;", "&#10;"));
+                //.Replace("&lt;", "<").Replace("&gt;", ">")
             }
             sr.Close();
             sw.Close();

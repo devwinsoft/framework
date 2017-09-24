@@ -113,7 +113,7 @@ public class BuildUtil
         return true;
     }
 
-    public void BuildLString(string[] _inputList, string _outputFolder)
+    public void BuildStrTable(string[] _inputList, string _outputFolder)
     {
         listCurrent.Clear();
         listHistory.Clear();
@@ -222,14 +222,33 @@ public class BuildUtil
         string className = FrameworkUtil.GetClassName(sheet_name);
         for (int i = 0; i < tb.Length; i++)
         {
-            if (tb.GetVarType(i) != VAR_TYPE.LSTRING)
-                continue;
+            switch (tb.GetVarType(i))
+            {
+                case VAR_TYPE.LSTRING:
+                    {
+                        string key = FrameworkUtil.MakeLStringKey(className, tb.GetVarName(i), tb.GetStr(tb.KeyIndex));
+                        string value = tb.GetStr(i);
+                        if (string.IsNullOrEmpty(value))
+                            continue;
+                        if (listCurrent.ContainsKey(key))
+                            continue;
+                        listCurrent.Add(key, tb.GetStr(i));
+                    }
+                    break;
+                case VAR_TYPE.FSTRING:
+                    {
+                        string value = tb.GetStr(i);
+                        if (string.IsNullOrEmpty(value))
+                            continue;
+                        if (listCurrent.ContainsKey(value))
+                            continue;
+                        listCurrent.Add(value, value);
+                    }
+                    break;
+                default:
+                    continue;
+            }
 
-            string key = FrameworkUtil.MakeLStringKey(className, tb.GetVarName(i), tb.GetStr(tb.KeyIndex));
-            if (listCurrent.ContainsKey(key))
-                continue;
-
-            listCurrent.Add(key, tb.GetStr(i));
         }
     }
 

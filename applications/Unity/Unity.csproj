@@ -178,12 +178,10 @@
     <Compile Include="Assets\Devarc\_Component\XmlSheetReader.cs" />
     <Compile Include="Assets\Devarc\_Component\XmlSheetWriter.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\C2S.cs" />
-    <Compile Include="Assets\Devarc\_GeneratedCode\Class_FString.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\Class_LString.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\Class_LStringEx.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\Class_TestSchema.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\S2C.cs" />
-    <Compile Include="Assets\Devarc\_GeneratedCode\TableManager_FString.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\TableManager_LString.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\TableManager_TestSchema.cs" />
   </ItemGroup>
