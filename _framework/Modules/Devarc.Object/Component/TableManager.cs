@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Data;
 #if UNITY_5
+using UnityEngine;
 using Mono.Data.Sqlite;
 #else
 using System.Data.SQLite;
@@ -13,7 +13,7 @@ using SqliteCommand = System.Data.SQLite.SQLiteCommand;
 
 namespace Devarc
 {
-    public static class SQLITE
+    public partial class TableManager
     {
         public static SqliteConnection Connection { get { return msConnection; } }
         static SqliteConnection msConnection = null;

@@ -80,7 +80,7 @@ public class ExcelWriter : IDisposable
 
     public void Write_Contents(PropTable _prop)
     {
-        if (sheet == null)
+        if (sheet == null || _prop.KeyIndex < 0 || string.IsNullOrEmpty(_prop.GetStr(_prop.KeyIndex)))
         {
             return;
         }

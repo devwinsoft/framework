@@ -23,13 +23,21 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+#if UNITY_5
+using Mono.Data.Sqlite;
+#else
+using System.Data.SQLite;
+using SqliteDataReader = System.Data.SQLite.SQLiteDataReader;
+using SqliteConnection = System.Data.SQLite.SQLiteConnection;
+using SqliteCommand = System.Data.SQLite.SQLiteCommand;
+#endif
 
 namespace Devarc
 {
-    public class Container<ME, KEY1> where ME : IBaseObejct, new()
+    public class Container<ITEM, KEY> where ITEM : IBaseObejct<KEY>, new()
     {
-        private Dictionary<KEY1, ME> m_ObjTable1 = new Dictionary<KEY1, ME>();
-        protected List<ME> m_ObjList = new List<ME>();
+        private Dictionary<KEY, ITEM> mMap = new Dictionary<KEY, ITEM>();
+        protected List<ITEM> mList = new List<ITEM>();
 
         public Container()
         {
@@ -37,67 +45,91 @@ namespace Devarc
 
         public void Clear()
         {
-            m_ObjTable1.Clear();
-            m_ObjList.Clear();
+            mMap.Clear();
+            mList.Clear();
         }
 
-        private ME _Alloc(KEY1 key1)
+        public ITEM Alloc(KEY key1)
         {
-            if (m_ObjTable1.ContainsKey(key1))
+            if (mMap.ContainsKey(key1))
             {
-                Log.Debug("Cannot alloc. [name]:" + typeof(ME).ToString() + "[key1]:" + key1);
-                return default(ME);
+                Log.Debug("Cannot alloc. [name]:" + typeof(ITEM).ToString() + "[key1]:" + key1);
+                return default(ITEM);
             }
-            ME obj = new ME();
-            m_ObjTable1.Add(key1, obj);
-            m_ObjList.Add(obj);
-            return obj;
-        }
-        public ME Alloc(KEY1 key1)
-        {
-            ME obj = _Alloc(key1);
-            if (obj == null)
-            {
-                return obj;
-            }
+            ITEM obj = new ITEM();
+            mMap.Add(key1, obj);
+            mList.Add(obj);
             return obj;
         }
 
-        public void Free(KEY1 key1)
+        public void Free(KEY _key)
         {
-            ME obj;
-            if (m_ObjTable1.TryGetValue(key1, out obj) == false)
+            ITEM obj;
+            if (mMap.TryGetValue(_key, out obj) == false)
             {
                 return;
             }
-            m_ObjTable1.Remove(key1);
-            m_ObjList.Remove(obj);
-            obj = default(ME);
+            mMap.Remove(_key);
+            mList.Remove(obj);
+            obj = default(ITEM);
         }
 
-        public ME GetAt(KEY1 key1)
+        public ITEM GetAt(KEY _key)
         {
-            ME obj;
-            return m_ObjTable1.TryGetValue(key1, out obj) ? obj : default(ME);
+            ITEM obj;
+            return mMap.TryGetValue(_key, out obj) ? obj : default(ITEM);
         }
-
-        public bool Contains(KEY1 key1)
+        public ITEM GetAt(SqliteConnection _conn, KEY key1)
         {
-            return m_ObjTable1.ContainsKey(key1);
-        }
-        public ME ElementAt(int index)
-        {
-            if (m_ObjList.Count <= index)
+            ITEM obj;
+            if (TryGetAt(_conn, key1, out obj))
             {
-                return default(ME);
+                return obj;
             }
-            return m_ObjList[index];
+            return default(ITEM);
         }
-        public List<ME>.Enumerator GetEnumerator()
+        static ITEM defaultObject = new ITEM();
+        public bool TryGetAt(SqliteConnection _conn, KEY _key, out ITEM _obj)
         {
-            return m_ObjList.GetEnumerator();
+            SqliteCommand cmd = new SqliteCommand(_conn);
+            cmd.CommandText = defaultObject.GetSelectQuery(_key);
+            try
+            {
+                SqliteDataReader reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    _obj = new ITEM();
+                    _obj.Initialize(reader);
+                    return true;
+                }
+                _obj = default(ITEM);
+                return false;
+            }
+            catch(Exception ex)
+            {
+                Log.Exception(ex);
+                _obj = default(ITEM);
+                return false;
+            }
         }
-        public int Count { get { return m_ObjList.Count; } }
+
+        public bool Contains(KEY key)
+        {
+            return mMap.ContainsKey(key);
+        }
+        public ITEM ElementAt(int index)
+        {
+            if (mList.Count <= index)
+            {
+                return default(ITEM);
+            }
+            return mList[index];
+        }
+        public List<ITEM>.Enumerator GetEnumerator()
+        {
+            return mList.GetEnumerator();
+        }
+        public int Count { get { return mList.Count; } }
     }
 
 

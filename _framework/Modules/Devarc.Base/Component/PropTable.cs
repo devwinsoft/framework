@@ -29,6 +29,9 @@ using System.Text;
 using Mono.Data.Sqlite;
 #else
 using System.Data.SQLite;
+using SqliteDataReader = System.Data.SQLite.SQLiteDataReader;
+using SqliteConnection = System.Data.SQLite.SQLiteConnection;
+using SqliteCommand = System.Data.SQLite.SQLiteCommand;
 #endif
 using LitJson;
 
@@ -47,6 +50,7 @@ namespace Devarc
         CSTRING,
         STRING,
         LSTRING,
+        FSTRING,
         ENUM,
         CLASS,
     }
@@ -80,6 +84,7 @@ namespace Devarc
     {
         public string VarName { get; set; }
         public string TypeName { get; set; }
+        public VAR_TYPE VarType { get; set; }
         public CLASS_TYPE ClassType { get; set; }
         public KEY_TYPE KeyType { get; set; }
         public string Data { get; set; }
@@ -117,6 +122,14 @@ namespace Devarc
             else if (_raw_name.Equals("cstr") || _raw_name.Equals("cstring"))
             {
                 return "string";
+            }
+            else if (_raw_name.Equals("lstr") || _raw_name.Equals("lstring"))
+            {
+                return "LString";
+            }
+            else if (_raw_name.Equals("fstr") || _raw_name.Equals("fstring"))
+            {
+                return "LString";
             }
             else if (_raw_name.Equals("str") || _raw_name.Equals("string"))
             {
@@ -166,6 +179,10 @@ namespace Devarc
             else if (var_type.Equals("lstr") || var_type.Equals("lstring"))
             {
                 return VAR_TYPE.LSTRING;
+            }
+            else if (var_type.Equals("fstr") || var_type.Equals("fstring"))
+            {
+                return VAR_TYPE.FSTRING;
             }
             else if (var_type.Equals("str") || var_type.Equals("string"))
             {
@@ -248,6 +265,7 @@ namespace Devarc
             {
                 PropData prop = m_PropList[i];
                 prop.TypeName = "";
+                prop.VarType = VAR_TYPE.NONE;
                 prop.VarName = "";
                 prop.ClassType = CLASS_TYPE.VALUE;
                 prop.Data = "";
@@ -264,19 +282,27 @@ namespace Devarc
 
         public void initVarName(int index, string name)
         {
+            if (index >= m_PropList.Length)
+                return;
             m_Length = Math.Max(index+1, m_Length);
             m_PropList[index].VarName = name;
+            m_PropList[index].VarType = VAR_TYPE.NONE;
             m_PropList[index].TypeName = "";
             m_PropTable.Add(name, index);
         }
 
         public void initVarType(int index, string _typeName)
         {
+            if (index >= m_PropList.Length)
+                return;
+            m_PropList[index].VarType = PropTable.ToVarType(_typeName);
             m_PropList[index].TypeName = PropTable.ToTypeName(_typeName);
         }
 
         public void initClassType(int index, string _typeName)
         {
+            if (index >= m_PropList.Length)
+                return;
             if (string.IsNullOrEmpty(_typeName))
                 m_PropList[index].ClassType = CLASS_TYPE.VALUE;
             switch (_typeName.ToUpper())
@@ -297,10 +323,14 @@ namespace Devarc
         }
         public void initClassType(int index, CLASS_TYPE _type)
         {
+            if (index >= m_PropList.Length)
+                return;
             m_PropList[index].ClassType = _type;
         }
         public void initKeyType(int index, string _keyType)
         {
+            if (index >= m_PropList.Length)
+                return;
             if (string.IsNullOrEmpty(_keyType))
                 initKeyType(index, KEY_TYPE.NONE);
             switch (_keyType.ToUpper())
@@ -319,6 +349,8 @@ namespace Devarc
         }
         public void initKeyType(int index, KEY_TYPE _keyType)
         {
+            if (index >= m_PropList.Length)
+                return;
             m_PropList[index].KeyType = _keyType;
             switch (_keyType)
             {
@@ -334,6 +366,8 @@ namespace Devarc
 
         public void SetData(int index, string val)
         {
+            if (index >= m_PropList.Length)
+                return;
             m_PropList[index].Data = val;
         }
 
@@ -427,7 +461,7 @@ namespace Devarc
                 case CLASS_TYPE.CLASS_LIST:
                     return VAR_TYPE.CLASS;
                 default:
-                    return PropTable.ToVarType(m_PropList[index].TypeName);
+                    return m_PropList[index].VarType;
             }
         }
 

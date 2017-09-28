@@ -25,7 +25,7 @@ namespace Devarc
             if (endIndex >= 0)
                 return value.Substring(startIndex, endIndex - startIndex);
             else
-                return value.Substring(startIndex, _path.Length - startIndex);
+                return value.Substring(startIndex, value.Length - startIndex);
         }
 
         public static int FillList<T>(string _jsonString, List<T> _list) where T : IBaseObejct, new()
@@ -41,7 +41,7 @@ namespace Devarc
             while (enumer.MoveNext())
             {
                 T obj = new T();
-                obj.Initialize(value as JsonData);
+                obj.Initialize(enumer.Current as JsonData);
                 _list.Add(obj);
             }
             return _list.Count;
@@ -54,8 +54,13 @@ namespace Devarc
 
         public static string GetLString(string _class_name, string _field_name, string _id)
         {
-            string key = MakeLStringKey(_class_name, _field_name, _id);
-            LString obj = T_LString.MAP.GetAt(key);
+            return GetLString(MakeLStringKey(_class_name, _field_name, _id));
+        }
+
+        public static string GetLString(string _lstrKey)
+        {
+            LString obj;
+            TableManager.T_LString.TryGetAt(TableManager.Connection, _lstrKey, out obj);
             if (obj == null)
                 return string.Empty;
             return obj.Value;

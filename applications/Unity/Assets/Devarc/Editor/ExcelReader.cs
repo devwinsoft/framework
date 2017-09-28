@@ -84,7 +84,7 @@ namespace Devarc
                     }
                     else
                     {
-                        OnEndOfLine(sheet.SheetName, rowData);
+                        invoke_callback_line(sheet.SheetName, rowData);
                         rowData.ClearData();
                     }
                 }
@@ -100,26 +100,6 @@ namespace Devarc
         public override bool ReadData(string _data)
         {
             Log.Error("[ExcelReader] Cannot read string data.");
-            return false;
-        }
-
-        bool OnEndOfLine(string sheet_name, PropTable tb)
-        {
-            if (callback_every_data != null)
-            {
-                callback_every_data(sheet_name, tb);
-            }
-
-            CallbackDataReader func = null;
-            string class_name = sheet_name.Replace("!", "");
-            if (callback_data_list.TryGetValue(class_name, out func))
-            {
-                if (func != null)
-                {
-                    func(sheet_name, tb);
-                    return true;
-                }
-            }
             return false;
         }
     }

@@ -52,12 +52,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Component\Classes.cs" />
-    <Compile Include="Component\Class_FString.cs" />
     <Compile Include="Component\Class_LString.cs" />
+    <Compile Include="Component\Class_LStringEx.cs" />
     <Compile Include="Component\FrameworkUtil.cs" />
     <Compile Include="Component\Marshaler.Read.cs" />
     <Compile Include="Component\Marshaler.Write.cs" />
-    <Compile Include="Component\TableManager_FString.cs" />
+    <Compile Include="Component\TableManager.cs" />
     <Compile Include="Component\TableManager_LString.cs" />
     <Compile Include="TableManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

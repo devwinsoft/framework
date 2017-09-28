@@ -87,6 +87,38 @@ namespace Devarc
                 callback_data_list.Add(sheet_name, func);
             }
         }
+
+        protected bool invoke_callback_line(string sheet_name, PropTable tb)
+        {
+            if (tb.KeyIndex < 0)
+                return false;
+            if (string.IsNullOrEmpty(tb.GetStr(tb.KeyIndex)))
+                return false;
+
+            if (callback_every_data != null)
+            {
+                callback_every_data(sheet_name, tb);
+            }
+
+            CallbackDataReader func = null;
+            string class_name = GetClassName(sheet_name);
+            if (callback_data_list.TryGetValue(class_name, out func))
+            {
+                func(sheet_name, tb);
+                return true;
+            }
+            return false;
+        }
+
+        string GetClassName(string _path)
+        {
+            int startIndex = _path[0] == '!' ? 1 : 0;
+            int endIndex = _path.IndexOf('@');
+            if (endIndex >= 0)
+                return _path.Substring(startIndex, endIndex - startIndex);
+            else
+                return _path.Substring(startIndex, _path.Length - startIndex);
+        }
     }
 
 
@@ -96,6 +128,10 @@ namespace Devarc
         void Initialize(PropTable obj);
         void Initialize(SqliteDataReader obj);
         void Initialize(LitJson.JsonData obj);
+    }
+    public interface IBaseObejct<T> : IBaseObejct
+    {
+        string GetSelectQuery(T _key);
     }
 
     public interface IContents<KEY1>

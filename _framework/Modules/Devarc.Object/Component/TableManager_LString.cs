@@ -5,85 +5,91 @@ namespace Devarc
 {
 	public partial class TableManager
 	{
-		public static bool isLoad_LString { get { return m_isLoad_LString;} set { m_isLoad_LString = value; } }
-		private static bool m_isLoad_LString = false;
-		static void Callback_LString_XML(string sheet_name, PropTable tb)
+		static void Callback_LString_Sheet(string sheet_name, PropTable tb)
 		{
-			 m_isLoad_LString = true;
-			using(T_LString obj = T_LString.MAP.Alloc(tb.GetStr("Key")))
+			LString obj = TableManager.T_LString.Alloc(tb.GetStr("Key"));
+			if (obj == null)
 			{
-                if (obj == null)
-                {
-                    Log.Error("[TableManager]Cannot create 'DataCharacter'. (id={0})", tb.GetStr("Key"));
-                    return;
-                }
-                obj.Initialize(tb);
+				Log.Error("[TableManager]Cannot create 'LString'. (id={0})", tb.GetStr("Key"));
+				return;
 			}
+			obj.Initialize(tb);
 		}
 		static void Callback_LString_JSON(string sheet_name, JsonData node)
 		{
 			if (node.Keys.Contains("unit_type") == false) return;
-			m_isLoad_LString = true;
-			using(T_LString obj = T_LString.MAP.Alloc(node["Key"].ToString()))
+			LString obj = TableManager.T_LString.Alloc(node["Key"].ToString());
+			if (obj == null)
 			{
-				obj.Initialize(node);
+				Log.Error("[TableManager]Cannot create 'LString'. (id={0})", node["Key"].ToString());
+				return;
+			}
+			obj.Initialize(node);
+		}
+	    public static Container<LString, string> T_LString = new Container<LString, string>();
+		public static bool isLoad_LString
+		{
+			get
+			{
+				if (TableManager.T_LString.Count > 0) return true;
+				return false;
 			}
 		}
 		public static void UnLoad_LString()
 		{
-			T_LString.MAP.Clear();
+			TableManager.T_LString.Clear();
 		}
-		public static bool Load_LString_SheetFile(string _filePath)
+		public static bool Load_LString_SheetFile(string file_path)
 		{
 			using (XmlSheetReader reader = new XmlSheetReader())
 			{
-				reader.RegisterCallback_DataLine("LString", Callback_LString_XML);
-				return reader.ReadFile(_filePath);
+				reader.RegisterCallback_DataLine("LString", Callback_LString_Sheet);
+				return reader.ReadFile(file_path);
 			}
 		}
 		public static bool Load_LString_SheetData(string _data)
 		{
 			using (XmlSheetReader reader = new XmlSheetReader())
 			{
-				reader.RegisterCallback_DataLine("LString", Callback_LString_XML);
+				reader.RegisterCallback_DataLine("LString", Callback_LString_Sheet);
 				return reader.ReadData(_data);
 			}
 		}
-		public static bool Load_LString_JsonFile(string _filePath)
+		public static bool Load_LString_JsonFile(string file_path)
 		{
 			using (JsonReader reader = new JsonReader())
 			{
 				reader.RegisterCallback("LString", Callback_LString_JSON);
-				return reader.ReadFile(_filePath);
+				return reader.ReadFile(file_path);
 			}
 		}
-		public static void Save_LString_SheetFile(string _filePath)
+		public static void Save_LString_SheetFile(string file_path)
 		{
 			using (XmlSheetWriter writer = new XmlSheetWriter())
 			{
 				{
 				    LString temp = new LString();
 				    PropTable tb_header = temp.ToTable();
-				    System.Xml.XmlNode node = writer.Write_Header(tb_header, T_LString.MAP.Count, false);
-				    for (int i = 0; i < T_LString.MAP.Count; i++)
+				    System.Xml.XmlNode node = writer.Write_Header(tb_header, TableManager.T_LString.Count, false);
+				    for (int i = 0; i < TableManager.T_LString.Count; i++)
 				    {
-				        T_LString obj = T_LString.MAP.ElementAt(i);
+				        LString obj = TableManager.T_LString.ElementAt(i);
 				        PropTable tb = obj.ToTable();
 				        writer.Write_Contents(node, tb);
-				    }
+                    }
 				}
-			    writer.Write_End(_filePath);
+			    writer.Write_End(file_path);
 			}
 		}
-		public static void Save_LString_JsonFile(string _filePath)
+		public static void Save_LString_JsonFile(string file_path)
 		{
-			TextWriter sw = new StreamWriter(_filePath, false);
+			TextWriter sw = new StreamWriter(file_path, false);
 			sw.WriteLine("{");
 			sw.WriteLine("\"LString\":[");
-			for (int i = 0; i < T_LString.MAP.Count; i++)
+			for (int i = 0; i < TableManager.T_LString.Count; i++)
 			{
 			    if (i > 0) sw.WriteLine(",");
-			    sw.Write(T_LString.MAP.ElementAt(i).ToJson());
+			    sw.Write(TableManager.T_LString.ElementAt(i).ToJson());
 			}
 			sw.WriteLine("]");
 			sw.WriteLine("}");

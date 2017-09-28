@@ -172,7 +172,7 @@
     <Compile Include="Assets\Devarc\_Component\NetworkObject.cs" />
     <Compile Include="Assets\Devarc\_Component\PropItem.cs" />
     <Compile Include="Assets\Devarc\_Component\PropTable.cs" />
-    <Compile Include="Assets\Devarc\_Component\SQLITE.cs" />
+    <Compile Include="Assets\Devarc\_Component\TableManager.cs" />
     <Compile Include="Assets\Devarc\_Component\ThreadBase.cs" />
     <Compile Include="Assets\Devarc\_Component\ThreadContainer.cs" />
     <Compile Include="Assets\Devarc\_Component\XmlSheetReader.cs" />

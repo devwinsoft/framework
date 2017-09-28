@@ -198,28 +198,11 @@ namespace Devarc
                     {
                         if (line_count >= (int)ROW_TYPE.DATA_FIELD)
                         {
-                            _CallFunction_Line(m_SheetName, temp_table);
+                            invoke_callback_line(m_SheetName, temp_table);
                         }
                     }
                 }
             }
-        }
-
-        bool _CallFunction_Line(string sheet_name, PropTable tb)
-        {
-            if (callback_every_data != null)
-            {
-                callback_every_data(m_SheetName, tb);
-            }
-
-            CallbackDataReader func = null;
-            string class_name = sheet_name.Replace("!", "");
-            if (callback_data_list.TryGetValue(class_name, out func))
-            {
-                func(sheet_name, tb);
-                return true;
-            }
-            return false;
         }
     }
 }

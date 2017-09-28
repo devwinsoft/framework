@@ -92,17 +92,25 @@ namespace Devarc
         public bool TryGetAt(SqliteConnection _conn, KEY _key, out ITEM _obj)
         {
             SqliteCommand cmd = new SqliteCommand(_conn);
-            //cmd.CommandText = _obj.GetSelectQuery(_key);
             cmd.CommandText = defaultObject.GetSelectQuery(_key);
-            SqliteDataReader reader = cmd.ExecuteReader();
-            if (reader.Read())
+            try
             {
-                _obj = new ITEM();
-                _obj.Initialize(reader);
-                return true;
+                SqliteDataReader reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    _obj = new ITEM();
+                    _obj.Initialize(reader);
+                    return true;
+                }
+                _obj = default(ITEM);
+                return false;
             }
-            _obj = default(ITEM);
-            return false;
+            catch(Exception ex)
+            {
+                Log.Exception(ex);
+                _obj = default(ITEM);
+                return false;
+            }
         }
 
         public bool Contains(KEY key)
