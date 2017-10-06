@@ -3,6 +3,8 @@
 *.suo
 *.pdb
 *.csproj.user
+Debug/
+Release/
 bin/
 obj/
 UnityVS/
