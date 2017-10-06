@@ -45,23 +45,25 @@ namespace TestServer
 
         private void button_start_Click(object sender, EventArgs e)
         {
-            int port = 5000;
+            int port;
             if (int.TryParse(textBox_port.Text, out port))
             {
-                TestServer server = TestServer.Instance;
+                NetServer server = TestServer.Instance.server;
+
                 if (server.State == ServerState.NotInitialized)
                 {
                     ServerConfig serverConfig = new ServerConfig
                     {
                         Ip = "127.0.0.1",
                         Port = port,
-                        Mode = SocketMode.Tcp
+                        Mode = SocketMode.Tcp,
                     };
-                    bool setup = server.Setup(serverConfig);
+                    server.Setup(serverConfig);
                 }
 
                 switch (server.State)
                 {
+                    case ServerState.NotInitialized:
                     case ServerState.NotStarted:
                         server.Start();
                         break;
@@ -73,7 +75,7 @@ namespace TestServer
 
         private void button_stop_Click(object sender, EventArgs e)
         {
-            TestServer.Instance.Stop();
+            TestServer.Instance.server.Stop();
         }
 
         private void button_clear_Click(object sender, EventArgs e)
@@ -82,10 +84,12 @@ namespace TestServer
             textBox1.Text = mString.ToString();
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void button_test_Click(object sender, EventArgs e)
         {
-            //TestServer.Instance.server.Tick();
+            foreach (NetSession session in TestServer.Instance.server.GetAllSessions())
+            {
+                TestServer.Instance.ProxyS2C.Notify_Chat(session.Hid, "TEST OK");
+            }
         }
-
     }
 }

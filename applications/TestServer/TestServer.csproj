@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TestServer</RootNamespace>
     <AssemblyName>TestServer</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -21,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -30,6 +32,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="LitJson">
@@ -44,27 +47,6 @@
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\_externals\SuperSocket\Net45\Debug\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocket.Common">
-      <HintPath>..\..\_externals\SuperSocket\Net45\Debug\SuperSocket.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocket.Dlr">
-      <HintPath>..\..\_externals\SuperSocket\Net45\Debug\SuperSocket.Dlr.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocket.Facility">
-      <HintPath>..\..\_externals\SuperSocket\Net45\Debug\SuperSocket.Facility.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocket.ServerManager">
-      <HintPath>..\..\_externals\SuperSocket\Net45\Debug\SuperSocket.ServerManager.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocket.SocketBase">
-      <HintPath>..\..\_externals\SuperSocket\Net45\Debug\SuperSocket.SocketBase.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocket.SocketEngine">
-      <HintPath>..\..\_externals\SuperSocket\Net45\Debug\SuperSocket.SocketEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocket.WebSocket">
-      <HintPath>..\..\_externals\SuperSocket\Net45\Debug\SuperSocket.WebSocket.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -101,6 +83,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -116,21 +99,49 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\_framework\Modules\Devarc.Base\Devarc.Base.csproj">
+    <ProjectReference Include="..\..\_externals\SuperSocket\Common\SuperSocket.Common.Net45.csproj">
+      <Project>{a24f4d38-ba9c-4fd6-95b7-4980de36131a}</Project>
+      <Name>SuperSocket.Common.Net45</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\_externals\SuperSocket\Dlr\SuperSocket.Dlr.Net45.csproj">
+      <Project>{55baa051-ce62-4d4a-81b6-68b042cc78e9}</Project>
+      <Name>SuperSocket.Dlr.Net45</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\_externals\SuperSocket\Facility\SuperSocket.Facility.Net45.csproj">
+      <Project>{01987bac-c498-44dd-b274-62ea2506b51d}</Project>
+      <Name>SuperSocket.Facility.Net45</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\_externals\SuperSocket\Management\Server\SuperSocket.ServerManager.Net45.csproj">
+      <Project>{49b6dff1-d7a6-4bde-90db-9053416b0aa5}</Project>
+      <Name>SuperSocket.ServerManager.Net45</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\_externals\SuperSocket\Protocols\WebSocket\SuperSocket.WebSocket.Net45.csproj">
+      <Project>{db6dd6e8-abde-4c4a-a3e2-df49c074433b}</Project>
+      <Name>SuperSocket.WebSocket.Net45</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\_externals\SuperSocket\SocketBase\SuperSocket.SocketBase.Net45.csproj">
+      <Project>{40b77789-ea11-4c05-8f52-86711d7bcaaf}</Project>
+      <Name>SuperSocket.SocketBase.Net45</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\_externals\SuperSocket\SocketEngine\SuperSocket.SocketEngine.Net45.csproj">
+      <Project>{153fef72-191c-43d9-be71-2b351c7ac760}</Project>
+      <Name>SuperSocket.SocketEngine.Net45</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\_framework\Modules\Devarc.Base\Devarc.Base.Net45.csproj">
       <Project>{777b5922-baaa-47fb-8312-34821664729d}</Project>
-      <Name>Devarc.Base</Name>
+      <Name>Devarc.Base.Net45</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\_framework\Modules\Devarc.Net.Client\Devarc.Net.Client.csproj">
+    <ProjectReference Include="..\..\_framework\Modules\Devarc.Net.Client\Devarc.Net.Client.Net45.csproj">
       <Project>{44aafade-bcd3-45be-8077-0dd9d1c98374}</Project>
-      <Name>Devarc.Net.Client</Name>
+      <Name>Devarc.Net.Client.Net45</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\_framework\Modules\Devarc.Net.Server\Devarc.Net.Server.csproj">
+    <ProjectReference Include="..\..\_framework\Modules\Devarc.Net.Server\Devarc.Net.Server.Net45.csproj">
       <Project>{2270f366-f6eb-4804-8e04-39f2303ed03e}</Project>
-      <Name>Devarc.Net.Server</Name>
+      <Name>Devarc.Net.Server.Net45</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\_framework\Modules\Devarc.Object\Devarc.Object.csproj">
+    <ProjectReference Include="..\..\_framework\Modules\Devarc.Object\Devarc.Object.Net45.csproj">
       <Project>{e9b1af6b-c4c0-4684-9b1c-de66b1b96ce8}</Project>
-      <Name>Devarc.Object</Name>
+      <Name>Devarc.Object.Net45</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

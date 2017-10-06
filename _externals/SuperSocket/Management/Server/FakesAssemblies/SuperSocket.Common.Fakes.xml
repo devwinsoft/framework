@@ -1,0 +1,2036 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SuperSocket.Common.Fakes</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.QualityTools.Testing.Fakes.Delegates.SuperSocketCommonDelegates">
+            <summary>SuperSocket.Common의 스텁 및 shim에 사용되는 사용자 지정 대리자를 포함합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimArraySegmentList">
+            <summary>SuperSocket.Common.ArraySegmentList의 Shim 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimArraySegmentList.#ctor">
+            <summary>새 shim 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimArraySegmentList.#ctor(SuperSocket.Common.ArraySegmentList)">
+            <summary>지정된 인스턴스에 대한 새 shim을 초기화합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimArraySegmentList.AllInstances">
+            <summary>모든 인스턴스 멤버에 대한 shim 정의</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList.AllInstances.DecodeEncoding">
+            <summary>ArraySegmentList.Decode(Encoding encoding)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList.AllInstances.DecodeEncodingInt32Int32">
+            <summary>ArraySegmentList.Decode(Encoding encoding, Int32 offset, Int32 length)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList.AllInstances.DecodeMaskByteArrayInt32Int32">
+            <summary>ArraySegmentList.DecodeMask(Byte[] mask, Int32 offset, Int32 length)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimArraySegmentList.BehaveAsCurrent">
+            <summary>Shim된 형식의 모든 메서드에 &apos;Current&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimArraySegmentList.BehaveAsNotImplemented">
+            <summary>Shim된 형식의 모든 메서드에 &apos;NotImplemented&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList.Behavior">
+            <summary>Shim된 형식의 모든 메서드에 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimArraySegmentList.Bind(System.Collections.IEnumerable)">
+            <summary>인터페이스의 멤버를 shim에 바인딩합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimArraySegmentList.Bind(System.Collections.Generic.ICollection{System.Byte})">
+            <summary>인터페이스의 멤버를 shim에 바인딩합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimArraySegmentList.Bind(System.Collections.Generic.IEnumerable{System.Byte})">
+            <summary>인터페이스의 멤버를 shim에 바인딩합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimArraySegmentList.Bind(System.Collections.Generic.IList{System.Byte})">
+            <summary>인터페이스의 멤버를 shim에 바인딩합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList.Constructor">
+            <summary>ArraySegmentList.ArraySegmentList()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList.DecodeEncoding">
+            <summary>ArraySegmentList.Decode(Encoding encoding)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList.DecodeEncodingInt32Int32">
+            <summary>ArraySegmentList.Decode(Encoding encoding, Int32 offset, Int32 length)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList.DecodeMaskByteArrayInt32Int32">
+            <summary>ArraySegmentList.DecodeMask(Byte[] mask, Int32 offset, Int32 length)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimArraySegmentList`1">
+            <summary>SuperSocket.Common.ArraySegmentList`1의 Shim 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimArraySegmentList`1.#ctor">
+            <summary>새 shim 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimArraySegmentList`1.#ctor(SuperSocket.Common.ArraySegmentList{`0})">
+            <summary>지정된 인스턴스에 대한 새 shim을 초기화합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.AddSegmentT0ArrayInt32Int32">
+            <summary>ArraySegmentList`1.AddSegment(!0[] array, Int32 offset, Int32 length)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.AddSegmentT0ArrayInt32Int32Boolean">
+            <summary>ArraySegmentList`1.AddSegment(!0[] array, Int32 offset, Int32 length, Boolean toBeCopied)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.AddT0">
+            <summary>ArraySegmentList`1.Add(!0 item)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimArraySegmentList`1.AllInstances">
+            <summary>모든 인스턴스 멤버에 대한 shim 정의</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.AllInstances.AddSegmentT0ArrayInt32Int32">
+            <summary>ArraySegmentList`1.AddSegment(!0[] array, Int32 offset, Int32 length)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.AllInstances.AddSegmentT0ArrayInt32Int32Boolean">
+            <summary>ArraySegmentList`1.AddSegment(!0[] array, Int32 offset, Int32 length, Boolean toBeCopied)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.AllInstances.AddT0">
+            <summary>ArraySegmentList`1.Add(!0 item)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.AllInstances.Clear">
+            <summary>ArraySegmentList`1.Clear()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.AllInstances.ClearSegements">
+            <summary>ArraySegmentList`1.ClearSegements()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.AllInstances.ContainsT0">
+            <summary>ArraySegmentList`1.Contains(!0 item)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.AllInstances.CopyToT0Array">
+            <summary>ArraySegmentList`1.CopyTo(!0[] to)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.AllInstances.CopyToT0ArrayInt32">
+            <summary>ArraySegmentList`1.CopyTo(!0[] array, Int32 arrayIndex)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.AllInstances.CopyToT0ArrayInt32Int32Int32">
+            <summary>ArraySegmentList`1.CopyTo(!0[] to, Int32 srcIndex, Int32 toIndex, Int32 length)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.AllInstances.CountGet">
+            <summary>ArraySegmentList`1.get_Count()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.AllInstances.GetEnumerator">
+            <summary>ArraySegmentList`1.GetEnumerator()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.AllInstances.IndexOfT0">
+            <summary>ArraySegmentList`1.IndexOf(!0 item)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.AllInstances.InsertInt32T0">
+            <summary>ArraySegmentList`1.Insert(Int32 index, !0 item)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.AllInstances.IsReadOnlyGet">
+            <summary>ArraySegmentList`1.get_IsReadOnly()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.AllInstances.ItemGetInt32">
+            <summary>ArraySegmentList`1.get_Item(Int32 index)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.AllInstances.ItemSetInt32T0">
+            <summary>ArraySegmentList`1.set_Item(Int32 index, !0 value)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.AllInstances.RemoveAtInt32">
+            <summary>ArraySegmentList`1.RemoveAt(Int32 index)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.AllInstances.RemoveSegmentAtInt32">
+            <summary>ArraySegmentList`1.RemoveSegmentAt(Int32 index)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.AllInstances.RemoveT0">
+            <summary>ArraySegmentList`1.Remove(!0 item)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.AllInstances.SearchLastSegmentSearchMarkStateOfT0">
+            <summary>ArraySegmentList`1.SearchLastSegment(SearchMarkState`1&lt;!0&gt; state)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.AllInstances.SegmentCountGet">
+            <summary>ArraySegmentList`1.get_SegmentCount()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.AllInstances.SystemCollectionsIEnumerableGetEnumerator">
+            <summary>ArraySegmentList`1.System.Collections.IEnumerable.GetEnumerator()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.AllInstances.ToArrayData">
+            <summary>ArraySegmentList`1.ToArrayData()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.AllInstances.ToArrayDataInt32Int32">
+            <summary>ArraySegmentList`1.ToArrayData(Int32 startIndex, Int32 length)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.AllInstances.TrimEndInt32">
+            <summary>ArraySegmentList`1.TrimEnd(Int32 trimSize)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimArraySegmentList`1.BehaveAsCurrent">
+            <summary>Shim된 형식의 모든 메서드에 &apos;Current&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimArraySegmentList`1.BehaveAsNotImplemented">
+            <summary>Shim된 형식의 모든 메서드에 &apos;NotImplemented&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.Behavior">
+            <summary>Shim된 형식의 모든 메서드에 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimArraySegmentList`1.Bind(System.Collections.IEnumerable)">
+            <summary>인터페이스의 멤버를 shim에 바인딩합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimArraySegmentList`1.Bind(System.Collections.Generic.ICollection{`0})">
+            <summary>인터페이스의 멤버를 shim에 바인딩합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimArraySegmentList`1.Bind(System.Collections.Generic.IEnumerable{`0})">
+            <summary>인터페이스의 멤버를 shim에 바인딩합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimArraySegmentList`1.Bind(System.Collections.Generic.IList{`0})">
+            <summary>인터페이스의 멤버를 shim에 바인딩합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.Clear">
+            <summary>ArraySegmentList`1.Clear()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.ClearSegements">
+            <summary>ArraySegmentList`1.ClearSegements()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.Constructor">
+            <summary>ArraySegmentList`1.ArraySegmentList`1()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.ContainsT0">
+            <summary>ArraySegmentList`1.Contains(!0 item)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.CopyToT0Array">
+            <summary>ArraySegmentList`1.CopyTo(!0[] to)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.CopyToT0ArrayInt32">
+            <summary>ArraySegmentList`1.CopyTo(!0[] array, Int32 arrayIndex)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.CopyToT0ArrayInt32Int32Int32">
+            <summary>ArraySegmentList`1.CopyTo(!0[] to, Int32 srcIndex, Int32 toIndex, Int32 length)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.CountGet">
+            <summary>ArraySegmentList`1.get_Count()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.GetEnumerator">
+            <summary>ArraySegmentList`1.GetEnumerator()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.IndexOfT0">
+            <summary>ArraySegmentList`1.IndexOf(!0 item)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.InsertInt32T0">
+            <summary>ArraySegmentList`1.Insert(Int32 index, !0 item)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.IsReadOnlyGet">
+            <summary>ArraySegmentList`1.get_IsReadOnly()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.ItemGetInt32">
+            <summary>ArraySegmentList`1.get_Item(Int32 index)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.ItemSetInt32T0">
+            <summary>ArraySegmentList`1.set_Item(Int32 index, !0 value)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.RemoveAtInt32">
+            <summary>ArraySegmentList`1.RemoveAt(Int32 index)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.RemoveSegmentAtInt32">
+            <summary>ArraySegmentList`1.RemoveSegmentAt(Int32 index)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.RemoveT0">
+            <summary>ArraySegmentList`1.Remove(!0 item)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.SearchLastSegmentSearchMarkStateOfT0">
+            <summary>ArraySegmentList`1.SearchLastSegment(SearchMarkState`1&lt;!0&gt; state)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.SegmentCountGet">
+            <summary>ArraySegmentList`1.get_SegmentCount()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.SystemCollectionsIEnumerableGetEnumerator">
+            <summary>ArraySegmentList`1.System.Collections.IEnumerable.GetEnumerator()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.ToArrayData">
+            <summary>ArraySegmentList`1.ToArrayData()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.ToArrayDataInt32Int32">
+            <summary>ArraySegmentList`1.ToArrayData(Int32 startIndex, Int32 length)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimArraySegmentList`1.TrimEndInt32">
+            <summary>ArraySegmentList`1.TrimEnd(Int32 trimSize)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimAssemblyUtil">
+            <summary>SuperSocket.Common.AssemblyUtil의 Shim 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimAssemblyUtil.#ctor">
+            <summary>새 shim 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimAssemblyUtil.BehaveAsCurrent">
+            <summary>Shim된 형식의 모든 메서드에 &apos;Current&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimAssemblyUtil.BehaveAsNotImplemented">
+            <summary>Shim된 형식의 모든 메서드에 &apos;NotImplemented&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimAssemblyUtil.Behavior">
+            <summary>Shim된 형식의 모든 메서드에 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimAssemblyUtil.BinaryCloneOf1M0``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{``0,``0})">
+            <summary>AssemblyUtil.BinaryClone(!!0 target)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimAssemblyUtil.CopyPropertiesToOf1M0M0``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{``0,``0,``0})">
+            <summary>AssemblyUtil.CopyPropertiesTo(!!0 source, !!0 target)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimAssemblyUtil.CopyPropertiesToOf1M0PredicateOfPropertyInfoM0``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{``0,System.Predicate{System.Reflection.PropertyInfo},``0,``0})">
+            <summary>AssemblyUtil.CopyPropertiesTo(!!0 source, Predicate`1&lt;PropertyInfo&gt; predict, !!0 target)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimAssemblyUtil.CreateInstanceOf1String``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{System.String,``0})">
+            <summary>AssemblyUtil.CreateInstance(String type)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimAssemblyUtil.CreateInstanceOf1StringObjectArray``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{System.String,System.Object[],``0})">
+            <summary>AssemblyUtil.CreateInstance(String type, Object[] parameters)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimAssemblyUtil.GetAssembliesFromStringString">
+            <summary>AssemblyUtil.GetAssembliesFromString(String assemblyDef)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimAssemblyUtil.GetAssembliesFromStringsStringArray">
+            <summary>AssemblyUtil.GetAssembliesFromStrings(String[] assemblies)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimAssemblyUtil.GetImplementTypesOf1Assembly``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{System.Reflection.Assembly,System.Collections.Generic.IEnumerable{System.Type}})">
+            <summary>AssemblyUtil.GetImplementTypes(Assembly assembly)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimAssemblyUtil.GetImplementedObjectsByInterfaceOf1Assembly``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{System.Reflection.Assembly,System.Collections.Generic.IEnumerable{``0}})">
+            <summary>AssemblyUtil.GetImplementedObjectsByInterface(Assembly assembly)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimAssemblyUtil.GetImplementedObjectsByInterfaceOf1AssemblyType``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{System.Reflection.Assembly,System.Type,System.Collections.Generic.IEnumerable{``0}})">
+            <summary>AssemblyUtil.GetImplementedObjectsByInterface(Assembly assembly, Type targetType)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimAssemblyUtil.GetTypeStringBooleanBoolean">
+            <summary>AssemblyUtil.GetType(String fullTypeName, Boolean throwOnError, Boolean ignoreCase)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimBinaryUtil">
+            <summary>SuperSocket.Common.BinaryUtil의 Shim 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimBinaryUtil.#ctor">
+            <summary>새 shim 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimBinaryUtil.BehaveAsCurrent">
+            <summary>Shim된 형식의 모든 메서드에 &apos;Current&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimBinaryUtil.BehaveAsNotImplemented">
+            <summary>Shim된 형식의 모든 메서드에 &apos;NotImplemented&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimBinaryUtil.Behavior">
+            <summary>Shim된 형식의 모든 메서드에 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimBinaryUtil.CloneRangeOf1IListOfM0Int32Int32``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{System.Collections.Generic.IList{``0},System.Int32,System.Int32,``0[]})">
+            <summary>BinaryUtil.CloneRange(IList`1&lt;!!0&gt; source, Int32 offset, Int32 length)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimBinaryUtil.EndsWithOf1IListOfM0Int32Int32M0Array``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{System.Collections.Generic.IList{``0},System.Int32,System.Int32,``0[],System.Boolean})">
+            <summary>BinaryUtil.EndsWith(IList`1&lt;!!0&gt; source, Int32 offset, Int32 length, !!0[] mark)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimBinaryUtil.EndsWithOf1IListOfM0M0Array``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{System.Collections.Generic.IList{``0},``0[],System.Boolean})">
+            <summary>BinaryUtil.EndsWith(IList`1&lt;!!0&gt; source, !!0[] mark)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimBinaryUtil.IndexOfOf1IListOfM0M0Int32Int32``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{System.Collections.Generic.IList{``0},``0,System.Int32,System.Int32,System.Int32})">
+            <summary>BinaryUtil.IndexOf(IList`1&lt;!!0&gt; source, !!0 target, Int32 pos, Int32 length)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimBinaryUtil.SearchMarkOf1IListOfM0Int32Int32M0Array``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{System.Collections.Generic.IList{``0},System.Int32,System.Int32,``0[],System.Nullable{System.Int32}})">
+            <summary>BinaryUtil.SearchMark(IList`1&lt;!!0&gt; source, Int32 offset, Int32 length, !!0[] mark)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimBinaryUtil.SearchMarkOf1IListOfM0Int32Int32M0ArrayInt32``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{System.Collections.Generic.IList{``0},System.Int32,System.Int32,``0[],System.Int32,System.Nullable{System.Int32}})">
+            <summary>BinaryUtil.SearchMark(IList`1&lt;!!0&gt; source, Int32 offset, Int32 length, !!0[] mark, Int32 matched)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimBinaryUtil.SearchMarkOf1IListOfM0Int32Int32M0ArrayInt32Int32Out``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.OutFunc{System.Collections.Generic.IList{``0},System.Int32,System.Int32,``0[],System.Int32,System.Int32,System.Nullable{System.Int32}})">
+            <summary>BinaryUtil.SearchMark(IList`1&lt;!!0&gt; source, Int32 offset, Int32 length, !!0[] mark, Int32 matched, Int32&amp; parsedLength)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimBinaryUtil.SearchMarkOf1IListOfM0Int32Int32M0ArrayInt32Out``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.OutFunc{System.Collections.Generic.IList{``0},System.Int32,System.Int32,``0[],System.Int32,System.Nullable{System.Int32}})">
+            <summary>BinaryUtil.SearchMark(IList`1&lt;!!0&gt; source, Int32 offset, Int32 length, !!0[] mark, Int32&amp; parsedLength)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimBinaryUtil.SearchMarkOf1IListOfM0Int32Int32SearchMarkStateOfM0``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{System.Collections.Generic.IList{``0},System.Int32,System.Int32,SuperSocket.Common.SearchMarkState{``0},System.Int32})">
+            <summary>BinaryUtil.SearchMark(IList`1&lt;!!0&gt; source, Int32 offset, Int32 length, SearchMarkState`1&lt;!!0&gt; searchState)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimBinaryUtil.SearchMarkOf1IListOfM0Int32Int32SearchMarkStateOfM0Int32Out``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.OutFunc{System.Collections.Generic.IList{``0},System.Int32,System.Int32,SuperSocket.Common.SearchMarkState{``0},System.Int32,System.Int32})">
+            <summary>BinaryUtil.SearchMark(IList`1&lt;!!0&gt; source, Int32 offset, Int32 length, SearchMarkState`1&lt;!!0&gt; searchState, Int32&amp; parsedLength)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimBinaryUtil.SearchMarkOf1IListOfM0M0Array``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{System.Collections.Generic.IList{``0},``0[],System.Nullable{System.Int32}})">
+            <summary>BinaryUtil.SearchMark(IList`1&lt;!!0&gt; source, !!0[] mark)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimBinaryUtil.SearchMarkOf1IListOfM0M0ArrayInt32Out``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.OutFunc{System.Collections.Generic.IList{``0},``0[],System.Int32,System.Nullable{System.Int32}})">
+            <summary>BinaryUtil.SearchMark(IList`1&lt;!!0&gt; source, !!0[] mark, Int32&amp; parsedLength)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimBinaryUtil.StartsWithOf1IListOfM0Int32Int32M0Array``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{System.Collections.Generic.IList{``0},System.Int32,System.Int32,``0[],System.Int32})">
+            <summary>BinaryUtil.StartsWith(IList`1&lt;!!0&gt; source, Int32 offset, Int32 length, !!0[] mark)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimBinaryUtil.StartsWithOf1IListOfM0M0Array``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{System.Collections.Generic.IList{``0},``0[],System.Int32})">
+            <summary>BinaryUtil.StartsWith(IList`1&lt;!!0&gt; source, !!0[] mark)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimBufferManager">
+            <summary>SuperSocket.Common.BufferManager의 Shim 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimBufferManager.#ctor">
+            <summary>새 shim 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimBufferManager.#ctor(SuperSocket.Common.BufferManager)">
+            <summary>지정된 인스턴스에 대한 새 shim을 초기화합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimBufferManager.AllInstances">
+            <summary>모든 인스턴스 멤버에 대한 shim 정의</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimBufferManager.AllInstances.FreeBufferSocketAsyncEventArgs">
+            <summary>BufferManager.FreeBuffer(SocketAsyncEventArgs args)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimBufferManager.AllInstances.InitBuffer">
+            <summary>BufferManager.InitBuffer()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimBufferManager.AllInstances.SetBufferSocketAsyncEventArgs">
+            <summary>BufferManager.SetBuffer(SocketAsyncEventArgs args)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimBufferManager.BehaveAsCurrent">
+            <summary>Shim된 형식의 모든 메서드에 &apos;Current&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimBufferManager.BehaveAsNotImplemented">
+            <summary>Shim된 형식의 모든 메서드에 &apos;NotImplemented&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimBufferManager.Behavior">
+            <summary>Shim된 형식의 모든 메서드에 동작을 할당합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimBufferManager.ConstructorInt32Int32">
+            <summary>BufferManager.BufferManager(Int32 totalBytes, Int32 bufferSize)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimBufferManager.FreeBufferSocketAsyncEventArgs">
+            <summary>BufferManager.FreeBuffer(SocketAsyncEventArgs args)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimBufferManager.InitBuffer">
+            <summary>BufferManager.InitBuffer()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimBufferManager.SetBufferSocketAsyncEventArgs">
+            <summary>BufferManager.SetBuffer(SocketAsyncEventArgs args)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimConfigurationElementBase">
+            <summary>SuperSocket.Common.ConfigurationElementBase의 Shim 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimConfigurationElementBase.#ctor">
+            <summary>새 shim 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimConfigurationElementBase.#ctor(SuperSocket.Common.ConfigurationElementBase)">
+            <summary>지정된 인스턴스에 대한 새 shim을 초기화합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimConfigurationElementBase.AllInstances">
+            <summary>모든 인스턴스 멤버에 대한 shim 정의</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationElementBase.AllInstances.DeserializeElementXmlReaderBoolean">
+            <summary>ConfigurationElementBase.DeserializeElement(XmlReader reader, Boolean serializeCollectionKey)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationElementBase.AllInstances.NameGet">
+            <summary>ConfigurationElementBase.get_Name()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationElementBase.AllInstances.OnDeserializeUnrecognizedAttributeStringString">
+            <summary>ConfigurationElementBase.OnDeserializeUnrecognizedAttribute(String name, String value)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationElementBase.AllInstances.OnDeserializeUnrecognizedElementStringXmlReader">
+            <summary>ConfigurationElementBase.OnDeserializeUnrecognizedElement(String elementName, XmlReader reader)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationElementBase.AllInstances.OptionElementsGet">
+            <summary>ConfigurationElementBase.get_OptionElements()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationElementBase.AllInstances.OptionElementsSetNameValueCollection">
+            <summary>ConfigurationElementBase.set_OptionElements(NameValueCollection value)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationElementBase.AllInstances.OptionsGet">
+            <summary>ConfigurationElementBase.get_Options()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationElementBase.AllInstances.OptionsSetNameValueCollection">
+            <summary>ConfigurationElementBase.set_Options(NameValueCollection value)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationElementBase.AllInstances.SerializeElementXmlWriterBoolean">
+            <summary>ConfigurationElementBase.SerializeElement(XmlWriter writer, Boolean serializeCollectionKey)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationElementBase.AllInstances.UnmergeConfigurationElementConfigurationElementConfigurationSaveMode">
+            <summary>ConfigurationElementBase.Unmerge(ConfigurationElement sourceElement, ConfigurationElement parentElement, ConfigurationSaveMode saveMode)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimConfigurationElementBase.BehaveAsCurrent">
+            <summary>Shim된 형식의 모든 메서드에 &apos;Current&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimConfigurationElementBase.BehaveAsNotImplemented">
+            <summary>Shim된 형식의 모든 메서드에 &apos;NotImplemented&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationElementBase.Behavior">
+            <summary>Shim된 형식의 모든 메서드에 동작을 할당합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationElementBase.Constructor">
+            <summary>ConfigurationElementBase.ConfigurationElementBase()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationElementBase.ConstructorBoolean">
+            <summary>ConfigurationElementBase.ConfigurationElementBase(Boolean nameRequired)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationElementBase.DeserializeElementXmlReaderBoolean">
+            <summary>ConfigurationElementBase.DeserializeElement(XmlReader reader, Boolean serializeCollectionKey)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationElementBase.NameGet">
+            <summary>ConfigurationElementBase.get_Name()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationElementBase.OnDeserializeUnrecognizedAttributeStringString">
+            <summary>ConfigurationElementBase.OnDeserializeUnrecognizedAttribute(String name, String value)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationElementBase.OnDeserializeUnrecognizedElementStringXmlReader">
+            <summary>ConfigurationElementBase.OnDeserializeUnrecognizedElement(String elementName, XmlReader reader)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationElementBase.OptionElementsGet">
+            <summary>ConfigurationElementBase.get_OptionElements()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationElementBase.OptionElementsSetNameValueCollection">
+            <summary>ConfigurationElementBase.set_OptionElements(NameValueCollection value)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationElementBase.OptionsGet">
+            <summary>ConfigurationElementBase.get_Options()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationElementBase.OptionsSetNameValueCollection">
+            <summary>ConfigurationElementBase.set_Options(NameValueCollection value)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationElementBase.SerializeElementXmlWriterBoolean">
+            <summary>ConfigurationElementBase.SerializeElement(XmlWriter writer, Boolean serializeCollectionKey)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationElementBase.UnmergeConfigurationElementConfigurationElementConfigurationSaveMode">
+            <summary>ConfigurationElementBase.Unmerge(ConfigurationElement sourceElement, ConfigurationElement parentElement, ConfigurationSaveMode saveMode)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimConfigurationExtension">
+            <summary>SuperSocket.Common.ConfigurationExtension의 Shim 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimConfigurationExtension.#ctor">
+            <summary>새 shim 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimConfigurationExtension.BehaveAsCurrent">
+            <summary>Shim된 형식의 모든 메서드에 &apos;Current&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimConfigurationExtension.BehaveAsNotImplemented">
+            <summary>Shim된 형식의 모든 메서드에 &apos;NotImplemented&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationExtension.Behavior">
+            <summary>Shim된 형식의 모든 메서드에 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimConfigurationExtension.DeserializeChildConfigOf1String``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{System.String,``0})">
+            <summary>ConfigurationExtension.DeserializeChildConfig(String childConfig)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimConfigurationExtension.DeserializeOf1M0XmlReader``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Action{``0,System.Xml.XmlReader})">
+            <summary>ConfigurationExtension.Deserialize(!!0 section, XmlReader reader)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimConfigurationExtension.GetChildConfigOf1NameValueCollectionString``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{System.Collections.Specialized.NameValueCollection,System.String,``0})">
+            <summary>ConfigurationExtension.GetChildConfig(NameValueCollection childElements, String childConfigName)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationExtension.GetConfigSourceConfigurationElement">
+            <summary>ConfigurationExtension.GetConfigSource(ConfigurationElement config)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationExtension.GetCurrentConfigurationConfigurationElement">
+            <summary>ConfigurationExtension.GetCurrentConfiguration(ConfigurationElement configElement)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationExtension.GetValueNameValueCollectionString">
+            <summary>ConfigurationExtension.GetValue(NameValueCollection collection, String key)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationExtension.GetValueNameValueCollectionStringString">
+            <summary>ConfigurationExtension.GetValue(NameValueCollection collection, String key, String defaultValue)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationExtension.LoadFromConfigurationElementObject">
+            <summary>ConfigurationExtension.LoadFrom(ConfigurationElement configElement, Object source)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationExtension.ResetConfigurationAppDomainString">
+            <summary>ConfigurationExtension.ResetConfiguration(AppDomain appDomain, String configFilePath)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationExtension.ResetConfigurationForDotNetAppDomainString">
+            <summary>ConfigurationExtension.ResetConfigurationForDotNet(AppDomain appDomain, String configFilePath)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimConfigurationExtension.ResetConfigurationForMonoAppDomainString">
+            <summary>ConfigurationExtension.ResetConfigurationForMono(AppDomain appDomain, String configFilePath)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimDictionaryExtension">
+            <summary>SuperSocket.Common.DictionaryExtension의 Shim 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimDictionaryExtension.#ctor">
+            <summary>새 shim 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimDictionaryExtension.BehaveAsCurrent">
+            <summary>Shim된 형식의 모든 메서드에 &apos;Current&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimDictionaryExtension.BehaveAsNotImplemented">
+            <summary>Shim된 형식의 모든 메서드에 &apos;NotImplemented&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimDictionaryExtension.Behavior">
+            <summary>Shim된 형식의 모든 메서드에 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimDictionaryExtension.GetValueOf1IDictionaryOfObjectObjectObject``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{System.Collections.Generic.IDictionary{System.Object,System.Object},System.Object,``0})">
+            <summary>DictionaryExtension.GetValue(IDictionary`2&lt;Object,Object&gt; dictionary, Object key)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimDictionaryExtension.GetValueOf1IDictionaryOfObjectObjectObjectM0``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{System.Collections.Generic.IDictionary{System.Object,System.Object},System.Object,``0,``0})">
+            <summary>DictionaryExtension.GetValue(IDictionary`2&lt;Object,Object&gt; dictionary, Object key, !!0 defaultValue)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimErrorEventArgs">
+            <summary>SuperSocket.Common.ErrorEventArgs의 Shim 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimErrorEventArgs.#ctor">
+            <summary>새 shim 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimErrorEventArgs.#ctor(SuperSocket.Common.ErrorEventArgs)">
+            <summary>지정된 인스턴스에 대한 새 shim을 초기화합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimErrorEventArgs.AllInstances">
+            <summary>모든 인스턴스 멤버에 대한 shim 정의</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimErrorEventArgs.AllInstances.ExceptionGet">
+            <summary>ErrorEventArgs.get_Exception()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimErrorEventArgs.AllInstances.ExceptionSetException">
+            <summary>ErrorEventArgs.set_Exception(Exception value)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimErrorEventArgs.BehaveAsCurrent">
+            <summary>Shim된 형식의 모든 메서드에 &apos;Current&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimErrorEventArgs.BehaveAsNotImplemented">
+            <summary>Shim된 형식의 모든 메서드에 &apos;NotImplemented&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimErrorEventArgs.Behavior">
+            <summary>Shim된 형식의 모든 메서드에 동작을 할당합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimErrorEventArgs.ConstructorException">
+            <summary>ErrorEventArgs.ErrorEventArgs(Exception exception)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimErrorEventArgs.ConstructorString">
+            <summary>ErrorEventArgs.ErrorEventArgs(String message)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimErrorEventArgs.ExceptionGet">
+            <summary>ErrorEventArgs.get_Exception()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimErrorEventArgs.ExceptionSetException">
+            <summary>ErrorEventArgs.set_Exception(Exception value)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollection`2">
+            <summary>SuperSocket.Common.GenericConfigurationElementCollection`2의 Shim 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollection`2.#ctor">
+            <summary>새 shim 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollection`2.#ctor(SuperSocket.Common.GenericConfigurationElementCollection{`0,`1})">
+            <summary>지정된 인스턴스에 대한 새 shim을 초기화합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollection`2.AllInstances">
+            <summary>모든 인스턴스 멤버에 대한 shim 정의</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollection`2.AllInstances.GetElementKeyConfigurationElement">
+            <summary>GenericConfigurationElementCollection`2.GetElementKey(ConfigurationElement element)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollection`2.BehaveAsCurrent">
+            <summary>Shim된 형식의 모든 메서드에 &apos;Current&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollection`2.BehaveAsNotImplemented">
+            <summary>Shim된 형식의 모든 메서드에 &apos;NotImplemented&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollection`2.Behavior">
+            <summary>Shim된 형식의 모든 메서드에 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollection`2.Bind(System.Collections.ICollection)">
+            <summary>인터페이스의 멤버를 shim에 바인딩합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollection`2.Bind(System.Collections.IEnumerable)">
+            <summary>인터페이스의 멤버를 shim에 바인딩합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollection`2.Bind(System.Collections.Generic.IEnumerable{`1})">
+            <summary>인터페이스의 멤버를 shim에 바인딩합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollection`2.Constructor">
+            <summary>GenericConfigurationElementCollection`2.GenericConfigurationElementCollection`2()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollection`2.GetElementKeyConfigurationElement">
+            <summary>GenericConfigurationElementCollection`2.GetElementKey(ConfigurationElement element)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollectionBase`2">
+            <summary>SuperSocket.Common.GenericConfigurationElementCollectionBase`2의 Shim 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollectionBase`2.#ctor">
+            <summary>새 shim 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollectionBase`2.#ctor(SuperSocket.Common.GenericConfigurationElementCollectionBase{`0,`1})">
+            <summary>지정된 인스턴스에 대한 새 shim을 초기화합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollectionBase`2.AllInstances">
+            <summary>모든 인스턴스 멤버에 대한 shim 정의</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollectionBase`2.AllInstances.CreateNewElement">
+            <summary>GenericConfigurationElementCollectionBase`2.CreateNewElement()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollectionBase`2.AllInstances.GetElementKeyConfigurationElement">
+            <summary>GenericConfigurationElementCollectionBase`2.GetElementKey(ConfigurationElement element)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollectionBase`2.AllInstances.GetEnumerator">
+            <summary>GenericConfigurationElementCollectionBase`2.GetEnumerator()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollectionBase`2.AllInstances.ItemGetInt32">
+            <summary>GenericConfigurationElementCollectionBase`2.get_Item(Int32 index)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollectionBase`2.AllInstances.ItemSetInt32T0">
+            <summary>GenericConfigurationElementCollectionBase`2.set_Item(Int32 index, !0 value)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollectionBase`2.AllInstances._n__0">
+            <summary>GenericConfigurationElementCollectionBase`2.&lt;&gt;n__0()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollectionBase`2.BehaveAsCurrent">
+            <summary>Shim된 형식의 모든 메서드에 &apos;Current&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollectionBase`2.BehaveAsNotImplemented">
+            <summary>Shim된 형식의 모든 메서드에 &apos;NotImplemented&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollectionBase`2.Behavior">
+            <summary>Shim된 형식의 모든 메서드에 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollectionBase`2.Bind(System.Collections.ICollection)">
+            <summary>인터페이스의 멤버를 shim에 바인딩합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollectionBase`2.Bind(System.Collections.IEnumerable)">
+            <summary>인터페이스의 멤버를 shim에 바인딩합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollectionBase`2.Bind(System.Collections.Generic.IEnumerable{`1})">
+            <summary>인터페이스의 멤버를 shim에 바인딩합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollectionBase`2.Constructor">
+            <summary>GenericConfigurationElementCollectionBase`2.GenericConfigurationElementCollectionBase`2()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollectionBase`2.CreateNewElement">
+            <summary>GenericConfigurationElementCollectionBase`2.CreateNewElement()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollectionBase`2.GetElementKeyConfigurationElement">
+            <summary>GenericConfigurationElementCollectionBase`2.GetElementKey(ConfigurationElement element)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollectionBase`2.GetEnumerator">
+            <summary>GenericConfigurationElementCollectionBase`2.GetEnumerator()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollectionBase`2.ItemGetInt32">
+            <summary>GenericConfigurationElementCollectionBase`2.get_Item(Int32 index)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollectionBase`2.ItemSetInt32T0">
+            <summary>GenericConfigurationElementCollectionBase`2.set_Item(Int32 index, !0 value)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimGenericConfigurationElementCollectionBase`2._n__0">
+            <summary>GenericConfigurationElementCollectionBase`2.&lt;&gt;n__0()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimPlatform">
+            <summary>SuperSocket.Common.Platform의 Shim 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimPlatform.#ctor">
+            <summary>새 shim 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimPlatform.BehaveAsCurrent">
+            <summary>Shim된 형식의 모든 메서드에 &apos;Current&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimPlatform.BehaveAsNotImplemented">
+            <summary>Shim된 형식의 모든 메서드에 &apos;NotImplemented&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimPlatform.Behavior">
+            <summary>Shim된 형식의 모든 메서드에 동작을 할당합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimPlatform.IsMonoGet">
+            <summary>Platform.get_IsMono()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimPlatform.IsMonoSetBoolean">
+            <summary>Platform.set_IsMono(Boolean value)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimPlatform.StaticConstructor">
+            <summary>Platform.Platform()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimPlatform.SupportSocketIOControlByCodeEnumGet">
+            <summary>Platform.get_SupportSocketIOControlByCodeEnum()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimPlatform.SupportSocketIOControlByCodeEnumSetBoolean">
+            <summary>Platform.set_SupportSocketIOControlByCodeEnum(Boolean value)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimSearchMarkState`1">
+            <summary>SuperSocket.Common.SearchMarkState`1의 Shim 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimSearchMarkState`1.#ctor">
+            <summary>새 shim 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimSearchMarkState`1.#ctor(SuperSocket.Common.SearchMarkState{`0})">
+            <summary>지정된 인스턴스에 대한 새 shim을 초기화합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimSearchMarkState`1.AllInstances">
+            <summary>모든 인스턴스 멤버에 대한 shim 정의</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSearchMarkState`1.AllInstances.MarkGet">
+            <summary>SearchMarkState`1.get_Mark()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSearchMarkState`1.AllInstances.MarkSetT0Array">
+            <summary>SearchMarkState`1.set_Mark(!0[] value)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSearchMarkState`1.AllInstances.MatchedGet">
+            <summary>SearchMarkState`1.get_Matched()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSearchMarkState`1.AllInstances.MatchedSetInt32">
+            <summary>SearchMarkState`1.set_Matched(Int32 value)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimSearchMarkState`1.BehaveAsCurrent">
+            <summary>Shim된 형식의 모든 메서드에 &apos;Current&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimSearchMarkState`1.BehaveAsNotImplemented">
+            <summary>Shim된 형식의 모든 메서드에 &apos;NotImplemented&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSearchMarkState`1.Behavior">
+            <summary>Shim된 형식의 모든 메서드에 동작을 할당합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSearchMarkState`1.ConstructorT0Array">
+            <summary>SearchMarkState`1.SearchMarkState`1(!0[] mark)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSearchMarkState`1.MarkGet">
+            <summary>SearchMarkState`1.get_Mark()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSearchMarkState`1.MarkSetT0Array">
+            <summary>SearchMarkState`1.set_Mark(!0[] value)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSearchMarkState`1.MatchedGet">
+            <summary>SearchMarkState`1.get_Matched()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSearchMarkState`1.MatchedSetInt32">
+            <summary>SearchMarkState`1.set_Matched(Int32 value)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimSendingQueue">
+            <summary>SuperSocket.Common.SendingQueue의 Shim 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimSendingQueue.#ctor">
+            <summary>새 shim 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimSendingQueue.#ctor(SuperSocket.Common.SendingQueue)">
+            <summary>지정된 인스턴스에 대한 새 shim을 초기화합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.AddArraySegmentOfByte">
+            <summary>SendingQueue.Add(ArraySegment`1&lt;Byte&gt; item)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimSendingQueue.AllInstances">
+            <summary>모든 인스턴스 멤버에 대한 shim 정의</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.AllInstances.AddArraySegmentOfByte">
+            <summary>SendingQueue.Add(ArraySegment`1&lt;Byte&gt; item)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.AllInstances.CapacityGet">
+            <summary>SendingQueue.get_Capacity()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.AllInstances.Clear">
+            <summary>SendingQueue.Clear()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.AllInstances.ContainsArraySegmentOfByte">
+            <summary>SendingQueue.Contains(ArraySegment`1&lt;Byte&gt; item)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.AllInstances.CopyToArraySegmentOfByteArrayInt32">
+            <summary>SendingQueue.CopyTo(ArraySegment`1&lt;Byte&gt;[] array, Int32 arrayIndex)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.AllInstances.CountGet">
+            <summary>SendingQueue.get_Count()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.AllInstances.EnqueueArraySegmentOfByteUInt16">
+            <summary>SendingQueue.Enqueue(ArraySegment`1&lt;Byte&gt; item, UInt16 trackID)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.AllInstances.EnqueueIListOfArraySegmentOfByteUInt16">
+            <summary>SendingQueue.Enqueue(IList`1&lt;ArraySegment`1&lt;Byte&gt;&gt; items, UInt16 trackID)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.AllInstances.GetEnumerator">
+            <summary>SendingQueue.GetEnumerator()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.AllInstances.GlobalQueueGet">
+            <summary>SendingQueue.get_GlobalQueue()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.AllInstances.IndexOfArraySegmentOfByte">
+            <summary>SendingQueue.IndexOf(ArraySegment`1&lt;Byte&gt; item)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.AllInstances.InsertInt32ArraySegmentOfByte">
+            <summary>SendingQueue.Insert(Int32 index, ArraySegment`1&lt;Byte&gt; item)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.AllInstances.InternalTrimInt32">
+            <summary>SendingQueue.InternalTrim(Int32 offset)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.AllInstances.IsReadOnlyGet">
+            <summary>SendingQueue.get_IsReadOnly()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.AllInstances.ItemGetInt32">
+            <summary>SendingQueue.get_Item(Int32 index)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.AllInstances.ItemSetInt32ArraySegmentOfByte">
+            <summary>SendingQueue.set_Item(Int32 index, ArraySegment`1&lt;Byte&gt; value)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.AllInstances.OffsetGet">
+            <summary>SendingQueue.get_Offset()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.AllInstances.PositionGet">
+            <summary>SendingQueue.get_Position()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.AllInstances.PositionSetInt32">
+            <summary>SendingQueue.set_Position(Int32 value)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.AllInstances.RemoveArraySegmentOfByte">
+            <summary>SendingQueue.Remove(ArraySegment`1&lt;Byte&gt; item)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.AllInstances.RemoveAtInt32">
+            <summary>SendingQueue.RemoveAt(Int32 index)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.AllInstances.StartEnqueue">
+            <summary>SendingQueue.StartEnqueue()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.AllInstances.StopEnqueue">
+            <summary>SendingQueue.StopEnqueue()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.AllInstances.SystemCollectionsIEnumerableGetEnumerator">
+            <summary>SendingQueue.System.Collections.IEnumerable.GetEnumerator()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.AllInstances.TrackIDGet">
+            <summary>SendingQueue.get_TrackID()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.AllInstances.TryEnqueueArraySegmentOfByteBooleanOutUInt16">
+            <summary>SendingQueue.TryEnqueue(ArraySegment`1&lt;Byte&gt; item, Boolean&amp; conflict, UInt16 trackID)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.AllInstances.TryEnqueueIListOfArraySegmentOfByteBooleanOutUInt16">
+            <summary>SendingQueue.TryEnqueue(IList`1&lt;ArraySegment`1&lt;Byte&gt;&gt; items, Boolean&amp; conflict, UInt16 trackID)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimSendingQueue.BehaveAsCurrent">
+            <summary>Shim된 형식의 모든 메서드에 &apos;Current&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimSendingQueue.BehaveAsNotImplemented">
+            <summary>Shim된 형식의 모든 메서드에 &apos;NotImplemented&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.Behavior">
+            <summary>Shim된 형식의 모든 메서드에 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimSendingQueue.Bind(System.Collections.IEnumerable)">
+            <summary>인터페이스의 멤버를 shim에 바인딩합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimSendingQueue.Bind(System.Collections.Generic.ICollection{System.ArraySegment{System.Byte}})">
+            <summary>인터페이스의 멤버를 shim에 바인딩합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimSendingQueue.Bind(System.Collections.Generic.IEnumerable{System.ArraySegment{System.Byte}})">
+            <summary>인터페이스의 멤버를 shim에 바인딩합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimSendingQueue.Bind(System.Collections.Generic.IList{System.ArraySegment{System.Byte}})">
+            <summary>인터페이스의 멤버를 shim에 바인딩합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.CapacityGet">
+            <summary>SendingQueue.get_Capacity()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.Clear">
+            <summary>SendingQueue.Clear()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.ConstructorArraySegmentOfByteArrayInt32Int32">
+            <summary>SendingQueue.SendingQueue(ArraySegment`1&lt;Byte&gt;[] globalQueue, Int32 offset, Int32 capacity)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.ContainsArraySegmentOfByte">
+            <summary>SendingQueue.Contains(ArraySegment`1&lt;Byte&gt; item)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.CopyToArraySegmentOfByteArrayInt32">
+            <summary>SendingQueue.CopyTo(ArraySegment`1&lt;Byte&gt;[] array, Int32 arrayIndex)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.CountGet">
+            <summary>SendingQueue.get_Count()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.EnqueueArraySegmentOfByteUInt16">
+            <summary>SendingQueue.Enqueue(ArraySegment`1&lt;Byte&gt; item, UInt16 trackID)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.EnqueueIListOfArraySegmentOfByteUInt16">
+            <summary>SendingQueue.Enqueue(IList`1&lt;ArraySegment`1&lt;Byte&gt;&gt; items, UInt16 trackID)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.GetEnumerator">
+            <summary>SendingQueue.GetEnumerator()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.GlobalQueueGet">
+            <summary>SendingQueue.get_GlobalQueue()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.IndexOfArraySegmentOfByte">
+            <summary>SendingQueue.IndexOf(ArraySegment`1&lt;Byte&gt; item)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.InsertInt32ArraySegmentOfByte">
+            <summary>SendingQueue.Insert(Int32 index, ArraySegment`1&lt;Byte&gt; item)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.InternalTrimInt32">
+            <summary>SendingQueue.InternalTrim(Int32 offset)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.IsReadOnlyGet">
+            <summary>SendingQueue.get_IsReadOnly()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.ItemGetInt32">
+            <summary>SendingQueue.get_Item(Int32 index)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.ItemSetInt32ArraySegmentOfByte">
+            <summary>SendingQueue.set_Item(Int32 index, ArraySegment`1&lt;Byte&gt; value)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.OffsetGet">
+            <summary>SendingQueue.get_Offset()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.PositionGet">
+            <summary>SendingQueue.get_Position()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.PositionSetInt32">
+            <summary>SendingQueue.set_Position(Int32 value)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.RemoveArraySegmentOfByte">
+            <summary>SendingQueue.Remove(ArraySegment`1&lt;Byte&gt; item)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.RemoveAtInt32">
+            <summary>SendingQueue.RemoveAt(Int32 index)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.StartEnqueue">
+            <summary>SendingQueue.StartEnqueue()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.StaticConstructor">
+            <summary>SendingQueue.SendingQueue()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.StopEnqueue">
+            <summary>SendingQueue.StopEnqueue()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.SystemCollectionsIEnumerableGetEnumerator">
+            <summary>SendingQueue.System.Collections.IEnumerable.GetEnumerator()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueue.TrackIDGet">
+            <summary>SendingQueue.get_TrackID()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimSendingQueueSourceCreator">
+            <summary>SuperSocket.Common.SendingQueueSourceCreator의 Shim 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimSendingQueueSourceCreator.#ctor">
+            <summary>새 shim 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimSendingQueueSourceCreator.#ctor(SuperSocket.Common.SendingQueueSourceCreator)">
+            <summary>지정된 인스턴스에 대한 새 shim을 초기화합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimSendingQueueSourceCreator.AllInstances">
+            <summary>모든 인스턴스 멤버에 대한 shim 정의</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueueSourceCreator.AllInstances.CreateInt32SendingQueueArrayOut">
+            <summary>SendingQueueSourceCreator.Create(Int32 size, SendingQueue[]&amp; poolItems)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimSendingQueueSourceCreator.BehaveAsCurrent">
+            <summary>Shim된 형식의 모든 메서드에 &apos;Current&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimSendingQueueSourceCreator.BehaveAsNotImplemented">
+            <summary>Shim된 형식의 모든 메서드에 &apos;NotImplemented&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueueSourceCreator.Behavior">
+            <summary>Shim된 형식의 모든 메서드에 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimSendingQueueSourceCreator.Bind(SuperSocket.Common.ISmartPoolSourceCreator{SuperSocket.Common.SendingQueue})">
+            <summary>인터페이스의 멤버를 shim에 바인딩합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueueSourceCreator.ConstructorInt32">
+            <summary>SendingQueueSourceCreator.SendingQueueSourceCreator(Int32 sendingQueueSize)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSendingQueueSourceCreator.CreateInt32SendingQueueArrayOut">
+            <summary>SendingQueueSourceCreator.Create(Int32 size, SendingQueue[]&amp; poolItems)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimSmartPool`1">
+            <summary>SuperSocket.Common.SmartPool`1의 Shim 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimSmartPool`1.#ctor">
+            <summary>새 shim 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimSmartPool`1.#ctor(SuperSocket.Common.SmartPool{`0})">
+            <summary>지정된 인스턴스에 대한 새 shim을 초기화합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimSmartPool`1.AllInstances">
+            <summary>모든 인스턴스 멤버에 대한 shim 정의</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSmartPool`1.AllInstances.AvialableItemsCountGet">
+            <summary>SmartPool`1.get_AvialableItemsCount()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSmartPool`1.AllInstances.IncreaseCapacity">
+            <summary>SmartPool`1.IncreaseCapacity()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSmartPool`1.AllInstances.InitializeInt32Int32ISmartPoolSourceCreatorOfT0">
+            <summary>SmartPool`1.Initialize(Int32 minPoolSize, Int32 maxPoolSize, ISmartPoolSourceCreator`1&lt;!0&gt; sourceCreator)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSmartPool`1.AllInstances.MaxPoolSizeGet">
+            <summary>SmartPool`1.get_MaxPoolSize()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSmartPool`1.AllInstances.MinPoolSizeGet">
+            <summary>SmartPool`1.get_MinPoolSize()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSmartPool`1.AllInstances.PushT0">
+            <summary>SmartPool`1.Push(!0 item)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSmartPool`1.AllInstances.TotalItemsCountGet">
+            <summary>SmartPool`1.get_TotalItemsCount()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSmartPool`1.AllInstances.TryGetT0Out">
+            <summary>SmartPool`1.TryGet(!0&amp; item)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSmartPool`1.AllInstances.TryPopWithWaitT0OutInt32">
+            <summary>SmartPool`1.TryPopWithWait(!0&amp; item, Int32 waitTicks)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSmartPool`1.AvialableItemsCountGet">
+            <summary>SmartPool`1.get_AvialableItemsCount()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimSmartPool`1.BehaveAsCurrent">
+            <summary>Shim된 형식의 모든 메서드에 &apos;Current&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimSmartPool`1.BehaveAsNotImplemented">
+            <summary>Shim된 형식의 모든 메서드에 &apos;NotImplemented&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSmartPool`1.Behavior">
+            <summary>Shim된 형식의 모든 메서드에 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimSmartPool`1.Bind(SuperSocket.Common.IPoolInfo)">
+            <summary>인터페이스의 멤버를 shim에 바인딩합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimSmartPool`1.Bind(SuperSocket.Common.ISmartPool{`0})">
+            <summary>인터페이스의 멤버를 shim에 바인딩합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSmartPool`1.Constructor">
+            <summary>SmartPool`1.SmartPool`1()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSmartPool`1.IncreaseCapacity">
+            <summary>SmartPool`1.IncreaseCapacity()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSmartPool`1.InitializeInt32Int32ISmartPoolSourceCreatorOfT0">
+            <summary>SmartPool`1.Initialize(Int32 minPoolSize, Int32 maxPoolSize, ISmartPoolSourceCreator`1&lt;!0&gt; sourceCreator)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSmartPool`1.MaxPoolSizeGet">
+            <summary>SmartPool`1.get_MaxPoolSize()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSmartPool`1.MinPoolSizeGet">
+            <summary>SmartPool`1.get_MinPoolSize()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSmartPool`1.PushT0">
+            <summary>SmartPool`1.Push(!0 item)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSmartPool`1.TotalItemsCountGet">
+            <summary>SmartPool`1.get_TotalItemsCount()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSmartPool`1.TryGetT0Out">
+            <summary>SmartPool`1.TryGet(!0&amp; item)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimSmartPoolSource">
+            <summary>SuperSocket.Common.SmartPoolSource의 Shim 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimSmartPoolSource.#ctor">
+            <summary>새 shim 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimSmartPoolSource.#ctor(SuperSocket.Common.SmartPoolSource)">
+            <summary>지정된 인스턴스에 대한 새 shim을 초기화합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimSmartPoolSource.AllInstances">
+            <summary>모든 인스턴스 멤버에 대한 shim 정의</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSmartPoolSource.AllInstances.CountGet">
+            <summary>SmartPoolSource.get_Count()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSmartPoolSource.AllInstances.CountSetInt32">
+            <summary>SmartPoolSource.set_Count(Int32 value)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSmartPoolSource.AllInstances.SourceGet">
+            <summary>SmartPoolSource.get_Source()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSmartPoolSource.AllInstances.SourceSetObject">
+            <summary>SmartPoolSource.set_Source(Object value)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimSmartPoolSource.BehaveAsCurrent">
+            <summary>Shim된 형식의 모든 메서드에 &apos;Current&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimSmartPoolSource.BehaveAsNotImplemented">
+            <summary>Shim된 형식의 모든 메서드에 &apos;NotImplemented&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSmartPoolSource.Behavior">
+            <summary>Shim된 형식의 모든 메서드에 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimSmartPoolSource.Bind(SuperSocket.Common.ISmartPoolSource)">
+            <summary>인터페이스의 멤버를 shim에 바인딩합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSmartPoolSource.ConstructorObjectInt32">
+            <summary>SmartPoolSource.SmartPoolSource(Object source, Int32 itemsCount)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSmartPoolSource.CountGet">
+            <summary>SmartPoolSource.get_Count()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSmartPoolSource.CountSetInt32">
+            <summary>SmartPoolSource.set_Count(Int32 value)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSmartPoolSource.SourceGet">
+            <summary>SmartPoolSource.get_Source()의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSmartPoolSource.SourceSetObject">
+            <summary>SmartPoolSource.set_Source(Object value)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimSocketEx">
+            <summary>SuperSocket.Common.SocketEx의 Shim 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimSocketEx.#ctor">
+            <summary>새 shim 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimSocketEx.BehaveAsCurrent">
+            <summary>Shim된 형식의 모든 메서드에 &apos;Current&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimSocketEx.BehaveAsNotImplemented">
+            <summary>Shim된 형식의 모든 메서드에 &apos;NotImplemented&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSocketEx.Behavior">
+            <summary>Shim된 형식의 모든 메서드에 동작을 할당합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSocketEx.SafeCloseSocket">
+            <summary>SocketEx.SafeClose(Socket socket)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSocketEx.SendDataSocketByteArray">
+            <summary>SocketEx.SendData(Socket client, Byte[] data)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimSocketEx.SendDataSocketByteArrayInt32Int32">
+            <summary>SocketEx.SendData(Socket client, Byte[] data, Int32 offset, Int32 length)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimStringExtension">
+            <summary>SuperSocket.Common.StringExtension의 Shim 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimStringExtension.#ctor">
+            <summary>새 shim 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimStringExtension.BehaveAsCurrent">
+            <summary>Shim된 형식의 모든 메서드에 &apos;Current&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimStringExtension.BehaveAsNotImplemented">
+            <summary>Shim된 형식의 모든 메서드에 &apos;NotImplemented&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimStringExtension.Behavior">
+            <summary>Shim된 형식의 모든 메서드에 동작을 할당합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimStringExtension.ToBooleanString">
+            <summary>StringExtension.ToBoolean(String source)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimStringExtension.ToBooleanStringBoolean">
+            <summary>StringExtension.ToBoolean(String source, Boolean defaultValue)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimStringExtension.ToDateTimeString">
+            <summary>StringExtension.ToDateTime(String source)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimStringExtension.ToDateTimeStringDateTime">
+            <summary>StringExtension.ToDateTime(String source, DateTime defaultValue)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimStringExtension.ToDecimalString">
+            <summary>StringExtension.ToDecimal(String source)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimStringExtension.ToDecimalStringDecimal">
+            <summary>StringExtension.ToDecimal(String source, Decimal defaultValue)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimStringExtension.ToInt32String">
+            <summary>StringExtension.ToInt32(String source)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimStringExtension.ToInt32StringInt32">
+            <summary>StringExtension.ToInt32(String source, Int32 defaultValue)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimStringExtension.ToLongString">
+            <summary>StringExtension.ToLong(String source)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimStringExtension.ToLongStringInt64">
+            <summary>StringExtension.ToLong(String source, Int64 defaultValue)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimStringExtension.ToShortString">
+            <summary>StringExtension.ToShort(String source)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimStringExtension.ToShortStringInt16">
+            <summary>StringExtension.ToShort(String source, Int16 defaultValue)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.ShimTheadPoolEx">
+            <summary>SuperSocket.Common.TheadPoolEx의 Shim 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimTheadPoolEx.#ctor">
+            <summary>새 shim 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimTheadPoolEx.BehaveAsCurrent">
+            <summary>Shim된 형식의 모든 메서드에 &apos;Current&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.ShimTheadPoolEx.BehaveAsNotImplemented">
+            <summary>Shim된 형식의 모든 메서드에 &apos;NotImplemented&apos; 동작을 할당합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimTheadPoolEx.Behavior">
+            <summary>Shim된 형식의 모든 메서드에 동작을 할당합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.ShimTheadPoolEx.ResetThreadPoolNullableOfInt32NullableOfInt32NullableOfInt32NullableOfInt32">
+            <summary>TheadPoolEx.ResetThreadPool(Nullable`1&lt;Int32&gt; maxWorkingThreads, Nullable`1&lt;Int32&gt; maxCompletionPortThreads, Nullable`1&lt;Int32&gt; minWorkingThreads, Nullable`1&lt;Int32&gt; minCompletionPortThreads)의 shim을(를) 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.StubArraySegmentList">
+            <summary>SuperSocket.Common.ArraySegmentList의 스텁 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubArraySegmentList.#ctor">
+            <summary>새 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubArraySegmentList.CallBase">
+            <summary>대체(fallback) 동작 대신 기준 메서드를 호출해야 하는지 여부를 나타내는 값을 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubArraySegmentList.InitializeStub">
+            <summary>type StubArraySegmentList의 새 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubArraySegmentList.InstanceBehavior">
+            <summary>인스턴스 동작을 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubArraySegmentList.InstanceObserver">
+            <summary>인스턴스 관찰자를 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.StubArraySegmentList`1">
+            <summary>SuperSocket.Common.ArraySegmentList`1의 스텁 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubArraySegmentList`1.#ctor">
+            <summary>새 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubArraySegmentList`1.CallBase">
+            <summary>대체(fallback) 동작 대신 기준 메서드를 호출해야 하는지 여부를 나타내는 값을 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubArraySegmentList`1.InitializeStub">
+            <summary>type StubArraySegmentList의 새 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubArraySegmentList`1.InstanceBehavior">
+            <summary>인스턴스 동작을 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubArraySegmentList`1.InstanceObserver">
+            <summary>인스턴스 관찰자를 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.StubBufferManager">
+            <summary>SuperSocket.Common.BufferManager의 스텁 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubBufferManager.#ctor(System.Int32,System.Int32)">
+            <summary>새 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubBufferManager.CallBase">
+            <summary>대체(fallback) 동작 대신 기준 메서드를 호출해야 하는지 여부를 나타내는 값을 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubBufferManager.InitializeStub">
+            <summary>type StubBufferManager의 새 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubBufferManager.InstanceBehavior">
+            <summary>인스턴스 동작을 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubBufferManager.InstanceObserver">
+            <summary>인스턴스 관찰자를 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.StubConfigurationElementBase">
+            <summary>SuperSocket.Common.ConfigurationElementBase의 스텁 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubConfigurationElementBase.#ctor">
+            <summary>새 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubConfigurationElementBase.#ctor(System.Boolean)">
+            <summary>새 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubConfigurationElementBase.CallBase">
+            <summary>대체(fallback) 동작 대신 기준 메서드를 호출해야 하는지 여부를 나타내는 값을 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubConfigurationElementBase.DeserializeElement(System.Xml.XmlReader,System.Boolean)">
+            <summary>ConfigurationElementBase.DeserializeElement(XmlReader reader, Boolean serializeCollectionKey)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubConfigurationElementBase.DeserializeElementXmlReaderBoolean">
+            <summary>ConfigurationElementBase.DeserializeElement(XmlReader reader, Boolean serializeCollectionKey)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubConfigurationElementBase.ElementProperty">
+            <summary>ConfigurationElement.get_ElementProperty()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubConfigurationElementBase.ElementPropertyGet">
+            <summary>ConfigurationElement.get_ElementProperty()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubConfigurationElementBase.Equals(System.Object)">
+            <summary>ConfigurationElement.Equals(Object compareTo)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubConfigurationElementBase.EqualsObject">
+            <summary>ConfigurationElement.Equals(Object compareTo)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubConfigurationElementBase.GetHashCode">
+            <summary>ConfigurationElement.GetHashCode()의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubConfigurationElementBase.GetHashCode01">
+            <summary>ConfigurationElement.GetHashCode()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubConfigurationElementBase.Init">
+            <summary>ConfigurationElement.Init()의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubConfigurationElementBase.Init01">
+            <summary>ConfigurationElement.Init()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubConfigurationElementBase.InitializeDefault">
+            <summary>ConfigurationElement.InitializeDefault()의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubConfigurationElementBase.InitializeDefault01">
+            <summary>ConfigurationElement.InitializeDefault()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubConfigurationElementBase.InitializeStub">
+            <summary>type StubConfigurationElementBase의 새 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubConfigurationElementBase.InstanceBehavior">
+            <summary>인스턴스 동작을 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubConfigurationElementBase.InstanceObserver">
+            <summary>인스턴스 관찰자를 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubConfigurationElementBase.IsModified">
+            <summary>ConfigurationElement.IsModified()의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubConfigurationElementBase.IsModified01">
+            <summary>ConfigurationElement.IsModified()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubConfigurationElementBase.IsReadOnly">
+            <summary>ConfigurationElement.IsReadOnly()의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubConfigurationElementBase.IsReadOnly01">
+            <summary>ConfigurationElement.IsReadOnly()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubConfigurationElementBase.ListErrors(System.Collections.IList)">
+            <summary>ConfigurationElement.ListErrors(IList errorList)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubConfigurationElementBase.ListErrorsIList">
+            <summary>ConfigurationElement.ListErrors(IList errorList)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubConfigurationElementBase.OnDeserializeUnrecognizedAttribute(System.String,System.String)">
+            <summary>ConfigurationElementBase.OnDeserializeUnrecognizedAttribute(String name, String value)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubConfigurationElementBase.OnDeserializeUnrecognizedAttributeStringString">
+            <summary>ConfigurationElementBase.OnDeserializeUnrecognizedAttribute(String name, String value)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubConfigurationElementBase.OnDeserializeUnrecognizedElement(System.String,System.Xml.XmlReader)">
+            <summary>ConfigurationElementBase.OnDeserializeUnrecognizedElement(String elementName, XmlReader reader)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubConfigurationElementBase.OnDeserializeUnrecognizedElementStringXmlReader">
+            <summary>ConfigurationElementBase.OnDeserializeUnrecognizedElement(String elementName, XmlReader reader)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubConfigurationElementBase.OnRequiredPropertyNotFound(System.String)">
+            <summary>ConfigurationElement.OnRequiredPropertyNotFound(String name)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubConfigurationElementBase.OnRequiredPropertyNotFoundString">
+            <summary>ConfigurationElement.OnRequiredPropertyNotFound(String name)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubConfigurationElementBase.PostDeserialize">
+            <summary>ConfigurationElement.PostDeserialize()의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubConfigurationElementBase.PostDeserialize01">
+            <summary>ConfigurationElement.PostDeserialize()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubConfigurationElementBase.PreSerialize(System.Xml.XmlWriter)">
+            <summary>ConfigurationElement.PreSerialize(XmlWriter writer)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubConfigurationElementBase.PreSerializeXmlWriter">
+            <summary>ConfigurationElement.PreSerialize(XmlWriter writer)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubConfigurationElementBase.Properties">
+            <summary>ConfigurationElement.get_Properties()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubConfigurationElementBase.PropertiesGet">
+            <summary>ConfigurationElement.get_Properties()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubConfigurationElementBase.Reset(System.Configuration.ConfigurationElement)">
+            <summary>ConfigurationElement.Reset(ConfigurationElement parentElement)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubConfigurationElementBase.ResetConfigurationElement">
+            <summary>ConfigurationElement.Reset(ConfigurationElement parentElement)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubConfigurationElementBase.ResetModified">
+            <summary>ConfigurationElement.ResetModified()의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubConfigurationElementBase.ResetModified01">
+            <summary>ConfigurationElement.ResetModified()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubConfigurationElementBase.SerializeElement(System.Xml.XmlWriter,System.Boolean)">
+            <summary>ConfigurationElementBase.SerializeElement(XmlWriter writer, Boolean serializeCollectionKey)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubConfigurationElementBase.SerializeElementXmlWriterBoolean">
+            <summary>ConfigurationElementBase.SerializeElement(XmlWriter writer, Boolean serializeCollectionKey)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubConfigurationElementBase.SerializeToXmlElement(System.Xml.XmlWriter,System.String)">
+            <summary>ConfigurationElement.SerializeToXmlElement(XmlWriter writer, String elementName)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubConfigurationElementBase.SerializeToXmlElementXmlWriterString">
+            <summary>ConfigurationElement.SerializeToXmlElement(XmlWriter writer, String elementName)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubConfigurationElementBase.SetReadOnly">
+            <summary>ConfigurationElement.SetReadOnly()의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubConfigurationElementBase.SetReadOnly01">
+            <summary>ConfigurationElement.SetReadOnly()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubConfigurationElementBase.Unmerge(System.Configuration.ConfigurationElement,System.Configuration.ConfigurationElement,System.Configuration.ConfigurationSaveMode)">
+            <summary>ConfigurationElementBase.Unmerge(ConfigurationElement sourceElement, ConfigurationElement parentElement, ConfigurationSaveMode saveMode)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubConfigurationElementBase.UnmergeConfigurationElementConfigurationElementConfigurationSaveMode">
+            <summary>ConfigurationElementBase.Unmerge(ConfigurationElement sourceElement, ConfigurationElement parentElement, ConfigurationSaveMode saveMode)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.StubErrorEventArgs">
+            <summary>SuperSocket.Common.ErrorEventArgs의 스텁 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubErrorEventArgs.#ctor(System.Exception)">
+            <summary>새 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubErrorEventArgs.#ctor(System.String)">
+            <summary>새 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubErrorEventArgs.CallBase">
+            <summary>대체(fallback) 동작 대신 기준 메서드를 호출해야 하는지 여부를 나타내는 값을 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubErrorEventArgs.InitializeStub">
+            <summary>type StubErrorEventArgs의 새 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubErrorEventArgs.InstanceBehavior">
+            <summary>인스턴스 동작을 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubErrorEventArgs.InstanceObserver">
+            <summary>인스턴스 관찰자를 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2">
+            <summary>SuperSocket.Common.GenericConfigurationElementCollection`2의 스텁 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.#ctor">
+            <summary>새 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.BaseAdd(System.Configuration.ConfigurationElement)">
+            <summary>ConfigurationElementCollection.BaseAdd(ConfigurationElement element)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.BaseAdd(System.Int32,System.Configuration.ConfigurationElement)">
+            <summary>ConfigurationElementCollection.BaseAdd(Int32 index, ConfigurationElement element)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.BaseAddConfigurationElement">
+            <summary>ConfigurationElementCollection.BaseAdd(ConfigurationElement element)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.BaseAddInt32ConfigurationElement">
+            <summary>ConfigurationElementCollection.BaseAdd(Int32 index, ConfigurationElement element)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.CallBase">
+            <summary>대체(fallback) 동작 대신 기준 메서드를 호출해야 하는지 여부를 나타내는 값을 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.CollectionType">
+            <summary>ConfigurationElementCollection.get_CollectionType()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.CollectionTypeGet">
+            <summary>ConfigurationElementCollection.get_CollectionType()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.CreateNewElement">
+            <summary>GenericConfigurationElementCollectionBase`2.CreateNewElement()의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.CreateNewElement(System.String)">
+            <summary>ConfigurationElementCollection.CreateNewElement(String elementName)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.CreateNewElement01">
+            <summary>GenericConfigurationElementCollectionBase`2.CreateNewElement()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.CreateNewElementString">
+            <summary>ConfigurationElementCollection.CreateNewElement(String elementName)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.DeserializeElement(System.Xml.XmlReader,System.Boolean)">
+            <summary>ConfigurationElement.DeserializeElement(XmlReader reader, Boolean serializeCollectionKey)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.DeserializeElementXmlReaderBoolean">
+            <summary>ConfigurationElement.DeserializeElement(XmlReader reader, Boolean serializeCollectionKey)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.ElementName">
+            <summary>ConfigurationElementCollection.get_ElementName()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.ElementNameGet">
+            <summary>ConfigurationElementCollection.get_ElementName()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.ElementProperty">
+            <summary>ConfigurationElement.get_ElementProperty()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.ElementPropertyGet">
+            <summary>ConfigurationElement.get_ElementProperty()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.Equals(System.Object)">
+            <summary>ConfigurationElementCollection.Equals(Object compareTo)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.EqualsObject">
+            <summary>ConfigurationElementCollection.Equals(Object compareTo)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.GetElementKey(System.Configuration.ConfigurationElement)">
+            <summary>GenericConfigurationElementCollection`2.GetElementKey(ConfigurationElement element)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.GetElementKeyConfigurationElement">
+            <summary>GenericConfigurationElementCollection`2.GetElementKey(ConfigurationElement element)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.GetHashCode">
+            <summary>ConfigurationElementCollection.GetHashCode()의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.GetHashCode01">
+            <summary>ConfigurationElementCollection.GetHashCode()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.Init">
+            <summary>ConfigurationElement.Init()의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.Init01">
+            <summary>ConfigurationElement.Init()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.InitializeDefault">
+            <summary>ConfigurationElement.InitializeDefault()의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.InitializeDefault01">
+            <summary>ConfigurationElement.InitializeDefault()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.InitializeStub">
+            <summary>type StubGenericConfigurationElementCollection의 새 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.InstanceBehavior">
+            <summary>인스턴스 동작을 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.InstanceObserver">
+            <summary>인스턴스 관찰자를 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.IsElementName(System.String)">
+            <summary>ConfigurationElementCollection.IsElementName(String elementName)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.IsElementNameString">
+            <summary>ConfigurationElementCollection.IsElementName(String elementName)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.IsElementRemovable(System.Configuration.ConfigurationElement)">
+            <summary>ConfigurationElementCollection.IsElementRemovable(ConfigurationElement element)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.IsElementRemovableConfigurationElement">
+            <summary>ConfigurationElementCollection.IsElementRemovable(ConfigurationElement element)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.IsModified">
+            <summary>ConfigurationElementCollection.IsModified()의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.IsModified01">
+            <summary>ConfigurationElementCollection.IsModified()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.IsReadOnly">
+            <summary>ConfigurationElementCollection.IsReadOnly()의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.IsReadOnly01">
+            <summary>ConfigurationElementCollection.IsReadOnly()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.ListErrors(System.Collections.IList)">
+            <summary>ConfigurationElement.ListErrors(IList errorList)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.ListErrorsIList">
+            <summary>ConfigurationElement.ListErrors(IList errorList)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.OnDeserializeUnrecognizedAttribute(System.String,System.String)">
+            <summary>ConfigurationElement.OnDeserializeUnrecognizedAttribute(String name, String value)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.OnDeserializeUnrecognizedAttributeStringString">
+            <summary>ConfigurationElement.OnDeserializeUnrecognizedAttribute(String name, String value)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.OnDeserializeUnrecognizedElement(System.String,System.Xml.XmlReader)">
+            <summary>ConfigurationElementCollection.OnDeserializeUnrecognizedElement(String elementName, XmlReader reader)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.OnDeserializeUnrecognizedElementStringXmlReader">
+            <summary>ConfigurationElementCollection.OnDeserializeUnrecognizedElement(String elementName, XmlReader reader)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.OnRequiredPropertyNotFound(System.String)">
+            <summary>ConfigurationElement.OnRequiredPropertyNotFound(String name)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.OnRequiredPropertyNotFoundString">
+            <summary>ConfigurationElement.OnRequiredPropertyNotFound(String name)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.PostDeserialize">
+            <summary>ConfigurationElement.PostDeserialize()의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.PostDeserialize01">
+            <summary>ConfigurationElement.PostDeserialize()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.PreSerialize(System.Xml.XmlWriter)">
+            <summary>ConfigurationElement.PreSerialize(XmlWriter writer)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.PreSerializeXmlWriter">
+            <summary>ConfigurationElement.PreSerialize(XmlWriter writer)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.Properties">
+            <summary>ConfigurationElement.get_Properties()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.PropertiesGet">
+            <summary>ConfigurationElement.get_Properties()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.Reset(System.Configuration.ConfigurationElement)">
+            <summary>ConfigurationElementCollection.Reset(ConfigurationElement parentElement)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.ResetConfigurationElement">
+            <summary>ConfigurationElementCollection.Reset(ConfigurationElement parentElement)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.ResetModified">
+            <summary>ConfigurationElementCollection.ResetModified()의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.ResetModified01">
+            <summary>ConfigurationElementCollection.ResetModified()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.SerializeElement(System.Xml.XmlWriter,System.Boolean)">
+            <summary>ConfigurationElementCollection.SerializeElement(XmlWriter writer, Boolean serializeCollectionKey)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.SerializeElementXmlWriterBoolean">
+            <summary>ConfigurationElementCollection.SerializeElement(XmlWriter writer, Boolean serializeCollectionKey)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.SerializeToXmlElement(System.Xml.XmlWriter,System.String)">
+            <summary>ConfigurationElement.SerializeToXmlElement(XmlWriter writer, String elementName)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.SerializeToXmlElementXmlWriterString">
+            <summary>ConfigurationElement.SerializeToXmlElement(XmlWriter writer, String elementName)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.SetReadOnly">
+            <summary>ConfigurationElementCollection.SetReadOnly()의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.SetReadOnly01">
+            <summary>ConfigurationElementCollection.SetReadOnly()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.ThrowOnDuplicate">
+            <summary>ConfigurationElementCollection.get_ThrowOnDuplicate()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.ThrowOnDuplicateGet">
+            <summary>ConfigurationElementCollection.get_ThrowOnDuplicate()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.Unmerge(System.Configuration.ConfigurationElement,System.Configuration.ConfigurationElement,System.Configuration.ConfigurationSaveMode)">
+            <summary>ConfigurationElementCollection.Unmerge(ConfigurationElement sourceElement, ConfigurationElement parentElement, ConfigurationSaveMode saveMode)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollection`2.UnmergeConfigurationElementConfigurationElementConfigurationSaveMode">
+            <summary>ConfigurationElementCollection.Unmerge(ConfigurationElement sourceElement, ConfigurationElement parentElement, ConfigurationSaveMode saveMode)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2">
+            <summary>SuperSocket.Common.GenericConfigurationElementCollectionBase`2의 스텁 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.#ctor">
+            <summary>새 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.BaseAdd(System.Configuration.ConfigurationElement)">
+            <summary>ConfigurationElementCollection.BaseAdd(ConfigurationElement element)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.BaseAdd(System.Int32,System.Configuration.ConfigurationElement)">
+            <summary>ConfigurationElementCollection.BaseAdd(Int32 index, ConfigurationElement element)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.BaseAddConfigurationElement">
+            <summary>ConfigurationElementCollection.BaseAdd(ConfigurationElement element)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.BaseAddInt32ConfigurationElement">
+            <summary>ConfigurationElementCollection.BaseAdd(Int32 index, ConfigurationElement element)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.CallBase">
+            <summary>대체(fallback) 동작 대신 기준 메서드를 호출해야 하는지 여부를 나타내는 값을 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.CollectionType">
+            <summary>ConfigurationElementCollection.get_CollectionType()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.CollectionTypeGet">
+            <summary>ConfigurationElementCollection.get_CollectionType()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.CreateNewElement">
+            <summary>GenericConfigurationElementCollectionBase`2.CreateNewElement()의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.CreateNewElement(System.String)">
+            <summary>ConfigurationElementCollection.CreateNewElement(String elementName)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.CreateNewElement01">
+            <summary>GenericConfigurationElementCollectionBase`2.CreateNewElement()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.CreateNewElementString">
+            <summary>ConfigurationElementCollection.CreateNewElement(String elementName)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.DeserializeElement(System.Xml.XmlReader,System.Boolean)">
+            <summary>ConfigurationElement.DeserializeElement(XmlReader reader, Boolean serializeCollectionKey)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.DeserializeElementXmlReaderBoolean">
+            <summary>ConfigurationElement.DeserializeElement(XmlReader reader, Boolean serializeCollectionKey)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.ElementName">
+            <summary>ConfigurationElementCollection.get_ElementName()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.ElementNameGet">
+            <summary>ConfigurationElementCollection.get_ElementName()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.ElementProperty">
+            <summary>ConfigurationElement.get_ElementProperty()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.ElementPropertyGet">
+            <summary>ConfigurationElement.get_ElementProperty()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.Equals(System.Object)">
+            <summary>ConfigurationElementCollection.Equals(Object compareTo)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.EqualsObject">
+            <summary>ConfigurationElementCollection.Equals(Object compareTo)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.GetElementKey(System.Configuration.ConfigurationElement)">
+            <summary>GenericConfigurationElementCollectionBase`2.GetElementKey(ConfigurationElement element)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.GetElementKeyConfigurationElement">
+            <summary>GenericConfigurationElementCollectionBase`2.GetElementKey(ConfigurationElement element)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.GetHashCode">
+            <summary>ConfigurationElementCollection.GetHashCode()의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.GetHashCode01">
+            <summary>ConfigurationElementCollection.GetHashCode()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.Init">
+            <summary>ConfigurationElement.Init()의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.Init01">
+            <summary>ConfigurationElement.Init()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.InitializeDefault">
+            <summary>ConfigurationElement.InitializeDefault()의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.InitializeDefault01">
+            <summary>ConfigurationElement.InitializeDefault()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.InitializeStub">
+            <summary>type StubGenericConfigurationElementCollectionBase의 새 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.InstanceBehavior">
+            <summary>인스턴스 동작을 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.InstanceObserver">
+            <summary>인스턴스 관찰자를 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.IsElementName(System.String)">
+            <summary>ConfigurationElementCollection.IsElementName(String elementName)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.IsElementNameString">
+            <summary>ConfigurationElementCollection.IsElementName(String elementName)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.IsElementRemovable(System.Configuration.ConfigurationElement)">
+            <summary>ConfigurationElementCollection.IsElementRemovable(ConfigurationElement element)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.IsElementRemovableConfigurationElement">
+            <summary>ConfigurationElementCollection.IsElementRemovable(ConfigurationElement element)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.IsModified">
+            <summary>ConfigurationElementCollection.IsModified()의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.IsModified01">
+            <summary>ConfigurationElementCollection.IsModified()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.IsReadOnly">
+            <summary>ConfigurationElementCollection.IsReadOnly()의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.IsReadOnly01">
+            <summary>ConfigurationElementCollection.IsReadOnly()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.ListErrors(System.Collections.IList)">
+            <summary>ConfigurationElement.ListErrors(IList errorList)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.ListErrorsIList">
+            <summary>ConfigurationElement.ListErrors(IList errorList)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.OnDeserializeUnrecognizedAttribute(System.String,System.String)">
+            <summary>ConfigurationElement.OnDeserializeUnrecognizedAttribute(String name, String value)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.OnDeserializeUnrecognizedAttributeStringString">
+            <summary>ConfigurationElement.OnDeserializeUnrecognizedAttribute(String name, String value)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.OnDeserializeUnrecognizedElement(System.String,System.Xml.XmlReader)">
+            <summary>ConfigurationElementCollection.OnDeserializeUnrecognizedElement(String elementName, XmlReader reader)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.OnDeserializeUnrecognizedElementStringXmlReader">
+            <summary>ConfigurationElementCollection.OnDeserializeUnrecognizedElement(String elementName, XmlReader reader)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.OnRequiredPropertyNotFound(System.String)">
+            <summary>ConfigurationElement.OnRequiredPropertyNotFound(String name)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.OnRequiredPropertyNotFoundString">
+            <summary>ConfigurationElement.OnRequiredPropertyNotFound(String name)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.PostDeserialize">
+            <summary>ConfigurationElement.PostDeserialize()의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.PostDeserialize01">
+            <summary>ConfigurationElement.PostDeserialize()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.PreSerialize(System.Xml.XmlWriter)">
+            <summary>ConfigurationElement.PreSerialize(XmlWriter writer)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.PreSerializeXmlWriter">
+            <summary>ConfigurationElement.PreSerialize(XmlWriter writer)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.Properties">
+            <summary>ConfigurationElement.get_Properties()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.PropertiesGet">
+            <summary>ConfigurationElement.get_Properties()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.Reset(System.Configuration.ConfigurationElement)">
+            <summary>ConfigurationElementCollection.Reset(ConfigurationElement parentElement)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.ResetConfigurationElement">
+            <summary>ConfigurationElementCollection.Reset(ConfigurationElement parentElement)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.ResetModified">
+            <summary>ConfigurationElementCollection.ResetModified()의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.ResetModified01">
+            <summary>ConfigurationElementCollection.ResetModified()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.SerializeElement(System.Xml.XmlWriter,System.Boolean)">
+            <summary>ConfigurationElementCollection.SerializeElement(XmlWriter writer, Boolean serializeCollectionKey)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.SerializeElementXmlWriterBoolean">
+            <summary>ConfigurationElementCollection.SerializeElement(XmlWriter writer, Boolean serializeCollectionKey)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.SerializeToXmlElement(System.Xml.XmlWriter,System.String)">
+            <summary>ConfigurationElement.SerializeToXmlElement(XmlWriter writer, String elementName)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.SerializeToXmlElementXmlWriterString">
+            <summary>ConfigurationElement.SerializeToXmlElement(XmlWriter writer, String elementName)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.SetReadOnly">
+            <summary>ConfigurationElementCollection.SetReadOnly()의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.SetReadOnly01">
+            <summary>ConfigurationElementCollection.SetReadOnly()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.ThrowOnDuplicate">
+            <summary>ConfigurationElementCollection.get_ThrowOnDuplicate()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.ThrowOnDuplicateGet">
+            <summary>ConfigurationElementCollection.get_ThrowOnDuplicate()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.Unmerge(System.Configuration.ConfigurationElement,System.Configuration.ConfigurationElement,System.Configuration.ConfigurationSaveMode)">
+            <summary>ConfigurationElementCollection.Unmerge(ConfigurationElement sourceElement, ConfigurationElement parentElement, ConfigurationSaveMode saveMode)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubGenericConfigurationElementCollectionBase`2.UnmergeConfigurationElementConfigurationElementConfigurationSaveMode">
+            <summary>ConfigurationElementCollection.Unmerge(ConfigurationElement sourceElement, ConfigurationElement parentElement, ConfigurationSaveMode saveMode)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.StubIPoolInfo">
+            <summary>SuperSocket.Common.IPoolInfo의 스텁 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubIPoolInfo.#ctor">
+            <summary>type StubIPoolInfo의 새 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubIPoolInfo.SuperSocket#Common#IPoolInfo#AvialableItemsCount">
+            <summary>IPoolInfo.get_AvialableItemsCount()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubIPoolInfo.AvialableItemsCountGet">
+            <summary>IPoolInfo.get_AvialableItemsCount()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubIPoolInfo.SuperSocket#Common#IPoolInfo#MaxPoolSize">
+            <summary>IPoolInfo.get_MaxPoolSize()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubIPoolInfo.MaxPoolSizeGet">
+            <summary>IPoolInfo.get_MaxPoolSize()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubIPoolInfo.SuperSocket#Common#IPoolInfo#MinPoolSize">
+            <summary>IPoolInfo.get_MinPoolSize()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubIPoolInfo.MinPoolSizeGet">
+            <summary>IPoolInfo.get_MinPoolSize()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubIPoolInfo.SuperSocket#Common#IPoolInfo#TotalItemsCount">
+            <summary>IPoolInfo.get_TotalItemsCount()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubIPoolInfo.TotalItemsCountGet">
+            <summary>IPoolInfo.get_TotalItemsCount()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.StubISmartPool`1">
+            <summary>SuperSocket.Common.ISmartPool`1의 스텁 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubISmartPool`1.#ctor">
+            <summary>type StubISmartPool의 새 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubISmartPool`1.SuperSocket#Common#IPoolInfo#AvialableItemsCount">
+            <summary>IPoolInfo.get_AvialableItemsCount()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubISmartPool`1.AvialableItemsCountGet">
+            <summary>IPoolInfo.get_AvialableItemsCount()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubISmartPool`1.InitializeInt32Int32ISmartPoolSourceCreatorOfT0">
+            <summary>ISmartPool`1.Initialize(Int32 minPoolSize, Int32 maxPoolSize, ISmartPoolSourceCreator`1&lt;!0&gt; sourceCreator)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubISmartPool`1.SuperSocket#Common#IPoolInfo#MaxPoolSize">
+            <summary>IPoolInfo.get_MaxPoolSize()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubISmartPool`1.MaxPoolSizeGet">
+            <summary>IPoolInfo.get_MaxPoolSize()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubISmartPool`1.SuperSocket#Common#IPoolInfo#MinPoolSize">
+            <summary>IPoolInfo.get_MinPoolSize()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubISmartPool`1.MinPoolSizeGet">
+            <summary>IPoolInfo.get_MinPoolSize()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubISmartPool`1.PushT0">
+            <summary>ISmartPool`1.Push(!0 item)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubISmartPool`1.SuperSocket#Common#ISmartPool{T}#Initialize(System.Int32,System.Int32,SuperSocket.Common.ISmartPoolSourceCreator{`0})">
+            <summary>ISmartPool`1.Initialize(Int32 minPoolSize, Int32 maxPoolSize, ISmartPoolSourceCreator`1&lt;!0&gt; sourceCreator)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubISmartPool`1.SuperSocket#Common#ISmartPool{T}#Push(`0)">
+            <summary>ISmartPool`1.Push(!0 item)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubISmartPool`1.SuperSocket#Common#ISmartPool{T}#TryGet(`0@)">
+            <summary>ISmartPool`1.TryGet(!0&amp; item)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubISmartPool`1.SuperSocket#Common#IPoolInfo#TotalItemsCount">
+            <summary>IPoolInfo.get_TotalItemsCount()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubISmartPool`1.TotalItemsCountGet">
+            <summary>IPoolInfo.get_TotalItemsCount()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubISmartPool`1.TryGetT0Out">
+            <summary>ISmartPool`1.TryGet(!0&amp; item)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.StubISmartPoolSource">
+            <summary>SuperSocket.Common.ISmartPoolSource의 스텁 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubISmartPoolSource.#ctor">
+            <summary>type StubISmartPoolSource의 새 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubISmartPoolSource.SuperSocket#Common#ISmartPoolSource#Count">
+            <summary>ISmartPoolSource.get_Count()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubISmartPoolSource.CountGet">
+            <summary>ISmartPoolSource.get_Count()의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.StubISmartPoolSourceCreator`1">
+            <summary>SuperSocket.Common.ISmartPoolSourceCreator`1의 스텁 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubISmartPoolSourceCreator`1.#ctor">
+            <summary>type StubISmartPoolSourceCreator의 새 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="F:SuperSocket.Common.Fakes.StubISmartPoolSourceCreator`1.CreateInt32T0ArrayOut">
+            <summary>ISmartPoolSourceCreator`1.Create(Int32 size, !0[]&amp; poolItems)의 stub을(를) 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubISmartPoolSourceCreator`1.SuperSocket#Common#ISmartPoolSourceCreator{T}#Create(System.Int32,`0[]@)">
+            <summary>ISmartPoolSourceCreator`1.Create(Int32 size, !0[]&amp; poolItems)의 스텁을(를) 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.StubSearchMarkState`1">
+            <summary>SuperSocket.Common.SearchMarkState`1의 스텁 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubSearchMarkState`1.#ctor(`0[])">
+            <summary>새 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubSearchMarkState`1.CallBase">
+            <summary>대체(fallback) 동작 대신 기준 메서드를 호출해야 하는지 여부를 나타내는 값을 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubSearchMarkState`1.InitializeStub">
+            <summary>type StubSearchMarkState의 새 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubSearchMarkState`1.InstanceBehavior">
+            <summary>인스턴스 동작을 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubSearchMarkState`1.InstanceObserver">
+            <summary>인스턴스 관찰자를 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.StubSendingQueueSourceCreator">
+            <summary>SuperSocket.Common.SendingQueueSourceCreator의 스텁 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubSendingQueueSourceCreator.#ctor(System.Int32)">
+            <summary>새 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubSendingQueueSourceCreator.CallBase">
+            <summary>대체(fallback) 동작 대신 기준 메서드를 호출해야 하는지 여부를 나타내는 값을 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubSendingQueueSourceCreator.InitializeStub">
+            <summary>type StubSendingQueueSourceCreator의 새 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubSendingQueueSourceCreator.InstanceBehavior">
+            <summary>인스턴스 동작을 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubSendingQueueSourceCreator.InstanceObserver">
+            <summary>인스턴스 관찰자를 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.StubSmartPool`1">
+            <summary>SuperSocket.Common.SmartPool`1의 스텁 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubSmartPool`1.#ctor">
+            <summary>새 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubSmartPool`1.CallBase">
+            <summary>대체(fallback) 동작 대신 기준 메서드를 호출해야 하는지 여부를 나타내는 값을 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubSmartPool`1.InitializeStub">
+            <summary>type StubSmartPool의 새 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubSmartPool`1.InstanceBehavior">
+            <summary>인스턴스 동작을 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubSmartPool`1.InstanceObserver">
+            <summary>인스턴스 관찰자를 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="T:SuperSocket.Common.Fakes.StubSmartPoolSource">
+            <summary>SuperSocket.Common.SmartPoolSource의 스텁 형식</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubSmartPoolSource.#ctor(System.Object,System.Int32)">
+            <summary>새 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubSmartPoolSource.CallBase">
+            <summary>대체(fallback) 동작 대신 기준 메서드를 호출해야 하는지 여부를 나타내는 값을 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="M:SuperSocket.Common.Fakes.StubSmartPoolSource.InitializeStub">
+            <summary>type StubSmartPoolSource의 새 인스턴스를 초기화합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubSmartPoolSource.InstanceBehavior">
+            <summary>인스턴스 동작을 가져오거나 설정합니다.</summary>
+        </member>
+        <member name="P:SuperSocket.Common.Fakes.StubSmartPoolSource.InstanceObserver">
+            <summary>인스턴스 관찰자를 가져오거나 설정합니다.</summary>
+        </member>
+    </members>
+</doc>

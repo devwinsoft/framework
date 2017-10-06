@@ -28,14 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button_start = new System.Windows.Forms.Button();
             this.button_stop = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox_port = new System.Windows.Forms.TextBox();
             this.button_clear = new System.Windows.Forms.Button();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.button_test = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBox1
@@ -86,7 +85,7 @@
             // 
             // button_clear
             // 
-            this.button_clear.Location = new System.Drawing.Point(394, 94);
+            this.button_clear.Location = new System.Drawing.Point(394, 317);
             this.button_clear.Name = "button_clear";
             this.button_clear.Size = new System.Drawing.Size(111, 23);
             this.button_clear.TabIndex = 5;
@@ -94,10 +93,15 @@
             this.button_clear.UseVisualStyleBackColor = true;
             this.button_clear.Click += new System.EventHandler(this.button_clear_Click);
             // 
-            // timer1
+            // button_test
             // 
-            this.timer1.Enabled = true;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.button_test.Location = new System.Drawing.Point(394, 87);
+            this.button_test.Name = "button_test";
+            this.button_test.Size = new System.Drawing.Size(111, 23);
+            this.button_test.TabIndex = 6;
+            this.button_test.Text = "Test";
+            this.button_test.UseVisualStyleBackColor = true;
+            this.button_test.Click += new System.EventHandler(this.button_test_Click);
             // 
             // Form1
             // 
@@ -105,6 +109,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.ClientSize = new System.Drawing.Size(517, 352);
+            this.Controls.Add(this.button_test);
             this.Controls.Add(this.button_clear);
             this.Controls.Add(this.textBox_port);
             this.Controls.Add(this.label1);
@@ -127,7 +132,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox_port;
         private System.Windows.Forms.Button button_clear;
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Button button_test;
     }
 }
 

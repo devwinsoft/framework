@@ -54,13 +54,13 @@ public class SceneTest : MonoBehaviour
 
         TableManager.Open(System.IO.Path.Combine(Application.streamingAssetsPath, "database.sqlite"));
 
-        DataCharacter data = TableManager.T_DataCharacter.GetAt(UNIT.HUMAN_FEMALE);
-        TableManager.T_DataCharacter.TryGetAt(TableManager.Connection, UNIT.DRAGON_BLACK, out data);
+        //DataCharacter data = TableManager.T_DataCharacter.GetAt(UNIT.HUMAN_FEMALE);
+        //TableManager.T_DataCharacter.TryGetAt(TableManager.Connection, UNIT.DRAGON_BLACK, out data);
 
 
         server.InitStub(this.stubC2S);
         client.InitStub(this.stubS2C);
-        Log.Debug("run");
+        client.Connect("127.0.0.1", 5000, 5f);
     }
 
     void OnGUI()
@@ -153,10 +153,6 @@ public class SceneTest : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        client.Tick(Time.deltaTime);
-    }
 
     void callback_Message(LOG_TYPE tp, string msg)
     {

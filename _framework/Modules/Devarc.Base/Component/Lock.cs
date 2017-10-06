@@ -27,15 +27,15 @@ using System.Threading;
 
 namespace Devarc
 {
-    public abstract class ILockObject
+    public interface ILockObject
     {
-        public abstract bool IsReading();
-        public abstract bool IsWriting();
+        bool IsReading();
+        bool IsWriting();
 
-        public abstract void LockRead();
-        public abstract void UnLockRead();
-        public abstract void LockWrite();
-        public abstract void UnLockWrite();
+        void LockRead();
+        void UnLockRead();
+        void LockWrite();
+        void UnLockWrite();
     }
 
     public class LockObject<T> : ILockObject, IDisposable
@@ -50,9 +50,9 @@ namespace Devarc
             m_Lock = null;
         }
 
-        public override bool IsReading() { return m_Lock.IsReaderLockHeld || m_Lock.IsWriterLockHeld; }
-        public override bool IsWriting() { return m_Lock.IsWriterLockHeld; }
-        public override void LockRead()
+        public bool IsReading() { return m_Lock.IsReaderLockHeld || m_Lock.IsWriterLockHeld; }
+        public bool IsWriting() { return m_Lock.IsWriterLockHeld; }
+        public void LockRead()
         {
             if (m_Lock.IsReaderLockHeld == false && m_Lock.IsWriterLockHeld == false)
             {
@@ -63,7 +63,7 @@ namespace Devarc
                 throw new Exception("Twice Read Lock. " + typeof(T).ToString());
             }
         }
-        public override void UnLockRead()
+        public void UnLockRead()
         {
             if (m_Lock.IsReaderLockHeld)
             {
@@ -71,7 +71,7 @@ namespace Devarc
             }
         }
 
-        public override void LockWrite()
+        public void LockWrite()
         {
             if (m_Lock.IsReaderLockHeld == false && m_Lock.IsWriterLockHeld == false)
             {
@@ -82,7 +82,7 @@ namespace Devarc
                 throw new Exception("Twice Write Lock. " + typeof(T).ToString());
             }
         }
-        public override void UnLockWrite()
+        public void UnLockWrite()
         {
             if (m_Lock.IsWriterLockHeld)
             {

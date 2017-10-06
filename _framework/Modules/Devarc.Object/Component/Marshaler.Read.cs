@@ -172,8 +172,7 @@ namespace Devarc
         {
             try
             {
-                int cnt = msg.ReadInt16();
-                obj = msg.ReadBytes(cnt);
+                msg.ReadBytes(out obj);
                 return true;
             }
             catch (Exception ex)

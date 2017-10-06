@@ -45,14 +45,9 @@ namespace TestClient
             }
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            TestClient.Instance.client.Tick(0.001f * timer1.Interval);
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
-            TestClient.Instance.client.Disconnect();
+            TestClient.Instance.client.Disconnect(DISCONNECTION_REASON.BY_USER);
         }
 
         private void button_select_Click(object sender, EventArgs e)
@@ -93,8 +88,8 @@ namespace TestClient
         {
             if (string.IsNullOrEmpty(textBox_chat.Text) == false)
             {
-                TestClient.ProxyC2Test.Chat(HostID.Server,textBox_chat.Text);
-                textBox_chat.Text = "";
+                TestClient.Instance.ProxyC2Test.Chat(HostID.Server, textBox_chat.Text);
+                //textBox_chat.Text = "";
             }
         }
     }

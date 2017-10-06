@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Devarc</RootNamespace>
     <AssemblyName>Devarc.TableBuilder</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -69,9 +69,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Modules\Devarc.Base\Devarc.Base.csproj">
+    <ProjectReference Include="..\..\Modules\Devarc.Base\Devarc.Base.Net45.csproj">
       <Project>{777b5922-baaa-47fb-8312-34821664729d}</Project>
-      <Name>Devarc.Base</Name>
+      <Name>Devarc.Base.Net45</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -17,7 +17,7 @@ namespace TestServer
             using(PlayerData.LIST.WRITE_LOCK())
             {
                 PlayerData obj = PlayerData.LIST.Alloc(host_hid);
-                TestServer.ProxyS2C.Notify_Chat(host_hid, "");
+                TestServer.Instance.ProxyS2C.Notify_Chat(host_hid, "");
             } // unlock
         }
         public void OnNotifyUserDisonnect(HostID host_hid)
@@ -41,15 +41,15 @@ namespace TestServer
                 while (enumerator.MoveNext())
                 {
                     PlayerData obj = enumerator.Current;
-                    TestServer.ProxyS2C.Notify_Chat(obj.Data.id, _msg);
+                    TestServer.Instance.ProxyS2C.Notify_Chat(obj.Data.id, _msg);
                 }
             } // unlock
         }
 
 
-        public bool OnReceive(int rid, HostID hid, NetBuffer msg)
+        public bool OnReceive(object sender, NetBuffer msg)
         {
-            return C2S.Stub.OnReceive(this, rid, hid, msg);
+            return C2S.Stub.OnReceive(this, msg);
         }
     }
 }

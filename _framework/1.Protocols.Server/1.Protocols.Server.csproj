@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Protocols.Server</RootNamespace>
     <AssemblyName>Protocols.Server</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,13 +43,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Modules\Devarc.Base\Devarc.Base.csproj">
+    <ProjectReference Include="..\Modules\Devarc.Base\Devarc.Base.Net45.csproj">
       <Project>{777b5922-baaa-47fb-8312-34821664729d}</Project>
-      <Name>Devarc.Base</Name>
+      <Name>Devarc.Base.Net45</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Modules\Devarc.Object\Devarc.Object.csproj">
+    <ProjectReference Include="..\Modules\Devarc.Object\Devarc.Object.Net45.csproj">
       <Project>{e9b1af6b-c4c0-4684-9b1c-de66b1b96ce8}</Project>
-      <Name>Devarc.Object</Name>
+      <Name>Devarc.Object.Net45</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

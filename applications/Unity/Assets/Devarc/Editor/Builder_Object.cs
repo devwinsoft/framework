@@ -312,7 +312,7 @@ namespace Devarc
                     {
                         continue;
                     }
-                    if (var_name.Contains('/'))
+                    if (var_name.IndexOf('/') >= 0)
                     {
                         continue;
                     }
@@ -429,7 +429,7 @@ namespace Devarc
                 {
                     string type_name = tb.GetTypeName(i);
                     string var_name = tb.GetVarName(i);
-                    if (var_name == "" || type_name == "" || var_name.Contains('/'))
+                    if (var_name == "" || type_name == "" || var_name.IndexOf('/') >= 0)
                     {
                         continue;
                     }
@@ -483,7 +483,7 @@ namespace Devarc
                 {
                     string type_name = tb.GetTypeName(i);
                     string var_name = tb.GetVarName(i);
-                    if (var_name == "" || type_name == "" || var_name.Contains('/'))
+                    if (var_name == "" || type_name == "" || var_name.IndexOf('/') >= 0)
                     {
                         continue;
                     }
@@ -523,7 +523,7 @@ namespace Devarc
                     string type_name = tb.GetTypeName(i);
                     string var_name = tb.GetVarName(i);
                     bool is_list = tb.GetClassType(i) == CLASS_TYPE.VALUE_LIST || tb.GetClassType(i) == CLASS_TYPE.CLASS_LIST;
-                    if (var_name == "" || type_name == "" || var_name.Contains('/'))
+                    if (var_name == "" || type_name == "" || var_name.IndexOf('/') >= 0)
                     {
                         continue;
                     }
@@ -628,7 +628,7 @@ namespace Devarc
                     string type_name = tb.GetTypeName(i);
                     string var_name = tb.GetVarName(i);
                     bool is_list = tb.GetClassType(i) == CLASS_TYPE.VALUE_LIST || tb.GetClassType(i) == CLASS_TYPE.CLASS_LIST;
-                    if (var_name == "" || type_name == "" || var_name.Contains('/'))
+                    if (var_name == "" || type_name == "" || var_name.IndexOf('/') >= 0)
                     {
                         continue;
                     }
@@ -723,7 +723,7 @@ namespace Devarc
                     string type_name = tb.GetTypeName(i);
                     string var_name = tb.GetVarName(i);
                     bool is_list = tb.GetClassType(i) == CLASS_TYPE.VALUE_LIST || tb.GetClassType(i) == CLASS_TYPE.CLASS_LIST;
-                    if (var_name == "" || type_name == "" || var_name.Contains('/'))
+                    if (var_name == "" || type_name == "" || var_name.IndexOf('/') >= 0)
                     {
                         continue;
                     }
@@ -844,7 +844,7 @@ namespace Devarc
                     string type_name = tb.GetTypeName(i);
                     string var_name = tb.GetVarName(i);
                     bool is_list = tb.GetClassType(i) == CLASS_TYPE.VALUE_LIST || tb.GetClassType(i) == CLASS_TYPE.CLASS_LIST;
-                    if (var_name == "" || type_name == "" || var_name.Contains('/'))
+                    if (var_name == "" || type_name == "" || var_name.IndexOf('/') >= 0)
                     {
                         continue;
                     }
@@ -920,7 +920,7 @@ namespace Devarc
                     string type_name = tb.GetTypeName(i);
                     string var_name = tb.GetVarName(i);
                     bool is_list = tb.GetClassType(i) == CLASS_TYPE.VALUE_LIST || tb.GetClassType(i) == CLASS_TYPE.CLASS_LIST;
-                    if (var_name == "" || type_name == "" || var_name.Contains('/'))
+                    if (var_name == "" || type_name == "" || var_name.IndexOf('/') >= 0)
                     {
                         continue;
                     }
@@ -1096,7 +1096,7 @@ namespace Devarc
                     string var_name = tb.GetVarName(i);
                     bool is_list = tb.GetClassType(i) == CLASS_TYPE.VALUE_LIST || tb.GetClassType(i) == CLASS_TYPE.CLASS_LIST;
                     KEY_TYPE key_type = tb.GetKeyType(i);
-                    if (var_name == "" || type_name == "" || var_name.Contains('/'))
+                    if (var_name == "" || type_name == "" || var_name.IndexOf('/') >= 0)
                     {
                         continue;
                     }
@@ -1169,7 +1169,7 @@ namespace Devarc
                     string type_name = tb.GetTypeName(i);
                     string var_name = tb.GetVarName(i);
                     bool is_list = tb.GetClassType(i) == CLASS_TYPE.VALUE_LIST || tb.GetClassType(i) == CLASS_TYPE.CLASS_LIST;
-                    if (var_name == "" || type_name == "" || var_name.Contains('/'))
+                    if (var_name == "" || type_name == "" || var_name.IndexOf('/') >= 0)
                     {
                         continue;
                     }
@@ -1208,7 +1208,7 @@ namespace Devarc
                 {
                     string type_name = tb.GetTypeName(i);
                     string var_name = tb.GetVarName(i);
-                    if (var_name == "" || type_name == "" || var_name.Contains('/'))
+                    if (var_name == "" || type_name == "" || var_name.IndexOf('/') >= 0)
                     {
                         continue;
                     }
@@ -1228,7 +1228,7 @@ namespace Devarc
                     string type_name = tb.GetTypeName(i);
                     string var_name = tb.GetVarName(i);
                     bool is_list = tb.GetClassType(i) == CLASS_TYPE.VALUE_LIST || tb.GetClassType(i) == CLASS_TYPE.CLASS_LIST;
-                    if (var_name == "" || type_name == "" || var_name.Contains('/'))
+                    if (var_name == "" || type_name == "" || var_name.IndexOf('/') >= 0)
                     {
                         continue;
                     }
@@ -1272,7 +1272,7 @@ namespace Devarc
                 {
                     string type_name = tb.GetTypeName(i);
                     string var_name = tb.GetVarName(i);
-                    if (var_name == "" || type_name == "" || var_name.Contains('/'))
+                    if (var_name == "" || type_name == "" || var_name.IndexOf('/') >= 0)
                     {
                         continue;
                     }

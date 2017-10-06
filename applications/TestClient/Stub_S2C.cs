@@ -37,9 +37,9 @@ namespace TestClient
             Log.Info("[{0}] {1}", remote, _msg);
         }
 
-        public bool OnReceive(int rid, HostID hid, NetBuffer msg)
+        public bool OnReceive(object sender, NetBuffer msg)
         {
-            return S2C.Stub.OnReceive(this, rid, hid, msg);
+            return S2C.Stub.OnReceive(this, msg);
         }
     }
 }

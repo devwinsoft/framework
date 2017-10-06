@@ -25,17 +25,39 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Builder.Protocol", "_framew
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Builder.Table", "_framework\Tools\Builder.Table\Builder.Table.csproj", "{0D4928EE-95D3-4E3F-AD4D-05BE4F566444}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Devarc.Base", "_framework\Modules\Devarc.Base\Devarc.Base.csproj", "{777B5922-BAAA-47FB-8312-34821664729D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Devarc.Base.Net45", "_framework\Modules\Devarc.Base\Devarc.Base.Net45.csproj", "{777B5922-BAAA-47FB-8312-34821664729D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Devarc.Net.Client", "_framework\Modules\Devarc.Net.Client\Devarc.Net.Client.csproj", "{44AAFADE-BCD3-45BE-8077-0DD9D1C98374}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Devarc.Net.Client.Net45", "_framework\Modules\Devarc.Net.Client\Devarc.Net.Client.Net45.csproj", "{44AAFADE-BCD3-45BE-8077-0DD9D1C98374}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Devarc.Object", "_framework\Modules\Devarc.Object\Devarc.Object.csproj", "{E9B1AF6B-C4C0-4684-9B1C-DE66B1B96CE8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Devarc.Object.Net45", "_framework\Modules\Devarc.Object\Devarc.Object.Net45.csproj", "{E9B1AF6B-C4C0-4684-9B1C-DE66B1B96CE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Devarc.Util.Windows", "_framework\Modules\Devarc.Util.Windows\Devarc.Util.Windows.csproj", "{593CC250-2E87-458A-9C09-B2124FA696EB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Devarc.Util.Windows.Net45", "_framework\Modules\Devarc.Util.Windows\Devarc.Util.Windows.Net45.csproj", "{593CC250-2E87-458A-9C09-B2124FA696EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Devarc.Net.Server", "_framework\Modules\Devarc.Net.Server\Devarc.Net.Server.csproj", "{2270F366-F6EB-4804-8E04-39F2303ED03E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Devarc.Net.Server.Net45", "_framework\Modules\Devarc.Net.Server\Devarc.Net.Server.Net45.csproj", "{2270F366-F6EB-4804-8E04-39F2303ED03E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1.Protocols.Server", "_framework\1.Protocols.Server\1.Protocols.Server.csproj", "{94589C1B-2CB8-49B9-A45D-F84FF168B3C6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_external", "_external", "{8792856E-4E60-4FEC-8E82-7A25B5427546}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperSocket.ClientEngine.Net45", "_externals\SuperSocket.ClientEngine\SuperSocket.ClientEngine.Net45.csproj", "{8BBFBE4A-B91A-4DCC-92D5-FB0436E2544F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperSocket.ProtoBase.Net45", "_externals\SuperSocket.ProtoBase\SuperSocket.ProtoBase.Net45.csproj", "{A3DD7F17-9CB4-4946-A25B-9F917D7FD4CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperSocket.ClientEngine.Net20", "_externals\SuperSocket.ClientEngine\SuperSocket.ClientEngine.Net20.csproj", "{377D2203-B53E-45B6-8593-D56F7D5B5DE8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperSocket.Common.Net45", "_externals\SuperSocket\Common\SuperSocket.Common.Net45.csproj", "{A24F4D38-BA9C-4FD6-95B7-4980DE36131A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperSocket.Dlr.Net45", "_externals\SuperSocket\Dlr\SuperSocket.Dlr.Net45.csproj", "{55BAA051-CE62-4D4A-81B6-68B042CC78E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperSocket.Facility.Net45", "_externals\SuperSocket\Facility\SuperSocket.Facility.Net45.csproj", "{01987BAC-C498-44DD-B274-62EA2506B51D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperSocket.ServerManager.Net45", "_externals\SuperSocket\Management\Server\SuperSocket.ServerManager.Net45.csproj", "{49B6DFF1-D7A6-4BDE-90DB-9053416B0AA5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperSocket.SocketBase.Net45", "_externals\SuperSocket\SocketBase\SuperSocket.SocketBase.Net45.csproj", "{40B77789-EA11-4C05-8F52-86711D7BCAAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperSocket.SocketEngine.Net45", "_externals\SuperSocket\SocketEngine\SuperSocket.SocketEngine.Net45.csproj", "{153FEF72-191C-43D9-BE71-2B351C7AC760}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperSocket.WebSocket.Net45", "_externals\SuperSocket\Protocols\WebSocket\SuperSocket.WebSocket.Net45.csproj", "{DB6DD6E8-ABDE-4C4A-A3E2-DF49C074433B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,6 +117,46 @@ Global
 		{94589C1B-2CB8-49B9-A45D-F84FF168B3C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94589C1B-2CB8-49B9-A45D-F84FF168B3C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94589C1B-2CB8-49B9-A45D-F84FF168B3C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BBFBE4A-B91A-4DCC-92D5-FB0436E2544F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BBFBE4A-B91A-4DCC-92D5-FB0436E2544F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BBFBE4A-B91A-4DCC-92D5-FB0436E2544F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BBFBE4A-B91A-4DCC-92D5-FB0436E2544F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3DD7F17-9CB4-4946-A25B-9F917D7FD4CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3DD7F17-9CB4-4946-A25B-9F917D7FD4CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3DD7F17-9CB4-4946-A25B-9F917D7FD4CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3DD7F17-9CB4-4946-A25B-9F917D7FD4CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{377D2203-B53E-45B6-8593-D56F7D5B5DE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{377D2203-B53E-45B6-8593-D56F7D5B5DE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{377D2203-B53E-45B6-8593-D56F7D5B5DE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{377D2203-B53E-45B6-8593-D56F7D5B5DE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A24F4D38-BA9C-4FD6-95B7-4980DE36131A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A24F4D38-BA9C-4FD6-95B7-4980DE36131A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A24F4D38-BA9C-4FD6-95B7-4980DE36131A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A24F4D38-BA9C-4FD6-95B7-4980DE36131A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55BAA051-CE62-4D4A-81B6-68B042CC78E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55BAA051-CE62-4D4A-81B6-68B042CC78E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55BAA051-CE62-4D4A-81B6-68B042CC78E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55BAA051-CE62-4D4A-81B6-68B042CC78E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01987BAC-C498-44DD-B274-62EA2506B51D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01987BAC-C498-44DD-B274-62EA2506B51D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01987BAC-C498-44DD-B274-62EA2506B51D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01987BAC-C498-44DD-B274-62EA2506B51D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49B6DFF1-D7A6-4BDE-90DB-9053416B0AA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49B6DFF1-D7A6-4BDE-90DB-9053416B0AA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49B6DFF1-D7A6-4BDE-90DB-9053416B0AA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49B6DFF1-D7A6-4BDE-90DB-9053416B0AA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40B77789-EA11-4C05-8F52-86711D7BCAAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40B77789-EA11-4C05-8F52-86711D7BCAAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40B77789-EA11-4C05-8F52-86711D7BCAAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40B77789-EA11-4C05-8F52-86711D7BCAAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{153FEF72-191C-43D9-BE71-2B351C7AC760}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{153FEF72-191C-43D9-BE71-2B351C7AC760}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{153FEF72-191C-43D9-BE71-2B351C7AC760}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{153FEF72-191C-43D9-BE71-2B351C7AC760}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB6DD6E8-ABDE-4C4A-A3E2-DF49C074433B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB6DD6E8-ABDE-4C4A-A3E2-DF49C074433B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB6DD6E8-ABDE-4C4A-A3E2-DF49C074433B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB6DD6E8-ABDE-4C4A-A3E2-DF49C074433B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -115,5 +177,15 @@ Global
 		{593CC250-2E87-458A-9C09-B2124FA696EB} = {FDE15843-BD67-4683-9B95-A472AC315191}
 		{2270F366-F6EB-4804-8E04-39F2303ED03E} = {FDE15843-BD67-4683-9B95-A472AC315191}
 		{94589C1B-2CB8-49B9-A45D-F84FF168B3C6} = {3B696256-0FB2-4E93-B495-8BCB169DEE14}
+		{8BBFBE4A-B91A-4DCC-92D5-FB0436E2544F} = {8792856E-4E60-4FEC-8E82-7A25B5427546}
+		{A3DD7F17-9CB4-4946-A25B-9F917D7FD4CE} = {8792856E-4E60-4FEC-8E82-7A25B5427546}
+		{377D2203-B53E-45B6-8593-D56F7D5B5DE8} = {8792856E-4E60-4FEC-8E82-7A25B5427546}
+		{A24F4D38-BA9C-4FD6-95B7-4980DE36131A} = {8792856E-4E60-4FEC-8E82-7A25B5427546}
+		{55BAA051-CE62-4D4A-81B6-68B042CC78E9} = {8792856E-4E60-4FEC-8E82-7A25B5427546}
+		{01987BAC-C498-44DD-B274-62EA2506B51D} = {8792856E-4E60-4FEC-8E82-7A25B5427546}
+		{49B6DFF1-D7A6-4BDE-90DB-9053416B0AA5} = {8792856E-4E60-4FEC-8E82-7A25B5427546}
+		{40B77789-EA11-4C05-8F52-86711D7BCAAF} = {8792856E-4E60-4FEC-8E82-7A25B5427546}
+		{153FEF72-191C-43D9-BE71-2B351C7AC760} = {8792856E-4E60-4FEC-8E82-7A25B5427546}
+		{DB6DD6E8-ABDE-4C4A-A3E2-DF49C074433B} = {8792856E-4E60-4FEC-8E82-7A25B5427546}
 	EndGlobalSection
 EndGlobal

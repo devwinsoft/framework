@@ -97,38 +97,11 @@
     <Reference Include="log4net">
       <HintPath>Assets\Devarc\_Plugins\SuperSocket\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Scripting.Core">
-      <HintPath>Assets\Devarc\_Plugins\SuperSocket\Microsoft.Scripting.Core.dll</HintPath>
+    <Reference Include="SuperSocket.ClientEngine">
+      <HintPath>Assets\Devarc\_Plugins\SuperSocket\SuperSocket.ClientEngine.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Scripting">
-      <HintPath>Assets\Devarc\_Plugins\SuperSocket\Microsoft.Scripting.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>Assets\Devarc\_Plugins\SuperSocket\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocket.Common">
-      <HintPath>Assets\Devarc\_Plugins\SuperSocket\SuperSocket.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocket.Dlr">
-      <HintPath>Assets\Devarc\_Plugins\SuperSocket\SuperSocket.Dlr.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocket.Facility">
-      <HintPath>Assets\Devarc\_Plugins\SuperSocket\SuperSocket.Facility.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocket.ServerManager">
-      <HintPath>Assets\Devarc\_Plugins\SuperSocket\SuperSocket.ServerManager.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocket.SocketBase">
-      <HintPath>Assets\Devarc\_Plugins\SuperSocket\SuperSocket.SocketBase.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocket.SocketEngine">
-      <HintPath>Assets\Devarc\_Plugins\SuperSocket\SuperSocket.SocketEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocket.WebSocket">
-      <HintPath>Assets\Devarc\_Plugins\SuperSocket\SuperSocket.WebSocket.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading">
-      <HintPath>Assets\Devarc\_Plugins\SuperSocket\System.Threading.dll</HintPath>
+    <Reference Include="SuperSocket.ProtoBase">
+      <HintPath>Assets\Devarc\_Plugins\SuperSocket\SuperSocket.ProtoBase.dll</HintPath>
     </Reference>
     <Reference Include="LitJson">
       <HintPath>Assets\plugins\LitJson.dll</HintPath>
@@ -149,34 +122,34 @@
     <Compile Include="Assets\Devarc\Script\SceneTest.cs" />
     <Compile Include="Assets\Devarc\Script\Stub_C2S.cs" />
     <Compile Include="Assets\Devarc\Script\Stub_S2C.cs" />
-    <Compile Include="Assets\Devarc\_Component\Classes.cs" />
-    <Compile Include="Assets\Devarc\_Component\Container_C1.cs" />
-    <Compile Include="Assets\Devarc\_Component\Container_S1.cs" />
-    <Compile Include="Assets\Devarc\_Component\Contents.cs" />
-    <Compile Include="Assets\Devarc\_Component\DES.cs" />
-    <Compile Include="Assets\Devarc\_Component\FrameworkUtil.cs" />
-    <Compile Include="Assets\Devarc\_Component\HostID.cs" />
-    <Compile Include="Assets\Devarc\_Component\JsonReader.cs" />
-    <Compile Include="Assets\Devarc\_Component\Lock.cs" />
-    <Compile Include="Assets\Devarc\_Component\Log.cs" />
-    <Compile Include="Assets\Devarc\_Component\Marshaler.Read.cs" />
-    <Compile Include="Assets\Devarc\_Component\Marshaler.Write.cs" />
-    <Compile Include="Assets\Devarc\_Component\NetBuffer.cs" />
-    <Compile Include="Assets\Devarc\_Component\NetClient.cs" />
-    <Compile Include="Assets\Devarc\_Component\NetDataRecv.cs" />
-    <Compile Include="Assets\Devarc\_Component\NetDataSend.cs" />
-    <Compile Include="Assets\Devarc\_Component\NetHost.cs" />
-    <Compile Include="Assets\Devarc\_Component\NetMessage.cs" />
-    <Compile Include="Assets\Devarc\_Component\NetServer.cs" />
-    <Compile Include="Assets\Devarc\_Component\NetThread.cs" />
-    <Compile Include="Assets\Devarc\_Component\NetworkObject.cs" />
-    <Compile Include="Assets\Devarc\_Component\PropItem.cs" />
-    <Compile Include="Assets\Devarc\_Component\PropTable.cs" />
-    <Compile Include="Assets\Devarc\_Component\TableManager.cs" />
-    <Compile Include="Assets\Devarc\_Component\ThreadBase.cs" />
-    <Compile Include="Assets\Devarc\_Component\ThreadContainer.cs" />
-    <Compile Include="Assets\Devarc\_Component\XmlSheetReader.cs" />
-    <Compile Include="Assets\Devarc\_Component\XmlSheetWriter.cs" />
+    <Compile Include="Assets\Devarc\_Component\Base\Container_C1.cs" />
+    <Compile Include="Assets\Devarc\_Component\Base\Container_S1.cs" />
+    <Compile Include="Assets\Devarc\_Component\Base\Contents.cs" />
+    <Compile Include="Assets\Devarc\_Component\Base\DES.cs" />
+    <Compile Include="Assets\Devarc\_Component\Base\HostID.cs" />
+    <Compile Include="Assets\Devarc\_Component\Base\JsonReader.cs" />
+    <Compile Include="Assets\Devarc\_Component\Base\Lock.cs" />
+    <Compile Include="Assets\Devarc\_Component\Base\Log.cs" />
+    <Compile Include="Assets\Devarc\_Component\Base\NetBuffer.cs" />
+    <Compile Include="Assets\Devarc\_Component\Base\NetClient.cs" />
+    <Compile Include="Assets\Devarc\_Component\Base\NetDataRecv.cs" />
+    <Compile Include="Assets\Devarc\_Component\Base\NetDataSend.cs" />
+    <Compile Include="Assets\Devarc\_Component\Base\NetHost.cs" />
+    <Compile Include="Assets\Devarc\_Component\Base\NetMessage.cs" />
+    <Compile Include="Assets\Devarc\_Component\Base\NetServer.cs" />
+    <Compile Include="Assets\Devarc\_Component\Base\NetThread.cs" />
+    <Compile Include="Assets\Devarc\_Component\Base\NetworkObject.cs" />
+    <Compile Include="Assets\Devarc\_Component\Base\PropItem.cs" />
+    <Compile Include="Assets\Devarc\_Component\Base\PropTable.cs" />
+    <Compile Include="Assets\Devarc\_Component\Base\ThreadBase.cs" />
+    <Compile Include="Assets\Devarc\_Component\Base\ThreadContainer.cs" />
+    <Compile Include="Assets\Devarc\_Component\Base\XmlSheetReader.cs" />
+    <Compile Include="Assets\Devarc\_Component\Base\XmlSheetWriter.cs" />
+    <Compile Include="Assets\Devarc\_Component\Object\Classes.cs" />
+    <Compile Include="Assets\Devarc\_Component\Object\FrameworkUtil.cs" />
+    <Compile Include="Assets\Devarc\_Component\Object\Marshaler.Read.cs" />
+    <Compile Include="Assets\Devarc\_Component\Object\Marshaler.Write.cs" />
+    <Compile Include="Assets\Devarc\_Component\Object\TableManager.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\C2S.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\Class_LString.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\Class_LStringEx.cs" />

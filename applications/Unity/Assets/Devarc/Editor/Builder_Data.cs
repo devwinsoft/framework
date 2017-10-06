@@ -24,7 +24,6 @@ using System;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace Devarc
@@ -465,7 +464,7 @@ namespace Devarc
 
                 if (type_name.Length == 0 || var_name.Length == 0)
                     continue;
-                if (var_name.Contains('/') == false)
+                if (var_name.IndexOf('/') < 0)
                 {
                     switch (tb.GetVarType(i))
                     {

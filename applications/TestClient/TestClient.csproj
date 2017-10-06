@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TestClient</RootNamespace>
     <AssemblyName>TestClient</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -21,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -30,6 +32,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="LitJson">
@@ -68,6 +71,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -83,17 +87,25 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\_framework\Modules\Devarc.Base\Devarc.Base.csproj">
+    <ProjectReference Include="..\..\_externals\SuperSocket.ClientEngine\SuperSocket.ClientEngine.Net45.csproj">
+      <Project>{8bbfbe4a-b91a-4dcc-92d5-fb0436e2544f}</Project>
+      <Name>SuperSocket.ClientEngine.Net45</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\_externals\SuperSocket.ProtoBase\SuperSocket.ProtoBase.Net45.csproj">
+      <Project>{a3dd7f17-9cb4-4946-a25b-9f917d7fd4ce}</Project>
+      <Name>SuperSocket.ProtoBase.Net45</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\_framework\Modules\Devarc.Base\Devarc.Base.Net45.csproj">
       <Project>{777b5922-baaa-47fb-8312-34821664729d}</Project>
-      <Name>Devarc.Base</Name>
+      <Name>Devarc.Base.Net45</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\_framework\Modules\Devarc.Net.Client\Devarc.Net.Client.csproj">
+    <ProjectReference Include="..\..\_framework\Modules\Devarc.Net.Client\Devarc.Net.Client.Net45.csproj">
       <Project>{44aafade-bcd3-45be-8077-0dd9d1c98374}</Project>
-      <Name>Devarc.Net.Client</Name>
+      <Name>Devarc.Net.Client.Net45</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\_framework\Modules\Devarc.Object\Devarc.Object.csproj">
+    <ProjectReference Include="..\..\_framework\Modules\Devarc.Object\Devarc.Object.Net45.csproj">
       <Project>{e9b1af6b-c4c0-4684-9b1c-de66b1b96ce8}</Project>
-      <Name>Devarc.Object</Name>
+      <Name>Devarc.Object.Net45</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

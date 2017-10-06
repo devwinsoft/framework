@@ -8,10 +8,10 @@ namespace S2S
 	}
 	public static class Stub
 	{
-		public static bool OnReceive(IStub stub, int rid, HostID hid, NetBuffer _in_msg)
+		public static bool OnReceive(IStub stub, NetBuffer _in_msg)
 		{
 			bool success = true;
-			RMI_ID rmi_id = (RMI_ID)rid;
+			RMI_ID rmi_id = (RMI_ID)_in_msg.Rmi;
 			switch (rmi_id)
 			{
 				case RMI_ID.Test:
@@ -19,7 +19,7 @@ namespace S2S
 						Log.Debug("Stub(S2S): Test");
 						System.String _name = default(System.String); success = success ? Marshaler.Read(_in_msg, ref _name) : false;
 						if (_in_msg.Pos != _in_msg.Length) return false;
-						if (success) stub.RMI_S2S_Test(hid, _name);
+						if (success) stub.RMI_S2S_Test(_in_msg.Hid, _name);
 					}
 					break;
 				default:
@@ -39,21 +39,20 @@ namespace S2S
 	}
 	public class Proxy
 	{
-		private INetworker m_Networker = null;
-		public void SetNetworker(INetworker mgr) { m_Networker = mgr; }
+		private IProxyBase m_Networker = null;
+		public void Init(IProxyBase mgr) { m_Networker = mgr; }
 		public bool Test(HostID target, String _name)
 		{
 			Log.Debug("S2S.Proxy.Test");
 			NetBuffer _out_msg = new NetBuffer();
 			if (m_Networker == null)
 			{
-				Log.Debug(typeof(Proxy).ToString() + " is not initialized.");
+				Log.Debug("{{0}} is not initialized.", typeof(Proxy));
 				return false;
 			}
-			m_Networker.RmiHeader(m_Networker.GetMyHostID(), target, _out_msg);
-			_out_msg.Write((Int32)RMI_ID.Test);
+			_out_msg.Init((Int16)RMI_ID.Test, target);
 			Marshaler.Write(_out_msg, _name);
-			return m_Networker.RmiSend(m_Networker.GetMyHostID(), target, _out_msg);
+			return m_Networker.Send(_out_msg.Hid, _out_msg.Data);
 		}
 	}
 

@@ -124,7 +124,7 @@ namespace Devarc
                     // OnReceive
                     sw.WriteLine("\tpublic static class Stub");
                     sw.WriteLine("\t{");
-                    sw.WriteLine("\t\tpublic static bool OnReceive(IStub stub, int rid, HostID hid, NetBuffer _in_msg)");
+                    sw.WriteLine("\t\tpublic static bool OnReceive(IStub stub, NetBuffer _in_msg)");
                     MakeOnRecvCode(sw, tp);
                     sw.WriteLine("\t}"); // end of OnReceive
                     sw.WriteLine("");
@@ -159,8 +159,8 @@ namespace Devarc
 
                     sw.WriteLine("\tpublic class Proxy"); // start of proxy
                     sw.WriteLine("\t{");
-                    sw.WriteLine("\t\tprivate INetworker m_Networker = null;");
-                    sw.WriteLine("\t\tpublic void SetNetworker(INetworker mgr) { m_Networker = mgr; }");
+                    sw.WriteLine("\t\tprivate IProxyBase m_Networker = null;");
+                    sw.WriteLine("\t\tpublic void Init(IProxyBase mgr) { m_Networker = mgr; }");
                     _methods = tp.GetMethods();
                     foreach (MethodInfo minfo in _methods)
                     {
@@ -182,17 +182,16 @@ namespace Devarc
                         sw.WriteLine("\t\t\tNetBuffer _out_msg = new NetBuffer();");
                         sw.WriteLine("\t\t\tif (m_Networker == null)");
                         sw.WriteLine("\t\t\t{");
-                        sw.WriteLine("\t\t\t\tLog.Debug(typeof(Proxy).ToString() + \" is not initialized.\");");
+                        sw.WriteLine("\t\t\t\tLog.Debug(\"{{0}} is not initialized.\", typeof(Proxy));");
                         sw.WriteLine("\t\t\t\treturn false;");
                         sw.WriteLine("\t\t\t}");
-                        sw.WriteLine("\t\t\tm_Networker.RmiHeader(m_Networker.GetMyHostID(), target, _out_msg);");
-                        sw.WriteLine("\t\t\t_out_msg.Write((Int32)RMI_ID.{0});", minfo.Name);
+                        sw.WriteLine("\t\t\t_out_msg.Init((Int16)RMI_ID.{0}, target);", minfo.Name);
 
                         foreach (ParameterInfo pinfo in minfo.GetParameters())
                         {
                             sw.WriteLine("\t\t\tMarshaler.Write(_out_msg, {0});", pinfo.Name);
                         }
-                        sw.WriteLine("\t\t\treturn m_Networker.RmiSend(m_Networker.GetMyHostID(), target, _out_msg);");
+                        sw.WriteLine("\t\t\treturn m_Networker.Send(_out_msg.Hid, _out_msg.Data);");
                         sw.WriteLine("\t\t}");
                     }
                     sw.WriteLine("\t}"); // end of proxy
@@ -209,7 +208,7 @@ namespace Devarc
         {
             sw.WriteLine("\t\t{");
             sw.WriteLine("\t\t\tbool success = true;");
-            sw.WriteLine("\t\t\tRMI_ID rmi_id = (RMI_ID)rid;");
+            sw.WriteLine("\t\t\tRMI_ID rmi_id = (RMI_ID)_in_msg.Rmi;");
             sw.WriteLine("\t\t\tswitch (rmi_id)");
             sw.WriteLine("\t\t\t{");
             MethodInfo[] _methods = tp.GetMethods();
@@ -242,7 +241,7 @@ namespace Devarc
                 }
 
                 sw.WriteLine("\t\t\t\t\t\tif (_in_msg.Pos != _in_msg.Length) return false;");
-                sw.Write("\t\t\t\t\t\tif (success) stub.RMI_{0}_{1}(hid", tp.Name, minfo.Name);
+                sw.Write("\t\t\t\t\t\tif (success) stub.RMI_{0}_{1}(_in_msg.Hid", tp.Name, minfo.Name);
                 foreach (ParameterInfo pinfo in minfo.GetParameters())
                 {
                     sw.Write(", {0}", pinfo.Name);
