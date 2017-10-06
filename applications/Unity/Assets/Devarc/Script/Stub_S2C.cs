@@ -2,7 +2,7 @@
 using System.Collections;
 using Devarc;
 
-public class Stub_S2C : IClientStub, S2C.IStub
+public class Stub_S2C : IStubBase, S2C.IStub
 {
     HostID mHostID = HostID.None;
 
@@ -45,8 +45,8 @@ public class Stub_S2C : IClientStub, S2C.IStub
         Log.Info(_msg);
     }
 
-    public bool OnReceive(int rid, HostID hid, NetBuffer msg)
+    public bool OnReceive(object sender, NetBuffer msg)
     {
-        return S2C.Stub.OnReceive(this, rid, hid, msg);
+        return S2C.Stub.OnReceive(this, msg);
     }
 }

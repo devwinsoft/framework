@@ -4,32 +4,22 @@ namespace C2S
 {
 	public interface IStub
 	{
-		void RMI_C2S_Move(HostID remote, VECTOR3 _look, DIRECTION _move);
 		void RMI_C2S_Chat(HostID remote, String _msg);
 	}
 	public static class Stub
 	{
-		public static bool OnReceive(IStub stub, int rid, HostID hid, NetBuffer _in_msg)
+		public static bool OnReceive(IStub stub, NetBuffer _in_msg)
 		{
 			bool success = true;
-			RMI_ID rmi_id = (RMI_ID)rid;
+			RMI_ID rmi_id = (RMI_ID)_in_msg.Rmi;
 			switch (rmi_id)
 			{
-				case RMI_ID.Move:
-					{
-						Log.Debug("Stub(C2S): Move");
-						Devarc.VECTOR3 _look = new Devarc.VECTOR3(); success = success ? Marshaler.Read(_in_msg, _look) : false;
-						Devarc.DIRECTION _move = default(Devarc.DIRECTION); success = success ? Marshaler.Read(_in_msg, ref _move) : false;
-						if (_in_msg.Pos != _in_msg.Length) return false;
-						if (success) stub.RMI_C2S_Move(hid, _look, _move);
-					}
-					break;
 				case RMI_ID.Chat:
 					{
 						Log.Debug("Stub(C2S): Chat");
 						System.String _msg = default(System.String); success = success ? Marshaler.Read(_in_msg, ref _msg) : false;
 						if (_in_msg.Pos != _in_msg.Length) return false;
-						if (success) stub.RMI_C2S_Chat(hid, _msg);
+						if (success) stub.RMI_C2S_Chat(_in_msg.Hid, _msg);
 					}
 					break;
 				default:
@@ -45,41 +35,24 @@ namespace C2S
 	}
 	enum RMI_ID
 	{
-		Move                           = 6000,
-		Chat                           = 6001,
+		Chat                           = 6000,
 	}
 	public class Proxy
 	{
-		private INetworker m_Networker = null;
-		public void SetNetworker(INetworker mgr) { m_Networker = mgr; }
-		public bool Move(HostID target, VECTOR3 _look, DIRECTION _move)
-		{
-			Log.Debug("C2S.Proxy.Move");
-			NetBuffer _out_msg = new NetBuffer();
-			if (m_Networker == null)
-			{
-				Log.Debug(typeof(Proxy).ToString() + " is not initialized.");
-				return false;
-			}
-			m_Networker.RmiHeader(m_Networker.GetMyHostID(), target, _out_msg);
-			_out_msg.Write((Int32)RMI_ID.Move);
-			Marshaler.Write(_out_msg, _look);
-			Marshaler.Write(_out_msg, _move);
-			return m_Networker.RmiSend(m_Networker.GetMyHostID(), target, _out_msg);
-		}
+		private IProxyBase m_Networker = null;
+		public void Init(IProxyBase mgr) { m_Networker = mgr; }
 		public bool Chat(HostID target, String _msg)
 		{
 			Log.Debug("C2S.Proxy.Chat");
 			NetBuffer _out_msg = new NetBuffer();
 			if (m_Networker == null)
 			{
-				Log.Debug(typeof(Proxy).ToString() + " is not initialized.");
+				Log.Debug("{{0}} is not initialized.", typeof(Proxy));
 				return false;
 			}
-			m_Networker.RmiHeader(m_Networker.GetMyHostID(), target, _out_msg);
-			_out_msg.Write((Int32)RMI_ID.Chat);
+			_out_msg.Init((Int16)RMI_ID.Chat, target);
 			Marshaler.Write(_out_msg, _msg);
-			return m_Networker.RmiSend(m_Networker.GetMyHostID(), target, _out_msg);
+			return m_Networker.Send(_out_msg.Hid, _out_msg.Data);
 		}
 	}
 

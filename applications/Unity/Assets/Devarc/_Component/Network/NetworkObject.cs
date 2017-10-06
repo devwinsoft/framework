@@ -24,10 +24,12 @@ using System;
 using System.Net;
 using System.Collections;
 using System.Collections.Generic;
+using SuperSocket;
 
 namespace Devarc
 {
-    public delegate bool NET_RECEIVER(int rid, HostID hid, NetBuffer msg);
+    public delegate bool NET_RECEIVER(object sender, NetBuffer msg);
+
     public delegate bool NET_FUNC_CONNECT(string ip, int port);
     public delegate void NET_FUNC_DISCONNECT();
     public delegate bool NET_FUNC_SEND(byte[] data);
@@ -41,11 +43,14 @@ namespace Devarc
         BY_SERVER,
     }
 
-    public interface INetworker
+    public interface IProxyBase
     {
-        bool RmiHeader(HostID host_from, HostID host_to, NetBuffer msg);
-        bool RmiSend(HostID host_from, HostID host_to, NetBuffer msg);
-        HostID GetMyHostID();
+        bool Send(HostID hid, ArraySegment<byte> data);
+    }
+
+    public interface IStubBase
+    {
+        bool OnReceive(object sender, NetBuffer msg);
     }
 
     public interface IClientStub
@@ -53,14 +58,13 @@ namespace Devarc
         void OnNotifyConnecting();
         void OnNotifyConnected(HostID host_hid);
         void OnNotifyDisConnected(DISCONNECTION_REASON reason);
-        bool OnReceive(int rid, HostID hid, NetBuffer msg);
+        bool OnReceive(object sender, NetBuffer msg);
     }
 
     public interface IServerStub
     {
         void OnNotifyUserConnect(HostID host_hid);
         void OnNotifyUserDisonnect(HostID host_hid);
-        bool OnReceive(int rid, HostID hid, NetBuffer msg);
+        bool OnReceive(object sender, NetBuffer msg);
     }
-
 }

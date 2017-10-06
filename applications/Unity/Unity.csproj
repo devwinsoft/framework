@@ -94,9 +94,6 @@
     <Reference Include="System.Data">
       <HintPath>Assets\Devarc\_Plugins\System.Data.dll</HintPath>
     </Reference>
-    <Reference Include="log4net">
-      <HintPath>Assets\Devarc\_Plugins\SuperSocket\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="SuperSocket.ClientEngine">
       <HintPath>Assets\Devarc\_Plugins\SuperSocket\SuperSocket.ClientEngine.dll</HintPath>
     </Reference>
@@ -131,31 +128,27 @@
     <Compile Include="Assets\Devarc\_Component\Base\Lock.cs" />
     <Compile Include="Assets\Devarc\_Component\Base\Log.cs" />
     <Compile Include="Assets\Devarc\_Component\Base\NetBuffer.cs" />
-    <Compile Include="Assets\Devarc\_Component\Base\NetClient.cs" />
-    <Compile Include="Assets\Devarc\_Component\Base\NetDataRecv.cs" />
-    <Compile Include="Assets\Devarc\_Component\Base\NetDataSend.cs" />
-    <Compile Include="Assets\Devarc\_Component\Base\NetHost.cs" />
-    <Compile Include="Assets\Devarc\_Component\Base\NetMessage.cs" />
-    <Compile Include="Assets\Devarc\_Component\Base\NetServer.cs" />
-    <Compile Include="Assets\Devarc\_Component\Base\NetThread.cs" />
-    <Compile Include="Assets\Devarc\_Component\Base\NetworkObject.cs" />
-    <Compile Include="Assets\Devarc\_Component\Base\PropItem.cs" />
     <Compile Include="Assets\Devarc\_Component\Base\PropTable.cs" />
     <Compile Include="Assets\Devarc\_Component\Base\ThreadBase.cs" />
     <Compile Include="Assets\Devarc\_Component\Base\ThreadContainer.cs" />
     <Compile Include="Assets\Devarc\_Component\Base\XmlSheetReader.cs" />
     <Compile Include="Assets\Devarc\_Component\Base\XmlSheetWriter.cs" />
+    <Compile Include="Assets\Devarc\_Component\Network\NetClient.cs" />
+    <Compile Include="Assets\Devarc\_Component\Network\NetClientPackageInfo.cs" />
+    <Compile Include="Assets\Devarc\_Component\Network\NetClientReceiveFilter.cs" />
+    <Compile Include="Assets\Devarc\_Component\Network\NetworkObject.cs" />
+    <Compile Include="Assets\Devarc\_Component\Network\PacketData.cs" />
+    <Compile Include="Assets\Devarc\_Component\Object\Class_LString.cs" />
+    <Compile Include="Assets\Devarc\_Component\Object\Class_LStringEx.cs" />
     <Compile Include="Assets\Devarc\_Component\Object\Classes.cs" />
     <Compile Include="Assets\Devarc\_Component\Object\FrameworkUtil.cs" />
     <Compile Include="Assets\Devarc\_Component\Object\Marshaler.Read.cs" />
     <Compile Include="Assets\Devarc\_Component\Object\Marshaler.Write.cs" />
     <Compile Include="Assets\Devarc\_Component\Object\TableManager.cs" />
+    <Compile Include="Assets\Devarc\_Component\Object\TableManager_LString.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\C2S.cs" />
-    <Compile Include="Assets\Devarc\_GeneratedCode\Class_LString.cs" />
-    <Compile Include="Assets\Devarc\_GeneratedCode\Class_LStringEx.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\Class_TestSchema.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\S2C.cs" />
-    <Compile Include="Assets\Devarc\_GeneratedCode\TableManager_LString.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\TableManager_TestSchema.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -167,6 +160,7 @@
     <None Include="Assets\Devarc\_Plugins\Editor\NPOI.OOXML.XML" />
     <None Include="Assets\Devarc\_Plugins\Editor\NPOI.OpenXml4Net.XML" />
     <None Include="Assets\Devarc\_Plugins\Editor\NPOI.XML" />
+    <None Include="Assets\Devarc\_Plugins\SuperSocket\SuperSocket.ProtoBase.XML" />
     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
     <None Include="Assets\Standard Assets\Fonts\OpenSans\License!.txt" />
   </ItemGroup>

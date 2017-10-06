@@ -41,6 +41,14 @@ namespace Devarc
         public HostID Hid { get { return mHid; } }
         HostID mHid = HostID.None;
 
+        public NetClient()
+        {
+            client.Connected += OnSession_Connected;
+            client.Closed += OnSession_Closed;
+            client.Error += new EventHandler<ErrorEventArgs>(OnSession_Error);
+            client.Initialize<NetClientPackageInfo>(new NetClientReceiveFilter(), OnSession_DataReceived);
+        }
+
         public bool Send(HostID hid, ArraySegment<byte> data)
         {
             client.Send(data);
@@ -58,11 +66,6 @@ namespace Devarc
 
         public bool Connect(string address, int port)
         {
-            client.Connected += OnSession_Connected;
-            client.Closed += OnSession_Closed;
-            client.Error += new EventHandler<ErrorEventArgs>(OnSession_Error);
-            client.Initialize<NetClientPackageInfo>(new NetClientReceiveFilter(), OnSession_DataReceived);
-
             IPEndPoint ipServer = new IPEndPoint(IPAddress.Parse(address), port);
             EndPoint endPoint = ipServer as EndPoint;
             if (endPoint == null)

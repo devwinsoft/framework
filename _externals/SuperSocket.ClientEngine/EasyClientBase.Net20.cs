@@ -58,6 +58,7 @@ namespace SuperSocket.ClientEngine
                 session.LocalEndPoint = localEndPoint;
             }
 
+            session.ReceiveBufferSize = 4096;
             session.Connected += new EventHandler(m_Session_Connected);
             session.Error += new EventHandler<ErrorEventArgs>(m_Session_Error);
             session.Closed += new EventHandler(m_Session_Closed);

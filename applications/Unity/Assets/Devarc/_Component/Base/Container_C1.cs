@@ -88,7 +88,7 @@ namespace Devarc
             }
             return default(ITEM);
         }
-        static ITEM defaultObject = new ITEM();
+        static readonly ITEM defaultObject = new ITEM();
         public bool TryGetAt(SqliteConnection _conn, KEY _key, out ITEM _obj)
         {
             SqliteCommand cmd = new SqliteCommand(_conn);

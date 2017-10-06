@@ -50,7 +50,7 @@ namespace Devarc
 
     public interface IStubBase
     {
-        bool OnReceive(int rid, HostID hid, NetBuffer msg);
+        bool OnReceive(object sender, NetBuffer msg);
     }
 
     public interface IClientStub

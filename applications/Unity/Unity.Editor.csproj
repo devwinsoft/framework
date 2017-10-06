@@ -160,9 +160,6 @@
     <Reference Include="NPOI.OpenXmlFormats">
       <HintPath>Assets\Devarc\_Plugins\Editor\NPOI.OpenXmlFormats.dll</HintPath>
     </Reference>
-    <Reference Include="log4net">
-      <HintPath>Assets\Devarc\_Plugins\SuperSocket\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="SuperSocket.ClientEngine">
       <HintPath>Assets\Devarc\_Plugins\SuperSocket\SuperSocket.ClientEngine.dll</HintPath>
     </Reference>
@@ -209,6 +206,7 @@
     <None Include="Assets\Devarc\_Plugins\Editor\NPOI.OOXML.XML" />
     <None Include="Assets\Devarc\_Plugins\Editor\NPOI.OpenXml4Net.XML" />
     <None Include="Assets\Devarc\_Plugins\Editor\NPOI.XML" />
+    <None Include="Assets\Devarc\_Plugins\SuperSocket\SuperSocket.ProtoBase.XML" />
     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
     <None Include="Assets\Standard Assets\Fonts\OpenSans\License!.txt" />
   </ItemGroup>
