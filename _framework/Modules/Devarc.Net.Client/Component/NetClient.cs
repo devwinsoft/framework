@@ -40,63 +40,69 @@ namespace Devarc
 
         public HostID Hid { get { return mHid; } }
         HostID mHid = HostID.None;
+        short mSeq = 0;
 
-        public bool Send(HostID hid, ArraySegment<byte> data)
+        public NetClient()
         {
-            client.Send(data);
-            return true;
+            client.Connected += OnSession_Connected;
+            client.Closed += OnSession_Closed;
+            client.Error += new EventHandler<ErrorEventArgs>(OnSession_Error);
+            client.Initialize<NetClientPackageInfo>(new NetClientReceiveFilter(), OnSession_DataReceived);
+        }
+
+        public short GetCurrentSeq(HostID hid)
+        {
+            return 0;
+        }
+
+        public bool Send(NetBuffer msg)
+        {
+            if (client.IsConnected == false)
+            {
+                return false;
+            }
+
+            bool success = false;
+            try
+            {
+                msg.UpdateHeader(mSeq++);
+                client.Send(msg.Data);
+                success = true;
+            }
+            catch (Exception e)
+            {
+                Log.Exception(e);
+            }
+            return success;
         }
 
 #if !UNITY_5
         async System.Threading.Tasks.Task<bool> connect(EndPoint endPoint)
         {
             var ret = await client.ConnectAsync(endPoint);
-            Log.Debug("Connection established");
+            if (ret)
+                Log.Debug("Connection established");
+            else
+                Log.Debug("[FAIL] Cannot connect to: {0}", endPoint);
             return true;
         }
 #endif
 
         public bool Connect(string address, int port)
         {
-            client.Connected += OnSession_Connected;
-            client.Closed += OnSession_Closed;
-            client.Error += new EventHandler<ErrorEventArgs>(OnSession_Error);
-            client.Initialize<NetClientPackageInfo>(new NetClientReceiveFilter(), OnSession_DataReceived);
-
             IPEndPoint ipServer = new IPEndPoint(IPAddress.Parse(address), port);
             EndPoint endPoint = ipServer as EndPoint;
             if (endPoint == null)
             {
                 return false;
             }
+            Log.Debug("Connecting to {0}:{1}", address, port);
 #if UNITY_5
             client.BeginConnect(endPoint);
 #else
             System.Threading.Tasks.Task<bool> result = connect(endPoint);
 #endif
             return true;
-
-            //switch (m_State)
-            //{
-            //    case STATE.DISCONNECTED:
-            //        m_State = STATE.CONNECTING;
-            //        m_HostID = HostID.None;
-            //        break;
-            //    case STATE.CONNECTING:
-            //        Log.Info("Already connecting.");
-            //        return false;
-            //    case STATE.CONNECTED:
-            //        Log.Info("Already connected.");
-            //        return false;
-            //    default:
-            //        Log.Info("Cannot connect now.");
-            //        return false;
-            //}
-            //if (m_Session != null && m_Session.IsConnected)
-            //{
-            //    Log.Info("Already connected.");
-            //    return false;
-            //}
 
             //// get ip address
             //IPAddress[] ip_list = Dns.GetHostAddresses(address);
@@ -112,30 +118,26 @@ namespace Devarc
             //return true;
         }
 
-        public void Disconnect(DISCONNECTION_REASON reason)
+        public void Disconnect()
         {
             mHid = HostID.None;
+            mSeq = 0;
             client.Close();
         }
 
         void OnSession_Connected(object sender, EventArgs e)
         {
             EasyClient c = sender as EasyClient;
-            if (c != null)
+            if (c != null && c.IsConnected == false)
             {
-                if (c.IsConnected)
-                {
-                }
-                else
-                {
-                    Disconnect(DISCONNECTION_REASON.CONNECTION_FAIL);
-                }
+                Disconnect();
+                return;
             }
         }
 
         void OnSession_Closed(object sender, EventArgs e)
         {
-            Disconnect(DISCONNECTION_REASON.BY_SERVER);
+            Disconnect();
         }
 
         void OnSession_DataReceived(NetClientPackageInfo package)
@@ -143,9 +145,10 @@ namespace Devarc
             if (package.Msg.Rmi == -1)
             {
                 // Setup Client HostID
-                if (mHid == 0)
+                if (mHid == HostID.None)
                 {
                     mHid = package.Msg.Hid;
+                    mSeq = 1;
                 }
                 else
                 {
@@ -166,7 +169,6 @@ namespace Devarc
         {
             ErrorEventArgs ex = e as ErrorEventArgs;
             Log.Exception(ex.Exception);
-			throw new NotImplementedException();
         }
     }
 }

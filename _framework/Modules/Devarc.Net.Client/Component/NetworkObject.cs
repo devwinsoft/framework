@@ -30,11 +30,6 @@ namespace Devarc
 {
     public delegate bool NET_RECEIVER(object sender, NetBuffer msg);
 
-    public delegate bool NET_FUNC_CONNECT(string ip, int port);
-    public delegate void NET_FUNC_DISCONNECT();
-    public delegate bool NET_FUNC_SEND(byte[] data);
-    public delegate int  NET_FUNC_RECV(byte[] data);
-
     public enum DISCONNECTION_REASON
     {
         CONNECTION_FAIL,
@@ -43,28 +38,16 @@ namespace Devarc
         BY_SERVER,
     }
 
+    public enum RECEIVE_RESULT
+    {
+        SUCCESS,
+        NOT_IMPLEMENTED,
+        INVALID_PACKET,
+    }
+
     public interface IProxyBase
     {
-        bool Send(HostID hid, ArraySegment<byte> data);
-    }
-
-    public interface IStubBase
-    {
-        bool OnReceive(object sender, NetBuffer msg);
-    }
-
-    public interface IClientStub
-    {
-        void OnNotifyConnecting();
-        void OnNotifyConnected(HostID host_hid);
-        void OnNotifyDisConnected(DISCONNECTION_REASON reason);
-        bool OnReceive(object sender, NetBuffer msg);
-    }
-
-    public interface IServerStub
-    {
-        void OnNotifyUserConnect(HostID host_hid);
-        void OnNotifyUserDisonnect(HostID host_hid);
-        bool OnReceive(object sender, NetBuffer msg);
+        short GetCurrentSeq(HostID hid);
+        bool Send(NetBuffer msg);
     }
 }

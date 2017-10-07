@@ -24,6 +24,7 @@ namespace TestServer
         public Form1()
         {
             InitializeComponent();
+            Log.SetCallback(OnLogMessage);
             mDelegate = new OnMessage(onMessage);
         }
 
@@ -40,36 +41,20 @@ namespace TestServer
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Log.SetCallback(OnLogMessage);
+            textBox_port.Text = TestServer.Instance.server.Config.Port.ToString();
         }
 
         private void button_start_Click(object sender, EventArgs e)
         {
-            int port;
-            if (int.TryParse(textBox_port.Text, out port))
+            NetServer server = TestServer.Instance.server;
+            switch (server.State)
             {
-                NetServer server = TestServer.Instance.server;
-
-                if (server.State == ServerState.NotInitialized)
-                {
-                    ServerConfig serverConfig = new ServerConfig
-                    {
-                        Ip = "127.0.0.1",
-                        Port = port,
-                        Mode = SocketMode.Tcp,
-                    };
-                    server.Setup(serverConfig);
-                }
-
-                switch (server.State)
-                {
-                    case ServerState.NotInitialized:
-                    case ServerState.NotStarted:
-                        server.Start();
-                        break;
-                    default:
-                        break;
-                }
+                case ServerState.NotInitialized:
+                case ServerState.NotStarted:
+                    server.Start();
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -86,6 +71,8 @@ namespace TestServer
 
         private void button_test_Click(object sender, EventArgs e)
         {
+            if (TestServer.Instance.server.State != ServerState.Running)
+                return;
             foreach (NetSession session in TestServer.Instance.server.GetAllSessions())
             {
                 TestServer.Instance.ProxyS2C.Notify_Chat(session.Hid, "TEST OK");

@@ -101,10 +101,11 @@ namespace Devarc
 			success = success ? Marshaler.Read(msg, ref obj.Value) : false;
 	        return success;
 	    }
-	    public static void Write(NetBuffer msg, LString obj)
+	    public static bool Write(NetBuffer msg, LString obj)
 	    {
 			Marshaler.Write(msg, obj.Key);
 			Marshaler.Write(msg, obj.Value);
+            return !msg.IsError;
 	    }
 	    public static bool Read(NetBuffer msg, List<LString> list)
 	    {
@@ -119,7 +120,7 @@ namespace Devarc
 	        }
 	        return success;
 	    }
-	    public static void Write(NetBuffer msg, List<LString> list)
+	    public static bool Write(NetBuffer msg, List<LString> list)
 	    {
 	        msg.Write((Int16)list.Count);
 	        foreach (LString obj in list)
@@ -127,6 +128,7 @@ namespace Devarc
 				Marshaler.Write(msg, obj.Key);
 				Marshaler.Write(msg, obj.Value);
 	        }
-	    }
-	}
+            return !msg.IsError;
+        }
+    }
 } // end of namespace

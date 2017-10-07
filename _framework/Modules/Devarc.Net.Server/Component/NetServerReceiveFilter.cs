@@ -11,7 +11,7 @@ namespace Devarc
     public class NetServerReceiveFilter
         : SuperSocket.Facility.Protocol.FixedHeaderReceiveFilter<NetRequestInfo>
     {
-        const int headerSize = 6;
+        const int headerSize = 8;
 
         public NetServerReceiveFilter() : base(headerSize)
         {
@@ -19,7 +19,7 @@ namespace Devarc
 
         protected override int GetBodyLengthFromHeader(byte[] header, int offset, int length)
         {
-            return (int)header[offset + 4] * 256 + (int)header[offset + 5];
+            return (int)header[offset + 7] * 256 + (int)header[offset + 6];
         }
 
         protected override NetRequestInfo ResolveRequestInfo(ArraySegment<byte> header, byte[] bodyBuffer, int offset, int length)

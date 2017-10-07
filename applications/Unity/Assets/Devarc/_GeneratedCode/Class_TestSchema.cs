@@ -166,7 +166,7 @@ namespace Devarc
 			success = success ? Marshaler.Read(msg, ref obj.unit_uid) : false;
 	        return success;
 	    }
-	    public static void Write(NetBuffer msg, DataCharacter obj)
+	    public static bool Write(NetBuffer msg, DataCharacter obj)
 	    {
 			Marshaler.Write(msg, obj.unit_type);
 			Marshaler.Write(msg, obj.name);
@@ -176,6 +176,7 @@ namespace Devarc
 			Marshaler.Write(msg, obj.nodes);
 			Marshaler.Write(msg, obj.unit_uid);
 			Marshaler.Write(msg, obj.specialCode);
+	        return msg.IsError;
 	    }
 	    public static bool Read(NetBuffer msg, List<DataCharacter> list)
 	    {
@@ -193,7 +194,7 @@ namespace Devarc
 	        }
 	        return success;
 	    }
-	    public static void Write(NetBuffer msg, List<DataCharacter> list)
+	    public static bool Write(NetBuffer msg, List<DataCharacter> list)
 	    {
 	        msg.Write((Int16)list.Count);
 	        foreach (DataCharacter obj in list)
@@ -207,6 +208,7 @@ namespace Devarc
 				Marshaler.Write(msg, obj.unit_uid);
 				Marshaler.Write(msg, obj.specialCode);
 	        }
+	        return msg.IsError;
 	    }
 	}
 	[System.Serializable]
@@ -305,11 +307,12 @@ namespace Devarc
 			success = success ? Marshaler.Read(msg, ref obj.vit) : false;
 	        return success;
 	    }
-	    public static void Write(NetBuffer msg, DataAbility obj)
+	    public static bool Write(NetBuffer msg, DataAbility obj)
 	    {
 			Marshaler.Write(msg, obj.str);
 			Marshaler.Write(msg, obj.dex);
 			Marshaler.Write(msg, obj.vit);
+	        return msg.IsError;
 	    }
 	    public static bool Read(NetBuffer msg, List<DataAbility> list)
 	    {
@@ -325,7 +328,7 @@ namespace Devarc
 	        }
 	        return success;
 	    }
-	    public static void Write(NetBuffer msg, List<DataAbility> list)
+	    public static bool Write(NetBuffer msg, List<DataAbility> list)
 	    {
 	        msg.Write((Int16)list.Count);
 	        foreach (DataAbility obj in list)
@@ -334,6 +337,7 @@ namespace Devarc
 				Marshaler.Write(msg, obj.dex);
 				Marshaler.Write(msg, obj.vit);
 	        }
+	        return msg.IsError;
 	    }
 	}
 	[System.Serializable]
@@ -422,10 +426,11 @@ namespace Devarc
 			success = success ? Marshaler.Read(msg, obj.pos) : false;
 	        return success;
 	    }
-	    public static void Write(NetBuffer msg, DataPlayer obj)
+	    public static bool Write(NetBuffer msg, DataPlayer obj)
 	    {
 			Marshaler.Write(msg, obj.id);
 			Marshaler.Write(msg, obj.pos);
+	        return msg.IsError;
 	    }
 	    public static bool Read(NetBuffer msg, List<DataPlayer> list)
 	    {
@@ -440,7 +445,7 @@ namespace Devarc
 	        }
 	        return success;
 	    }
-	    public static void Write(NetBuffer msg, List<DataPlayer> list)
+	    public static bool Write(NetBuffer msg, List<DataPlayer> list)
 	    {
 	        msg.Write((Int16)list.Count);
 	        foreach (DataPlayer obj in list)
@@ -448,6 +453,7 @@ namespace Devarc
 				Marshaler.Write(msg, obj.id);
 				Marshaler.Write(msg, obj.pos);
 	        }
+	        return msg.IsError;
 	    }
 	}
 	[System.Serializable]
@@ -546,11 +552,12 @@ namespace Devarc
 			success = success ? Marshaler.Read(msg, ref obj.z) : false;
 	        return success;
 	    }
-	    public static void Write(NetBuffer msg, VECTOR3 obj)
+	    public static bool Write(NetBuffer msg, VECTOR3 obj)
 	    {
 			Marshaler.Write(msg, obj.x);
 			Marshaler.Write(msg, obj.y);
 			Marshaler.Write(msg, obj.z);
+	        return msg.IsError;
 	    }
 	    public static bool Read(NetBuffer msg, List<VECTOR3> list)
 	    {
@@ -566,7 +573,7 @@ namespace Devarc
 	        }
 	        return success;
 	    }
-	    public static void Write(NetBuffer msg, List<VECTOR3> list)
+	    public static bool Write(NetBuffer msg, List<VECTOR3> list)
 	    {
 	        msg.Write((Int16)list.Count);
 	        foreach (VECTOR3 obj in list)
@@ -575,6 +582,7 @@ namespace Devarc
 				Marshaler.Write(msg, obj.y);
 				Marshaler.Write(msg, obj.z);
 	        }
+	        return msg.IsError;
 	    }
 	}
 	[System.Serializable]
@@ -688,10 +696,11 @@ namespace Devarc
 			success = success ? Marshaler.Read(msg, ref obj.ID) : false;
 	        return success;
 	    }
-	    public static void Write(NetBuffer msg, _DIRECTION obj)
+	    public static bool Write(NetBuffer msg, _DIRECTION obj)
 	    {
 			Marshaler.Write(msg, obj.Name);
 			Marshaler.Write(msg, obj.ID);
+	        return msg.IsError;
 	    }
 	    public static bool Read(NetBuffer msg, List<_DIRECTION> list)
 	    {
@@ -706,7 +715,7 @@ namespace Devarc
 	        }
 	        return success;
 	    }
-	    public static void Write(NetBuffer msg, List<_DIRECTION> list)
+	    public static bool Write(NetBuffer msg, List<_DIRECTION> list)
 	    {
 	        msg.Write((Int16)list.Count);
 	        foreach (_DIRECTION obj in list)
@@ -714,6 +723,7 @@ namespace Devarc
 				Marshaler.Write(msg, obj.Name);
 				Marshaler.Write(msg, obj.ID);
 	        }
+	        return msg.IsError;
 	    }
 	}
 	[System.Serializable]
@@ -822,11 +832,12 @@ namespace Devarc
 			success = success ? Marshaler.Read(msg, ref obj.ID) : false;
 	        return success;
 	    }
-	    public static void Write(NetBuffer msg, _MESSAGE obj)
+	    public static bool Write(NetBuffer msg, _MESSAGE obj)
 	    {
 			Marshaler.Write(msg, obj.Name);
 			Marshaler.Write(msg, obj.ID);
 			Marshaler.Write(msg, obj.TEXT);
+	        return msg.IsError;
 	    }
 	    public static bool Read(NetBuffer msg, List<_MESSAGE> list)
 	    {
@@ -841,7 +852,7 @@ namespace Devarc
 	        }
 	        return success;
 	    }
-	    public static void Write(NetBuffer msg, List<_MESSAGE> list)
+	    public static bool Write(NetBuffer msg, List<_MESSAGE> list)
 	    {
 	        msg.Write((Int16)list.Count);
 	        foreach (_MESSAGE obj in list)
@@ -850,6 +861,7 @@ namespace Devarc
 				Marshaler.Write(msg, obj.ID);
 				Marshaler.Write(msg, obj.TEXT);
 	        }
+	        return msg.IsError;
 	    }
 	}
 	[System.Serializable]
@@ -981,10 +993,11 @@ namespace Devarc
 			success = success ? Marshaler.Read(msg, ref obj.ID) : false;
 	        return success;
 	    }
-	    public static void Write(NetBuffer msg, _UNIT obj)
+	    public static bool Write(NetBuffer msg, _UNIT obj)
 	    {
 			Marshaler.Write(msg, obj.Name);
 			Marshaler.Write(msg, obj.ID);
+	        return msg.IsError;
 	    }
 	    public static bool Read(NetBuffer msg, List<_UNIT> list)
 	    {
@@ -999,7 +1012,7 @@ namespace Devarc
 	        }
 	        return success;
 	    }
-	    public static void Write(NetBuffer msg, List<_UNIT> list)
+	    public static bool Write(NetBuffer msg, List<_UNIT> list)
 	    {
 	        msg.Write((Int16)list.Count);
 	        foreach (_UNIT obj in list)
@@ -1007,6 +1020,7 @@ namespace Devarc
 				Marshaler.Write(msg, obj.Name);
 				Marshaler.Write(msg, obj.ID);
 	        }
+	        return msg.IsError;
 	    }
 	}
 	public enum DIRECTION
@@ -1025,147 +1039,51 @@ namespace Devarc
 	{
 	    public static bool Read(NetBuffer msg, ref DIRECTION obj)
 	    {
-	        try
-	        {
-	            obj = (DIRECTION)msg.ReadInt32();
-	            return true;
-	        }
-	        catch (System.Exception)
-	        {
-	            return false;
-	        }
+	        obj = (DIRECTION)msg.ReadInt32();
+	        return !msg.IsError;
 	    }
-	    public static void Write(NetBuffer msg, DIRECTION obj)
+	    public static bool Write(NetBuffer msg, DIRECTION obj)
 	    {
 	        msg.Write((Int32)obj);
+	        return !msg.IsError;
 	    }
 	    public static bool Read(NetBuffer msg, out DIRECTION[] obj)
 	    {
-	        try
+	        int cnt = msg.ReadInt16();
+	        obj = new DIRECTION[cnt];
+	        for (int i = 0; i < cnt; i++)
 	        {
-	            int cnt = msg.ReadInt16();
-	            obj = new DIRECTION[cnt];
-	            for (int i = 0; i < cnt; i++)
-	            {
-	                obj[i] = (DIRECTION)msg.ReadInt32();
-	            }
-	            return true;
+	            obj[i] = (DIRECTION)msg.ReadInt32();
 	        }
-	        catch (System.Exception)
-	        {
-	            obj = null;;
-	            return false;
-	        }
+	        return !msg.IsError;
 	    }
 	    public static bool Read(NetBuffer msg, List<DIRECTION> obj)
 	    {
-	        try
+	        int cnt = msg.ReadInt16();
+	        obj = new List<DIRECTION>();
+	        for (int i = 0; i < cnt; i++)
 	        {
-	            int cnt = msg.ReadInt16();
-	            obj = new List<DIRECTION>();
-	            for (int i = 0; i < cnt; i++)
-	            {
-	                obj[i] = (DIRECTION)msg.ReadInt32();
-	            }
-	            return true;
+	            obj[i] = (DIRECTION)msg.ReadInt32();
 	        }
-	        catch (System.Exception)
-	        {
-	            obj = null;;
-	            return false;
-	        }
+	        return !msg.IsError;
 	    }
-	    public static void Write(NetBuffer msg, DIRECTION[] list)
+	    public static bool Write(NetBuffer msg, DIRECTION[] list)
 	    {
 	        msg.Write((Int16)list.Length);
 	        foreach (DIRECTION obj in list)
 	        {
 	            msg.Write((Int32)obj);
 	        }
+	        return !msg.IsError;
 	    }
-	    public static void Write(NetBuffer msg, List<DIRECTION> list)
+	    public static bool Write(NetBuffer msg, List<DIRECTION> list)
 	    {
 	        msg.Write((Int16)list.Count);
 	        foreach (DIRECTION obj in list)
 	        {
 	            msg.Write((Int32)obj);
 	        }
-	    }
-	}
-	public enum MESSAGE
-	{
-		SUCCESS             = 0,
-		ERROR_UNKNOWN       = 1,
-	}
-	public static partial class Marshaler
-	{
-	    public static bool Read(NetBuffer msg, ref MESSAGE obj)
-	    {
-	        try
-	        {
-	            obj = (MESSAGE)msg.ReadInt32();
-	            return true;
-	        }
-	        catch (System.Exception)
-	        {
-	            return false;
-	        }
-	    }
-	    public static void Write(NetBuffer msg, MESSAGE obj)
-	    {
-	        msg.Write((Int32)obj);
-	    }
-	    public static bool Read(NetBuffer msg, out MESSAGE[] obj)
-	    {
-	        try
-	        {
-	            int cnt = msg.ReadInt16();
-	            obj = new MESSAGE[cnt];
-	            for (int i = 0; i < cnt; i++)
-	            {
-	                obj[i] = (MESSAGE)msg.ReadInt32();
-	            }
-	            return true;
-	        }
-	        catch (System.Exception)
-	        {
-	            obj = null;;
-	            return false;
-	        }
-	    }
-	    public static bool Read(NetBuffer msg, List<MESSAGE> obj)
-	    {
-	        try
-	        {
-	            int cnt = msg.ReadInt16();
-	            obj = new List<MESSAGE>();
-	            for (int i = 0; i < cnt; i++)
-	            {
-	                obj[i] = (MESSAGE)msg.ReadInt32();
-	            }
-	            return true;
-	        }
-	        catch (System.Exception)
-	        {
-	            obj = null;;
-	            return false;
-	        }
-	    }
-	    public static void Write(NetBuffer msg, MESSAGE[] list)
-	    {
-	        msg.Write((Int16)list.Length);
-	        foreach (MESSAGE obj in list)
-	        {
-	            msg.Write((Int32)obj);
-	        }
-	    }
-	    public static void Write(NetBuffer msg, List<MESSAGE> list)
-	    {
-	        msg.Write((Int16)list.Count);
-	        foreach (MESSAGE obj in list)
-	        {
-	            msg.Write((Int32)obj);
-	        }
+	        return !msg.IsError;
 	    }
 	}
 	public enum UNIT
@@ -1193,71 +1111,107 @@ namespace Devarc
 	{
 	    public static bool Read(NetBuffer msg, ref UNIT obj)
 	    {
-	        try
-	        {
-	            obj = (UNIT)msg.ReadInt32();
-	            return true;
-	        }
-	        catch (System.Exception)
-	        {
-	            return false;
-	        }
+	        obj = (UNIT)msg.ReadInt32();
+	        return !msg.IsError;
 	    }
-	    public static void Write(NetBuffer msg, UNIT obj)
+	    public static bool Write(NetBuffer msg, UNIT obj)
 	    {
 	        msg.Write((Int32)obj);
+	        return !msg.IsError;
 	    }
 	    public static bool Read(NetBuffer msg, out UNIT[] obj)
 	    {
-	        try
+	        int cnt = msg.ReadInt16();
+	        obj = new UNIT[cnt];
+	        for (int i = 0; i < cnt; i++)
 	        {
-	            int cnt = msg.ReadInt16();
-	            obj = new UNIT[cnt];
-	            for (int i = 0; i < cnt; i++)
-	            {
-	                obj[i] = (UNIT)msg.ReadInt32();
-	            }
-	            return true;
+	            obj[i] = (UNIT)msg.ReadInt32();
 	        }
-	        catch (System.Exception)
-	        {
-	            obj = null;;
-	            return false;
-	        }
+	        return !msg.IsError;
 	    }
 	    public static bool Read(NetBuffer msg, List<UNIT> obj)
 	    {
-	        try
+	        int cnt = msg.ReadInt16();
+	        obj = new List<UNIT>();
+	        for (int i = 0; i < cnt; i++)
 	        {
-	            int cnt = msg.ReadInt16();
-	            obj = new List<UNIT>();
-	            for (int i = 0; i < cnt; i++)
-	            {
-	                obj[i] = (UNIT)msg.ReadInt32();
-	            }
-	            return true;
+	            obj[i] = (UNIT)msg.ReadInt32();
 	        }
-	        catch (System.Exception)
-	        {
-	            obj = null;;
-	            return false;
-	        }
+	        return !msg.IsError;
 	    }
-	    public static void Write(NetBuffer msg, UNIT[] list)
+	    public static bool Write(NetBuffer msg, UNIT[] list)
 	    {
 	        msg.Write((Int16)list.Length);
 	        foreach (UNIT obj in list)
 	        {
 	            msg.Write((Int32)obj);
 	        }
+	        return !msg.IsError;
 	    }
-	    public static void Write(NetBuffer msg, List<UNIT> list)
+	    public static bool Write(NetBuffer msg, List<UNIT> list)
 	    {
 	        msg.Write((Int16)list.Count);
 	        foreach (UNIT obj in list)
 	        {
 	            msg.Write((Int32)obj);
 	        }
+	        return !msg.IsError;
+	    }
+	}
+	public enum MESSAGE
+	{
+		SUCCESS             = 0,
+		ERROR_UNKNOWN       = 1,
+	}
+	public static partial class Marshaler
+	{
+	    public static bool Read(NetBuffer msg, ref MESSAGE obj)
+	    {
+	        obj = (MESSAGE)msg.ReadInt32();
+	        return !msg.IsError;
+	    }
+	    public static bool Write(NetBuffer msg, MESSAGE obj)
+	    {
+	        msg.Write((Int32)obj);
+	        return !msg.IsError;
+	    }
+	    public static bool Read(NetBuffer msg, out MESSAGE[] obj)
+	    {
+	        int cnt = msg.ReadInt16();
+	        obj = new MESSAGE[cnt];
+	        for (int i = 0; i < cnt; i++)
+	        {
+	            obj[i] = (MESSAGE)msg.ReadInt32();
+	        }
+	        return !msg.IsError;
+	    }
+	    public static bool Read(NetBuffer msg, List<MESSAGE> obj)
+	    {
+	        int cnt = msg.ReadInt16();
+	        obj = new List<MESSAGE>();
+	        for (int i = 0; i < cnt; i++)
+	        {
+	            obj[i] = (MESSAGE)msg.ReadInt32();
+	        }
+	        return !msg.IsError;
+	    }
+	    public static bool Write(NetBuffer msg, MESSAGE[] list)
+	    {
+	        msg.Write((Int16)list.Length);
+	        foreach (MESSAGE obj in list)
+	        {
+	            msg.Write((Int32)obj);
+	        }
+	        return !msg.IsError;
+	    }
+	    public static bool Write(NetBuffer msg, List<MESSAGE> list)
+	    {
+	        msg.Write((Int16)list.Count);
+	        foreach (MESSAGE obj in list)
+	        {
+	            msg.Write((Int32)obj);
+	        }
+	        return !msg.IsError;
 	    }
 	}
 } // end of namespace

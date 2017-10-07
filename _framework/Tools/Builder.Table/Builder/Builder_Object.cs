@@ -106,6 +106,7 @@ namespace Devarc
         public void Build_SheetFile(string _inFilePath, string _outDir)
         {
             this.dataFileType = DATA_FILE_TYPE.SHEET;
+            string tmpIputFilePath = _inFilePath.Replace('\\', '/');
             string tmpFileName = Path.GetFileNameWithoutExtension(_inFilePath);
             int tmpIndex = tmpFileName.IndexOf('@');
             if (tmpIndex >= 0)
@@ -114,12 +115,12 @@ namespace Devarc
                 this.FileName = tmpFileName;
             this.OutDir = _outDir;
             string _outFilePath = Path.Combine(this.OutDir, "Class_" + this.FileName + ".cs");
-            if (File.Exists(_inFilePath) == false)
+            if (File.Exists(tmpIputFilePath) == false)
             {
-                Log.Info("Cannot find file: " + _inFilePath);
+                Log.Info("Cannot find file: " + tmpIputFilePath);
                 return;
             }
-            this._build(_inFilePath, _outFilePath);
+            this._build(tmpIputFilePath, _outFilePath);
         }
 
         void _build(string _inFilePath, string _outFilePath)
@@ -142,7 +143,14 @@ namespace Devarc
                 sw.WriteLine("using System.Collections;");
                 sw.WriteLine("using System.Collections.Generic;");
                 sw.WriteLine("using System.Data;");
+                sw.WriteLine("#if UNITY_5");
                 sw.WriteLine("using Mono.Data.Sqlite;");
+                sw.WriteLine("#else");
+                sw.WriteLine("using System.Data.SQLite;");
+                sw.WriteLine("using SqliteDataReader = System.Data.SQLite.SQLiteDataReader;");
+                sw.WriteLine("using SqliteConnection = System.Data.SQLite.SQLiteConnection;");
+                sw.WriteLine("using SqliteCommand = System.Data.SQLite.SQLiteCommand;"); 
+                sw.WriteLine("#endif");
                 sw.WriteLine("using LitJson;");
                 sw.WriteLine("namespace {0}", this.NameSpace);
                 sw.WriteLine("{");
@@ -179,76 +187,56 @@ namespace Devarc
 
                     sw.WriteLine("\t    public static bool Read(NetBuffer msg, ref {0} obj)", enum_name);
                     sw.WriteLine("\t    {");
-                    sw.WriteLine("\t        try");
-                    sw.WriteLine("\t        {");
-                    sw.WriteLine("\t            obj = ({0})msg.ReadInt32();", enum_name);
-                    sw.WriteLine("\t            return true;");
-                    sw.WriteLine("\t        }");
-                    sw.WriteLine("\t        catch (System.Exception)");
-                    sw.WriteLine("\t        {");
-                    sw.WriteLine("\t            return false;");
-                    sw.WriteLine("\t        }");
+                    sw.WriteLine("\t        obj = ({0})msg.ReadInt32();", enum_name);
+                    sw.WriteLine("\t        return !msg.IsError;");
                     sw.WriteLine("\t    }");
 
-                    sw.WriteLine("\t    public static void Write(NetBuffer msg, {0} obj)", enum_name);
+                    sw.WriteLine("\t    public static bool Write(NetBuffer msg, {0} obj)", enum_name);
                     sw.WriteLine("\t    {");
                     sw.WriteLine("\t        msg.Write((Int32)obj);");
+                    sw.WriteLine("\t        return !msg.IsError;");
                     sw.WriteLine("\t    }");
 
                     sw.WriteLine("\t    public static bool Read(NetBuffer msg, out {0}[] obj)", enum_name);
                     sw.WriteLine("\t    {");
-                    sw.WriteLine("\t        try");
+                    sw.WriteLine("\t        int cnt = msg.ReadInt16();");
+                    sw.WriteLine("\t        obj = new {0}[cnt];", enum_name);
+                    sw.WriteLine("\t        for (int i = 0; i < cnt; i++)");
                     sw.WriteLine("\t        {");
-                    sw.WriteLine("\t            int cnt = msg.ReadInt16();");
-                    sw.WriteLine("\t            obj = new {0}[cnt];", enum_name);
-                    sw.WriteLine("\t            for (int i = 0; i < cnt; i++)");
-                    sw.WriteLine("\t            {");
-                    sw.WriteLine("\t                obj[i] = ({0})msg.ReadInt32();", enum_name);
-                    sw.WriteLine("\t            }");
-                    sw.WriteLine("\t            return true;");
+                    sw.WriteLine("\t            obj[i] = ({0})msg.ReadInt32();", enum_name);
                     sw.WriteLine("\t        }");
-                    sw.WriteLine("\t        catch (System.Exception)");
-                    sw.WriteLine("\t        {");
-                    sw.WriteLine("\t            obj = null;;");
-                    sw.WriteLine("\t            return false;");
-                    sw.WriteLine("\t        }");
+                    sw.WriteLine("\t        return !msg.IsError;");
                     sw.WriteLine("\t    }");
 
                     sw.WriteLine("\t    public static bool Read(NetBuffer msg, List<{0}> obj)", enum_name);
                     sw.WriteLine("\t    {");
-                    sw.WriteLine("\t        try");
+                    sw.WriteLine("\t        int cnt = msg.ReadInt16();");
+                    sw.WriteLine("\t        obj = new List<{0}>();", enum_name);
+                    sw.WriteLine("\t        for (int i = 0; i < cnt; i++)");
                     sw.WriteLine("\t        {");
-                    sw.WriteLine("\t            int cnt = msg.ReadInt16();");
-                    sw.WriteLine("\t            obj = new List<{0}>();", enum_name);
-                    sw.WriteLine("\t            for (int i = 0; i < cnt; i++)");
-                    sw.WriteLine("\t            {");
-                    sw.WriteLine("\t                obj[i] = ({0})msg.ReadInt32();", enum_name);
-                    sw.WriteLine("\t            }");
-                    sw.WriteLine("\t            return true;");
+                    sw.WriteLine("\t            obj[i] = ({0})msg.ReadInt32();", enum_name);
                     sw.WriteLine("\t        }");
-                    sw.WriteLine("\t        catch (System.Exception)");
-                    sw.WriteLine("\t        {");
-                    sw.WriteLine("\t            obj = null;;");
-                    sw.WriteLine("\t            return false;");
-                    sw.WriteLine("\t        }");
+                    sw.WriteLine("\t        return !msg.IsError;");
                     sw.WriteLine("\t    }");
 
-                    sw.WriteLine("\t    public static void Write(NetBuffer msg, {0}[] list)", enum_name);
+                    sw.WriteLine("\t    public static bool Write(NetBuffer msg, {0}[] list)", enum_name);
                     sw.WriteLine("\t    {");
                     sw.WriteLine("\t        msg.Write((Int16)list.Length);");
                     sw.WriteLine("\t        foreach ({0} obj in list)", enum_name);
                     sw.WriteLine("\t        {");
                     sw.WriteLine("\t            msg.Write((Int32)obj);");
                     sw.WriteLine("\t        }");
+                    sw.WriteLine("\t        return !msg.IsError;");
                     sw.WriteLine("\t    }");
 
-                    sw.WriteLine("\t    public static void Write(NetBuffer msg, List<{0}> list)", enum_name);
+                    sw.WriteLine("\t    public static bool Write(NetBuffer msg, List<{0}> list)", enum_name);
                     sw.WriteLine("\t    {");
                     sw.WriteLine("\t        msg.Write((Int16)list.Count);");
                     sw.WriteLine("\t        foreach ({0} obj in list)", enum_name);
                     sw.WriteLine("\t        {");
                     sw.WriteLine("\t            msg.Write((Int32)obj);");
                     sw.WriteLine("\t        }");
+                    sw.WriteLine("\t        return !msg.IsError;");
                     sw.WriteLine("\t    }");
                     sw.WriteLine("\t}");
                 } // end of foreach
@@ -273,7 +261,10 @@ namespace Devarc
             using (TextWriter sw = new StreamWriter(file_path, true))
             {
                 sw.WriteLine("\t[System.Serializable]");
-                sw.WriteLine("\tpublic class {0} : IBaseObejct", class_name);
+                if (tb.KeyIndex >= 0)
+                    sw.WriteLine("\tpublic partial class {0} : IBaseObejct<{1}>", class_name, tb.KeyTypeName);
+                else
+                    sw.WriteLine("\tpublic class {0} : IBaseObejct", class_name);
                 sw.WriteLine("\t{");
                 if (is_enum)
                 {
@@ -302,7 +293,7 @@ namespace Devarc
                     {
                         continue;
                     }
-                    if (var_name.Contains('/'))
+                    if (var_name.IndexOf('/') >= 0)
                     {
                         continue;
                     }
@@ -358,8 +349,9 @@ namespace Devarc
                                 sw.WriteLine("\t\tpublic {0,-20}{1} = \"\";", "string", var_name);
                             break;
                         case VAR_TYPE.LSTRING:
-                            sw.WriteLine("\t\tprivate {0,-19}_{1} = null;", "string", var_name);
-                            sw.WriteLine("\t\tpublic {0,-20}{1} {{ get {{ return _{1} != null ? _{1} : FrameworkUtil.GetLString(\"{2}\", \"{1}\", {3}.ToString()); }} set {{ _{1} = value; }} }}", "string", var_name, enum_name, tb.KeyVarName);
+                        case VAR_TYPE.FSTRING:
+                            sw.WriteLine("\t\tpublic {0,-20}{1} {{ get {{ return FrameworkUtil.GetLString(_{1}.Key); }} }}", "string", var_name);
+                            sw.WriteLine("\t\t{0,-20}_{1} = new {0}();", type_name, var_name);
                             break;
                         case VAR_TYPE.ENUM:
                             if (is_list)
@@ -397,6 +389,19 @@ namespace Devarc
                 sw.WriteLine("\t\t\tInitialize(obj);");
                 sw.WriteLine("\t\t}");
 
+                if (tb.KeyIndex >= 0)
+                {
+                    sw.Write("\t\tpublic string GetSelectQuery({0} _key) {{ return string.Format(\"select ", tb.KeyTypeName);
+                    for (int i = 0; i < tb.Length; i++)
+                    {
+                        if (i == 0)
+                            sw.Write(tb.GetVarName(i));
+                        else
+                            sw.Write(", {0}", tb.GetVarName(i));
+                    }
+                    sw.WriteLine(" from {0} where {0}='{{0}}';\", _key); }}", tb.KeyVarName, enum_name);
+                }
+
                 sw.WriteLine("\t\tpublic bool IsDefault", class_name);
                 sw.WriteLine("\t\t{");
                 sw.WriteLine("\t\t\tget");
@@ -405,7 +410,7 @@ namespace Devarc
                 {
                     string type_name = tb.GetTypeName(i);
                     string var_name = tb.GetVarName(i);
-                    if (var_name == "" || type_name == "" || var_name.Contains('/'))
+                    if (var_name == "" || type_name == "" || var_name.IndexOf('/') >= 0)
                     {
                         continue;
                     }
@@ -423,12 +428,13 @@ namespace Devarc
                         default:
                             switch(tb.GetVarType(i))
                             {
-                                case VAR_TYPE.CSTRING:
                                 case VAR_TYPE.LSTRING:
+                                case VAR_TYPE.FSTRING:
                                     break;
                                 case VAR_TYPE.BOOL:
                                     sw.WriteLine("\t\t\t\tif ({0}) return false;", var_name);
                                     break;
+                                case VAR_TYPE.CSTRING:
                                 case VAR_TYPE.STRING:
                                     sw.WriteLine("\t\t\t\tif (string.IsNullOrEmpty({0}) == false) return false;", var_name);
                                     break;
@@ -458,12 +464,10 @@ namespace Devarc
                 {
                     string type_name = tb.GetTypeName(i);
                     string var_name = tb.GetVarName(i);
-                    if (var_name == "" || type_name == "" || var_name.Contains('/'))
+                    if (var_name == "" || type_name == "" || var_name.IndexOf('/') >= 0)
                     {
                         continue;
                     }
-                    if (tb.GetVarType(i) == VAR_TYPE.LSTRING)
-                        continue;
                     switch (tb.GetClassType(i))
                     {
                         case CLASS_TYPE.CLASS:
@@ -478,7 +482,16 @@ namespace Devarc
                             sw.WriteLine("\t\t\t{0}.AddRange(obj.{0});", var_name);
                             break;
                         default:
-                            sw.WriteLine("\t\t\t{0,-20}= obj.{0};", var_name);
+                            switch(tb.GetVarType(i))
+                            {
+                                case VAR_TYPE.LSTRING:
+                                case VAR_TYPE.FSTRING:
+                                    sw.WriteLine("\t\t\t_{0}.Initialize(obj._{0});", var_name);
+                                    break;
+                                default:
+                                    sw.WriteLine("\t\t\t{0,-20}= obj.{0};", var_name);
+                                    break;
+                            }
                             break;
                     }
                 }
@@ -491,7 +504,7 @@ namespace Devarc
                     string type_name = tb.GetTypeName(i);
                     string var_name = tb.GetVarName(i);
                     bool is_list = tb.GetClassType(i) == CLASS_TYPE.VALUE_LIST || tb.GetClassType(i) == CLASS_TYPE.CLASS_LIST;
-                    if (var_name == "" || type_name == "" || var_name.Contains('/'))
+                    if (var_name == "" || type_name == "" || var_name.IndexOf('/') >= 0)
                     {
                         continue;
                     }
@@ -547,6 +560,15 @@ namespace Devarc
                                 sw.WriteLine("\t\t\t{0,-20}= obj.GetStr(\"{0}\");", var_name);
                             break;
                         case VAR_TYPE.LSTRING:
+                            if (tb.KeyIndex >= 0)
+                            {
+                                sw.WriteLine("\t\t\t_{1}.Key = FrameworkUtil.MakeLStringKey(\"{0}\", \"{1}\", {2}.ToString());", class_name, var_name, tb.KeyVarName);
+                                sw.WriteLine("\t\t\t_{0}.Value = obj.GetStr(\"{0}\");", var_name);
+                            }
+                            break;
+                        case VAR_TYPE.FSTRING:
+                            sw.WriteLine("\t\t\t_{0}.Key = obj.GetStr(\"{0}\");", var_name);
+                            sw.WriteLine("\t\t\t_{0}.Value = obj.GetStr(\"{0}\");", var_name);
                             break;
                         case VAR_TYPE.ENUM:
                             if (is_list)
@@ -587,7 +609,7 @@ namespace Devarc
                     string type_name = tb.GetTypeName(i);
                     string var_name = tb.GetVarName(i);
                     bool is_list = tb.GetClassType(i) == CLASS_TYPE.VALUE_LIST || tb.GetClassType(i) == CLASS_TYPE.CLASS_LIST;
-                    if (var_name == "" || type_name == "" || var_name.Contains('/'))
+                    if (var_name == "" || type_name == "" || var_name.IndexOf('/') >= 0)
                     {
                         continue;
                     }
@@ -631,6 +653,12 @@ namespace Devarc
                                 sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) float.TryParse(obj[\"{0}\"].ToString(), out {0}); else {0} = default(float);", var_name);
                             break;
                         case VAR_TYPE.LSTRING:
+                            sw.WriteLine("\t\t\t_{1}.Key = FrameworkUtil.MakeLStringKey(\"{0}\", \"{1}\", {2}.ToString());", class_name, var_name, tb.KeyVarName);
+                            //sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) _{0}.Value = obj[\"{0}\"].ToString(); else _{0}.Value = default(string);", var_name);
+                            break;
+                        case VAR_TYPE.FSTRING:
+                            sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) _{0}.Key = obj[\"{0}\"].ToString(); else _{0}.Key = default(string);", var_name);
+                            //sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) _{0}.Value = obj[\"{0}\"].ToString(); else _{0}.Value = default(string);", var_name);
                             break;
                         case VAR_TYPE.CSTRING:
                             if (is_list)
@@ -676,7 +704,7 @@ namespace Devarc
                     string type_name = tb.GetTypeName(i);
                     string var_name = tb.GetVarName(i);
                     bool is_list = tb.GetClassType(i) == CLASS_TYPE.VALUE_LIST || tb.GetClassType(i) == CLASS_TYPE.CLASS_LIST;
-                    if (var_name == "" || type_name == "" || var_name.Contains('/'))
+                    if (var_name == "" || type_name == "" || var_name.IndexOf('/') >= 0)
                     {
                         continue;
                     }
@@ -688,7 +716,7 @@ namespace Devarc
                                 sw.WriteLine("\t\t\tstring __{0} = obj.GetString({1}); {0}.Clear(); if (!string.IsNullOrEmpty(__{0})) foreach (JsonData node in JsonMapper.ToObject(__{0})) {{ {0}.Add(Convert.ToBoolean(node.ToString())); }};", var_name, i);
                             }
                             else
-                                sw.WriteLine("\t\t\t{0,-20}= obj.GetBool({1});", var_name, i);
+                                sw.WriteLine("\t\t\t{0,-20}= obj.GetBoolean({1});", var_name, i);
                             break;
                         case VAR_TYPE.INT16:
                             if (is_list)
@@ -748,6 +776,15 @@ namespace Devarc
                                 sw.WriteLine("\t\t\t{0,-20}= obj.GetString({1});", var_name, i);
                             break;
                         case VAR_TYPE.LSTRING:
+                            if (tb.KeyIndex >= 0)
+                            {
+                                sw.WriteLine("\t\t\t_{1}.Key = FrameworkUtil.MakeLStringKey(\"{0}\", \"{1}\", {2}.ToString());", class_name, var_name, tb.KeyVarName);
+                            }
+                            //sw.WriteLine("\t\t\t_{0}.Value = obj.GetString({1});", var_name, i);
+                            break;
+                        case VAR_TYPE.FSTRING:
+                            sw.WriteLine("\t\t\t_{0}.Key = obj.GetString({1});", var_name, i);
+                            //sw.WriteLine("\t\t\t_{0}.Value = obj.GetString({1});", var_name, i);
                             break;
                         case VAR_TYPE.ENUM:
                             if (is_list)
@@ -788,7 +825,7 @@ namespace Devarc
                     string type_name = tb.GetTypeName(i);
                     string var_name = tb.GetVarName(i);
                     bool is_list = tb.GetClassType(i) == CLASS_TYPE.VALUE_LIST || tb.GetClassType(i) == CLASS_TYPE.CLASS_LIST;
-                    if (var_name == "" || type_name == "" || var_name.Contains('/'))
+                    if (var_name == "" || type_name == "" || var_name.IndexOf('/') >= 0)
                     {
                         continue;
                     }
@@ -802,6 +839,8 @@ namespace Devarc
                     {
                         case VAR_TYPE.CSTRING:
                         case VAR_TYPE.STRING:
+                        case VAR_TYPE.FSTRING:
+                        case VAR_TYPE.LSTRING:
                             if (is_list)
                             {
                                 sw.Write(" sb.Append(\"[\");");
@@ -813,9 +852,7 @@ namespace Devarc
                                 sw.WriteLine(" sb.Append(\"\\\"\"); sb.Append({0}); sb.Append(\"\\\"\");", var_name);
                             }
                             break;
-                        case VAR_TYPE.LSTRING:
-                            sw.WriteLine(" sb.Append(\"\\\"\"); sb.Append({0}); sb.Append(\"\\\"\");", var_name);
-                            break;
+
                         case VAR_TYPE.CLASS:
                             if (is_list)
                             {
@@ -864,7 +901,7 @@ namespace Devarc
                     string type_name = tb.GetTypeName(i);
                     string var_name = tb.GetVarName(i);
                     bool is_list = tb.GetClassType(i) == CLASS_TYPE.VALUE_LIST || tb.GetClassType(i) == CLASS_TYPE.CLASS_LIST;
-                    if (var_name == "" || type_name == "" || var_name.Contains('/'))
+                    if (var_name == "" || type_name == "" || var_name.IndexOf('/') >= 0)
                     {
                         continue;
                     }
@@ -874,6 +911,7 @@ namespace Devarc
                         switch (tb.GetVarType(i))
                         {
                             case VAR_TYPE.LSTRING:
+                            case VAR_TYPE.FSTRING:
                                 break;
                             case VAR_TYPE.CSTRING:
                                 if (j == 0)
@@ -954,6 +992,11 @@ namespace Devarc
                         switch (tb.GetVarType(i))
                         {
                             case VAR_TYPE.LSTRING:
+                                break;
+                            case VAR_TYPE.FSTRING:
+                                sw.Write("\t\t\tif (string.IsNullOrEmpty(_{0}.Key) == false) {{ sb.Append(\",\");", var_name, type_name);
+                                sw.Write(" sb.Append(\"\\\"{0}\\\":\");", var_name);
+                                sw.WriteLine(" sb.Append(\"\\\"\"); sb.Append(_{0}.Key); sb.Append(\"\\\"\"); }}", var_name);
                                 break;
                             case VAR_TYPE.CSTRING:
                                 if (j == 0)
@@ -1034,7 +1077,7 @@ namespace Devarc
                     string var_name = tb.GetVarName(i);
                     bool is_list = tb.GetClassType(i) == CLASS_TYPE.VALUE_LIST || tb.GetClassType(i) == CLASS_TYPE.CLASS_LIST;
                     KEY_TYPE key_type = tb.GetKeyType(i);
-                    if (var_name == "" || type_name == "" || var_name.Contains('/'))
+                    if (var_name == "" || type_name == "" || var_name.IndexOf('/') >= 0)
                     {
                         continue;
                     }
@@ -1062,6 +1105,12 @@ namespace Devarc
                                 else
                                     sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, KEY_TYPE.{2}, {0}.ToString());", var_name, type_name, key_type);
                                 break;
+                            case VAR_TYPE.LSTRING:
+                                sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, KEY_TYPE.{2}, _{0}.Value);", var_name, type_name, key_type);
+                                break;
+                            case VAR_TYPE.FSTRING:
+                                sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, KEY_TYPE.{2}, _{0}.Key);", var_name, type_name, key_type);
+                                break;
                             case VAR_TYPE.STRING:
                                 if (is_list)
                                     sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, KEY_TYPE.{2}, {0});", var_name, type_name, key_type);
@@ -1077,7 +1126,6 @@ namespace Devarc
                                     sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, KEY_TYPE.{2}, {0}.ToString());", var_name, type_name, key_type);
                                 break;
                             case VAR_TYPE.CLASS:
-                                //sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", {0}.ToTable());", var_name, type_name);
                                 sw.WriteLine("\t\t\tobj.Attach_Class(\"{0}\", \"{1}\", {0}.ToTable());", var_name, type_name);
                                 break;
                             default:
@@ -1102,7 +1150,7 @@ namespace Devarc
                     string type_name = tb.GetTypeName(i);
                     string var_name = tb.GetVarName(i);
                     bool is_list = tb.GetClassType(i) == CLASS_TYPE.VALUE_LIST || tb.GetClassType(i) == CLASS_TYPE.CLASS_LIST;
-                    if (var_name == "" || type_name == "" || var_name.Contains('/'))
+                    if (var_name == "" || type_name == "" || var_name.IndexOf('/') >= 0)
                     {
                         continue;
                     }
@@ -1135,18 +1183,19 @@ namespace Devarc
                 sw.WriteLine("\t        return success;");
                 sw.WriteLine("\t    }");
 
-                sw.WriteLine("\t    public static void Write(NetBuffer msg, {0} obj)", class_name);
+                sw.WriteLine("\t    public static bool Write(NetBuffer msg, {0} obj)", class_name);
                 sw.WriteLine("\t    {");
                 for (int i = 0; i < tb.Length; i++)
                 {
                     string type_name = tb.GetTypeName(i);
                     string var_name = tb.GetVarName(i);
-                    if (var_name == "" || type_name == "" || var_name.Contains('/'))
+                    if (var_name == "" || type_name == "" || var_name.IndexOf('/') >= 0)
                     {
                         continue;
                     }
                     sw.WriteLine("\t\t\tMarshaler.Write(msg, obj.{0});", var_name);
                 }
+                sw.WriteLine("\t        return msg.IsError;");
                 sw.WriteLine("\t    }");
 
                 sw.WriteLine("\t    public static bool Read(NetBuffer msg, List<{0}> list)", class_name);
@@ -1161,7 +1210,7 @@ namespace Devarc
                     string type_name = tb.GetTypeName(i);
                     string var_name = tb.GetVarName(i);
                     bool is_list = tb.GetClassType(i) == CLASS_TYPE.VALUE_LIST || tb.GetClassType(i) == CLASS_TYPE.CLASS_LIST;
-                    if (var_name == "" || type_name == "" || var_name.Contains('/'))
+                    if (var_name == "" || type_name == "" || var_name.IndexOf('/') >= 0)
                     {
                         continue;
                     }
@@ -1196,7 +1245,7 @@ namespace Devarc
                 sw.WriteLine("\t        return success;");
                 sw.WriteLine("\t    }");
 
-                sw.WriteLine("\t    public static void Write(NetBuffer msg, List<{0}> list)", class_name);
+                sw.WriteLine("\t    public static bool Write(NetBuffer msg, List<{0}> list)", class_name);
                 sw.WriteLine("\t    {");
                 sw.WriteLine("\t        msg.Write((Int16)list.Count);");
                 sw.WriteLine("\t        foreach ({0} obj in list)", class_name);
@@ -1205,51 +1254,17 @@ namespace Devarc
                 {
                     string type_name = tb.GetTypeName(i);
                     string var_name = tb.GetVarName(i);
-                    if (var_name == "" || type_name == "" || var_name.Contains('/'))
+                    if (var_name == "" || type_name == "" || var_name.IndexOf('/') >= 0)
                     {
                         continue;
                     }
                     sw.WriteLine("\t\t\t\tMarshaler.Write(msg, obj.{0});", var_name);
                 }
                 sw.WriteLine("\t        }");
+                sw.WriteLine("\t        return msg.IsError;");
                 sw.WriteLine("\t    }");
                 sw.WriteLine("\t}");
                 // mashaler end
-
-
-                // table start
-                if (tb.KeyTypeName.Length > 0)
-                {
-                    sw.WriteLine("\tpublic class {0} : {1}, IBaseObejct, IDisposable", container_name, class_name);
-                    sw.WriteLine("\t{");
-                    sw.WriteLine("\t    public static Container<{0}, {1}> MAP = new Container<{0}, {1}>();", container_name, tb.KeyTypeName);
-                    sw.WriteLine("\t    public static {0} Get(SqliteConnection _conn, {1} _key)", container_name, tb.KeyTypeName);
-                    sw.WriteLine("\t    {");
-                    sw.WriteLine("\t        SqliteCommand cmd = _conn.CreateCommand();");
-                    sw.Write("\t        cmd.CommandText = string.Format(\"select ");
-                    for (int i = 0; i < tb.Length; i++)
-                    {
-                        if (i == 0)
-                            sw.Write(tb.GetVarName(i));
-                        else
-                            sw.Write(", {0}", tb.GetVarName(i));
-                    }
-                    sw.WriteLine(" from {0} where unit_type='{{0}}'\", _key);", enum_name);
-                    sw.WriteLine("\t        SqliteDataReader reader = cmd.ExecuteReader();");
-                    sw.WriteLine("\t        if (reader.Read())");
-                    sw.WriteLine("\t        {");
-                    sw.WriteLine("\t            {0} obj = new {0}();", container_name);
-                    sw.WriteLine("\t            obj.Initialize(reader);");
-                    sw.WriteLine("\t            return obj;");
-                    sw.WriteLine("\t        }");
-                    sw.WriteLine("\t        return null;");
-                    sw.WriteLine("\t    }");
-                    sw.WriteLine("\t    public void Dispose()");
-                    sw.WriteLine("\t    {");
-                    sw.WriteLine("\t    }");
-                    sw.WriteLine("\t}");
-                }
-                // table end
 
             } // close file
         }

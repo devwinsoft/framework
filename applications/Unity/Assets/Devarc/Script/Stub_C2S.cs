@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Devarc;
 
-public class Stub_C2S : IStubBase, C2S.IStub
+public class Stub_C2S : C2S.IStub
 {
     public void OnNotifyUserConnect(HostID host_hid)
     {
@@ -24,6 +24,14 @@ public class Stub_C2S : IStubBase, C2S.IStub
 
     public bool OnReceive(object sender, NetBuffer msg)
     {
-        return C2S.Stub.OnReceive(this, msg);
+        switch (C2S.Stub.OnReceive(this, msg))
+        {
+            case RECEIVE_RESULT.INVALID_PACKET:
+            case RECEIVE_RESULT.NOT_IMPLEMENTED:
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 }

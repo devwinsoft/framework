@@ -33,322 +33,154 @@ namespace Devarc
          */
         public static bool Read(NetBuffer msg, ref bool obj)
         {
-            try
-            {
-                obj = msg.ReadByte() != 0 ? true : false;
-                return true;
-            }
-            catch(Exception ex)
-            {
-                Log.Exception(ex);
-                return false;
-            }
+            obj = msg.ReadByte() != 0 ? true : false;
+            return !msg.IsError;
         }
         public static bool Read(NetBuffer msg, ref byte obj)
         {
-            try
-            {
-                obj = msg.ReadByte();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Log.Exception(ex);
-                return false;
-            }
+            obj = msg.ReadByte();
+            return !msg.IsError;
         }
         public static bool Read(NetBuffer msg, ref Int16 obj)
         {
-            try
-            {
-                obj = msg.ReadInt16();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Log.Exception(ex);
-                return false;
-            }
+            obj = msg.ReadInt16();
+            return !msg.IsError;
         }
         public static bool Read(NetBuffer msg, ref Int32 obj)
         {
-            try
-            {
-                obj = msg.ReadInt32();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Log.Exception(ex);
-                return false;
-            }
+            obj = msg.ReadInt32();
+            return !msg.IsError;
         }
         public static bool Read(NetBuffer msg, ref Int64 obj)
         {
-            try
-            {
-                obj = msg.ReadInt64();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Log.Exception(ex);
-                return false;
-            }
+            obj = msg.ReadInt64();
+            return !msg.IsError;
         }
         public static bool Read(NetBuffer msg, ref UInt32 obj)
         {
-            try
-            {
-                obj = msg.ReadUInt32();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Log.Exception(ex);
-                return false;
-            }
+            obj = msg.ReadUInt32();
+            return !msg.IsError;
         }
         public static bool Read(NetBuffer msg, ref HostID obj)
         {
-            try
-            {
-                obj = msg.ReadInt16();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Log.Exception(ex);
-                return false;
-            }
+            obj = msg.ReadInt16();
+            return !msg.IsError;
         }
         public static bool Read(NetBuffer msg, ref float obj)
         {
-            try
-            {
-                obj = msg.ReadFloat();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Log.Exception(ex);
-                return false;
-            }
+            obj = msg.ReadFloat();
+            return !msg.IsError;
         }
         public static bool Read(NetBuffer msg, ref string obj)
         {
-            try
-            {
-                obj = msg.ReadString();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Log.Exception(ex);
-                return false;
-            }
+            obj = msg.ReadString();
+            return !msg.IsError;
         }
 
         public static bool Read(NetBuffer msg, out bool[] obj)
         {
-            try
+            int cnt = msg.ReadInt16();
+            obj = new bool[cnt];
+            for (int i = 0; i < cnt; i++)
             {
-                int cnt = msg.ReadInt16();
-                obj = new bool[cnt];
-                for (int i = 0; i < cnt; i++)
-                {
-                    obj[i] = msg.ReadByte() != 0 ? true : false;
-                }
-                return true;
+                obj[i] = msg.ReadByte() != 0 ? true : false;
             }
-            catch (Exception ex)
-            {
-                Log.Exception(ex);
-                obj = null;
-                return false;
-            }
+            return !msg.IsError;
         }
         public static bool Read(NetBuffer msg, out byte[] obj)
         {
-            try
-            {
-                msg.ReadBytes(out obj);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Log.Exception(ex);
-                obj = null;
-                return false;
-            }
+            msg.ReadBytes(out obj);
+            return !msg.IsError;
         }
         public static bool Read(NetBuffer msg, out Int16[] obj)
         {
-            try
+            int cnt = msg.ReadInt16();
+            obj = new Int16[cnt];
+            for (int i = 0; i < cnt; i++)
             {
-                int cnt = msg.ReadInt16();
-                obj = new Int16[cnt];
-                for (int i = 0; i < cnt; i++)
-                {
-                    obj[i] = msg.ReadInt16();
-                }
-                return true;
+                obj[i] = msg.ReadInt16();
             }
-            catch (Exception ex)
-            {
-                Log.Exception(ex);
-                obj = null;
-                return false;
-            }
+            return !msg.IsError;
         }
         public static bool Read(NetBuffer msg, out Int32[] obj)
         {
-            try
+            int cnt = msg.ReadInt16();
+            obj = new Int32[cnt];
+            for (int i = 0; i < cnt; i++)
             {
-                int cnt = msg.ReadInt16();
-                obj = new Int32[cnt];
-                for (int i = 0; i < cnt; i++)
-                {
-                    obj[i] = msg.ReadInt32();
-                }
-                return true;
+                obj[i] = msg.ReadInt32();
             }
-            catch (Exception ex)
-            {
-                Log.Exception(ex);
-                obj = null;
-                return false;
-            }
+            return !msg.IsError;
         }
         public static bool Read(NetBuffer msg, out Int64[] obj)
         {
-            try
+            int cnt = msg.ReadInt16();
+            obj = new Int64[cnt];
+            for (int i = 0; i < cnt; i++)
             {
-                int cnt = msg.ReadInt16();
-                obj = new Int64[cnt];
-                for (int i = 0; i < cnt; i++)
-                {
-                    obj[i] = msg.ReadInt64();
-                }
-                return true;
+                obj[i] = msg.ReadInt64();
             }
-            catch (Exception ex)
-            {
-                Log.Exception(ex);
-                obj = null;
-                return false;
-            }
+            return !msg.IsError;
         }
         public static bool Read(NetBuffer msg, out HostID[] obj)
         {
-            try
+            int cnt = msg.ReadInt16();
+            obj = new HostID[cnt];
+            for (int i = 0; i < cnt; i++)
             {
-                int cnt = msg.ReadInt16();
-                obj = new HostID[cnt];
-                for (int i = 0; i < cnt; i++)
-                {
-                    Read(msg, ref obj[i]);
-                }
-                return true;
+                Read(msg, ref obj[i]);
             }
-            catch (Exception ex)
-            {
-                Log.Exception(ex);
-                obj = null;
-                return false;
-            }
+            return !msg.IsError;
         }
         public static bool Read(NetBuffer msg, out float[] obj)
         {
-            try
+            int cnt = msg.ReadInt16();
+            obj = new float[cnt];
+            for (int i = 0; i < cnt; i++)
             {
-                int cnt = msg.ReadInt16();
-                obj = new float[cnt];
-                for (int i = 0; i < cnt; i++)
-                {
-                    obj[i] = msg.ReadFloat();
-                }
-                return true;
+                obj[i] = msg.ReadFloat();
             }
-            catch (Exception ex)
-            {
-                Log.Exception(ex);
-                obj = null;
-                return false;
-            }
+            return !msg.IsError;
         }
         public static bool Read(NetBuffer msg, out string[] obj)
         {
-            try
+            int cnt = msg.ReadInt16();
+            obj = new string[cnt];
+            for (int i = 0; i < cnt; i++)
             {
-                int cnt = msg.ReadInt16();
-                obj = new string[cnt];
-                for (int i = 0; i < cnt; i++)
-                {
-                    obj[i] = msg.ReadString();
-                }
-                return true;
+                obj[i] = msg.ReadString();
             }
-            catch (Exception ex)
-            {
-                Log.Exception(ex);
-                obj = null;
-                return false;
-            }
+            return !msg.IsError;
         }
 
         public static bool Read(NetBuffer msg, List<int> list)
         {
-            try
+            int cnt = msg.ReadInt16();
+            for (int i = 0; i < cnt; i++)
             {
-                int cnt = msg.ReadInt16();
-                for (int i = 0; i < cnt; i++)
-                {
-                    list.Add(msg.ReadInt32());
-                }
-                return true;
+                list.Add(msg.ReadInt32());
             }
-            catch (Exception ex)
-            {
-                Log.Exception(ex);
-                return false;
-            }
+            return !msg.IsError;
         }
 
         public static bool Read(NetBuffer msg, List<float> list)
         {
-            try
+            int cnt = msg.ReadInt16();
+            for (int i = 0; i < cnt; i++)
             {
-                int cnt = msg.ReadInt16();
-                for (int i = 0; i < cnt; i++)
-                {
-                    list.Add(msg.ReadFloat());
-                }
-                return true;
+                list.Add(msg.ReadFloat());
             }
-            catch (Exception ex)
-            {
-                Log.Exception(ex);
-                return false;
-            }
+            return !msg.IsError;
         }
 
         public static bool Read(NetBuffer msg, List<string> list)
         {
-            try
+            int cnt = msg.ReadInt16();
+            for (int i = 0; i < cnt; i++)
             {
-                int cnt = msg.ReadInt16();
-                for (int i = 0; i < cnt; i++)
-                {
-                    list.Add(msg.ReadString());
-                }
-                return true;
+                list.Add(msg.ReadString());
             }
-            catch (Exception ex)
-            {
-                Log.Exception(ex);
-                return false;
-            }
+            return !msg.IsError;
         }
     }
 }

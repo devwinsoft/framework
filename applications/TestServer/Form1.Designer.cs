@@ -77,11 +77,12 @@
             // 
             // textBox_port
             // 
+            this.textBox_port.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.textBox_port.Location = new System.Drawing.Point(91, 12);
             this.textBox_port.Name = "textBox_port";
+            this.textBox_port.ReadOnly = true;
             this.textBox_port.Size = new System.Drawing.Size(297, 21);
             this.textBox_port.TabIndex = 4;
-            this.textBox_port.Text = "5000";
             // 
             // button_clear
             // 

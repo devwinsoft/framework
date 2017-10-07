@@ -31,129 +31,148 @@ namespace Devarc
          * Tcp
          * 
          */
-        public static void Write(NetBuffer msg, bool obj)
+        public static bool Write(NetBuffer msg, bool obj)
         {
             msg.Write(obj);
+            return !msg.IsError;
         }
-        public static void Write(NetBuffer msg, byte obj)
+        public static bool Write(NetBuffer msg, byte obj)
         {
             msg.Write(obj);
+            return !msg.IsError;
         }
-        public static void Write(NetBuffer msg, Int16 obj)
+        public static bool Write(NetBuffer msg, Int16 obj)
         {
             msg.Write(obj);
+            return !msg.IsError;
         }
-        public static void Write(NetBuffer msg, Int32 obj)
+        public static bool Write(NetBuffer msg, Int32 obj)
         {
             msg.Write(obj);
+            return !msg.IsError;
         }
-        public static void Write(NetBuffer msg, Int64 obj)
+        public static bool Write(NetBuffer msg, Int64 obj)
         {
             msg.Write(obj);
+            return !msg.IsError;
         }
-        public static void Write(NetBuffer msg, HostID obj)
+        public static bool Write(NetBuffer msg, HostID obj)
         {
             msg.Write(obj);
+            return !msg.IsError;
         }
-        public static void Write(NetBuffer msg, float obj)
+        public static bool Write(NetBuffer msg, float obj)
         {
             msg.Write(obj);
+            return !msg.IsError;
         }
-        public static void Write(NetBuffer msg, string obj)
+        public static bool Write(NetBuffer msg, string obj)
         {
             msg.Write(obj);
+            return !msg.IsError;
         }
 
-        public static void Write(NetBuffer msg, bool[] list)
+        public static bool Write(NetBuffer msg, bool[] list)
         {
             msg.Write((Int16)list.Length);
             foreach (bool obj in list)
             {
                 msg.Write(obj);
             }
+            return !msg.IsError;
         }
-        public static void Write(NetBuffer msg, byte[] list)
+        public static bool Write(NetBuffer msg, byte[] list)
         {
             msg.Write((Int16)list.Length);
             foreach (byte obj in list)
             {
                 msg.Write(obj);
             }
+            return !msg.IsError;
         }
-        public static void Write(NetBuffer msg, Int16[] list)
+        public static bool Write(NetBuffer msg, Int16[] list)
         {
             msg.Write((Int16)list.Length);
             foreach (Int16 obj in list)
             {
                 msg.Write(obj);
             }
+            return !msg.IsError;
         }
-        public static void Write(NetBuffer msg, Int32[] list)
+        public static bool Write(NetBuffer msg, Int32[] list)
         {
             msg.Write((Int16)list.Length);
             foreach (Int32 obj in list)
             {
                 msg.Write(obj);
             }
+            return !msg.IsError;
         }
-        public static void Write(NetBuffer msg, Int64[] list)
+        public static bool Write(NetBuffer msg, Int64[] list)
         {
             msg.Write((Int16)list.Length);
             foreach (Int64 obj in list)
             {
                 msg.Write(obj);
             }
+            return !msg.IsError;
         }
-        public static void Write(NetBuffer msg, HostID[] list)
+        public static bool Write(NetBuffer msg, HostID[] list)
         {
             msg.Write((Int16)list.Length);
             foreach (HostID obj in list)
             {
                 msg.Write(obj);
             }
+            return !msg.IsError;
         }
-        public static void Write(NetBuffer msg, float[] list)
+        public static bool Write(NetBuffer msg, float[] list)
         {
             msg.Write((Int16)list.Length);
             foreach (float obj in list)
             {
                 msg.Write(obj);
             }
+            return !msg.IsError;
         }
-        public static void Write(NetBuffer msg, string[] list)
+        public static bool Write(NetBuffer msg, string[] list)
         {
             msg.Write((Int16)list.Length);
             foreach (string obj in list)
             {
                 msg.Write(obj);
             }
+            return !msg.IsError;
         }
 
-        public static void Write(NetBuffer msg, List<int> list)
+        public static bool Write(NetBuffer msg, List<int> list)
         {
             msg.Write((Int16)list.Count);
             foreach (int obj in list)
             {
                 msg.Write(obj);
             }
+            return !msg.IsError;
         }
 
-        public static void Write(NetBuffer msg, List<float> list)
+        public static bool Write(NetBuffer msg, List<float> list)
         {
             msg.Write((float)list.Count);
             foreach (float obj in list)
             {
                 msg.Write(obj);
             }
+            return !msg.IsError;
         }
 
-        public static void Write(NetBuffer msg, List<string> list)
+        public static bool Write(NetBuffer msg, List<string> list)
         {
             msg.Write((Int16)list.Count);
             foreach (string obj in list)
             {
                 msg.Write(obj);
             }
+            return !msg.IsError;
         }
     }
 }

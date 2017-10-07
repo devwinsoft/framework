@@ -137,7 +137,6 @@
     <Compile Include="Assets\Devarc\_Component\Network\NetClientPackageInfo.cs" />
     <Compile Include="Assets\Devarc\_Component\Network\NetClientReceiveFilter.cs" />
     <Compile Include="Assets\Devarc\_Component\Network\NetworkObject.cs" />
-    <Compile Include="Assets\Devarc\_Component\Network\PacketData.cs" />
     <Compile Include="Assets\Devarc\_Component\Object\Class_LString.cs" />
     <Compile Include="Assets\Devarc\_Component\Object\Class_LStringEx.cs" />
     <Compile Include="Assets\Devarc\_Component\Object\Classes.cs" />

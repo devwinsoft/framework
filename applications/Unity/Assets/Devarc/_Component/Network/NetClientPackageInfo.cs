@@ -9,16 +9,21 @@ namespace Devarc
 {
     public class NetClientPackageInfo : IPackageInfo<short>
     {
-        public NetClientPackageInfo(short rmi, HostID hid, ArraySegment<byte> body)
+        public NetClientPackageInfo(short rmi, HostID hid, short seq, ArraySegment<byte> body)
         {
             Msg = new NetBuffer();
-            Msg.Init(rmi, hid, body);
+            Msg.Init(rmi, hid, seq, body);
         }
 
         public NetBuffer Msg = null;
 
         public short Key { get { return Msg.Rmi; } }
+
         public short Rmi { get { return Msg.Rmi; } }
+
+        public HostID Hid { get { return Msg.Hid; } }
+
+        public short Seq { get { return Msg.Seq; } }
 
         public ArraySegment<byte> Body { get { return Msg.Body; } }
     }

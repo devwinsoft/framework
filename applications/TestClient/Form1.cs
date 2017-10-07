@@ -47,7 +47,7 @@ namespace TestClient
 
         private void button1_Click(object sender, EventArgs e)
         {
-            TestClient.Instance.client.Disconnect(DISCONNECTION_REASON.BY_USER);
+            TestClient.Instance.client.Disconnect();
         }
 
         private void button_select_Click(object sender, EventArgs e)

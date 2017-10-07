@@ -11,6 +11,16 @@ namespace Devarc
     public class NetSession : AppSession<NetSession, NetRequestInfo>
     {
         public HostID Hid { get; internal set; }
+        public Int16 Seq { get; internal set; }
+
+        public void IncreaseSeq()
+        {
+            Seq++;
+            if (Seq >= short.MaxValue)
+            {
+                Seq = 1;
+            }
+        }
 
         protected override void OnSessionStarted()
         {
@@ -29,8 +39,8 @@ namespace Devarc
         {
             Log.Info("Unknow request");
 
-            PacketData msg = new PacketData();
-            msg.Init(1, "Unknow request");
+            NetBuffer msg = new NetBuffer();
+            msg.Init(-2, HostID.None);
             this.Send(msg.Data);
         }
 

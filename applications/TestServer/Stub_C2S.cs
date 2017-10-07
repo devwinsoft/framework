@@ -10,7 +10,7 @@ using SuperSocket.SocketBase.Protocol;
 
 namespace TestServer
 {
-    class Stub_C2S : IServerStub, C2S.IStub
+    class Stub_C2S : C2S.IStub
     {
         public void OnNotifyUserConnect(HostID host_hid)
         {
@@ -47,9 +47,16 @@ namespace TestServer
         }
 
 
-        public bool OnReceive(object sender, NetBuffer msg)
+        public bool OnReceiveData(object sender, NetBuffer msg)
         {
-            return C2S.Stub.OnReceive(this, msg);
+            switch (C2S.Stub.OnReceive(this, msg))
+            {
+                case RECEIVE_RESULT.INVALID_PACKET:
+                    break;
+                default:
+                    break;
+            }
+            return true;
         }
     }
 }

@@ -8,24 +8,23 @@ namespace S2S
 	}
 	public static class Stub
 	{
-		public static bool OnReceive(IStub stub, NetBuffer _in_msg)
+		public static RECEIVE_RESULT OnReceive(IStub stub, NetBuffer _in_msg)
 		{
-			bool success = true;
 			RMI_ID rmi_id = (RMI_ID)_in_msg.Rmi;
 			switch (rmi_id)
 			{
 				case RMI_ID.Test:
 					{
 						Log.Debug("Stub(S2S): Test");
-						System.String _name = default(System.String); success = success ? Marshaler.Read(_in_msg, ref _name) : false;
-						if (_in_msg.Pos != _in_msg.Length) return false;
-						if (success) stub.RMI_S2S_Test(_in_msg.Hid, _name);
+						System.String _name = default(System.String); Marshaler.Read(_in_msg, ref _name);
+						if (_in_msg.IsCompleted == false) return RECEIVE_RESULT.INVALID_PACKET;
+						stub.RMI_S2S_Test(_in_msg.Hid, _name);
 					}
 					break;
 				default:
-					return false;
+					return RECEIVE_RESULT.NOT_IMPLEMENTED;
 			}
-			return success;
+			return RECEIVE_RESULT.SUCCESS;
 		}
 	}
 
@@ -43,7 +42,6 @@ namespace S2S
 		public void Init(IProxyBase mgr) { m_Networker = mgr; }
 		public bool Test(HostID target, String _name)
 		{
-			Log.Debug("S2S.Proxy.Test");
 			NetBuffer _out_msg = new NetBuffer();
 			if (m_Networker == null)
 			{
@@ -52,7 +50,8 @@ namespace S2S
 			}
 			_out_msg.Init((Int16)RMI_ID.Test, target);
 			Marshaler.Write(_out_msg, _name);
-			return m_Networker.Send(_out_msg.Hid, _out_msg.Data);
+			if (_out_msg.IsError) return false;
+			return m_Networker.Send(_out_msg);
 		}
 	}
 

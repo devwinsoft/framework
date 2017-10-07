@@ -32,13 +32,13 @@ namespace Devarc
     {
         public static bool TryParse(string s, out HostID result)
         {
-            short value;
-            bool ret = short.TryParse(s, out value);
+            Int16 value;
+            bool ret = Int16.TryParse(s, out value);
             result = value;
             return ret;
         }
 
-        private Int16 mValue { get; set; }
+        private Int16 mValue;
         public const short MaxValue = 32767;
         public const short MinValue = -32768;
         public const short None = 0;

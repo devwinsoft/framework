@@ -7,7 +7,7 @@ using Devarc;
 
 namespace TestClient
 {
-    class Stub_S2C : IClientStub, S2C.IStub
+    class Stub_S2C : S2C.IStub
     {
         public void OnNotifyConnecting()
         {
@@ -39,7 +39,14 @@ namespace TestClient
 
         public bool OnReceive(object sender, NetBuffer msg)
         {
-            return S2C.Stub.OnReceive(this, msg);
+            switch (S2C.Stub.OnReceive(this, msg))
+            {
+                case RECEIVE_RESULT.INVALID_PACKET:
+                    break;
+                default:
+                    break;
+            }
+            return true;
         }
     }
 }

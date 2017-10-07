@@ -43,14 +43,29 @@ namespace Devarc
         {
         }
 
-        public bool Send(HostID hid, ArraySegment<byte> data)
+        public short GetCurrentSeq(HostID hid)
         {
             NetSession session = GetSession(hid);
             if (session == null || session.Connected == false)
             {
+                return 0;
+            }
+            return session.Seq;
+        }
+
+        public bool Send(NetBuffer msg)
+        {
+            NetSession session = GetSession(msg.Hid);
+            if (session == null || session.Connected == false)
+            {
                 return false;
             }
-            session.Send(data);
+            lock(session)
+            {
+                msg.UpdateHeader(session.Seq);
+                session.IncreaseSeq();
+            }
+            session.Send(msg.Data);
             return true;
         }
 
@@ -76,7 +91,12 @@ namespace Devarc
             NetBuffer msg = new NetBuffer();
             msg.Init(-1, session.Hid);
             msg.Write(msg.Hid);
-            msg.UpdateData();
+            lock(session)
+            {
+                session.Seq = 0;
+                msg.UpdateHeader(session.Seq);
+                session.IncreaseSeq();
+            }
             session.Send(msg.Data);
 
             Log.Debug("OnNewSessionConnected");

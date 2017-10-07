@@ -124,7 +124,7 @@ namespace Devarc
                     // OnReceive
                     sw.WriteLine("\tpublic static class Stub");
                     sw.WriteLine("\t{");
-                    sw.WriteLine("\t\tpublic static bool OnReceive(IStub stub, NetBuffer _in_msg)");
+                    sw.WriteLine("\t\tpublic static RECEIVE_RESULT OnReceive(IStub stub, NetBuffer _in_msg)");
                     MakeOnRecvCode(sw, tp);
                     sw.WriteLine("\t}"); // end of OnReceive
                     sw.WriteLine("");
@@ -178,7 +178,7 @@ namespace Devarc
                         sw.WriteLine(")");
 
                         sw.WriteLine("\t\t{");
-                        sw.WriteLine("\t\t\tLog.Debug(\"{0}.Proxy.{1}\");", tp.Name, minfo.Name);
+                        //sw.WriteLine("\t\t\tLog.Debug(\"{0}.Proxy.{1}\");", tp.Name, minfo.Name);
                         sw.WriteLine("\t\t\tNetBuffer _out_msg = new NetBuffer();");
                         sw.WriteLine("\t\t\tif (m_Networker == null)");
                         sw.WriteLine("\t\t\t{");
@@ -191,7 +191,8 @@ namespace Devarc
                         {
                             sw.WriteLine("\t\t\tMarshaler.Write(_out_msg, {0});", pinfo.Name);
                         }
-                        sw.WriteLine("\t\t\treturn m_Networker.Send(_out_msg.Hid, _out_msg.Data);");
+                        sw.WriteLine("\t\t\tif (_out_msg.IsError) return false;");
+                        sw.WriteLine("\t\t\treturn m_Networker.Send(_out_msg);");
                         sw.WriteLine("\t\t}");
                     }
                     sw.WriteLine("\t}"); // end of proxy
@@ -207,7 +208,6 @@ namespace Devarc
         private void MakeOnRecvCode(TextWriter sw, Type tp)
         {
             sw.WriteLine("\t\t{");
-            sw.WriteLine("\t\t\tbool success = true;");
             sw.WriteLine("\t\t\tRMI_ID rmi_id = (RMI_ID)_in_msg.Rmi;");
             sw.WriteLine("\t\t\tswitch (rmi_id)");
             sw.WriteLine("\t\t\t{");
@@ -228,20 +228,20 @@ namespace Devarc
                     if (pinfo.ParameterType.Name.EndsWith("[]"))
                     {
                         string type_name = pinfo.ParameterType.ToString().Substring(0, pinfo.ParameterType.ToString().Length - 2);
-                        sw.WriteLine("\t\t\t\t\t\t{0} {1}; {1} = success ? null : new {2}[0]; success = success ? Marshaler.Read(_in_msg, out {1}) : false;", pinfo.ParameterType, pinfo.Name, type_name);
+                        sw.WriteLine("\t\t\t\t\t\t{0} {1}; Marshaler.Read(_in_msg, out {1});", pinfo.ParameterType, pinfo.Name, type_name);
                     }
                     else if (pinfo.ParameterType.IsClass && pinfo.ParameterType.Name.ToLower() != "string")
                     {
-                        sw.WriteLine("\t\t\t\t\t\t{0} {1} = new {0}(); success = success ? Marshaler.Read(_in_msg, {1}) : false;", pinfo.ParameterType, pinfo.Name);
+                        sw.WriteLine("\t\t\t\t\t\t{0} {1} = new {0}(); Marshaler.Read(_in_msg, {1});", pinfo.ParameterType, pinfo.Name);
                     }
                     else
                     {
-                        sw.WriteLine("\t\t\t\t\t\t{0} {1} = default({0}); success = success ? Marshaler.Read(_in_msg, ref {1}) : false;", pinfo.ParameterType, pinfo.Name);
+                        sw.WriteLine("\t\t\t\t\t\t{0} {1} = default({0}); Marshaler.Read(_in_msg, ref {1});", pinfo.ParameterType, pinfo.Name);
                     }
                 }
 
-                sw.WriteLine("\t\t\t\t\t\tif (_in_msg.Pos != _in_msg.Length) return false;");
-                sw.Write("\t\t\t\t\t\tif (success) stub.RMI_{0}_{1}(_in_msg.Hid", tp.Name, minfo.Name);
+                sw.WriteLine("\t\t\t\t\t\tif (_in_msg.IsCompleted == false) return RECEIVE_RESULT.INVALID_PACKET;");
+                sw.Write("\t\t\t\t\t\tstub.RMI_{0}_{1}(_in_msg.Hid", tp.Name, minfo.Name);
                 foreach (ParameterInfo pinfo in minfo.GetParameters())
                 {
                     sw.Write(", {0}", pinfo.Name);
@@ -252,9 +252,9 @@ namespace Devarc
                 sw.WriteLine("\t\t\t\t\tbreak;");
             }
             sw.WriteLine("\t\t\t\tdefault:");
-            sw.WriteLine("\t\t\t\t\treturn false;");
+            sw.WriteLine("\t\t\t\t\treturn RECEIVE_RESULT.NOT_IMPLEMENTED;");
             sw.WriteLine("\t\t\t}");
-            sw.WriteLine("\t\t\treturn success;");
+            sw.WriteLine("\t\t\treturn RECEIVE_RESULT.SUCCESS;");
             sw.WriteLine("\t\t}");
         }
 

@@ -106,6 +106,7 @@ namespace Devarc
         public void Build_SheetFile(string _inFilePath, string _outDir)
         {
             this.dataFileType = DATA_FILE_TYPE.SHEET;
+            string tmpIputFilePath = _inFilePath.Replace('\\', '/');
             string tmpFileName = Path.GetFileNameWithoutExtension(_inFilePath);
             int tmpIndex = tmpFileName.IndexOf('@');
             if (tmpIndex >= 0)
@@ -114,12 +115,12 @@ namespace Devarc
                 this.FileName = tmpFileName;
             this.OutDir = _outDir;
             string _outFilePath = Path.Combine(this.OutDir, "Class_" + this.FileName + ".cs");
-            if (File.Exists(_inFilePath) == false)
+            if (File.Exists(tmpIputFilePath) == false)
             {
-                Log.Info("Cannot find file: " + _inFilePath);
+                Log.Info("Cannot find file: " + tmpIputFilePath);
                 return;
             }
-            this._build(_inFilePath, _outFilePath);
+            this._build(tmpIputFilePath, _outFilePath);
         }
 
         void _build(string _inFilePath, string _outFilePath)
@@ -186,76 +187,56 @@ namespace Devarc
 
                     sw.WriteLine("\t    public static bool Read(NetBuffer msg, ref {0} obj)", enum_name);
                     sw.WriteLine("\t    {");
-                    sw.WriteLine("\t        try");
-                    sw.WriteLine("\t        {");
-                    sw.WriteLine("\t            obj = ({0})msg.ReadInt32();", enum_name);
-                    sw.WriteLine("\t            return true;");
-                    sw.WriteLine("\t        }");
-                    sw.WriteLine("\t        catch (System.Exception)");
-                    sw.WriteLine("\t        {");
-                    sw.WriteLine("\t            return false;");
-                    sw.WriteLine("\t        }");
+                    sw.WriteLine("\t        obj = ({0})msg.ReadInt32();", enum_name);
+                    sw.WriteLine("\t        return !msg.IsError;");
                     sw.WriteLine("\t    }");
 
-                    sw.WriteLine("\t    public static void Write(NetBuffer msg, {0} obj)", enum_name);
+                    sw.WriteLine("\t    public static bool Write(NetBuffer msg, {0} obj)", enum_name);
                     sw.WriteLine("\t    {");
                     sw.WriteLine("\t        msg.Write((Int32)obj);");
+                    sw.WriteLine("\t        return !msg.IsError;");
                     sw.WriteLine("\t    }");
 
                     sw.WriteLine("\t    public static bool Read(NetBuffer msg, out {0}[] obj)", enum_name);
                     sw.WriteLine("\t    {");
-                    sw.WriteLine("\t        try");
+                    sw.WriteLine("\t        int cnt = msg.ReadInt16();");
+                    sw.WriteLine("\t        obj = new {0}[cnt];", enum_name);
+                    sw.WriteLine("\t        for (int i = 0; i < cnt; i++)");
                     sw.WriteLine("\t        {");
-                    sw.WriteLine("\t            int cnt = msg.ReadInt16();");
-                    sw.WriteLine("\t            obj = new {0}[cnt];", enum_name);
-                    sw.WriteLine("\t            for (int i = 0; i < cnt; i++)");
-                    sw.WriteLine("\t            {");
-                    sw.WriteLine("\t                obj[i] = ({0})msg.ReadInt32();", enum_name);
-                    sw.WriteLine("\t            }");
-                    sw.WriteLine("\t            return true;");
+                    sw.WriteLine("\t            obj[i] = ({0})msg.ReadInt32();", enum_name);
                     sw.WriteLine("\t        }");
-                    sw.WriteLine("\t        catch (System.Exception)");
-                    sw.WriteLine("\t        {");
-                    sw.WriteLine("\t            obj = null;;");
-                    sw.WriteLine("\t            return false;");
-                    sw.WriteLine("\t        }");
+                    sw.WriteLine("\t        return !msg.IsError;");
                     sw.WriteLine("\t    }");
 
                     sw.WriteLine("\t    public static bool Read(NetBuffer msg, List<{0}> obj)", enum_name);
                     sw.WriteLine("\t    {");
-                    sw.WriteLine("\t        try");
+                    sw.WriteLine("\t        int cnt = msg.ReadInt16();");
+                    sw.WriteLine("\t        obj = new List<{0}>();", enum_name);
+                    sw.WriteLine("\t        for (int i = 0; i < cnt; i++)");
                     sw.WriteLine("\t        {");
-                    sw.WriteLine("\t            int cnt = msg.ReadInt16();");
-                    sw.WriteLine("\t            obj = new List<{0}>();", enum_name);
-                    sw.WriteLine("\t            for (int i = 0; i < cnt; i++)");
-                    sw.WriteLine("\t            {");
-                    sw.WriteLine("\t                obj[i] = ({0})msg.ReadInt32();", enum_name);
-                    sw.WriteLine("\t            }");
-                    sw.WriteLine("\t            return true;");
+                    sw.WriteLine("\t            obj[i] = ({0})msg.ReadInt32();", enum_name);
                     sw.WriteLine("\t        }");
-                    sw.WriteLine("\t        catch (System.Exception)");
-                    sw.WriteLine("\t        {");
-                    sw.WriteLine("\t            obj = null;;");
-                    sw.WriteLine("\t            return false;");
-                    sw.WriteLine("\t        }");
+                    sw.WriteLine("\t        return !msg.IsError;");
                     sw.WriteLine("\t    }");
 
-                    sw.WriteLine("\t    public static void Write(NetBuffer msg, {0}[] list)", enum_name);
+                    sw.WriteLine("\t    public static bool Write(NetBuffer msg, {0}[] list)", enum_name);
                     sw.WriteLine("\t    {");
                     sw.WriteLine("\t        msg.Write((Int16)list.Length);");
                     sw.WriteLine("\t        foreach ({0} obj in list)", enum_name);
                     sw.WriteLine("\t        {");
                     sw.WriteLine("\t            msg.Write((Int32)obj);");
                     sw.WriteLine("\t        }");
+                    sw.WriteLine("\t        return !msg.IsError;");
                     sw.WriteLine("\t    }");
 
-                    sw.WriteLine("\t    public static void Write(NetBuffer msg, List<{0}> list)", enum_name);
+                    sw.WriteLine("\t    public static bool Write(NetBuffer msg, List<{0}> list)", enum_name);
                     sw.WriteLine("\t    {");
                     sw.WriteLine("\t        msg.Write((Int16)list.Count);");
                     sw.WriteLine("\t        foreach ({0} obj in list)", enum_name);
                     sw.WriteLine("\t        {");
                     sw.WriteLine("\t            msg.Write((Int32)obj);");
                     sw.WriteLine("\t        }");
+                    sw.WriteLine("\t        return !msg.IsError;");
                     sw.WriteLine("\t    }");
                     sw.WriteLine("\t}");
                 } // end of foreach
@@ -735,7 +716,7 @@ namespace Devarc
                                 sw.WriteLine("\t\t\tstring __{0} = obj.GetString({1}); {0}.Clear(); if (!string.IsNullOrEmpty(__{0})) foreach (JsonData node in JsonMapper.ToObject(__{0})) {{ {0}.Add(Convert.ToBoolean(node.ToString())); }};", var_name, i);
                             }
                             else
-                                sw.WriteLine("\t\t\t{0,-20}= obj.GetBool({1});", var_name, i);
+                                sw.WriteLine("\t\t\t{0,-20}= obj.GetBoolean({1});", var_name, i);
                             break;
                         case VAR_TYPE.INT16:
                             if (is_list)
@@ -1202,7 +1183,7 @@ namespace Devarc
                 sw.WriteLine("\t        return success;");
                 sw.WriteLine("\t    }");
 
-                sw.WriteLine("\t    public static void Write(NetBuffer msg, {0} obj)", class_name);
+                sw.WriteLine("\t    public static bool Write(NetBuffer msg, {0} obj)", class_name);
                 sw.WriteLine("\t    {");
                 for (int i = 0; i < tb.Length; i++)
                 {
@@ -1214,6 +1195,7 @@ namespace Devarc
                     }
                     sw.WriteLine("\t\t\tMarshaler.Write(msg, obj.{0});", var_name);
                 }
+                sw.WriteLine("\t        return msg.IsError;");
                 sw.WriteLine("\t    }");
 
                 sw.WriteLine("\t    public static bool Read(NetBuffer msg, List<{0}> list)", class_name);
@@ -1263,7 +1245,7 @@ namespace Devarc
                 sw.WriteLine("\t        return success;");
                 sw.WriteLine("\t    }");
 
-                sw.WriteLine("\t    public static void Write(NetBuffer msg, List<{0}> list)", class_name);
+                sw.WriteLine("\t    public static bool Write(NetBuffer msg, List<{0}> list)", class_name);
                 sw.WriteLine("\t    {");
                 sw.WriteLine("\t        msg.Write((Int16)list.Count);");
                 sw.WriteLine("\t        foreach ({0} obj in list)", class_name);
@@ -1279,44 +1261,10 @@ namespace Devarc
                     sw.WriteLine("\t\t\t\tMarshaler.Write(msg, obj.{0});", var_name);
                 }
                 sw.WriteLine("\t        }");
+                sw.WriteLine("\t        return msg.IsError;");
                 sw.WriteLine("\t    }");
                 sw.WriteLine("\t}");
                 // mashaler end
-
-
-                //// table start
-                //if (tb.KeyTypeName.Length > 0)
-                //{
-                //    sw.WriteLine("\tpublic class {0} : {1}, IBaseObejct<{2}>, IDisposable", container_name, class_name, tb.KeyTypeName);
-                //    sw.WriteLine("\t{");
-                //    sw.WriteLine("\t    public static Container<{0}, {1}> MAP = new Container<{0}, {1}>();", container_name, tb.KeyTypeName);
-                //    sw.WriteLine("\t    public static {0} Get({1} _key)", container_name, tb.KeyTypeName);
-                //    sw.WriteLine("\t    {");
-                //    sw.WriteLine("\t        SqliteCommand cmd = new SqliteCommand(TableManager.SQLite_Connection);");
-                //    sw.Write("\t        cmd.CommandText = string.Format(\"select ");
-                //    for (int i = 0; i < tb.Length; i++)
-                //    {
-                //        if (i == 0)
-                //            sw.Write(tb.GetVarName(i));
-                //        else
-                //            sw.Write(", {0}", tb.GetVarName(i));
-                //    }
-                //    sw.WriteLine(" from {0} where {0}='{{1}}';\", _key);", tb.KeyTypeName, enum_name);
-                //    sw.WriteLine("\t        SqliteDataReader reader = cmd.ExecuteReader();");
-                //    sw.WriteLine("\t        if (reader.Read())");
-                //    sw.WriteLine("\t        {");
-                //    sw.WriteLine("\t            {0} obj = new {0}();", container_name);
-                //    sw.WriteLine("\t            obj.Initialize(reader);");
-                //    sw.WriteLine("\t            return obj;");
-                //    sw.WriteLine("\t        }");
-                //    sw.WriteLine("\t        return null;");
-                //    sw.WriteLine("\t    }");
-                //    sw.WriteLine("\t    public void Dispose()");
-                //    sw.WriteLine("\t    {");
-                //    sw.WriteLine("\t    }");
-                //    sw.WriteLine("\t}");
-                //}
-                //// table end
 
             } // close file
         }

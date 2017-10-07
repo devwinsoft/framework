@@ -2,7 +2,7 @@
 using System.Collections;
 using Devarc;
 
-public class Stub_S2C : IStubBase, S2C.IStub
+public class Stub_S2C : S2C.IStub
 {
     HostID mHostID = HostID.None;
 
@@ -47,6 +47,14 @@ public class Stub_S2C : IStubBase, S2C.IStub
 
     public bool OnReceive(object sender, NetBuffer msg)
     {
-        return S2C.Stub.OnReceive(this, msg);
+        switch (S2C.Stub.OnReceive(this, msg))
+        {
+            case RECEIVE_RESULT.INVALID_PACKET:
+            case RECEIVE_RESULT.NOT_IMPLEMENTED:
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 }

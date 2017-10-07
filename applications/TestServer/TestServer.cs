@@ -23,8 +23,18 @@ namespace TestServer
         public TestServer()
         {
             msInstance = this;
+            if (server.State == ServerState.NotInitialized)
+            {
+                ServerConfig serverConfig = new ServerConfig
+                {
+                    Ip = "127.0.0.1",
+                    Port = 5000,
+                    Mode = SocketMode.Tcp,
+                };
+                server.Setup(serverConfig);
+            }
             mProxyS2C.Init(server);
-            server.OnReceiveData += stub.OnReceive;
+            server.OnReceiveData += stub.OnReceiveData;
         }
     }
 }
