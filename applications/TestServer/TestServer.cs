@@ -9,21 +9,19 @@ using SuperSocket.SocketBase.Protocol;
 
 namespace TestServer
 {
-    public class TestServer
+    public class TestServer : NetServer
     {
         public static TestServer Instance { get { return msInstance; } }
         private static TestServer msInstance;
 
-        public NetServer server = new NetServer();
-
-        public S2C.Proxy ProxyS2C { get { return mProxyS2C; } }
-        S2C.Proxy mProxyS2C = new S2C.Proxy();
+        public S2C.Proxy Proxy { get { return proxy; } }
+        S2C.Proxy proxy = new S2C.Proxy();
         Stub_C2S stub = new Stub_C2S();
 
         public TestServer()
         {
             msInstance = this;
-            if (server.State == ServerState.NotInitialized)
+            if (this.State == ServerState.NotInitialized)
             {
                 ServerConfig serverConfig = new ServerConfig
                 {
@@ -31,10 +29,41 @@ namespace TestServer
                     Port = 5000,
                     Mode = SocketMode.Tcp,
                 };
-                server.Setup(serverConfig);
+                this.Setup(serverConfig);
             }
-            mProxyS2C.Init(server);
-            server.OnReceiveData += stub.OnReceiveData;
+            this.Init(proxy, stub);
+        }
+
+        protected override void OnStarted()
+        {
+            base.OnStarted();
+
+            Log.Debug("OnStarted");
+        }
+
+        protected override void OnStopped()
+        {
+            Log.Debug("OnStopped");
+
+            base.OnStopped();
+        }
+
+        protected override void OnNewSessionConnected(NetSession session)
+        {
+            base.OnNewSessionConnected(session);
+
+            PlayerData obj = PlayerData.LIST.Alloc(session.Hid);
+
+            Log.Debug("OnNewSessionConnected");
+        }
+
+        protected override void OnSessionClosed(NetSession session, CloseReason reason)
+        {
+            Log.Debug("OnSessionClosed: {0}", reason);
+
+            PlayerData.LIST.Free1(session.Hid);
+
+            base.OnSessionClosed(session, reason);
         }
     }
 }

@@ -25,23 +25,22 @@ namespace Devarc
         protected override void OnSessionStarted()
         {
             //base.OnSessionStarted();
-            //this.Send("Welcome to SuperSocket Telnet Server");
         }
 
         protected override void HandleException(Exception e)
         {
             Log.Info("Error : {0}", e.Message);
-
-            this.Send("Error : {0}", e.Message);
         }
 
         protected override void HandleUnknownRequest(NetRequestInfo requestInfo)
         {
-            Log.Info("Unknow request");
+            Log.Info("Unknown request");
 
             NetBuffer msg = new NetBuffer();
-            msg.Init(-2, HostID.None);
+            msg.Init((int)RMI_BASIC.UNKNOWN_REQUEST, HostID.None);
             this.Send(msg.Data);
+
+            //this.Close(CloseReason.ApplicationError);
         }
 
         protected override void OnSessionClosed(CloseReason reason)

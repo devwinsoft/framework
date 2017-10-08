@@ -157,10 +157,10 @@ namespace Devarc
                     }
                     sw.WriteLine("\t}"); // end of enum
 
-                    sw.WriteLine("\tpublic class Proxy"); // start of proxy
+                    sw.WriteLine("\tpublic class Proxy : IProxyBase"); // start of proxy
                     sw.WriteLine("\t{");
-                    sw.WriteLine("\t\tprivate IProxyBase m_Networker = null;");
-                    sw.WriteLine("\t\tpublic void Init(IProxyBase mgr) { m_Networker = mgr; }");
+                    sw.WriteLine("\t\tprivate INetworker m_Networker = null;");
+                    sw.WriteLine("\t\tpublic void Init(INetworker mgr) { m_Networker = mgr; }");
                     _methods = tp.GetMethods();
                     foreach (MethodInfo minfo in _methods)
                     {

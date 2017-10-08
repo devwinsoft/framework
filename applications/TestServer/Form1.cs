@@ -41,12 +41,12 @@ namespace TestServer
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            textBox_port.Text = TestServer.Instance.server.Config.Port.ToString();
+            textBox_port.Text = TestServer.Instance.Config.Port.ToString();
         }
 
         private void button_start_Click(object sender, EventArgs e)
         {
-            NetServer server = TestServer.Instance.server;
+            TestServer server = TestServer.Instance;
             switch (server.State)
             {
                 case ServerState.NotInitialized:
@@ -60,7 +60,7 @@ namespace TestServer
 
         private void button_stop_Click(object sender, EventArgs e)
         {
-            TestServer.Instance.server.Stop();
+            TestServer.Instance.Stop();
         }
 
         private void button_clear_Click(object sender, EventArgs e)
@@ -71,11 +71,11 @@ namespace TestServer
 
         private void button_test_Click(object sender, EventArgs e)
         {
-            if (TestServer.Instance.server.State != ServerState.Running)
+            if (TestServer.Instance.State != ServerState.Running)
                 return;
-            foreach (NetSession session in TestServer.Instance.server.GetAllSessions())
+            foreach (NetSession session in TestServer.Instance.GetAllSessions())
             {
-                TestServer.Instance.ProxyS2C.Notify_Chat(session.Hid, "TEST OK");
+                TestServer.Instance.Proxy.Notify_Chat(session.Hid, "TEST OK");
             }
         }
     }

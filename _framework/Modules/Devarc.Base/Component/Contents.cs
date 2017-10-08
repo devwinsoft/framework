@@ -25,6 +25,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
+using System.Threading;
 #if UNITY_5
 using Mono.Data.Sqlite;
 #else
@@ -133,11 +134,16 @@ namespace Devarc
         string GetSelectQuery(T _key);
     }
 
-    public interface IContents<KEY1>
+    public class TContents<ME, KEY1>
     {
-        void OnAlloc(KEY1 k1);
-        void OnFree();
-        KEY1 GetKey1();
+        ReaderWriterLock m_Lock = new ReaderWriterLock();
+
+        public RLOCK<ME> READ_LOCK() { return new RLOCK<ME>(m_Lock); }
+        public WLOCK<ME> WRITE_LOCK() { return new WLOCK<ME>(m_Lock); }
+
+        public virtual void OnAlloc(KEY1 k1) { }
+        public virtual void OnFree() { }
+        public virtual KEY1 GetKey1() { return default(KEY1); }
     }
 
     public interface IContents<KEY1, KEY2>

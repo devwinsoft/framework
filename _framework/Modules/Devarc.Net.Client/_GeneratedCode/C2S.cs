@@ -47,10 +47,10 @@ namespace C2S
 		Move                           = 6000,
 		Chat                           = 6001,
 	}
-	public class Proxy
+	public class Proxy : IProxyBase
 	{
-		private IProxyBase m_Networker = null;
-		public void Init(IProxyBase mgr) { m_Networker = mgr; }
+		private INetworker m_Networker = null;
+		public void Init(INetworker mgr) { m_Networker = mgr; }
 		public bool Move(HostID target, VECTOR3 _look, DIRECTION _move)
 		{
 			NetBuffer _out_msg = new NetBuffer();

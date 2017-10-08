@@ -32,7 +32,7 @@ using SuperSocket.SocketBase.Protocol;
 
 namespace Devarc
 {
-    public class NetServer : AppServer<NetSession, NetRequestInfo>, IProxyBase
+    public class NetServer : AppServer<NetSession, NetRequestInfo>, INetworker
     {
         public event NET_RECEIVER OnReceiveData;
         private Dictionary<HostID, NetSession> mSessions = new Dictionary<HostID, NetSession>();
@@ -41,6 +41,12 @@ namespace Devarc
         public NetServer()
             : base(new DefaultReceiveFilterFactory<NetServerReceiveFilter, NetRequestInfo>())
         {
+        }
+
+        public void Init(IProxyBase proxy, IStubBase stub)
+        {
+            proxy.Init(this);
+            this.OnReceiveData += stub.OnReceiveData;
         }
 
         public short GetCurrentSeq(HostID hid)
@@ -69,18 +75,6 @@ namespace Devarc
             return true;
         }
 
-        protected override void OnStarted()
-        {
-            base.OnStarted();
-            Log.Debug("OnStarted");
-        }
-
-        protected override void OnStopped()
-        {
-            base.OnStopped();
-            Log.Debug("OnStopped");
-        }
-
         protected override void OnNewSessionConnected(NetSession session)
         {
             base.OnNewSessionConnected(session);
@@ -89,7 +83,7 @@ namespace Devarc
 
             // Send Client Host ID
             NetBuffer msg = new NetBuffer();
-            msg.Init(-1, session.Hid);
+            msg.Init((int)RMI_BASIC.INIT_HOST_ID, session.Hid);
             msg.Write(msg.Hid);
             lock(session)
             {
@@ -98,16 +92,12 @@ namespace Devarc
                 session.IncreaseSeq();
             }
             session.Send(msg.Data);
-
-            Log.Debug("OnNewSessionConnected");
         }
 
         protected override void OnSessionClosed(NetSession session, CloseReason reason)
         {
             base.OnSessionClosed(session, reason);
             UnRegisterSession(session.Hid);
-
-            Log.Debug("OnSessionClosed: {0}", reason);
         }
 
 

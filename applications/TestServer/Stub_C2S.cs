@@ -10,24 +10,8 @@ using SuperSocket.SocketBase.Protocol;
 
 namespace TestServer
 {
-    class Stub_C2S : C2S.IStub
+    class Stub_C2S : IStubBase, C2S.IStub
     {
-        public void OnNotifyUserConnect(HostID host_hid)
-        {
-            using(PlayerData.LIST.WRITE_LOCK())
-            {
-                PlayerData obj = PlayerData.LIST.Alloc(host_hid);
-                TestServer.Instance.ProxyS2C.Notify_Chat(host_hid, "");
-            } // unlock
-        }
-        public void OnNotifyUserDisonnect(HostID host_hid)
-        {
-            using (PlayerData.LIST.WRITE_LOCK())
-            {
-                PlayerData.LIST.Free1(host_hid);
-            } // unlock
-        }
-
         public void RMI_C2S_Move(HostID remote, VECTOR3 _look, DIRECTION _move)
         {
 
@@ -41,7 +25,10 @@ namespace TestServer
                 while (enumerator.MoveNext())
                 {
                     PlayerData obj = enumerator.Current;
-                    TestServer.Instance.ProxyS2C.Notify_Chat(obj.Data.id, _msg);
+                    using (obj.READ_LOCK())
+                    {
+                        TestServer.Instance.Proxy.Notify_Chat(obj.Data.id, _msg);
+                    }
                 }
             } // unlock
         }

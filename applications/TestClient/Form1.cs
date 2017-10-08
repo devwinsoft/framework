@@ -47,7 +47,7 @@ namespace TestClient
 
         private void button1_Click(object sender, EventArgs e)
         {
-            TestClient.Instance.client.Disconnect();
+            TestClient.Instance.Disconnect();
         }
 
         private void button_select_Click(object sender, EventArgs e)
@@ -88,7 +88,7 @@ namespace TestClient
         {
             if (string.IsNullOrEmpty(textBox_chat.Text) == false)
             {
-                TestClient.Instance.ProxyC2Test.Chat(HostID.Server, textBox_chat.Text);
+                TestClient.Instance.Proxy.Chat(HostID.Server, textBox_chat.Text);
                 //textBox_chat.Text = "";
             }
         }

@@ -31,7 +31,7 @@ using SuperSocket.ClientEngine;
 
 namespace Devarc
 {
-    public class NetClient : IProxyBase
+    public class NetClient : INetworker
     {
         public event NET_RECEIVER OnReceiveData;
 
@@ -42,17 +42,80 @@ namespace Devarc
         HostID mHid = HostID.None;
         short mSeq = 0;
 
+        protected virtual void OnConnected() { }
+        protected virtual void OnDisConnected() { }
+
         public NetClient()
         {
             client.Connected += OnSession_Connected;
             client.Closed += OnSession_Closed;
-            client.Error += new EventHandler<ErrorEventArgs>(OnSession_Error);
-            client.Initialize<NetClientPackageInfo>(new NetClientReceiveFilter(), OnSession_DataReceived);
+            client.Error += new EventHandler<ErrorEventArgs>(OnSessionError);
+            client.Initialize<NetClientPackageInfo>(new NetClientReceiveFilter(), OnDataReceived);
+        }
+
+        void OnSession_Connected(object sender, EventArgs e)
+        {
+            EasyClient c = sender as EasyClient;
+            if (c != null && c.IsConnected == false)
+            {
+                Disconnect();
+                return;
+            }
+            OnConnected();
+        }
+
+        void OnSession_Closed(object sender, EventArgs e)
+        {
+            OnDisConnected();
+            mHid = HostID.None;
+            mSeq = 0;
+        }
+
+        void OnDataReceived(NetClientPackageInfo package)
+        {
+            switch ((RMI_BASIC)package.Msg.Rmi)
+            {
+                case RMI_BASIC.INIT_HOST_ID:
+                    // Setup Client HostID
+                    if (mHid == HostID.None)
+                    {
+                        mHid = package.Msg.Hid;
+                        mSeq = 1;
+                    }
+                    else
+                    {
+                        // warning
+                    }
+                    break;
+                case RMI_BASIC.UNKNOWN_REQUEST:
+                    Log.Error("Disconnected by server. reason = UNKNOWN_REQUEST");
+                    Disconnect();
+                    break;
+                default:
+                    var handler = this.OnReceiveData;
+                    if (handler != null)
+                    {
+                        handler(this, package.Msg);
+                    }
+                    break;
+            }
+        }
+
+        void OnSessionError<DataEventArgs>(object sender, DataEventArgs e)
+        {
+            ErrorEventArgs ex = e as ErrorEventArgs;
+            Log.Exception(ex.Exception);
         }
 
         public short GetCurrentSeq(HostID hid)
         {
             return 0;
+        }
+
+        public void Init(IProxyBase proxy, IStubBase stub)
+        {
+            proxy.Init(this);
+            this.OnReceiveData += stub.OnReceiveData;
         }
 
         public bool Send(NetBuffer msg)
@@ -120,56 +183,9 @@ namespace Devarc
 
         public void Disconnect()
         {
-            mHid = HostID.None;
-            mSeq = 0;
             client.Close();
         }
 
-        void OnSession_Connected(object sender, EventArgs e)
-        {
-            EasyClient c = sender as EasyClient;
-            if (c != null && c.IsConnected == false)
-            {
-                Disconnect();
-                return;
-            }
-        }
-
-        void OnSession_Closed(object sender, EventArgs e)
-        {
-            Disconnect();
-        }
-
-        void OnSession_DataReceived(NetClientPackageInfo package)
-        {
-            if (package.Msg.Rmi == -1)
-            {
-                // Setup Client HostID
-                if (mHid == HostID.None)
-                {
-                    mHid = package.Msg.Hid;
-                    mSeq = 1;
-                }
-                else
-                {
-                    // warning
-                }
-            }
-            else
-            {
-                var handler = this.OnReceiveData;
-                if (handler != null)
-                {
-                    handler(this, package.Msg);
-                }
-            }
-        }
-
-        void OnSession_Error<DataEventArgs>(object sender, DataEventArgs e)
-        {
-            ErrorEventArgs ex = e as ErrorEventArgs;
-            Log.Exception(ex.Exception);
-        }
     }
 }
 

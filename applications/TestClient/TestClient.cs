@@ -9,28 +9,28 @@ using Devarc;
 
 namespace TestClient
 {
-    public class TestClient
+    public class TestClient : NetClient
     {
         public static TestClient Instance { get { return ms_Instance; } }
         private static TestClient ms_Instance;
 
-        public C2S.Proxy ProxyC2Test { get { return mProxyC2S; } }
-        C2S.Proxy mProxyC2S = new C2S.Proxy();
-
-        public NetClient client = new NetClient();
+        public C2S.Proxy Proxy { get { return proxy; } }
+        C2S.Proxy proxy = new C2S.Proxy();
         Stub_S2C stub = new Stub_S2C();
 
         public TestClient()
         {
             ms_Instance = this;
 
-            mProxyC2S.Init(client);
-            client.OnReceiveData += stub.OnReceive;
+            this.Init(proxy, stub);
         }
 
-        public bool Connect(string _address, int _port)
+        protected override void OnConnected()
         {
-            return client.Connect(_address, _port);
+        }
+
+        protected override void OnDisConnected()
+        {
         }
     }
 }

@@ -58,10 +58,10 @@ namespace S2C
 		Notify_Move                    = 5001,
 		Notify_Chat                    = 5002,
 	}
-	public class Proxy
+	public class Proxy : IProxyBase
 	{
-		private IProxyBase m_Networker = null;
-		public void Init(IProxyBase mgr) { m_Networker = mgr; }
+		private INetworker m_Networker = null;
+		public void Init(INetworker mgr) { m_Networker = mgr; }
 		public bool Notify_Player(HostID target, HostID _id, DataPlayer _data)
 		{
 			NetBuffer _out_msg = new NetBuffer();

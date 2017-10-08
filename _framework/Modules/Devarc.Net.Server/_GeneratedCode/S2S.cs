@@ -36,10 +36,10 @@ namespace S2S
 	{
 		Test                           = 5000,
 	}
-	public class Proxy
+	public class Proxy : IProxyBase
 	{
-		private IProxyBase m_Networker = null;
-		public void Init(IProxyBase mgr) { m_Networker = mgr; }
+		private INetworker m_Networker = null;
+		public void Init(INetworker mgr) { m_Networker = mgr; }
 		public bool Test(HostID target, String _name)
 		{
 			NetBuffer _out_msg = new NetBuffer();
