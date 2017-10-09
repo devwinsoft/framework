@@ -34,19 +34,24 @@ namespace Devarc
 {
     public class NetServer : AppServer<NetSession, NetRequestInfo>, INetworker
     {
-        public event NET_RECEIVER OnReceiveData;
+        public event NET_RECEIVER OnDispatchData;
         private Dictionary<HostID, NetSession> mSessions = new Dictionary<HostID, NetSession>();
         HostID mNextHostID = (HostID)1000;
+
+        WorkThreadContainer mThreadList;
+        int mThreadCnt = 10;
 
         public NetServer()
             : base(new DefaultReceiveFilterFactory<NetServerReceiveFilter, NetRequestInfo>())
         {
+            mThreadList = new WorkThreadContainer(this);
         }
 
-        public void Init(IProxyBase proxy, IStubBase stub)
+        public void Init(IProxyBase proxy, IStubBase stub, int threadCnt)
         {
             proxy.Init(this);
-            this.OnReceiveData += stub.OnReceiveData;
+            this.OnDispatchData += stub.OnReceiveData;
+            this.mThreadCnt = threadCnt;
         }
 
         public short GetCurrentSeq(HostID hid)
@@ -75,6 +80,23 @@ namespace Devarc
             return true;
         }
 
+        public override bool Start()
+        {
+            bool result = base.Start();
+            if (result)
+            {
+                mThreadList.Init(mThreadCnt);
+                mThreadList.StartAll();
+            }
+            return result;
+        }
+
+        public override void Stop()
+        {
+            base.Stop();
+            mThreadList.StopAll(true);
+        }
+
         protected override void OnNewSessionConnected(NetSession session)
         {
             base.OnNewSessionConnected(session);
@@ -82,7 +104,7 @@ namespace Devarc
             RegisterSession(session);
 
             // Send Client Host ID
-            NetBuffer msg = new NetBuffer();
+            NetBuffer msg = NetBufferPool.Instance.Pop();
             msg.Init((int)RMI_BASIC.INIT_HOST_ID, session.Hid);
             msg.Write(msg.Hid);
             lock(session)
@@ -103,11 +125,7 @@ namespace Devarc
 
         protected override void ExecuteCommand(NetSession session, NetRequestInfo requestInfo)
         {
-            var handler = this.OnReceiveData;
-            if (handler != null)
-            {
-                handler(this, requestInfo.Msg);
-            }
+            mThreadList.RegisterWork(requestInfo.Msg);
         }
 
         public NetSession GetSession(HostID hid)
@@ -118,6 +136,22 @@ namespace Devarc
                 mSessions.TryGetValue(hid, out session);
             }
             return session;
+        }
+
+        public int GetAllSessions(out HostID[] outList)
+        {
+            lock (mSessions)
+            {
+                outList = new HostID[mSessions.Count];
+                int i = 0;
+                var enumer = mSessions.GetEnumerator();
+                while (enumer.MoveNext())
+                {
+                    outList[i] = enumer.Current.Key;
+                    i++;
+                }
+            }
+            return outList.Length;
         }
 
         void RegisterSession(NetSession session)
@@ -148,6 +182,15 @@ namespace Devarc
             lock (mSessions)
             {
                 return mSessions.Remove(hid);
+            }
+        }
+
+        public void DispatchMsg(object sender, NetBuffer msg)
+        {
+            var handler = this.OnDispatchData;
+            if (handler != null)
+            {
+                handler(this, msg);
             }
         }
     } // end class

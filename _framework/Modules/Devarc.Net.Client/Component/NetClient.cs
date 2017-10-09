@@ -97,6 +97,7 @@ namespace Devarc
                     {
                         handler(this, package.Msg);
                     }
+                    NetBufferPool.Instance.Push(package.Msg);
                     break;
             }
         }

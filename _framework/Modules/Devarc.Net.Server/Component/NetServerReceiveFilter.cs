@@ -24,7 +24,7 @@ namespace Devarc
 
         protected override NetRequestInfo ResolveRequestInfo(ArraySegment<byte> header, byte[] bodyBuffer, int offset, int length)
         {
-            NetBuffer msg = new NetBuffer();
+            NetBuffer msg = NetBufferPool.Instance.Pop();
             msg.Init(header, bodyBuffer, offset, length);
             return new NetRequestInfo("DATA", msg);
         }
@@ -43,7 +43,7 @@ namespace Devarc
                 return NullRequestInfo;
             }
 
-            NetBuffer msg = new NetBuffer();
+            NetBuffer msg = NetBufferPool.Instance.Pop();
             msg.Init(readBuffer, offset, length);
             NetRequestInfo retObject = new NetRequestInfo("DATA", msg);
             return retObject;

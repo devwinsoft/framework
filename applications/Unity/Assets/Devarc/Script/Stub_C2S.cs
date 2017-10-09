@@ -3,16 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Devarc;
 
-public class Stub_C2S : C2S.IStub
+public class Stub_C2S : IStubBase, C2S.IStub
 {
-    public void OnNotifyUserConnect(HostID host_hid)
-    {
-    }
-
-    public void OnNotifyUserDisonnect(HostID host_hid)
-    {
-    }
-
     public void RMI_C2S_Move(HostID remote, VECTOR3 _look, DIRECTION _move)
     {
     }
@@ -22,7 +14,7 @@ public class Stub_C2S : C2S.IStub
 
     }
 
-    public bool OnReceive(object sender, NetBuffer msg)
+    public bool OnReceiveData(object sender, NetBuffer msg)
     {
         switch (C2S.Stub.OnReceive(this, msg))
         {

@@ -57,12 +57,11 @@
   <ItemGroup>
     <Compile Include="Component\JsonReader.cs" />
     <Compile Include="Component\NetBuffer.cs" />
-    <Compile Include="Component\ThreadBase.cs" />
-    <Compile Include="Component\ThreadContainer.cs" />
     <Compile Include="Component\Lock.cs" />
     <Compile Include="Component\DES.cs" />
     <Compile Include="Component\Log.cs" />
     <Compile Include="Component\HostID.cs" />
+    <Compile Include="Component\NetBufferPool.cs" />
     <Compile Include="Component\XmlSheetReader.cs" />
     <Compile Include="Component\XmlSheetWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

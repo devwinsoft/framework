@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Devarc;
 
-public class PlayerData : IContents<HostID>
+public class PlayerData : TContents<PlayerData, HostID>
 {
-    public static Container_S1<PlayerData, HostID> MAP = new Container_S1<PlayerData, HostID>(100);
+    public static LockableContainer<PlayerData, HostID> MAP = new LockableContainer<PlayerData, HostID>(100);
 
     public DataPlayer data;
 

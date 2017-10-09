@@ -11,7 +11,7 @@ namespace Devarc
     {
         public NetClientPackageInfo(short rmi, HostID hid, short seq, ArraySegment<byte> body)
         {
-            Msg = new NetBuffer();
+            Msg = NetBufferPool.Instance.Pop();
             Msg.Init(rmi, hid, seq, body);
         }
 

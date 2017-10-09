@@ -179,7 +179,7 @@ namespace Devarc
 
                         sw.WriteLine("\t\t{");
                         //sw.WriteLine("\t\t\tLog.Debug(\"{0}.Proxy.{1}\");", tp.Name, minfo.Name);
-                        sw.WriteLine("\t\t\tNetBuffer _out_msg = new NetBuffer();");
+                        sw.WriteLine("\t\t\tNetBuffer _out_msg = NetBufferPool.Instance.Pop();");
                         sw.WriteLine("\t\t\tif (m_Networker == null)");
                         sw.WriteLine("\t\t\t{");
                         sw.WriteLine("\t\t\t\tLog.Debug(\"{{0}} is not initialized.\", typeof(Proxy));");

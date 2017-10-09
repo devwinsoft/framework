@@ -36,7 +36,7 @@ namespace Devarc
         {
             Log.Info("Unknown request");
 
-            NetBuffer msg = new NetBuffer();
+            NetBuffer msg = NetBufferPool.Instance.Pop();
             msg.Init((int)RMI_BASIC.UNKNOWN_REQUEST, HostID.None);
             this.Send(msg.Data);
 

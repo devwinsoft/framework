@@ -27,52 +27,11 @@ using System.Threading;
 
 namespace Devarc
 {
-    public interface ILockObject
+    public class WLOCK<T> : IDisposable
     {
-        bool IsReading();
-        bool IsWriting();
-
-        void LockRead();
-        void UnLockRead();
-        void LockWrite();
-        void UnLockWrite();
-    }
-
-    public class LockObject<T> : ILockObject, IDisposable
-    {
-        private ReaderWriterLock m_Lock = new ReaderWriterLock();
-
-        public LockObject()
+        public WLOCK(ReaderWriterLock obj)
         {
-        }
-        public void Dispose()
-        {
-            m_Lock = null;
-        }
-
-        public bool IsReading() { return m_Lock.IsReaderLockHeld || m_Lock.IsWriterLockHeld; }
-        public bool IsWriting() { return m_Lock.IsWriterLockHeld; }
-        public void LockRead()
-        {
-            if (m_Lock.IsReaderLockHeld == false && m_Lock.IsWriterLockHeld == false)
-            {
-                m_Lock.AcquireReaderLock(-1);
-            }
-            else
-            {
-                throw new Exception("Twice Read Lock. " + typeof(T).ToString());
-            }
-        }
-        public void UnLockRead()
-        {
-            if (m_Lock.IsReaderLockHeld)
-            {
-                m_Lock.ReleaseReaderLock();
-            }
-        }
-
-        public void LockWrite()
-        {
+            m_Lock = obj;
             if (m_Lock.IsReaderLockHeld == false && m_Lock.IsWriterLockHeld == false)
             {
                 m_Lock.AcquireWriterLock(-1);
@@ -82,42 +41,39 @@ namespace Devarc
                 throw new Exception("Twice Write Lock. " + typeof(T).ToString());
             }
         }
-        public void UnLockWrite()
+        public virtual void Dispose()
         {
             if (m_Lock.IsWriterLockHeld)
             {
                 m_Lock.ReleaseWriterLock();
             }
+            m_Lock = null;
         }
+        protected ReaderWriterLock m_Lock;
     }
 
-    public class WLOCK : IDisposable
+    public class RLOCK<T> : IDisposable
     {
-        public WLOCK(ILockObject obj)
+        public RLOCK(ReaderWriterLock obj)
         {
             m_Lock = obj;
-            m_Lock.LockWrite();
+            if (m_Lock.IsReaderLockHeld == false && m_Lock.IsWriterLockHeld == false)
+            {
+                m_Lock.AcquireReaderLock(-1);
+            }
+            else
+            {
+                throw new Exception("Twice Read Lock. " + typeof(T).ToString());
+            }
         }
         public virtual void Dispose()
         {
-            m_Lock.UnLockWrite();
+            if (m_Lock.IsReaderLockHeld)
+            {
+                m_Lock.ReleaseReaderLock();
+            }
             m_Lock = null;
         }
-        protected ILockObject m_Lock;
-    }
-
-    public class RLOCK : IDisposable
-    {
-        public RLOCK(ILockObject obj)
-        {
-            m_Lock = obj;
-            m_Lock.LockRead();
-        }
-        public virtual void Dispose()
-        {
-            m_Lock.UnLockRead();
-            m_Lock = null;
-        }
-        protected ILockObject m_Lock;
+        protected ReaderWriterLock m_Lock;
     }
 }

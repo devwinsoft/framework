@@ -53,7 +53,7 @@ namespace C2S
 		public void Init(INetworker mgr) { m_Networker = mgr; }
 		public bool Move(HostID target, VECTOR3 _look, DIRECTION _move)
 		{
-			NetBuffer _out_msg = new NetBuffer();
+			NetBuffer _out_msg = NetBufferPool.Instance.Pop();
 			if (m_Networker == null)
 			{
 				Log.Debug("{{0}} is not initialized.", typeof(Proxy));
@@ -67,7 +67,7 @@ namespace C2S
 		}
 		public bool Chat(HostID target, String _msg)
 		{
-			NetBuffer _out_msg = new NetBuffer();
+			NetBuffer _out_msg = NetBufferPool.Instance.Pop();
 			if (m_Networker == null)
 			{
 				Log.Debug("{{0}} is not initialized.", typeof(Proxy));

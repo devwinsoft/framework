@@ -48,6 +48,9 @@
     <Compile Include="Component\NetServer.cs" />
     <Compile Include="Component\NetServerReceiveFilter.cs" />
     <Compile Include="Component\NetSession.cs" />
+    <Compile Include="Component\WorkList.cs" />
+    <Compile Include="Component\WorkThreadBase.cs" />
+    <Compile Include="Component\WorkThreadContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="_GeneratedCode\S2S.cs" />
   </ItemGroup>

@@ -31,7 +31,7 @@ namespace TestServer
                 };
                 this.Setup(serverConfig);
             }
-            this.Init(proxy, stub);
+            this.Init(proxy, stub, 10);
         }
 
         protected override void OnStarted()

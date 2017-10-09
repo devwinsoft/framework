@@ -64,7 +64,7 @@ namespace S2C
 		public void Init(INetworker mgr) { m_Networker = mgr; }
 		public bool Notify_Player(HostID target, HostID _id, DataPlayer _data)
 		{
-			NetBuffer _out_msg = new NetBuffer();
+			NetBuffer _out_msg = NetBufferPool.Instance.Pop();
 			if (m_Networker == null)
 			{
 				Log.Debug("{{0}} is not initialized.", typeof(Proxy));
@@ -78,7 +78,7 @@ namespace S2C
 		}
 		public bool Notify_Move(HostID target, VECTOR3 _look, DIRECTION _move)
 		{
-			NetBuffer _out_msg = new NetBuffer();
+			NetBuffer _out_msg = NetBufferPool.Instance.Pop();
 			if (m_Networker == null)
 			{
 				Log.Debug("{{0}} is not initialized.", typeof(Proxy));
@@ -92,7 +92,7 @@ namespace S2C
 		}
 		public bool Notify_Chat(HostID target, String _msg)
 		{
-			NetBuffer _out_msg = new NetBuffer();
+			NetBuffer _out_msg = NetBufferPool.Instance.Pop();
 			if (m_Networker == null)
 			{
 				Log.Debug("{{0}} is not initialized.", typeof(Proxy));

@@ -27,10 +27,12 @@ namespace TestClient
 
         protected override void OnConnected()
         {
+            Log.Debug("Conntected");
         }
 
         protected override void OnDisConnected()
         {
+            Log.Debug("DisConntected");
         }
     }
 }

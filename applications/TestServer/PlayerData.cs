@@ -9,6 +9,11 @@ public class PlayerData : TContents<PlayerData, HostID>
 
     public DataPlayer Data;
 
+    public PlayerData()
+    {
+        Data = new DataPlayer();
+    }
+
     public override void OnAlloc(HostID hid)
     {
         Data.id = hid;

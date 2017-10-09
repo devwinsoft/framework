@@ -51,8 +51,7 @@ public class SceneTest : MonoBehaviour
         //DataCharacter data = TableManager.T_DataCharacter.GetAt(UNIT.HUMAN_FEMALE);
         //TableManager.T_DataCharacter.TryGetAt(TableManager.Connection, UNIT.DRAGON_BLACK, out data);
 
-        proxy.Init(client);
-        client.OnReceiveData += stub.OnReceive;
+        client.Init(proxy, stub);
         //client.Connect("127.0.0.1", 5000);
     }
 

@@ -28,8 +28,6 @@ using SuperSocket;
 
 namespace Devarc
 {
-    public delegate bool NET_RECEIVER(object sender, NetBuffer msg);
-
     public enum DISCONNECTION_REASON
     {
         CONNECTION_FAIL,
@@ -38,6 +36,14 @@ namespace Devarc
         BY_SERVER,
     }
 
+    public enum RMI_BASIC
+    {
+        INIT_HOST_ID = -1,
+        UNKNOWN_REQUEST = -2,
+    }
+
+    public delegate bool NET_RECEIVER(object sender, NetBuffer msg);
+
     public enum RECEIVE_RESULT
     {
         SUCCESS,
@@ -45,9 +51,19 @@ namespace Devarc
         INVALID_PACKET,
     }
 
-    public interface IProxyBase
+    public interface INetworker
     {
         short GetCurrentSeq(HostID hid);
         bool Send(NetBuffer msg);
+    }
+
+    public interface IProxyBase
+    {
+        void Init(INetworker networker);
+    }
+
+    public interface IStubBase
+    {
+        bool OnReceiveData(object sender, NetBuffer msg);
     }
 }

@@ -21,49 +21,35 @@
 //
 
 using System;
-using System.Net;
-using System.Collections;
+using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Net.Sockets;
 using System.Collections.Generic;
-using SuperSocket;
+using System.Text;
 
 namespace Devarc
 {
-    public enum DISCONNECTION_REASON
+    public class WorkList
     {
-        CONNECTION_FAIL,
-        ERROR,
-        BY_USER,
-        BY_SERVER,
-    }
+        private List<NetBuffer> m_WorkList = new List<NetBuffer>();
 
-    public enum RMI_BASIC
-    {
-        INIT_HOST_ID = -1,
-        UNKNOWN_REQUEST = -2,
-    }
+        public void Push(NetBuffer msg)
+        {
+            m_WorkList.Add(msg);
+        }
 
-    public delegate bool NET_RECEIVER(object sender, NetBuffer msg);
-
-    public enum RECEIVE_RESULT
-    {
-        SUCCESS,
-        NOT_IMPLEMENTED,
-        INVALID_PACKET,
-    }
-
-    public interface INetworker
-    {
-        short GetCurrentSeq(HostID hid);
-        bool Send(NetBuffer msg);
-    }
-
-    public interface IProxyBase
-    {
-        void Init(INetworker networker);
-    }
-
-    public interface IStubBase
-    {
-        bool OnReceiveData(object sender, NetBuffer msg);
+        public NetBuffer Pop(HashSet<HostID> excludeList)
+        {
+            NetBuffer obj = null;
+            for (int i = 0; i < m_WorkList.Count; i++)
+            {
+                NetBuffer temp = m_WorkList[i];
+                if (excludeList.Contains(temp.Hid))
+                    continue;
+                obj = temp;
+                m_WorkList.Remove(obj);
+            }
+            return obj;
+        }
     }
 }

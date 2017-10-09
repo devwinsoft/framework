@@ -73,9 +73,11 @@ namespace TestServer
         {
             if (TestServer.Instance.State != ServerState.Running)
                 return;
-            foreach (NetSession session in TestServer.Instance.GetAllSessions())
+            HostID[] list;
+            TestServer.Instance.GetAllSessions(out list);
+            foreach (HostID hid in list)
             {
-                TestServer.Instance.Proxy.Notify_Chat(session.Hid, "TEST OK");
+                TestServer.Instance.Proxy.Notify_Chat(hid, "TEST OK");
             }
         }
     }

@@ -42,7 +42,7 @@ namespace S2S
 		public void Init(INetworker mgr) { m_Networker = mgr; }
 		public bool Test(HostID target, String _name)
 		{
-			NetBuffer _out_msg = new NetBuffer();
+			NetBuffer _out_msg = NetBufferPool.Instance.Pop();
 			if (m_Networker == null)
 			{
 				Log.Debug("{{0}} is not initialized.", typeof(Proxy));
