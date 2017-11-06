@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+//using System.Linq;
 using System.Text;
 using SuperSocket.ProtoBase;
 
@@ -73,7 +73,16 @@ namespace SuperSocket.ProtoBase
             var header = new HttpHeaderInfo();
             MimeHeaderHelper.ParseHttpHeader(headerData, header);
 
-            var nextReceiveFilter = GetBodyReceiveFilter(header, packageData.Sum(d => d.Count));
+            //var total = packageData.Sum(d => d.Count);
+            int total = 0;
+            {
+                var enumer = packageData.GetEnumerator();
+                while (enumer.MoveNext())
+                {
+                    total += enumer.Current.Count;
+                }
+            }
+            var nextReceiveFilter = GetBodyReceiveFilter(header, total);
 
             if (nextReceiveFilter != null)
             {

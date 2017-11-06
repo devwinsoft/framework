@@ -22,7 +22,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Net20\SuperSocket.ProtoBase.XML</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -43,6 +44,7 @@
     <Compile Include="Buffer\IBufferManager.cs" />
     <Compile Include="Buffer\NullBufferManager.cs" />
     <Compile Include="FilterState.cs" />
+    <Compile Include="Func.cs" />
     <Compile Include="HttpBase\HttpHeaderInfo.cs" />
     <Compile Include="HttpBase\HttpPackageInfoBase.cs" />
     <Compile Include="IBufferedPackageInfo.cs" />
@@ -65,7 +67,9 @@
     <Compile Include="ReceiveFilters\FixedSizeReceiveFilter.cs" />
     <Compile Include="ReceiveFilters\SearchMarkState.cs" />
     <Compile Include="StringPackageInfo.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

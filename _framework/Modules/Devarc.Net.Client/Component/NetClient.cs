@@ -123,6 +123,7 @@ namespace Devarc
         {
             if (client.IsConnected == false)
             {
+                NetBufferPool.Instance.Push(msg);
                 return false;
             }
 

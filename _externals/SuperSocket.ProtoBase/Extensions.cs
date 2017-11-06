@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+//using System.Linq;
 using System.Text;
 using System.IO;
 
@@ -19,7 +19,15 @@ namespace SuperSocket.ProtoBase
         /// <returns>the decoded string</returns>
         public static string GetString(this Encoding encoding, IList<ArraySegment<byte>> data)
         {
-            var total = data.Sum(x => x.Count);
+            //var total = data.Sum(x => x.Count);
+            int total = 0;
+            {
+                var enumer = data.GetEnumerator();
+                while (enumer.MoveNext())
+                {
+                    total += enumer.Current.Count;
+                }
+            }
 
             var output = new char[encoding.GetMaxCharCount(total)];
 

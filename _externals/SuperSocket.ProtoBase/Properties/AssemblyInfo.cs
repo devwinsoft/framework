@@ -8,3 +8,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("SuperSocket.ProtoBase")]
 [assembly: AssemblyDescription("SuperSocket.ProtoBase")]
 [assembly: AssemblyConfiguration("")]
+[assembly: ComVisible(false)]
+

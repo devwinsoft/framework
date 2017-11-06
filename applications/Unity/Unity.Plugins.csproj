@@ -150,7 +150,6 @@
     <None Include="Assets\Devarc\_Plugins\Editor\NPOI.OOXML.XML" />
     <None Include="Assets\Devarc\_Plugins\Editor\NPOI.OpenXml4Net.XML" />
     <None Include="Assets\Devarc\_Plugins\Editor\NPOI.XML" />
-    <None Include="Assets\Devarc\_Plugins\SuperSocket\SuperSocket.ProtoBase.XML" />
     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
     <None Include="Assets\Standard Assets\Fonts\OpenSans\License!.txt" />
   </ItemGroup>
