@@ -40,7 +40,8 @@ namespace Devarc
 {
     public class Builder_SQLite : IDisposable
     {
-        IDbConnection dbconn = null;
+        IDbConnection dbConn = null;
+        IDbTransaction dbTrans = null;
         DATA_FILE_TYPE dataFileType = DATA_FILE_TYPE.SHEET;
 
         private Builder_SQLite()
@@ -50,20 +51,28 @@ namespace Devarc
         public Builder_SQLite(string _databasePath)
         {
             string conn = "URI=file:" + _databasePath;
-            if (dbconn == null)
+            if (dbConn == null)
             {
-                dbconn = (IDbConnection)new SqliteConnection(conn);
-                dbconn.Open();
+                dbConn = (IDbConnection)new SqliteConnection(conn);
+                dbConn.Open();
+                dbTrans = dbConn.BeginTransaction();
+            }
+        }
+
+        public void Commit()
+        {
+            if (dbConn != null && dbTrans != null)
+            {
+                dbTrans.Commit();
+                dbConn.Close();
+                dbConn = null;
+                dbTrans = null;
             }
         }
 
         public void Dispose()
         {
-            if (dbconn != null)
-            {
-                dbconn.Close();
-                dbconn = null;
-            }
+            Commit();
         }
 
         public bool Build(string _filePath)
@@ -108,8 +117,8 @@ namespace Devarc
             if (_prop.KeyIndex < 0)
                 return;
             string tableName = FrameworkUtil.GetClassName(_sheetName);
-            IDbCommand dbcmd = dbconn.CreateCommand();
-
+            IDbCommand dbcmd = dbConn.CreateCommand();
+            dbcmd.Transaction = dbTrans;
             dbcmd.CommandText = string.Format("DROP TABLE IF EXISTS {0};", tableName);
             dbcmd.ExecuteNonQuery();
 
@@ -127,6 +136,7 @@ namespace Devarc
                     sb.Append(" PRIMARY KEY");
             }
             sb.Append(");");
+            dbcmd.Transaction = dbTrans;
             dbcmd.CommandText = sb.ToString();
             dbcmd.ExecuteNonQuery();
         }
@@ -136,7 +146,7 @@ namespace Devarc
             if (_prop.KeyIndex < 0)
                 return;
             string tableName = FrameworkUtil.GetClassName(_sheetName);
-            IDbCommand dbcmd = dbconn.CreateCommand();
+            IDbCommand dbcmd = dbConn.CreateCommand();
             StringBuilder sb = new StringBuilder();
             sb.Append("INSERT INTO ");
             sb.Append(tableName);
@@ -167,6 +177,7 @@ namespace Devarc
                 }
             }
             sb.Append(");");
+            dbcmd.Transaction = dbTrans;
             dbcmd.CommandText = sb.ToString();
             dbcmd.ExecuteNonQuery();
         }

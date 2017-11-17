@@ -337,6 +337,7 @@ public class DevarcEditor : EditorWindow
                         string filePath = Path.Combine(Application.dataPath, data.inFiles[b]);
                         builder.Build(filePath);
                     }
+                    builder.Commit();
                 }
             }
             EditorUtility.DisplayDialog("Make Json Files", "Build Completed.", "Success");
