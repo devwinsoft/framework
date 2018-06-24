@@ -24,9 +24,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using System.Data;
 using System.Threading;
-#if UNITY_5
+//using System.Data;
+#if UNITY_5 || UNITY_2017
 using Mono.Data.Sqlite;
 #else
 using System.Data.SQLite;
@@ -131,6 +131,7 @@ namespace Devarc
     }
     public interface IBaseObejct<T> : IBaseObejct
     {
+        T GetKey();
         string GetSelectQuery(T _key);
     }
 

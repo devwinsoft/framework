@@ -2,8 +2,8 @@ using System;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-#if UNITY_5
+//using System.Data;
+#if UNITY_5 || UNITY_2017
 using Mono.Data.Sqlite;
 #else
 using System.Data.SQLite;
@@ -31,8 +31,9 @@ namespace Devarc
 		{
 			Initialize(obj);
 		}
+		public string GetKey() { return Key; }
 		public string GetSelectQuery(string _key) { return string.Format("select Key, Value from Key where Key='{0}';", _key); }
-		public bool IsDefault
+        public bool IsDefault
 		{
 			get
 			{
@@ -62,12 +63,12 @@ namespace Devarc
 			if (obj.Keys.Contains("Key")) Key = obj["Key"].ToString(); else Key = default(string);
 			if (obj.Keys.Contains("Value")) Value = obj["Value"].ToString(); else Value = default(string);
 		}
-		public void Initialize(SqliteDataReader obj)
-		{
-			Key                 = obj.GetString(0);
-			Value               = obj.GetString(1);
-		}
-		public override string ToString()
+        public void Initialize(SqliteDataReader obj)
+        {
+            Key = obj.GetString(0);
+            Value = obj.GetString(1);
+        }
+        public override string ToString()
 		{
 		    StringBuilder sb = new StringBuilder();
 		    sb.Append("{"); sb.Append(" \"Key\":"); sb.Append("\""); sb.Append(Key); sb.Append("\"");

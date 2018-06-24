@@ -38,7 +38,7 @@ namespace Devarc
 		}
 		static void Callback_DIRECTION_JSON(string sheet_name, JsonData node)
 		{
-			if (node.Keys.Contains("unit_type") == false) return;
+			if (node.Keys.Contains("ID") == false) return;
 			_DIRECTION obj = TableManager.T_DIRECTION.Alloc(_DIRECTION.Parse(node["ID"].ToString()));
 			if (obj == null)
 			{
@@ -59,7 +59,7 @@ namespace Devarc
 		}
 		static void Callback_MESSAGE_JSON(string sheet_name, JsonData node)
 		{
-			if (node.Keys.Contains("unit_type") == false) return;
+			if (node.Keys.Contains("ID") == false) return;
 			_MESSAGE obj = TableManager.T_MESSAGE.Alloc(_MESSAGE.Parse(node["ID"].ToString()));
 			if (obj == null)
 			{
@@ -80,7 +80,7 @@ namespace Devarc
 		}
 		static void Callback_UNIT_JSON(string sheet_name, JsonData node)
 		{
-			if (node.Keys.Contains("unit_type") == false) return;
+			if (node.Keys.Contains("ID") == false) return;
 			_UNIT obj = TableManager.T_UNIT.Alloc(_UNIT.Parse(node["ID"].ToString()));
 			if (obj == null)
 			{
@@ -204,6 +204,17 @@ namespace Devarc
 				reader.RegisterCallback("MESSAGE", Callback_MESSAGE_JSON);
 				reader.RegisterCallback("UNIT", Callback_UNIT_JSON);
 				return reader.ReadFile(file_path);
+			}
+		}
+		public static bool Load_TestSchema_JsonData(string _data)
+		{
+			using (JsonReader reader = new JsonReader())
+			{
+				reader.RegisterCallback("DataCharacter", Callback_DataCharacter_JSON);
+				reader.RegisterCallback("DIRECTION", Callback_DIRECTION_JSON);
+				reader.RegisterCallback("MESSAGE", Callback_MESSAGE_JSON);
+				reader.RegisterCallback("UNIT", Callback_UNIT_JSON);
+				return reader.ReadData(_data);
 			}
 		}
 		public static void Save_TestSchema_SheetFile(string file_path)

@@ -47,23 +47,39 @@ namespace Devarc
             return _list.Count;
         }
 
-        public static string MakeLStringKey(string _class_name, string _field_name, string _id)
+        public static T Parse<T>(string _name) where T : struct
         {
-            return string.Format("{0}_{1}_{2}", _class_name, _field_name, _id);
+            Int32 result;
+            if (Int32.TryParse(_name, out result))
+                return (T)(object)result;
+            try
+            {
+                return (T)System.Enum.Parse(typeof(T), _name);
+            }
+            catch
+            {
+                return default(T);
+            }
         }
 
-        public static string GetLString(string _class_name, string _field_name, string _id)
+        public static string MakeLStringKey(string _class_name, string _field_name, string _id)
         {
-            return GetLString(MakeLStringKey(_class_name, _field_name, _id));
+            return string.Format("{0}_{1}_{2}", _class_name, _field_name, _id); ;
         }
+
+        //public static string GetLString(string _class_name, string _field_name, string _id)
+        //{
+        //    return GetLString(MakeLStringKey());
+        //}
 
         public static string GetLString(string _lstrKey)
         {
-            LString obj;
-            TableManager.T_LString.TryGetAt(TableManager.Connection, _lstrKey, out obj);
-            if (obj == null)
-                return string.Empty;
-            return obj.Value;
+            return TableManager.T_LString.GetAt(_lstrKey);
+            //LString obj;
+            //TableManager.T_LString.TryGetAt(TableManager.Connection, _lstrKey, out obj);
+            //if (obj == null)
+            //    return string.Empty;
+            //return obj.Value;
         }
     }
 }

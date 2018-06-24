@@ -2,8 +2,8 @@ using System;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-#if UNITY_5
+//using System.Data;
+#if UNITY_5 || UNITY_2017
 using Mono.Data.Sqlite;
 #else
 using System.Data.SQLite;
@@ -39,6 +39,7 @@ namespace Devarc
 		{
 			Initialize(obj);
 		}
+		public UNIT GetKey() { return unit_type; }
 		public string GetSelectQuery(UNIT _key) { return string.Format("select unit_type, name, items, stats, ability, nodes, unit_uid, specialCode from unit_type where unit_type='{0}';", _key); }
 		public bool IsDefault
 		{
@@ -590,28 +591,7 @@ namespace Devarc
 	{
 		public static DIRECTION Parse(string name)
 		{
-			int result;
-			if (Int32.TryParse(name, out result))
-				return (DIRECTION)result;
-			if (name == "STOP")
-				return DIRECTION.STOP;
-			if (name == "BACK")
-				return DIRECTION.BACK;
-			if (name == "FORWARD")
-				return DIRECTION.FORWARD;
-			if (name == "L")
-				return DIRECTION.L;
-			if (name == "R")
-				return DIRECTION.R;
-			if (name == "FL")
-				return DIRECTION.FL;
-			if (name == "FR")
-				return DIRECTION.FR;
-			if (name == "BL")
-				return DIRECTION.BL;
-			if (name == "BR")
-				return DIRECTION.BR;
-			return (DIRECTION)0;
+			return FrameworkUtil.Parse<DIRECTION>(name);
 		}
 		public string              Name = "";
 		public DIRECTION           ID;
@@ -627,6 +607,7 @@ namespace Devarc
 		{
 			Initialize(obj);
 		}
+		public DIRECTION GetKey() { return ID; }
 		public string GetSelectQuery(DIRECTION _key) { return string.Format("select Name, ID from ID where ID='{0}';", _key); }
 		public bool IsDefault
 		{
@@ -731,14 +712,7 @@ namespace Devarc
 	{
 		public static MESSAGE Parse(string name)
 		{
-			int result;
-			if (Int32.TryParse(name, out result))
-				return (MESSAGE)result;
-			if (name == "SUCCESS")
-				return MESSAGE.SUCCESS;
-			if (name == "ERROR_UNKNOWN")
-				return MESSAGE.ERROR_UNKNOWN;
-			return (MESSAGE)0;
+			return FrameworkUtil.Parse<MESSAGE>(name);
 		}
 		public string              Name = "";
 		public MESSAGE             ID;
@@ -756,6 +730,7 @@ namespace Devarc
 		{
 			Initialize(obj);
 		}
+		public MESSAGE GetKey() { return ID; }
 		public string GetSelectQuery(MESSAGE _key) { return string.Format("select Name, ID, TEXT from ID where ID='{0}';", _key); }
 		public bool IsDefault
 		{
@@ -869,46 +844,7 @@ namespace Devarc
 	{
 		public static UNIT Parse(string name)
 		{
-			int result;
-			if (Int32.TryParse(name, out result))
-				return (UNIT)result;
-			if (name == "NONE")
-				return UNIT.NONE;
-			if (name == "HUMAN_FEMALE")
-				return UNIT.HUMAN_FEMALE;
-			if (name == "HUMAN_MALE")
-				return UNIT.HUMAN_MALE;
-			if (name == "ELF_FEMALE")
-				return UNIT.ELF_FEMALE;
-			if (name == "ELF_MALE")
-				return UNIT.ELF_MALE;
-			if (name == "DARKELF_FEMALE")
-				return UNIT.DARKELF_FEMALE;
-			if (name == "DARKELF_MALE")
-				return UNIT.DARKELF_MALE;
-			if (name == "DWARF_FEMALE")
-				return UNIT.DWARF_FEMALE;
-			if (name == "DWARF_MALE")
-				return UNIT.DWARF_MALE;
-			if (name == "GOBLIN")
-				return UNIT.GOBLIN;
-			if (name == "IMP")
-				return UNIT.IMP;
-			if (name == "MUMMY")
-				return UNIT.MUMMY;
-			if (name == "ORC")
-				return UNIT.ORC;
-			if (name == "TROLL")
-				return UNIT.TROLL;
-			if (name == "UNDEAD")
-				return UNIT.UNDEAD;
-			if (name == "DRAGON_BLACK")
-				return UNIT.DRAGON_BLACK;
-			if (name == "DRAGON_RED")
-				return UNIT.DRAGON_RED;
-			if (name == "DRAGON_UNDEAD")
-				return UNIT.DRAGON_UNDEAD;
-			return (UNIT)0;
+			return FrameworkUtil.Parse<UNIT>(name);
 		}
 		public string              Name = "";
 		public UNIT                ID;
@@ -924,6 +860,7 @@ namespace Devarc
 		{
 			Initialize(obj);
 		}
+		public UNIT GetKey() { return ID; }
 		public string GetSelectQuery(UNIT _key) { return string.Format("select Name, ID from ID where ID='{0}';", _key); }
 		public bool IsDefault
 		{

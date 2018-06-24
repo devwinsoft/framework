@@ -276,6 +276,19 @@ namespace Devarc
                 sw.WriteLine("\t\t\t}");
                 sw.WriteLine("\t\t}");
 
+                // Load JSON DATA
+                sw.WriteLine("\t\tpublic static bool Load_{0}_JsonData(string _data)", this.FileName);
+                sw.WriteLine("\t\t{");
+                sw.WriteLine("\t\t\tusing (JsonReader reader = new JsonReader())");
+                sw.WriteLine("\t\t\t{");
+                foreach (ClassInfo info in m_ClassList)
+                {
+                    sw.WriteLine("\t\t\t\treader.RegisterCallback(\"{0}\", Callback_{0}_JSON);", info.enum_name);
+                }
+                sw.WriteLine("\t\t\t\treturn reader.ReadData(_data);");
+                sw.WriteLine("\t\t\t}");
+                sw.WriteLine("\t\t}");
+
 
                 // Save XML
                 sw.WriteLine("\t\tpublic static void Save_{0}_SheetFile(string file_path)", this.FileName);
@@ -408,7 +421,7 @@ namespace Devarc
 
                 sw.WriteLine("\t\tstatic void Callback_{0}_JSON(string sheet_name, JsonData node)", enum_name);
                 sw.WriteLine("\t\t{");
-                sw.WriteLine("\t\t\tif (node.Keys.Contains(\"unit_type\") == false) return;");
+                sw.WriteLine("\t\t\tif (node.Keys.Contains(\"{0}\") == false) return;", key_var_name);
                 string keyString;
                 switch (tb.GetVarType(key_index))
                 {

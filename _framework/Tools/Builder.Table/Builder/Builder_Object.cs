@@ -142,8 +142,8 @@ namespace Devarc
                 sw.WriteLine("using System.Text;");
                 sw.WriteLine("using System.Collections;");
                 sw.WriteLine("using System.Collections.Generic;");
-                sw.WriteLine("using System.Data;");
-                sw.WriteLine("#if UNITY_5");
+                sw.WriteLine("//using System.Data;");
+                sw.WriteLine("#if UNITY_5 || UNITY_2017");
                 sw.WriteLine("using Mono.Data.Sqlite;");
                 sw.WriteLine("#else");
                 sw.WriteLine("using System.Data.SQLite;");
@@ -270,18 +270,7 @@ namespace Devarc
                 {
                     sw.WriteLine("\t\tpublic static {0} Parse(string name)", enum_name);
                     sw.WriteLine("\t\t{");
-                    sw.WriteLine("\t\t\tint result;");
-                    sw.WriteLine("\t\t\tif (Int32.TryParse(name, out result))");
-                    sw.WriteLine("\t\t\t\treturn ({0})result;", enum_name);
-                    if (m_EnumList.Contains(enum_name))
-                    {
-                        foreach (ENUM_INFO info in m_EnumList[enum_name] as List<ENUM_INFO>)
-                        {
-                            sw.WriteLine("\t\t\tif (name == \"{0}\")", info.Name);
-                            sw.WriteLine("\t\t\t\treturn {0}.{1};", enum_name, info.Name);
-                        }
-                    }
-                    sw.WriteLine("\t\t\treturn ({0})0;", enum_name);
+                    sw.WriteLine("\t\t\treturn FrameworkUtil.Parse<{0}>(name);", enum_name);
                     sw.WriteLine("\t\t}");
                 }
                 for (int i = 0; i < tb.Length; i++)
@@ -391,6 +380,7 @@ namespace Devarc
 
                 if (tb.KeyIndex >= 0)
                 {
+                    sw.WriteLine("\t\tpublic {0} GetKey() {{ return {1}; }}", tb.KeyTypeName, tb.GetVarName(tb.KeyIndex));
                     sw.Write("\t\tpublic string GetSelectQuery({0} _key) {{ return string.Format(\"select ", tb.KeyTypeName);
                     for (int i = 0; i < tb.Length; i++)
                     {

@@ -10,7 +10,7 @@ using NPOI.HSSF.UserModel;
 using NPOI.XSSF.UserModel;
 using System.Text;
 using Devarc;
-#if UNITY_5
+#if UNITY_5 || UNITY_2017
 using Mono.Data.Sqlite;
 #else
 using System.Data.SQLite;
@@ -340,7 +340,7 @@ public class DevarcEditor : EditorWindow
                     builder.Commit();
                 }
             }
-            EditorUtility.DisplayDialog("Make Json Files", "Build Completed.", "Success");
+            EditorUtility.DisplayDialog("Generate SQLite", "Build Completed.", "Success");
         }
 
         GUILayout.EndScrollView();

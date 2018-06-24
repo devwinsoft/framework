@@ -23,7 +23,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-#if UNITY_5
+#if UNITY_5 || UNITY_2017
 using Mono.Data.Sqlite;
 #else
 using System.Data.SQLite;
@@ -34,6 +34,71 @@ using SqliteCommand = System.Data.SQLite.SQLiteCommand;
 
 namespace Devarc
 {
+    public class Table<K, T> where T : IBaseObejct, new()
+    {
+        private Dictionary<K, T> mMap = new Dictionary<K, T>();
+        protected List<T> mList = new List<T>();
+
+        public void Clear()
+        {
+            mMap.Clear();
+            mList.Clear();
+        }
+
+        public T Alloc(K key1)
+        {
+            if (mMap.ContainsKey(key1))
+            {
+                Log.Debug("Cannot alloc. [name]:" + typeof(T).ToString() + "[key1]:" + key1);
+                return default(T);
+            }
+            T obj = new T();
+            mMap.Add(key1, obj);
+            mList.Add(obj);
+            return obj;
+        }
+
+        public void Free(K _key)
+        {
+            T obj;
+            if (mMap.TryGetValue(_key, out obj) == false)
+            {
+                return;
+            }
+            mMap.Remove(_key);
+            mList.Remove(obj);
+            obj = default(T);
+        }
+
+        public T GetAt(K _key)
+        {
+            T obj;
+            return mMap.TryGetValue(_key, out obj) ? obj : default(T);
+        }
+
+        public bool Contains(K key)
+        {
+            return mMap.ContainsKey(key);
+        }
+
+        public T ElementAt(int index)
+        {
+            if (mList.Count <= index)
+            {
+                return default(T);
+            }
+            return mList[index];
+        }
+
+        public List<T>.Enumerator GetEnumerator()
+        {
+            return mList.GetEnumerator();
+        }
+
+        public int Count { get { return mList.Count; } }
+    }
+
+
     public class Container<ITEM, KEY> where ITEM : IBaseObejct<KEY>, new()
     {
         private Dictionary<KEY, ITEM> mMap = new Dictionary<KEY, ITEM>();
@@ -79,38 +144,32 @@ namespace Devarc
             ITEM obj;
             return mMap.TryGetValue(_key, out obj) ? obj : default(ITEM);
         }
-        public ITEM GetAt(SqliteConnection _conn, KEY key1)
+
+        static readonly ITEM defaultObject = new ITEM();
+        public ITEM GetAt(SQLite_Session _session, KEY _key)
         {
-            ITEM obj;
-            if (TryGetAt(_conn, key1, out obj))
+            ITEM obj = default(ITEM);
+            if (mMap.TryGetValue(_key, out obj))
             {
                 return obj;
             }
-            return default(ITEM);
-        }
-        static readonly ITEM defaultObject = new ITEM();
-        public bool TryGetAt(SqliteConnection _conn, KEY _key, out ITEM _obj)
-        {
-            SqliteCommand cmd = new SqliteCommand(_conn);
-            cmd.CommandText = defaultObject.GetSelectQuery(_key);
+
             try
             {
-                SqliteDataReader reader = cmd.ExecuteReader();
+                SqliteDataReader reader = _session.ExecuteReader(defaultObject.GetSelectQuery(_key));
                 if (reader.Read())
                 {
-                    _obj = new ITEM();
-                    _obj.Initialize(reader);
-                    return true;
+                    obj = new ITEM();
+                    obj.Initialize(reader);
+                    mMap.Add(obj.GetKey(), obj);
+                    mList.Add(obj);
                 }
-                _obj = default(ITEM);
-                return false;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log.Exception(ex);
-                _obj = default(ITEM);
-                return false;
             }
+            return obj;
         }
 
         public bool Contains(KEY key)
@@ -133,114 +192,112 @@ namespace Devarc
     }
 
 
+    //public class Container<ME, KEY1, KEY2> where ME : IContents<KEY1, KEY2>, new()
+    //{
+    //    private Dictionary<KEY1, ME> m_ObjTable1 = new Dictionary<KEY1, ME>();
+    //    private Dictionary<KEY2, ME> m_ObjTable2 = new Dictionary<KEY2, ME>();
+    //    protected List<ME> m_ObjList = new List<ME>();
 
+    //    public Container()
+    //    {
+    //    }
+    //    public void Clear()
+    //    {
+    //        m_ObjTable1.Clear();
+    //        m_ObjTable2.Clear();
+    //        m_ObjList.Clear();
+    //    }
 
-    public class Container<ME, KEY1, KEY2> where ME : IContents<KEY1, KEY2>, new()
-    {
-        private Dictionary<KEY1, ME> m_ObjTable1 = new Dictionary<KEY1, ME>();
-        private Dictionary<KEY2, ME> m_ObjTable2 = new Dictionary<KEY2, ME>();
-        protected List<ME> m_ObjList = new List<ME>();
+    //    private ME _Alloc(KEY1 key1, KEY2 key2)
+    //    {
+    //        if (m_ObjTable1.ContainsKey(key1))
+    //        {
+    //            Log.Debug("Cannot alloc. [name]:" + typeof(ME).ToString() + "[key1]:" + key1);
+    //            return default(ME);
+    //        }
+    //        if (m_ObjTable2.ContainsKey(key2))
+    //        {
+    //            Log.Debug("Cannot alloc. [name]:" + typeof(ME).ToString() + "[key2]:" + key2);
+    //            return default(ME);
+    //        }
 
-        public Container()
-        {
-        }
-        public void Clear()
-        {
-            m_ObjTable1.Clear();
-            m_ObjTable2.Clear();
-            m_ObjList.Clear();
-        }
+    //        ME obj = new ME();
+    //        m_ObjTable1.Add(key1, obj);
+    //        m_ObjTable2.Add(key2, obj);
+    //        m_ObjList.Add(obj);
+    //        return obj;
+    //    }
+    //    public ME Alloc(KEY1 key1, KEY2 key2)
+    //    {
+    //        ME obj = _Alloc(key1, key2);
+    //        if (obj == null)
+    //        {
+    //            return obj;
+    //        }
+    //        obj.OnAlloc(key1, key2);
+    //        return obj;
+    //    }
 
-        private ME _Alloc(KEY1 key1, KEY2 key2)
-        {
-            if (m_ObjTable1.ContainsKey(key1))
-            {
-                Log.Debug("Cannot alloc. [name]:" + typeof(ME).ToString() + "[key1]:" + key1);
-                return default(ME);
-            }
-            if (m_ObjTable2.ContainsKey(key2))
-            {
-                Log.Debug("Cannot alloc. [name]:" + typeof(ME).ToString() + "[key2]:" + key2);
-                return default(ME);
-            }
+    //    public void Free1(KEY1 key1)
+    //    {
+    //        ME obj;
+    //        if (m_ObjTable1.TryGetValue(key1, out obj) == false)
+    //        {
+    //            return;
+    //        }
+    //        obj.OnFree();
+    //        m_ObjTable1.Remove(obj.GetKey1());
+    //        m_ObjTable2.Remove(obj.GetKey2());
+    //        m_ObjList.Remove(obj);
+    //        obj = default(ME);
+    //    }
 
-            ME obj = new ME();
-            m_ObjTable1.Add(key1, obj);
-            m_ObjTable2.Add(key2, obj);
-            m_ObjList.Add(obj);
-            return obj;
-        }
-        public ME Alloc(KEY1 key1, KEY2 key2)
-        {
-            ME obj = _Alloc(key1, key2);
-            if (obj == null)
-            {
-                return obj;
-            }
-            obj.OnAlloc(key1, key2);
-            return obj;
-        }
+    //    public void Free2(KEY2 key2)
+    //    {
+    //        ME obj;
+    //        if (m_ObjTable2.TryGetValue(key2, out obj) == false)
+    //        {
+    //            return;
+    //        }
+    //        obj.OnFree();
+    //        m_ObjTable1.Remove(obj.GetKey1());
+    //        m_ObjTable2.Remove(obj.GetKey2());
+    //        m_ObjList.Remove(obj);
+    //        obj = default(ME);
+    //    }
 
-        public void Free1(KEY1 key1)
-        {
-            ME obj;
-            if (m_ObjTable1.TryGetValue(key1, out obj) == false)
-            {
-                return;
-            }
-            obj.OnFree();
-            m_ObjTable1.Remove(obj.GetKey1());
-            m_ObjTable2.Remove(obj.GetKey2());
-            m_ObjList.Remove(obj);
-            obj = default(ME);
-        }
+    //    public ME GetAt1(KEY1 key1)
+    //    {
+    //        ME obj;
+    //        return m_ObjTable1.TryGetValue(key1, out obj) ? obj : default(ME);
+    //    }
 
-        public void Free2(KEY2 key2)
-        {
-            ME obj;
-            if (m_ObjTable2.TryGetValue(key2, out obj) == false)
-            {
-                return;
-            }
-            obj.OnFree();
-            m_ObjTable1.Remove(obj.GetKey1());
-            m_ObjTable2.Remove(obj.GetKey2());
-            m_ObjList.Remove(obj);
-            obj = default(ME);
-        }
-
-        public ME GetAt1(KEY1 key1)
-        {
-            ME obj;
-            return m_ObjTable1.TryGetValue(key1, out obj) ? obj : default(ME);
-        }
-
-        public ME GetAt2(KEY2 key2)
-        {
-            ME obj;
-            return m_ObjTable2.TryGetValue(key2, out obj) ? obj : default(ME);
-        }
-        public bool Contains1(KEY1 key1)
-        {
-            return m_ObjTable1.ContainsKey(key1);
-        }
-        public bool Contains2(KEY2 key2)
-        {
-            return m_ObjTable2.ContainsKey(key2);
-        }
-        public ME ElementAt(int index)
-        {
-            if (m_ObjList.Count <= index)
-            {
-                return default(ME);
-            }
-            return m_ObjList[index];
-        }
-        public List<ME>.Enumerator GetEnumerator()
-        {
-            return m_ObjList.GetEnumerator();
-        }
-        public int Count { get { return m_ObjList.Count; } }
-    }
+    //    public ME GetAt2(KEY2 key2)
+    //    {
+    //        ME obj;
+    //        return m_ObjTable2.TryGetValue(key2, out obj) ? obj : default(ME);
+    //    }
+    //    public bool Contains1(KEY1 key1)
+    //    {
+    //        return m_ObjTable1.ContainsKey(key1);
+    //    }
+    //    public bool Contains2(KEY2 key2)
+    //    {
+    //        return m_ObjTable2.ContainsKey(key2);
+    //    }
+    //    public ME ElementAt(int index)
+    //    {
+    //        if (m_ObjList.Count <= index)
+    //        {
+    //            return default(ME);
+    //        }
+    //        return m_ObjList[index];
+    //    }
+    //    public List<ME>.Enumerator GetEnumerator()
+    //    {
+    //        return m_ObjList.GetEnumerator();
+    //    }
+    //    public int Count { get { return m_ObjList.Count; } }
+    //}
 
 }

@@ -63,7 +63,12 @@ namespace Devarc
             }
 
             string file_data = System.IO.File.ReadAllText(file_path, new UTF8Encoding());
-            JsonData root = JsonMapper.ToObject(file_data);
+            return ReadData(file_data);
+        }
+
+        public bool ReadData(string _data)
+        {
+            JsonData root = JsonMapper.ToObject(_data);
             var enumerator = m_sheet_list.GetEnumerator();
             while (enumerator.MoveNext())
             {
@@ -81,5 +86,6 @@ namespace Devarc
             }
             return true;
         }
+
     }
 }
