@@ -56,6 +56,12 @@ public class DevarcEditor : EditorWindow
     void OnEnable()
     {
         this.titleContent.text = "Devarc";
+        //Log.SetCallback(callback_message);
+    }
+
+    void callback_message(LOG_TYPE tp, string msg)
+    {
+        Debug.Log(msg);
     }
 
     T[] resize<T>(T[] _data, List<T> _backup, int _count)
@@ -166,6 +172,7 @@ public class DevarcEditor : EditorWindow
                         if (string.IsNullOrEmpty(config.inObjFiles[i]))
                             continue;
                         string tempInPath = System.IO.Path.Combine(Application.dataPath, config.inObjFiles[i]);
+                        tempInPath = System.IO.Path.GetFullPath(tempInPath);
                         string tempExt = Path.GetExtension(tempInPath);
                         switch (tempExt.ToLower())
                         {

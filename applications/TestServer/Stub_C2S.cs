@@ -14,7 +14,6 @@ namespace TestServer
     {
         public void RMI_C2S_Move(HostID remote, VECTOR3 _look, DIRECTION _move)
         {
-
         }
 
         public void RMI_C2S_Chat(HostID remote, String _msg)

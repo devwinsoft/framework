@@ -1,5 +1,5 @@
-set CMD=Devarc.TableBuilder.exe
-set INDIR=..\..\applications\Unity\Assets\Devarc\ExcelData
+set CMD=..\Bin\Devarc.TableBuilder.exe
+set INDIR=..\..\applications\Unity\Assets\Devarc\Test\ExcelData
 set TMPDIR=..\_TMP
 set OUTDIR1=..\..\applications\Unity\Assets\Devarc\_GeneratedCode
 set OUTDIR2=..\Modules\Devarc.Object\_GeneratedCode

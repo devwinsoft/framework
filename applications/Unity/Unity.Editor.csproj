@@ -184,63 +184,6 @@
     <Reference Include="UnityEngine.WindModule">
       <HintPath>Library\UnityAssemblies\UnityEngine.WindModule.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.UI">
-      <HintPath>Library\UnityAssemblies\UnityEditor.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEditor.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.TestRunner">
-      <HintPath>Library\UnityAssemblies\UnityEditor.TestRunner.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.TestRunner">
-      <HintPath>Library\UnityAssemblies\UnityEngine.TestRunner.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>Library\UnityAssemblies\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Timeline">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Timeline.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.Timeline">
-      <HintPath>Library\UnityAssemblies\UnityEditor.Timeline.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.TreeEditor">
-      <HintPath>Library\UnityAssemblies\UnityEditor.TreeEditor.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UIAutomation">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UIAutomation.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.UIAutomation">
-      <HintPath>Library\UnityAssemblies\UnityEditor.UIAutomation.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.GoogleAudioSpatializer">
-      <HintPath>Library\UnityAssemblies\UnityEditor.GoogleAudioSpatializer.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.GoogleAudioSpatializer">
-      <HintPath>Library\UnityAssemblies\UnityEngine.GoogleAudioSpatializer.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.HoloLens">
-      <HintPath>Library\UnityAssemblies\UnityEditor.HoloLens.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.HoloLens">
-      <HintPath>Library\UnityAssemblies\UnityEngine.HoloLens.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.SpatialTracking">
-      <HintPath>Library\UnityAssemblies\UnityEditor.SpatialTracking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.SpatialTracking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.SpatialTracking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.VR">
-      <HintPath>Library\UnityAssemblies\UnityEditor.VR.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor.Graphs">
       <HintPath>Library\UnityAssemblies\UnityEditor.Graphs.dll</HintPath>
     </Reference>
@@ -328,20 +271,11 @@
       <Project>{CF118143-7E37-744F-BE45-3F55345FEC40}</Project>
       <Name>Unity</Name>
     </ProjectReference>
-    <ProjectReference Include="Unity.Plugins.csproj">
-      <Project>{D1FDB199-0FB7-099D-3771-C6A942E4E326}</Project>
-      <Name>Unity.Plugins</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.Editor.Plugins.csproj">
-      <Project>{81A6E58E-BFF2-F1C8-1C4E-6316985F642C}</Project>
-      <Name>Unity.Editor.Plugins</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Devarc\_Component\Object\Editor\TableManagerEx_LString.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\Editor\TableManagerEx_TestSchema.cs" />
     <Compile Include="Assets\Devarc\Editor\Builder_Data.cs" />
-    <Compile Include="Assets\Devarc\Editor\Builder_Net.cs" />
     <Compile Include="Assets\Devarc\Editor\Builder_Object.cs" />
     <Compile Include="Assets\Devarc\Editor\Builder_SQLite.cs" />
     <Compile Include="Assets\Devarc\Editor\BuilderSaveData.cs" />
@@ -354,7 +288,6 @@
     <None Include="Assets\Devarc\Plugins\Editor\NPOI.OOXML.XML" />
     <None Include="Assets\Devarc\Plugins\Editor\NPOI.OpenXml4Net.XML" />
     <None Include="Assets\Devarc\Plugins\Editor\NPOI.XML" />
-    <None Include="Assets\Devarc\Test\ExcelData\LString.xml" />
     <None Include="Assets\Devarc\Test\Graphics\shaderCharacter.shader" />
     <None Include="Assets\Devarc\Test\Graphics\shaderTerrain.shader" />
     <None Include="Assets\Devarc\Test\Localize\LString_.xml" />

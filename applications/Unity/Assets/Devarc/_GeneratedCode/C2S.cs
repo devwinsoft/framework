@@ -17,8 +17,8 @@ namespace C2S
 				case RMI_ID.Move:
 					{
 						Log.Debug("Stub(C2S): Move");
-						Devarc.VECTOR3 _look = new Devarc.VECTOR3(); Marshaler.Read(_in_msg, _look);
-						Devarc.DIRECTION _move = default(Devarc.DIRECTION); Marshaler.Read(_in_msg, ref _move);
+						VECTOR3 _look = new VECTOR3(); Marshaler.Read(_in_msg, _look);
+						DIRECTION _move = default(DIRECTION); Marshaler.Read(_in_msg, ref _move);
 						if (_in_msg.IsCompleted == false) return RECEIVE_RESULT.INVALID_PACKET;
 						stub.RMI_C2S_Move(_in_msg.Hid, _look, _move);
 					}

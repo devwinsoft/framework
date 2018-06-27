@@ -184,33 +184,6 @@
     <Reference Include="UnityEngine.WindModule">
       <HintPath>Library\UnityAssemblies\UnityEngine.WindModule.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.TestRunner">
-      <HintPath>Library\UnityAssemblies\UnityEngine.TestRunner.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>Library\UnityAssemblies\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Timeline">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Timeline.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UIAutomation">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UIAutomation.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.GoogleAudioSpatializer">
-      <HintPath>Library\UnityAssemblies\UnityEngine.GoogleAudioSpatializer.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.HoloLens">
-      <HintPath>Library\UnityAssemblies\UnityEngine.HoloLens.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.SpatialTracking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.SpatialTracking.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine.Analytics">
       <HintPath>Library\UnityAssemblies\UnityEngine.Analytics.dll</HintPath>
     </Reference>
@@ -244,12 +217,6 @@
     <Reference Include="SuperSocket.ProtoBase">
       <HintPath>Assets\Devarc\Plugins\SuperSocket\SuperSocket.ProtoBase.dll</HintPath>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="Unity.Plugins.csproj">
-      <Project>{D1FDB199-0FB7-099D-3771-C6A942E4E326}</Project>
-      <Name>Unity.Plugins</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Devarc\_Component\Base\Container.cs" />
@@ -289,7 +256,6 @@
     <None Include="Assets\Devarc\Plugins\Editor\NPOI.OOXML.XML" />
     <None Include="Assets\Devarc\Plugins\Editor\NPOI.OpenXml4Net.XML" />
     <None Include="Assets\Devarc\Plugins\Editor\NPOI.XML" />
-    <None Include="Assets\Devarc\Test\ExcelData\LString.xml" />
     <None Include="Assets\Devarc\Test\Graphics\shaderCharacter.shader" />
     <None Include="Assets\Devarc\Test\Graphics\shaderTerrain.shader" />
     <None Include="Assets\Devarc\Test\Localize\LString_.xml" />

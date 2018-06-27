@@ -19,7 +19,7 @@ namespace S2C
 					{
 						Log.Debug("Stub(S2C): Notify_Player");
 						Devarc.HostID _id = default(Devarc.HostID); Marshaler.Read(_in_msg, ref _id);
-						Devarc.DataPlayer _data = new Devarc.DataPlayer(); Marshaler.Read(_in_msg, _data);
+						DataPlayer _data = new DataPlayer(); Marshaler.Read(_in_msg, _data);
 						if (_in_msg.IsCompleted == false) return RECEIVE_RESULT.INVALID_PACKET;
 						stub.RMI_S2C_Notify_Player(_in_msg.Hid, _id, _data);
 					}
@@ -27,8 +27,8 @@ namespace S2C
 				case RMI_ID.Notify_Move:
 					{
 						Log.Debug("Stub(S2C): Notify_Move");
-						Devarc.VECTOR3 _look = new Devarc.VECTOR3(); Marshaler.Read(_in_msg, _look);
-						Devarc.DIRECTION _move = default(Devarc.DIRECTION); Marshaler.Read(_in_msg, ref _move);
+						VECTOR3 _look = new VECTOR3(); Marshaler.Read(_in_msg, _look);
+						DIRECTION _move = default(DIRECTION); Marshaler.Read(_in_msg, ref _move);
 						if (_in_msg.IsCompleted == false) return RECEIVE_RESULT.INVALID_PACKET;
 						stub.RMI_S2C_Notify_Move(_in_msg.Hid, _look, _move);
 					}

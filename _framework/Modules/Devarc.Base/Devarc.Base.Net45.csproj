@@ -99,7 +99,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>xcopy /Y $(TargetPath) $(ProjectDir)..\..\0.Build.Table\
-xcopy /Y $(TargetPath) $(ProjectDir)..\..\2.Build.Protocol\</PostBuildEvent>
+    <PostBuildEvent>xcopy /Y $(TargetPath) $(ProjectDir)..\..\Bin\</PostBuildEvent>
   </PropertyGroup>
 </Project>

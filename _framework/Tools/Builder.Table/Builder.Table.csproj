@@ -87,6 +87,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>xcopy /Y $(TargetPath) $(ProjectDir)..\..\0.Build.Table\</PostBuildEvent>
+    <PostBuildEvent>xcopy /Y $(TargetPath) $(ProjectDir)..\..\Bin\</PostBuildEvent>
   </PropertyGroup>
 </Project>
