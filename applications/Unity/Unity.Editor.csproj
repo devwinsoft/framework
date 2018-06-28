@@ -244,26 +244,26 @@
     <Reference Include="System.Data">
       <HintPath>Assets\Devarc\Plugins\System.Data.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>Assets\Devarc\Plugins\Editor\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI">
-      <HintPath>Assets\Devarc\Plugins\Editor\NPOI.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OOXML">
-      <HintPath>Assets\Devarc\Plugins\Editor\NPOI.OOXML.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OpenXml4Net">
-      <HintPath>Assets\Devarc\Plugins\Editor\NPOI.OpenXml4Net.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OpenXmlFormats">
-      <HintPath>Assets\Devarc\Plugins\Editor\NPOI.OpenXmlFormats.dll</HintPath>
-    </Reference>
     <Reference Include="SuperSocket.ClientEngine">
       <HintPath>Assets\Devarc\Plugins\SuperSocket\SuperSocket.ClientEngine.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.ProtoBase">
       <HintPath>Assets\Devarc\Plugins\SuperSocket\SuperSocket.ProtoBase.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI">
+      <HintPath>Assets\Devarc\Plugins\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML">
+      <HintPath>Assets\Devarc\Plugins\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net">
+      <HintPath>Assets\Devarc\Plugins\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats">
+      <HintPath>Assets\Devarc\Plugins\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>Assets\Devarc\Plugins\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -273,21 +273,19 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Devarc\_Component\Object\Editor\TableManagerEx_LString.cs" />
-    <Compile Include="Assets\Devarc\_GeneratedCode\Editor\TableManagerEx_TestSchema.cs" />
+    <Compile Include="Assets\Devarc\Editor\Builder_Base.cs" />
     <Compile Include="Assets\Devarc\Editor\Builder_Data.cs" />
+    <Compile Include="Assets\Devarc\Editor\Builder_Localize.cs" />
     <Compile Include="Assets\Devarc\Editor\Builder_Object.cs" />
+    <Compile Include="Assets\Devarc\Editor\Builder_SimpleCode.cs" />
     <Compile Include="Assets\Devarc\Editor\Builder_SQLite.cs" />
     <Compile Include="Assets\Devarc\Editor\BuilderSaveData.cs" />
-    <Compile Include="Assets\Devarc\Editor\BuildUtil.cs" />
     <Compile Include="Assets\Devarc\Editor\DevarcEditor.cs" />
-    <Compile Include="Assets\Devarc\Editor\ExcelReader.cs" />
-    <Compile Include="Assets\Devarc\Editor\ExcelWriter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Devarc\Plugins\Editor\NPOI.OOXML.XML" />
-    <None Include="Assets\Devarc\Plugins\Editor\NPOI.OpenXml4Net.XML" />
-    <None Include="Assets\Devarc\Plugins\Editor\NPOI.XML" />
+    <None Include="Assets\Devarc\Plugins\NPOI.OOXML.XML" />
+    <None Include="Assets\Devarc\Plugins\NPOI.OpenXml4Net.XML" />
+    <None Include="Assets\Devarc\Plugins\NPOI.XML" />
     <None Include="Assets\Devarc\Test\Graphics\shaderCharacter.shader" />
     <None Include="Assets\Devarc\Test\Graphics\shaderTerrain.shader" />
     <None Include="Assets\Devarc\Test\Localize\LString_.xml" />

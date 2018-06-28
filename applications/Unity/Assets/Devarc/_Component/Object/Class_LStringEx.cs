@@ -22,7 +22,6 @@ namespace Devarc
             return obj.Value;
         }
 
-
         public LString(string _key)
         {
             Key = _key;

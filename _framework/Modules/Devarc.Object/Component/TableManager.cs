@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-#if UNITY_5
+#if UNITY_5 || UNITY_2017
 using UnityEngine;
 using Mono.Data.Sqlite;
 #else

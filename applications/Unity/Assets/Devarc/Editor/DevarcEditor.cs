@@ -225,7 +225,7 @@ public class DevarcEditor : EditorWindow
         tempRect.xMax = position.width - 20f;
         if (GUI.Button(tempRect, "Build Localized String."))
         {
-            BuildUtil util = new BuildUtil();
+            Builder_Localize util = new Builder_Localize();
             util.BuildStrTable(config.inStrTables, config.outStrDir);
             EditorUtility.DisplayDialog("Build Localized String", "Build Completed.", "Success");
         }
@@ -275,7 +275,7 @@ public class DevarcEditor : EditorWindow
         tempRect.xMax = position.width - 20f;
         if (GUI.Button(tempRect, "Generate Json Files"))
         {
-            BuildUtil util = new BuildUtil();
+            Builder_Localize util = new Builder_Localize();
             util.BuildDataFile(DATA_FILE_TYPE.JSON, config.inDataFiles, config.outDataTables);
             EditorUtility.DisplayDialog("Make Json Files", "Build Completed.", "Success");
         }

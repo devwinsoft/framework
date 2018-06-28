@@ -111,6 +111,68 @@ namespace Devarc
 			TableManager.T_MESSAGE.Clear();
 			TableManager.T_UNIT.Clear();
 		}
+		public static bool Load_TestSchema_ExcelFile(string file_path)
+		{
+			using (ExcelReader reader = new ExcelReader())
+			{
+				reader.RegisterCallback_DataLine("DataCharacter", Callback_DataCharacter_Sheet);
+				reader.RegisterCallback_DataLine("DIRECTION", Callback_DIRECTION_Sheet);
+				reader.RegisterCallback_DataLine("MESSAGE", Callback_MESSAGE_Sheet);
+				reader.RegisterCallback_DataLine("UNIT", Callback_UNIT_Sheet);
+				return reader.ReadFile(file_path);
+			}
+		}
+		public static void Save_TestSchema_ExcelFile(string file_path)
+		{
+			using (ExcelWriter writer = new ExcelWriter())
+			{
+				{
+				    DataCharacter temp = new DataCharacter();
+				    PropTable tb_header = temp.ToTable();
+				    writer.Write_Header(tb_header, false);
+				    for (int i = 0; i < TableManager.T_DataCharacter.Count; i++)
+				    {
+				        DataCharacter obj = TableManager.T_DataCharacter.ElementAt(i);
+				        PropTable tb = obj.ToTable();
+				        writer.Write_Contents(tb);
+				    }
+				}
+				{
+				    _DIRECTION temp = new _DIRECTION();
+				    PropTable tb_header = temp.ToTable();
+				    writer.Write_Header(tb_header, true);
+				    for (int i = 0; i < TableManager.T_DIRECTION.Count; i++)
+				    {
+				        _DIRECTION obj = TableManager.T_DIRECTION.ElementAt(i);
+				        PropTable tb = obj.ToTable();
+				        writer.Write_Contents(tb);
+				    }
+				}
+				{
+				    _MESSAGE temp = new _MESSAGE();
+				    PropTable tb_header = temp.ToTable();
+				    writer.Write_Header(tb_header, true);
+				    for (int i = 0; i < TableManager.T_MESSAGE.Count; i++)
+				    {
+				        _MESSAGE obj = TableManager.T_MESSAGE.ElementAt(i);
+				        PropTable tb = obj.ToTable();
+				        writer.Write_Contents(tb);
+				    }
+				}
+				{
+				    _UNIT temp = new _UNIT();
+				    PropTable tb_header = temp.ToTable();
+				    writer.Write_Header(tb_header, true);
+				    for (int i = 0; i < TableManager.T_UNIT.Count; i++)
+				    {
+				        _UNIT obj = TableManager.T_UNIT.ElementAt(i);
+				        PropTable tb = obj.ToTable();
+				        writer.Write_Contents(tb);
+				    }
+				}
+			    writer.Write_End(file_path);
+			}
+		}
 		public static bool Load_TestSchema_SheetFile(string file_path)
 		{
 			using (XmlSheetReader reader = new XmlSheetReader())

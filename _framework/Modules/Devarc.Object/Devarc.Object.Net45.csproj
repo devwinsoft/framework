@@ -55,7 +55,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Component\Classes.cs" />
     <Compile Include="Component\Class_LString.cs" />
     <Compile Include="Component\Class_LStringEx.cs" />
     <Compile Include="Component\FrameworkUtil.cs" />

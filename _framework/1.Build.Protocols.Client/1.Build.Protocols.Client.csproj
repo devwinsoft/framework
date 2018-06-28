@@ -50,7 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="Client.cs" />
+    <Content Include="Client.idl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Client.make" />

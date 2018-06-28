@@ -17,25 +17,26 @@ namespace Devarc
         {
         }
 
-        //protected override int GetBodyLengthFromHeader(IBufferStream bufferStream, int length)
-        //{
-        //    if (length <= 0)
-        //        return 0;
-        //    ArraySegment<byte> header = bufferStream.Buffers[0];
-        //    int dataLength = (int)header.Array[header.Offset + 7] * 256 + (int)header.Array[header.Offset + 6];
-        //    return dataLength;
-        //}
+#if UNITY_5
+        protected override int GetBodyLengthFromHeader(IBufferStream bufferStream, int length)
+        {
+            if (length <= 0)
+                return 0;
+            ArraySegment<byte> header = bufferStream.Buffers[0];
+            int dataLength = (int)header.Array[header.Offset + 7] * 256 + (int)header.Array[header.Offset + 6];
+            return dataLength;
+        }
 
-        //public override NetClientPackageInfo ResolvePackage(IBufferStream bufferStream)
-        //{
-        //    ArraySegment<byte> header = bufferStream.Buffers[0];
-        //    short rmi = BitConverter.ToInt16(header.Array, header.Offset);
-        //    HostID hid = (HostID)BitConverter.ToInt16(header.Array, header.Offset + 2);
-        //    short seq = BitConverter.ToInt16(header.Array, header.Offset + 4);
-        //    NetClientPackageInfo packageInfo = new NetClientPackageInfo(rmi, hid, seq, bufferStream.Buffers[1]);
-        //    return packageInfo;
-        //}
-
+        public override NetClientPackageInfo ResolvePackage(IBufferStream bufferStream)
+        {
+            ArraySegment<byte> header = bufferStream.Buffers[0];
+            short rmi = BitConverter.ToInt16(header.Array, header.Offset);
+            HostID hid = (HostID)BitConverter.ToInt16(header.Array, header.Offset + 2);
+            short seq = BitConverter.ToInt16(header.Array, header.Offset + 4);
+            NetClientPackageInfo packageInfo = new NetClientPackageInfo(rmi, hid, seq, bufferStream.Buffers[1]);
+            return packageInfo;
+        }
+#else
         protected override int GetBodyLengthFromHeader(IList<ArraySegment<byte>> packageData, int length)
         {
             if (length <= 0)
@@ -55,6 +56,7 @@ namespace Devarc
             NetClientPackageInfo packageInfo = new NetClientPackageInfo(rmi, hid, seq, body);
             return packageInfo;
         }
+#endif
     }
 }
 

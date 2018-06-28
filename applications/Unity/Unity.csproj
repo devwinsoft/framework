@@ -217,11 +217,28 @@
     <Reference Include="SuperSocket.ProtoBase">
       <HintPath>Assets\Devarc\Plugins\SuperSocket\SuperSocket.ProtoBase.dll</HintPath>
     </Reference>
+    <Reference Include="NPOI">
+      <HintPath>Assets\Devarc\Plugins\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML">
+      <HintPath>Assets\Devarc\Plugins\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net">
+      <HintPath>Assets\Devarc\Plugins\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats">
+      <HintPath>Assets\Devarc\Plugins\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>Assets\Devarc\Plugins\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Devarc\_Component\Base\Container.cs" />
     <Compile Include="Assets\Devarc\_Component\Base\Contents.cs" />
     <Compile Include="Assets\Devarc\_Component\Base\DES.cs" />
+    <Compile Include="Assets\Devarc\_Component\Base\ExcelReader.cs" />
+    <Compile Include="Assets\Devarc\_Component\Base\ExcelWriter.cs" />
     <Compile Include="Assets\Devarc\_Component\Base\HostID.cs" />
     <Compile Include="Assets\Devarc\_Component\Base\JsonReader.cs" />
     <Compile Include="Assets\Devarc\_Component\Base\Lock.cs" />
@@ -253,9 +270,9 @@
     <Compile Include="Assets\Devarc\Test\Script\Stub_S2C.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Devarc\Plugins\Editor\NPOI.OOXML.XML" />
-    <None Include="Assets\Devarc\Plugins\Editor\NPOI.OpenXml4Net.XML" />
-    <None Include="Assets\Devarc\Plugins\Editor\NPOI.XML" />
+    <None Include="Assets\Devarc\Plugins\NPOI.OOXML.XML" />
+    <None Include="Assets\Devarc\Plugins\NPOI.OpenXml4Net.XML" />
+    <None Include="Assets\Devarc\Plugins\NPOI.XML" />
     <None Include="Assets\Devarc\Test\Graphics\shaderCharacter.shader" />
     <None Include="Assets\Devarc\Test\Graphics\shaderTerrain.shader" />
     <None Include="Assets\Devarc\Test\Localize\LString_.xml" />

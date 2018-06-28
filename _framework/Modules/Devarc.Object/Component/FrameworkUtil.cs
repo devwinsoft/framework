@@ -8,26 +8,6 @@ namespace Devarc
 {
     public static class FrameworkUtil
     {
-        public static string GetClassName(string _path)
-        {
-            int startIndex = _path[0] == '!' ? 1 : 0;
-            int endIndex = _path.IndexOf('@');
-            if (endIndex >= 0)
-                return _path.Substring(startIndex, endIndex - startIndex);
-            else
-                return _path.Substring(startIndex, _path.Length - startIndex);
-        }
-        public static string GetClassNameEx(string _path)
-        {
-            string value = System.IO.Path.GetFileNameWithoutExtension(_path);
-            int startIndex = value[0] == '!' ? 1 : 0;
-            int endIndex = value.IndexOf('@');
-            if (endIndex >= 0)
-                return value.Substring(startIndex, endIndex - startIndex);
-            else
-                return value.Substring(startIndex, value.Length - startIndex);
-        }
-
         public static int FillList<T>(string _jsonString, List<T> _list) where T : IBaseObejct, new()
         {
             if (_list == null)

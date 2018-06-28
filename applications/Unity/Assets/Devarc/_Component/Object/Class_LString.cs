@@ -33,7 +33,7 @@ namespace Devarc
 		}
 		public string GetKey() { return Key; }
 		public string GetSelectQuery(string _key) { return string.Format("select Key, Value from Key where Key='{0}';", _key); }
-        public bool IsDefault
+		public bool IsDefault
 		{
 			get
 			{
@@ -63,12 +63,12 @@ namespace Devarc
 			if (obj.Keys.Contains("Key")) Key = obj["Key"].ToString(); else Key = default(string);
 			if (obj.Keys.Contains("Value")) Value = obj["Value"].ToString(); else Value = default(string);
 		}
-        public void Initialize(SqliteDataReader obj)
-        {
-            Key = obj.GetString(0);
-            Value = obj.GetString(1);
-        }
-        public override string ToString()
+		public void Initialize(SqliteDataReader obj)
+		{
+			Key                 = obj.GetString(0);
+			Value               = obj.GetString(1);
+		}
+		public override string ToString()
 		{
 		    StringBuilder sb = new StringBuilder();
 		    sb.Append("{"); sb.Append(" \"Key\":"); sb.Append("\""); sb.Append(Key); sb.Append("\"");
@@ -106,7 +106,7 @@ namespace Devarc
 	    {
 			Marshaler.Write(msg, obj.Key);
 			Marshaler.Write(msg, obj.Value);
-            return !msg.IsError;
+	        return msg.IsError;
 	    }
 	    public static bool Read(NetBuffer msg, List<LString> list)
 	    {
@@ -129,7 +129,7 @@ namespace Devarc
 				Marshaler.Write(msg, obj.Key);
 				Marshaler.Write(msg, obj.Value);
 	        }
-            return !msg.IsError;
-        }
-    }
+	        return msg.IsError;
+	    }
+	}
 } // end of namespace
