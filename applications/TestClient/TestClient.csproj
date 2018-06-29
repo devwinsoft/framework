@@ -87,6 +87,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\modules\Modules.Client\Modules.Client.csproj">
+      <Project>{541814d6-f429-4ab3-b328-9a98f0fe3482}</Project>
+      <Name>Modules.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\modules\Modules.Data\Modules.Data.csproj">
+      <Project>{25e1584d-51a1-41b8-91a0-6d0c2647055e}</Project>
+      <Name>Modules.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\_externals\SuperSocket.ClientEngine\SuperSocket.ClientEngine.Net45.csproj">
       <Project>{8bbfbe4a-b91a-4dcc-92d5-fb0436e2544f}</Project>
       <Name>SuperSocket.ClientEngine.Net45</Name>
@@ -95,17 +103,13 @@
       <Project>{a3dd7f17-9cb4-4946-a25b-9f917d7fd4ce}</Project>
       <Name>SuperSocket.ProtoBase.Net45</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\_framework\Modules\Devarc.Base\Devarc.Base.Net45.csproj">
-      <Project>{777b5922-baaa-47fb-8312-34821664729d}</Project>
+    <ProjectReference Include="..\..\_framework\Devarc.Base\Devarc.Base.Net45.csproj">
+      <Project>{2d3ff4eb-7fba-4526-8af4-c745020bc35f}</Project>
       <Name>Devarc.Base.Net45</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\_framework\Modules\Devarc.Net.Client\Devarc.Net.Client.Net45.csproj">
+    <ProjectReference Include="..\..\_framework\Devarc.Net.Client\Devarc.Net.Client.Net45.csproj">
       <Project>{44aafade-bcd3-45be-8077-0dd9d1c98374}</Project>
       <Name>Devarc.Net.Client.Net45</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\_framework\Modules\Devarc.Object\Devarc.Object.Net45.csproj">
-      <Project>{e9b1af6b-c4c0-4684-9b1c-de66b1b96ce8}</Project>
-      <Name>Devarc.Object.Net45</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
