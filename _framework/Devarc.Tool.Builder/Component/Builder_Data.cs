@@ -63,7 +63,7 @@ namespace Devarc
             }
 
             string OutDir = _outDir;
-            this.OutFilePath = Path.Combine(OutDir, "TableManager_" + this.FileName + ".cs");
+            this.OutFilePath = Path.Combine(OutDir, "Table_" + this.FileName + ".cs");
             if (Directory.Exists(OutDir) == false)
             {
                 if (Directory.CreateDirectory(OutDir) == null)
@@ -74,18 +74,6 @@ namespace Devarc
             }
             this._build(_inFilePath);
 
-            //buildEx = true;
-            //string OutDirEx = Path.Combine(_outDir, "Editor");
-            //this.OutFilePath = Path.Combine(OutDirEx, "TableManagerEx_" + this.FileName + ".cs");
-            //if (Directory.Exists(OutDirEx) == false)
-            //{
-            //    if (Directory.CreateDirectory(OutDirEx) == null)
-            //    {
-            //        Log.Info("Cannot find directory: " + OutDirEx);
-            //        return false;
-            //    }
-            //}
-            //this._build(_inFilePath);
             return true;
         }
 
@@ -102,7 +90,7 @@ namespace Devarc
                 this.FileName = tmpFileName;
 
             string OutDir = _outDir;
-            this.OutFilePath = Path.Combine(OutDir, "TableManager_" + this.FileName + ".cs");
+            this.OutFilePath = Path.Combine(OutDir, "Table_" + this.FileName + ".cs");
             if (Directory.Exists(OutDir) == false)
             {
                 if (Directory.CreateDirectory(OutDir) == null)
@@ -126,7 +114,7 @@ namespace Devarc
                 sw.WriteLine("using LitJson;");
                 sw.WriteLine("namespace {0}", this.NameSpace);
                 sw.WriteLine("{");
-                sw.WriteLine("\tpublic partial class TableManager");
+                sw.WriteLine("\tpublic partial class Table");
                 sw.WriteLine("\t{");
             }
 
@@ -149,7 +137,7 @@ namespace Devarc
                 sw.WriteLine("\t\t\t{");
                 foreach (ClassInfo info in m_ClassList)
                 {
-                    sw.WriteLine("\t\t\t\tif (TableManager.{0}.Count > 0) return true;", info.container_name);
+                    sw.WriteLine("\t\t\t\tif (Table.{0}.Count > 0) return true;", info.container_name);
                 }
                 sw.WriteLine("\t\t\t\treturn false;");
                 sw.WriteLine("\t\t\t}");
@@ -160,7 +148,7 @@ namespace Devarc
                 sw.WriteLine("\t\t{");
                 foreach (ClassInfo info in m_ClassList)
                 {
-                    sw.WriteLine("\t\t\tTableManager.{0}.Clear();", info.container_name);
+                    sw.WriteLine("\t\t\tTable.{0}.Clear();", info.container_name);
                 }
                 sw.WriteLine("\t\t}");
 
@@ -188,9 +176,9 @@ namespace Devarc
                     sw.WriteLine("\t\t\t\t    {0} temp = new {0}();", info.class_name);
                     sw.WriteLine("\t\t\t\t    PropTable tb_header = temp.ToTable();");
                     sw.WriteLine("\t\t\t\t    writer.Write_Header(tb_header, {0});", info.is_enum.ToString().ToLower());
-                    sw.WriteLine("\t\t\t\t    for (int i = 0; i < TableManager.{0}.Count; i++)", info.container_name);
+                    sw.WriteLine("\t\t\t\t    for (int i = 0; i < Table.{0}.Count; i++)", info.container_name);
                     sw.WriteLine("\t\t\t\t    {");
-                    sw.WriteLine("\t\t\t\t        {0} obj = TableManager.{1}.ElementAt(i);", info.class_name, info.container_name);
+                    sw.WriteLine("\t\t\t\t        {0} obj = Table.{1}.ElementAt(i);", info.class_name, info.container_name);
                     sw.WriteLine("\t\t\t\t        PropTable tb = obj.ToTable();");
                     sw.WriteLine("\t\t\t\t        writer.Write_Contents(tb);");
                     sw.WriteLine("\t\t\t\t    }");
@@ -263,10 +251,10 @@ namespace Devarc
                     sw.WriteLine("\t\t\t\t{");
                     sw.WriteLine("\t\t\t\t    {0} temp = new {0}();", info.class_name);
                     sw.WriteLine("\t\t\t\t    PropTable tb_header = temp.ToTable();");
-                    sw.WriteLine("\t\t\t\t    System.Xml.XmlNode node = writer.Write_Header(tb_header, TableManager.{0}.Count, {1});", info.container_name, info.is_enum.ToString().ToLower());
-                    sw.WriteLine("\t\t\t\t    for (int i = 0; i < TableManager.{0}.Count; i++)", info.container_name);
+                    sw.WriteLine("\t\t\t\t    System.Xml.XmlNode node = writer.Write_Header(tb_header, Table.{0}.Count, {1});", info.container_name, info.is_enum.ToString().ToLower());
+                    sw.WriteLine("\t\t\t\t    for (int i = 0; i < Table.{0}.Count; i++)", info.container_name);
                     sw.WriteLine("\t\t\t\t    {");
-                    sw.WriteLine("\t\t\t\t        {0} obj = TableManager.{1}.ElementAt(i);", info.class_name, info.container_name);
+                    sw.WriteLine("\t\t\t\t        {0} obj = Table.{1}.ElementAt(i);", info.class_name, info.container_name);
                     sw.WriteLine("\t\t\t\t        PropTable tb = obj.ToTable();");
                     sw.WriteLine("\t\t\t\t        writer.Write_Contents(node, tb);");
                     sw.WriteLine("\t\t\t\t    }");
@@ -288,10 +276,10 @@ namespace Devarc
                         sw.WriteLine("\t\t\tsw.WriteLine(\"\\\"{0}\\\":[\");", info.enum_name);
                     else
                         sw.WriteLine("\t\t\tsw.WriteLine(\",\\\"{0}\\\":[\");", info.enum_name);
-                    sw.WriteLine("\t\t\tfor (int i = 0; i < TableManager.{0}.Count; i++)", info.container_name);
+                    sw.WriteLine("\t\t\tfor (int i = 0; i < Table.{0}.Count; i++)", info.container_name);
                     sw.WriteLine("\t\t\t{");
                     sw.WriteLine("\t\t\t    if (i > 0) sw.WriteLine(\",\");");
-                    sw.WriteLine("\t\t\t    sw.Write(TableManager.{0}.ElementAt(i).ToJson());", info.container_name);
+                    sw.WriteLine("\t\t\t    sw.Write(Table.{0}.ElementAt(i).ToJson());", info.container_name);
                     sw.WriteLine("\t\t\t}");
                     sw.WriteLine("\t\t\tsw.WriteLine(\"]\");");
                 }
@@ -346,29 +334,29 @@ namespace Devarc
                 switch (tb.GetVarType(key_index))
                 {
                     case VAR_TYPE.BOOL:
-                        sw.WriteLine("\t\t\t{0} obj = TableManager.{1}.Alloc(tb.ToBoolean(\"{2}\"));", class_name, container_name, key_var_name);
+                        sw.WriteLine("\t\t\t{0} obj = Table.{1}.Alloc(tb.ToBoolean(\"{2}\"));", class_name, container_name, key_var_name);
                         break;
                     case VAR_TYPE.INT16:
-                        sw.WriteLine("\t\t\t{0} obj = TableManager.{1}.Alloc(tb.GetInt16(\"{2}\"));", class_name, container_name, key_var_name);
+                        sw.WriteLine("\t\t\t{0} obj = Table.{1}.Alloc(tb.GetInt16(\"{2}\"));", class_name, container_name, key_var_name);
                         break;
                     case VAR_TYPE.INT32:
-                        sw.WriteLine("\t\t\t{0} obj = TableManager.{1}.Alloc(tb.GetInt32(\"{2}\"));", class_name, container_name, key_var_name);
+                        sw.WriteLine("\t\t\t{0} obj = Table.{1}.Alloc(tb.GetInt32(\"{2}\"));", class_name, container_name, key_var_name);
                         break;
                     case VAR_TYPE.UINT32:
-                        sw.WriteLine("\t\t\t{0} obj = TableManager.{1}.Alloc(tb.GetUInt32(\"{2}\"));", class_name, container_name, key_var_name);
+                        sw.WriteLine("\t\t\t{0} obj = Table.{1}.Alloc(tb.GetUInt32(\"{2}\"));", class_name, container_name, key_var_name);
                         break;
                     case VAR_TYPE.INT64:
                     case VAR_TYPE.HOST_ID:
-                        sw.WriteLine("\t\t\t{0} obj = TableManager.{1}.Alloc(tb.ToInt64(\"{2}\"));", class_name, container_name, key_var_name);
+                        sw.WriteLine("\t\t\t{0} obj = Table.{1}.Alloc(tb.ToInt64(\"{2}\"));", class_name, container_name, key_var_name);
                         break;
                     case VAR_TYPE.FLOAT:
-                        sw.WriteLine("\t\t\t{0} obj = TableManager.{1}.Alloc(tb.GetFloat(\"{2}\"));", class_name, container_name, key_var_name);
+                        sw.WriteLine("\t\t\t{0} obj = Table.{1}.Alloc(tb.GetFloat(\"{2}\"));", class_name, container_name, key_var_name);
                         break;
                     case VAR_TYPE.STRING:
-                        sw.WriteLine("\t\t\t{0} obj = TableManager.{1}.Alloc(tb.GetStr(\"{2}\"));", class_name, container_name, key_var_name);
+                        sw.WriteLine("\t\t\t{0} obj = Table.{1}.Alloc(tb.GetStr(\"{2}\"));", class_name, container_name, key_var_name);
                         break;
                     case VAR_TYPE.ENUM:
-                        sw.WriteLine("\t\t\t{0} obj = TableManager.{1}.Alloc(_{2}.Parse(tb.GetStr(\"{3}\")));", class_name, container_name, key_type_name, key_var_name);
+                        sw.WriteLine("\t\t\t{0} obj = Table.{1}.Alloc(_{2}.Parse(tb.GetStr(\"{3}\")));", class_name, container_name, key_type_name, key_var_name);
                         break;                    
                     default:
                         // error
@@ -376,7 +364,7 @@ namespace Devarc
                 }
                 sw.WriteLine("\t\t\tif (obj == null)");
                 sw.WriteLine("\t\t\t{");
-                sw.WriteLine("\t\t\t\tLog.Error(\"[TableManager]Cannot create '{0}'. (id={{0}})\", tb.GetStr(\"{1}\"));", enum_name, key_var_name);
+                sw.WriteLine("\t\t\t\tLog.Error(\"[Table]Cannot create '{0}'. (id={{0}})\", tb.GetStr(\"{1}\"));", enum_name, key_var_name);
                 sw.WriteLine("\t\t\t\treturn;");
                 sw.WriteLine("\t\t\t}");
                 sw.WriteLine("\t\t\tobj.Initialize(tb);");
@@ -418,10 +406,10 @@ namespace Devarc
                         keyString = "0";
                         break;
                 }
-                sw.WriteLine("\t\t\t{0} obj = TableManager.{1}.Alloc({2});", class_name, container_name, keyString);
+                sw.WriteLine("\t\t\t{0} obj = Table.{1}.Alloc({2});", class_name, container_name, keyString);
                 sw.WriteLine("\t\t\tif (obj == null)");
                 sw.WriteLine("\t\t\t{");
-                sw.WriteLine("\t\t\t\tLog.Error(\"[TableManager]Cannot create '{0}'. (id={{0}})\", {1});", enum_name, keyString);
+                sw.WriteLine("\t\t\t\tLog.Error(\"[Table]Cannot create '{0}'. (id={{0}})\", {1});", enum_name, keyString);
                 sw.WriteLine("\t\t\t\treturn;");
                 sw.WriteLine("\t\t\t}");
                 sw.WriteLine("\t\t\tobj.Initialize(node);");

@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="Component\ExcelReader.cs" />
     <Compile Include="Component\ExcelWriter.cs" />
+    <Compile Include="Component\FrameworkUtil.cs" />
     <Compile Include="Component\JsonReader.cs" />
     <Compile Include="Component\NetBuffer.cs" />
     <Compile Include="Component\Lock.cs" />

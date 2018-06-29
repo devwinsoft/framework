@@ -30,7 +30,7 @@ class Builder_Localize : Builder_Base
         }
         if (assem != null)
         {
-            System.Type _type = typeof(TableManager);
+            System.Type _type = typeof(Table);
             foreach (MethodInfo m in _type.GetMethods())
             {
                 if (m.Name.StartsWith("UnLoad"))
@@ -175,7 +175,7 @@ class Builder_Localize : Builder_Base
             for (int i = 0; i < locales.Length; i++)
             {
                 listBuilt.Clear();
-                TableManager.UnLoad_LString();
+                Table.UnLoad_LString();
 
                 string destPath = Path.Combine(outputDir, string.Format("LString_{0}.xml", locales[i]));
                 // read old data
@@ -201,18 +201,18 @@ class Builder_Localize : Builder_Base
                             listBuilt.TryGetValue(key, out saveValue);
                         }
                     }
-                    if (TableManager.T_LString.Contains(key))
+                    if (Table.T_LString.Contains(key))
                     {
                         Debug.Log(string.Format("Duplicated key: {0}", key));
                         continue;
                     }
-                    LString obj = TableManager.T_LString.Alloc(key);
+                    LString obj = Table.T_LString.Alloc(key);
                     obj.Key = key;
                     obj.Value = saveValue;
                 }
 
                 // save
-                TableManager.Save_LString_SheetFile(destPath);
+                Table.Save_LString_SheetFile(destPath);
             }
         }
     }

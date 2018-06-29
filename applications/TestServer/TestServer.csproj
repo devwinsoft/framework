@@ -107,17 +107,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\modules\Modules.Client\Modules.Client.csproj">
+    <ProjectReference Include="..\..\modules\Modules.Protocol.Client\Modules.Protocol.Client.csproj">
       <Project>{541814d6-f429-4ab3-b328-9a98f0fe3482}</Project>
-      <Name>Modules.Client</Name>
+      <Name>Modules.Protocol.Client</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\modules\Modules.Data\Modules.Data.csproj">
-      <Project>{25e1584d-51a1-41b8-91a0-6d0c2647055e}</Project>
-      <Name>Modules.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\modules\Modules.Server\Modules.Server.csproj">
+    <ProjectReference Include="..\..\modules\Modules.Protocol.Server\Modules.Protocol.Server.csproj">
       <Project>{7e021313-866c-4f14-9a9a-4b13ec95ffa9}</Project>
-      <Name>Modules.Server</Name>
+      <Name>Modules.Protocol.Server</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\modules\Modules.Schema\Modules.Schema.csproj">
+      <Project>{25e1584d-51a1-41b8-91a0-6d0c2647055e}</Project>
+      <Name>Modules.Schema</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\_externals\SuperSocket\Common\SuperSocket.Common.Net45.csproj">
       <Project>{a24f4d38-ba9c-4fd6-95b7-4980de36131a}</Project>

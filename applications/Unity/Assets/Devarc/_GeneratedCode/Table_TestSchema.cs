@@ -3,14 +3,14 @@ using System.IO;
 using LitJson;
 namespace Devarc
 {
-	public partial class TableManager
+	public partial class Table
 	{
 		static void Callback_DataCharacter_Sheet(string sheet_name, PropTable tb)
 		{
-			DataCharacter obj = TableManager.T_DataCharacter.Alloc(_UNIT.Parse(tb.GetStr("unit_type")));
+			DataCharacter obj = Table.T_DataCharacter.Alloc(_UNIT.Parse(tb.GetStr("unit_type")));
 			if (obj == null)
 			{
-				Log.Error("[TableManager]Cannot create 'DataCharacter'. (id={0})", tb.GetStr("unit_type"));
+				Log.Error("[Table]Cannot create 'DataCharacter'. (id={0})", tb.GetStr("unit_type"));
 				return;
 			}
 			obj.Initialize(tb);
@@ -18,20 +18,20 @@ namespace Devarc
 		static void Callback_DataCharacter_JSON(string sheet_name, JsonData node)
 		{
 			if (node.Keys.Contains("unit_type") == false) return;
-			DataCharacter obj = TableManager.T_DataCharacter.Alloc(_UNIT.Parse(node["unit_type"].ToString()));
+			DataCharacter obj = Table.T_DataCharacter.Alloc(_UNIT.Parse(node["unit_type"].ToString()));
 			if (obj == null)
 			{
-				Log.Error("[TableManager]Cannot create 'DataCharacter'. (id={0})", _UNIT.Parse(node["unit_type"].ToString()));
+				Log.Error("[Table]Cannot create 'DataCharacter'. (id={0})", _UNIT.Parse(node["unit_type"].ToString()));
 				return;
 			}
 			obj.Initialize(node);
 		}
 		static void Callback_DIRECTION_Sheet(string sheet_name, PropTable tb)
 		{
-			_DIRECTION obj = TableManager.T_DIRECTION.Alloc(_DIRECTION.Parse(tb.GetStr("ID")));
+			_DIRECTION obj = Table.T_DIRECTION.Alloc(_DIRECTION.Parse(tb.GetStr("ID")));
 			if (obj == null)
 			{
-				Log.Error("[TableManager]Cannot create 'DIRECTION'. (id={0})", tb.GetStr("ID"));
+				Log.Error("[Table]Cannot create 'DIRECTION'. (id={0})", tb.GetStr("ID"));
 				return;
 			}
 			obj.Initialize(tb);
@@ -39,20 +39,20 @@ namespace Devarc
 		static void Callback_DIRECTION_JSON(string sheet_name, JsonData node)
 		{
 			if (node.Keys.Contains("ID") == false) return;
-			_DIRECTION obj = TableManager.T_DIRECTION.Alloc(_DIRECTION.Parse(node["ID"].ToString()));
+			_DIRECTION obj = Table.T_DIRECTION.Alloc(_DIRECTION.Parse(node["ID"].ToString()));
 			if (obj == null)
 			{
-				Log.Error("[TableManager]Cannot create 'DIRECTION'. (id={0})", _DIRECTION.Parse(node["ID"].ToString()));
+				Log.Error("[Table]Cannot create 'DIRECTION'. (id={0})", _DIRECTION.Parse(node["ID"].ToString()));
 				return;
 			}
 			obj.Initialize(node);
 		}
 		static void Callback_MESSAGE_Sheet(string sheet_name, PropTable tb)
 		{
-			_MESSAGE obj = TableManager.T_MESSAGE.Alloc(_MESSAGE.Parse(tb.GetStr("ID")));
+			_MESSAGE obj = Table.T_MESSAGE.Alloc(_MESSAGE.Parse(tb.GetStr("ID")));
 			if (obj == null)
 			{
-				Log.Error("[TableManager]Cannot create 'MESSAGE'. (id={0})", tb.GetStr("ID"));
+				Log.Error("[Table]Cannot create 'MESSAGE'. (id={0})", tb.GetStr("ID"));
 				return;
 			}
 			obj.Initialize(tb);
@@ -60,20 +60,20 @@ namespace Devarc
 		static void Callback_MESSAGE_JSON(string sheet_name, JsonData node)
 		{
 			if (node.Keys.Contains("ID") == false) return;
-			_MESSAGE obj = TableManager.T_MESSAGE.Alloc(_MESSAGE.Parse(node["ID"].ToString()));
+			_MESSAGE obj = Table.T_MESSAGE.Alloc(_MESSAGE.Parse(node["ID"].ToString()));
 			if (obj == null)
 			{
-				Log.Error("[TableManager]Cannot create 'MESSAGE'. (id={0})", _MESSAGE.Parse(node["ID"].ToString()));
+				Log.Error("[Table]Cannot create 'MESSAGE'. (id={0})", _MESSAGE.Parse(node["ID"].ToString()));
 				return;
 			}
 			obj.Initialize(node);
 		}
 		static void Callback_UNIT_Sheet(string sheet_name, PropTable tb)
 		{
-			_UNIT obj = TableManager.T_UNIT.Alloc(_UNIT.Parse(tb.GetStr("ID")));
+			_UNIT obj = Table.T_UNIT.Alloc(_UNIT.Parse(tb.GetStr("ID")));
 			if (obj == null)
 			{
-				Log.Error("[TableManager]Cannot create 'UNIT'. (id={0})", tb.GetStr("ID"));
+				Log.Error("[Table]Cannot create 'UNIT'. (id={0})", tb.GetStr("ID"));
 				return;
 			}
 			obj.Initialize(tb);
@@ -81,10 +81,10 @@ namespace Devarc
 		static void Callback_UNIT_JSON(string sheet_name, JsonData node)
 		{
 			if (node.Keys.Contains("ID") == false) return;
-			_UNIT obj = TableManager.T_UNIT.Alloc(_UNIT.Parse(node["ID"].ToString()));
+			_UNIT obj = Table.T_UNIT.Alloc(_UNIT.Parse(node["ID"].ToString()));
 			if (obj == null)
 			{
-				Log.Error("[TableManager]Cannot create 'UNIT'. (id={0})", _UNIT.Parse(node["ID"].ToString()));
+				Log.Error("[Table]Cannot create 'UNIT'. (id={0})", _UNIT.Parse(node["ID"].ToString()));
 				return;
 			}
 			obj.Initialize(node);
@@ -97,19 +97,19 @@ namespace Devarc
 		{
 			get
 			{
-				if (TableManager.T_DataCharacter.Count > 0) return true;
-				if (TableManager.T_DIRECTION.Count > 0) return true;
-				if (TableManager.T_MESSAGE.Count > 0) return true;
-				if (TableManager.T_UNIT.Count > 0) return true;
+				if (Table.T_DataCharacter.Count > 0) return true;
+				if (Table.T_DIRECTION.Count > 0) return true;
+				if (Table.T_MESSAGE.Count > 0) return true;
+				if (Table.T_UNIT.Count > 0) return true;
 				return false;
 			}
 		}
 		public static void UnLoad_TestSchema()
 		{
-			TableManager.T_DataCharacter.Clear();
-			TableManager.T_DIRECTION.Clear();
-			TableManager.T_MESSAGE.Clear();
-			TableManager.T_UNIT.Clear();
+			Table.T_DataCharacter.Clear();
+			Table.T_DIRECTION.Clear();
+			Table.T_MESSAGE.Clear();
+			Table.T_UNIT.Clear();
 		}
 		public static bool Load_TestSchema_ExcelFile(string file_path)
 		{
@@ -130,9 +130,9 @@ namespace Devarc
 				    DataCharacter temp = new DataCharacter();
 				    PropTable tb_header = temp.ToTable();
 				    writer.Write_Header(tb_header, false);
-				    for (int i = 0; i < TableManager.T_DataCharacter.Count; i++)
+				    for (int i = 0; i < Table.T_DataCharacter.Count; i++)
 				    {
-				        DataCharacter obj = TableManager.T_DataCharacter.ElementAt(i);
+				        DataCharacter obj = Table.T_DataCharacter.ElementAt(i);
 				        PropTable tb = obj.ToTable();
 				        writer.Write_Contents(tb);
 				    }
@@ -141,9 +141,9 @@ namespace Devarc
 				    _DIRECTION temp = new _DIRECTION();
 				    PropTable tb_header = temp.ToTable();
 				    writer.Write_Header(tb_header, true);
-				    for (int i = 0; i < TableManager.T_DIRECTION.Count; i++)
+				    for (int i = 0; i < Table.T_DIRECTION.Count; i++)
 				    {
-				        _DIRECTION obj = TableManager.T_DIRECTION.ElementAt(i);
+				        _DIRECTION obj = Table.T_DIRECTION.ElementAt(i);
 				        PropTable tb = obj.ToTable();
 				        writer.Write_Contents(tb);
 				    }
@@ -152,9 +152,9 @@ namespace Devarc
 				    _MESSAGE temp = new _MESSAGE();
 				    PropTable tb_header = temp.ToTable();
 				    writer.Write_Header(tb_header, true);
-				    for (int i = 0; i < TableManager.T_MESSAGE.Count; i++)
+				    for (int i = 0; i < Table.T_MESSAGE.Count; i++)
 				    {
-				        _MESSAGE obj = TableManager.T_MESSAGE.ElementAt(i);
+				        _MESSAGE obj = Table.T_MESSAGE.ElementAt(i);
 				        PropTable tb = obj.ToTable();
 				        writer.Write_Contents(tb);
 				    }
@@ -163,9 +163,9 @@ namespace Devarc
 				    _UNIT temp = new _UNIT();
 				    PropTable tb_header = temp.ToTable();
 				    writer.Write_Header(tb_header, true);
-				    for (int i = 0; i < TableManager.T_UNIT.Count; i++)
+				    for (int i = 0; i < Table.T_UNIT.Count; i++)
 				    {
-				        _UNIT obj = TableManager.T_UNIT.ElementAt(i);
+				        _UNIT obj = Table.T_UNIT.ElementAt(i);
 				        PropTable tb = obj.ToTable();
 				        writer.Write_Contents(tb);
 				    }
@@ -224,10 +224,10 @@ namespace Devarc
 				{
 				    DataCharacter temp = new DataCharacter();
 				    PropTable tb_header = temp.ToTable();
-				    System.Xml.XmlNode node = writer.Write_Header(tb_header, TableManager.T_DataCharacter.Count, false);
-				    for (int i = 0; i < TableManager.T_DataCharacter.Count; i++)
+				    System.Xml.XmlNode node = writer.Write_Header(tb_header, Table.T_DataCharacter.Count, false);
+				    for (int i = 0; i < Table.T_DataCharacter.Count; i++)
 				    {
-				        DataCharacter obj = TableManager.T_DataCharacter.ElementAt(i);
+				        DataCharacter obj = Table.T_DataCharacter.ElementAt(i);
 				        PropTable tb = obj.ToTable();
 				        writer.Write_Contents(node, tb);
 				    }
@@ -235,10 +235,10 @@ namespace Devarc
 				{
 				    _DIRECTION temp = new _DIRECTION();
 				    PropTable tb_header = temp.ToTable();
-				    System.Xml.XmlNode node = writer.Write_Header(tb_header, TableManager.T_DIRECTION.Count, true);
-				    for (int i = 0; i < TableManager.T_DIRECTION.Count; i++)
+				    System.Xml.XmlNode node = writer.Write_Header(tb_header, Table.T_DIRECTION.Count, true);
+				    for (int i = 0; i < Table.T_DIRECTION.Count; i++)
 				    {
-				        _DIRECTION obj = TableManager.T_DIRECTION.ElementAt(i);
+				        _DIRECTION obj = Table.T_DIRECTION.ElementAt(i);
 				        PropTable tb = obj.ToTable();
 				        writer.Write_Contents(node, tb);
 				    }
@@ -246,10 +246,10 @@ namespace Devarc
 				{
 				    _MESSAGE temp = new _MESSAGE();
 				    PropTable tb_header = temp.ToTable();
-				    System.Xml.XmlNode node = writer.Write_Header(tb_header, TableManager.T_MESSAGE.Count, true);
-				    for (int i = 0; i < TableManager.T_MESSAGE.Count; i++)
+				    System.Xml.XmlNode node = writer.Write_Header(tb_header, Table.T_MESSAGE.Count, true);
+				    for (int i = 0; i < Table.T_MESSAGE.Count; i++)
 				    {
-				        _MESSAGE obj = TableManager.T_MESSAGE.ElementAt(i);
+				        _MESSAGE obj = Table.T_MESSAGE.ElementAt(i);
 				        PropTable tb = obj.ToTable();
 				        writer.Write_Contents(node, tb);
 				    }
@@ -257,10 +257,10 @@ namespace Devarc
 				{
 				    _UNIT temp = new _UNIT();
 				    PropTable tb_header = temp.ToTable();
-				    System.Xml.XmlNode node = writer.Write_Header(tb_header, TableManager.T_UNIT.Count, true);
-				    for (int i = 0; i < TableManager.T_UNIT.Count; i++)
+				    System.Xml.XmlNode node = writer.Write_Header(tb_header, Table.T_UNIT.Count, true);
+				    for (int i = 0; i < Table.T_UNIT.Count; i++)
 				    {
-				        _UNIT obj = TableManager.T_UNIT.ElementAt(i);
+				        _UNIT obj = Table.T_UNIT.ElementAt(i);
 				        PropTable tb = obj.ToTable();
 				        writer.Write_Contents(node, tb);
 				    }
@@ -273,31 +273,31 @@ namespace Devarc
 			TextWriter sw = new StreamWriter(file_path, false);
 			sw.WriteLine("{");
 			sw.WriteLine("\"DataCharacter\":[");
-			for (int i = 0; i < TableManager.T_DataCharacter.Count; i++)
+			for (int i = 0; i < Table.T_DataCharacter.Count; i++)
 			{
 			    if (i > 0) sw.WriteLine(",");
-			    sw.Write(TableManager.T_DataCharacter.ElementAt(i).ToJson());
+			    sw.Write(Table.T_DataCharacter.ElementAt(i).ToJson());
 			}
 			sw.WriteLine("]");
 			sw.WriteLine(",\"DIRECTION\":[");
-			for (int i = 0; i < TableManager.T_DIRECTION.Count; i++)
+			for (int i = 0; i < Table.T_DIRECTION.Count; i++)
 			{
 			    if (i > 0) sw.WriteLine(",");
-			    sw.Write(TableManager.T_DIRECTION.ElementAt(i).ToJson());
+			    sw.Write(Table.T_DIRECTION.ElementAt(i).ToJson());
 			}
 			sw.WriteLine("]");
 			sw.WriteLine(",\"MESSAGE\":[");
-			for (int i = 0; i < TableManager.T_MESSAGE.Count; i++)
+			for (int i = 0; i < Table.T_MESSAGE.Count; i++)
 			{
 			    if (i > 0) sw.WriteLine(",");
-			    sw.Write(TableManager.T_MESSAGE.ElementAt(i).ToJson());
+			    sw.Write(Table.T_MESSAGE.ElementAt(i).ToJson());
 			}
 			sw.WriteLine("]");
 			sw.WriteLine(",\"UNIT\":[");
-			for (int i = 0; i < TableManager.T_UNIT.Count; i++)
+			for (int i = 0; i < Table.T_UNIT.Count; i++)
 			{
 			    if (i > 0) sw.WriteLine(",");
-			    sw.Write(TableManager.T_UNIT.ElementAt(i).ToJson());
+			    sw.Write(Table.T_UNIT.ElementAt(i).ToJson());
 			}
 			sw.WriteLine("]");
 			sw.WriteLine("}");

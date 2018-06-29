@@ -46,20 +46,5 @@ namespace Devarc
         {
             return string.Format("{0}_{1}_{2}", _class_name, _field_name, _id); ;
         }
-
-        //public static string GetLString(string _class_name, string _field_name, string _id)
-        //{
-        //    return GetLString(MakeLStringKey());
-        //}
-
-        public static string GetLString(string _lstrKey)
-        {
-            return TableManager.T_LString.GetAt(_lstrKey);
-            //LString obj;
-            //TableManager.T_LString.TryGetAt(TableManager.Connection, _lstrKey, out obj);
-            //if (obj == null)
-            //    return string.Empty;
-            //return obj.Value;
-        }
     }
 }

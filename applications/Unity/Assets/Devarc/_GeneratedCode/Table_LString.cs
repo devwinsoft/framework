@@ -3,11 +3,11 @@ using System.IO;
 using LitJson;
 namespace Devarc
 {
-	public partial class TableManager
+	public partial class Table
 	{
 		static void Callback_LString_Sheet(string sheet_name, PropTable tb)
 		{
-			LString obj = TableManager.T_LString.Alloc(tb.GetStr("Key"));
+			LString obj = Table.T_LString.Alloc(tb.GetStr("Key"));
 			if (obj == null)
 			{
 				Log.Error("[TableManager]Cannot create 'LString'. (id={0})", tb.GetStr("Key"));
@@ -18,7 +18,7 @@ namespace Devarc
 		static void Callback_LString_JSON(string sheet_name, JsonData node)
 		{
 			if (node.Keys.Contains("unit_type") == false) return;
-			LString obj = TableManager.T_LString.Alloc(node["Key"].ToString());
+			LString obj = Table.T_LString.Alloc(node["Key"].ToString());
 			if (obj == null)
 			{
 				Log.Error("[TableManager]Cannot create 'LString'. (id={0})", node["Key"].ToString());
@@ -31,13 +31,13 @@ namespace Devarc
 		{
 			get
 			{
-				if (TableManager.T_LString.Count > 0) return true;
+				if (Table.T_LString.Count > 0) return true;
 				return false;
 			}
 		}
 		public static void UnLoad_LString()
 		{
-			TableManager.T_LString.Clear();
+			Table.T_LString.Clear();
 		}
 		public static bool Load_LString_SheetFile(string file_path)
 		{
@@ -70,10 +70,10 @@ namespace Devarc
 				{
 				    LString temp = new LString();
 				    PropTable tb_header = temp.ToTable();
-				    System.Xml.XmlNode node = writer.Write_Header(tb_header, TableManager.T_LString.Count, false);
-				    for (int i = 0; i < TableManager.T_LString.Count; i++)
+				    System.Xml.XmlNode node = writer.Write_Header(tb_header, Table.T_LString.Count, false);
+				    for (int i = 0; i < Table.T_LString.Count; i++)
 				    {
-				        LString obj = TableManager.T_LString.ElementAt(i);
+				        LString obj = Table.T_LString.ElementAt(i);
 				        PropTable tb = obj.ToTable();
 				        writer.Write_Contents(node, tb);
                     }
@@ -86,10 +86,10 @@ namespace Devarc
 			TextWriter sw = new StreamWriter(file_path, false);
 			sw.WriteLine("{");
 			sw.WriteLine("\"LString\":[");
-			for (int i = 0; i < TableManager.T_LString.Count; i++)
+			for (int i = 0; i < Table.T_LString.Count; i++)
 			{
 			    if (i > 0) sw.WriteLine(",");
-			    sw.Write(TableManager.T_LString.ElementAt(i).ToJson());
+			    sw.Write(Table.T_LString.ElementAt(i).ToJson());
 			}
 			sw.WriteLine("]");
 			sw.WriteLine("}");

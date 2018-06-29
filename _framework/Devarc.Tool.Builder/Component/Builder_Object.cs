@@ -325,7 +325,7 @@ namespace Devarc
                             break;
                         case VAR_TYPE.LSTRING:
                         case VAR_TYPE.FSTRING:
-                            sw.WriteLine("\t\tpublic {0,-20}{1} {{ get {{ return FrameworkUtil.GetLString(_{1}.Key); }} }}", "string", var_name);
+                            sw.WriteLine("\t\tpublic {0,-20}{1} {{ get {{ return Table.T_LString.GetAt(_{1}.Key); }} }}", "string", var_name);
                             sw.WriteLine("\t\t{0,-20}_{1} = new {0}();", type_name, var_name);
                             break;
                         case VAR_TYPE.ENUM:
@@ -630,11 +630,9 @@ namespace Devarc
                             break;
                         case VAR_TYPE.LSTRING:
                             sw.WriteLine("\t\t\t_{1}.Key = FrameworkUtil.MakeLStringKey(\"{0}\", \"{1}\", {2}.ToString());", class_name, var_name, tb.KeyVarName);
-                            //sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) _{0}.Value = obj[\"{0}\"].ToString(); else _{0}.Value = default(string);", var_name);
                             break;
                         case VAR_TYPE.FSTRING:
                             sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) _{0}.Key = obj[\"{0}\"].ToString(); else _{0}.Key = default(string);", var_name);
-                            //sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) _{0}.Value = obj[\"{0}\"].ToString(); else _{0}.Value = default(string);", var_name);
                             break;
                         case VAR_TYPE.CSTRING:
                             if (is_list)
@@ -756,11 +754,9 @@ namespace Devarc
                             {
                                 sw.WriteLine("\t\t\t_{1}.Key = FrameworkUtil.MakeLStringKey(\"{0}\", \"{1}\", {2}.ToString());", class_name, var_name, tb.KeyVarName);
                             }
-                            //sw.WriteLine("\t\t\t_{0}.Value = obj.GetString({1});", var_name, i);
                             break;
                         case VAR_TYPE.FSTRING:
                             sw.WriteLine("\t\t\t_{0}.Key = obj.GetString({1});", var_name, i);
-                            //sw.WriteLine("\t\t\t_{0}.Value = obj.GetString({1});", var_name, i);
                             break;
                         case VAR_TYPE.ENUM:
                             if (is_list)

@@ -54,15 +54,15 @@ namespace TestClient
         {
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                TableManager.UnLoad_TestSchema();
-                TableManager.Load_TestSchema_SheetFile(openFileDialog1.FileName);
+                Table.UnLoad_TestSchema();
+                Table.Load_TestSchema_SheetFile(openFileDialog1.FileName);
                 //TableData.UnLoad_ClientObject();
                 //TableData.Load_ClientObject_JSON(openFileDialog1.FileName + ".json");
 
                 StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < TableManager.T_DataCharacter.Count;i++ )
+                for (int i = 0; i < Table.T_DataCharacter.Count;i++ )
                 {
-                    sb.Append(TableManager.T_DataCharacter.ElementAt(i).ToJson().Replace("\n","\\n"));
+                    sb.Append(Table.T_DataCharacter.ElementAt(i).ToJson().Replace("\n","\\n"));
                     sb.Append("\r\n");
                 }
                 textBox2.Text = sb.ToString();
@@ -79,8 +79,8 @@ namespace TestClient
         {
             if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                TableManager.Save_TestSchema_SheetFile(saveFileDialog1.FileName);
-                TableManager.Save_TestSchema_JsonFile(saveFileDialog1.FileName + ".json");
+                Table.Save_TestSchema_SheetFile(saveFileDialog1.FileName);
+                Table.Save_TestSchema_JsonFile(saveFileDialog1.FileName + ".json");
             }
         }
 

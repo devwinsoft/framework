@@ -13,7 +13,7 @@ using SqliteCommand = System.Data.SQLite.SQLiteCommand;
 
 namespace Devarc
 {
-    public partial class TableManager
+    public partial class Table
     {
         public static SqliteConnection Connection { get { return msConnection; } }
         static SqliteConnection msConnection = null;
