@@ -234,27 +234,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Devarc\_Component\Base\Container.cs" />
-    <Compile Include="Assets\Devarc\_Component\Base\Contents.cs" />
-    <Compile Include="Assets\Devarc\_Component\Base\DES.cs" />
-    <Compile Include="Assets\Devarc\_Component\Base\ExcelReader.cs" />
-    <Compile Include="Assets\Devarc\_Component\Base\ExcelWriter.cs" />
-    <Compile Include="Assets\Devarc\_Component\Base\FrameworkUtil.cs" />
-    <Compile Include="Assets\Devarc\_Component\Base\HostID.cs" />
-    <Compile Include="Assets\Devarc\_Component\Base\JsonReader.cs" />
-    <Compile Include="Assets\Devarc\_Component\Base\Lock.cs" />
-    <Compile Include="Assets\Devarc\_Component\Base\LockableContainer.cs" />
-    <Compile Include="Assets\Devarc\_Component\Base\Log.cs" />
-    <Compile Include="Assets\Devarc\_Component\Base\NetBuffer.cs" />
-    <Compile Include="Assets\Devarc\_Component\Base\NetBufferPool.cs" />
-    <Compile Include="Assets\Devarc\_Component\Base\PropTable.cs" />
-    <Compile Include="Assets\Devarc\_Component\Base\SQLite_Session.cs" />
-    <Compile Include="Assets\Devarc\_Component\Base\XmlSheetReader.cs" />
-    <Compile Include="Assets\Devarc\_Component\Base\XmlSheetWriter.cs" />
-    <Compile Include="Assets\Devarc\_Component\Network\NetClient.cs" />
-    <Compile Include="Assets\Devarc\_Component\Network\NetClientPackageInfo.cs" />
-    <Compile Include="Assets\Devarc\_Component\Network\NetClientReceiveFilter.cs" />
-    <Compile Include="Assets\Devarc\_Component\Network\NetworkObject.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\C2S.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\Class_LString.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\Class_LStringEx.cs" />
@@ -266,6 +245,27 @@
     <Compile Include="Assets\Devarc\_GeneratedCode\Table.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\Table_LString.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\Table_TestSchema.cs" />
+    <Compile Include="Assets\Devarc\Component\Base\Container.cs" />
+    <Compile Include="Assets\Devarc\Component\Base\Contents.cs" />
+    <Compile Include="Assets\Devarc\Component\Base\DES.cs" />
+    <Compile Include="Assets\Devarc\Component\Base\ExcelReader.cs" />
+    <Compile Include="Assets\Devarc\Component\Base\ExcelWriter.cs" />
+    <Compile Include="Assets\Devarc\Component\Base\FrameworkUtil.cs" />
+    <Compile Include="Assets\Devarc\Component\Base\HostID.cs" />
+    <Compile Include="Assets\Devarc\Component\Base\JsonReader.cs" />
+    <Compile Include="Assets\Devarc\Component\Base\Lock.cs" />
+    <Compile Include="Assets\Devarc\Component\Base\LockableContainer.cs" />
+    <Compile Include="Assets\Devarc\Component\Base\Log.cs" />
+    <Compile Include="Assets\Devarc\Component\Base\NetBuffer.cs" />
+    <Compile Include="Assets\Devarc\Component\Base\NetBufferPool.cs" />
+    <Compile Include="Assets\Devarc\Component\Base\PropTable.cs" />
+    <Compile Include="Assets\Devarc\Component\Base\SQLite_Session.cs" />
+    <Compile Include="Assets\Devarc\Component\Base\XmlSheetReader.cs" />
+    <Compile Include="Assets\Devarc\Component\Base\XmlSheetWriter.cs" />
+    <Compile Include="Assets\Devarc\Component\Network\NetClient.cs" />
+    <Compile Include="Assets\Devarc\Component\Network\NetClientPackageInfo.cs" />
+    <Compile Include="Assets\Devarc\Component\Network\NetClientReceiveFilter.cs" />
+    <Compile Include="Assets\Devarc\Component\Network\NetworkObject.cs" />
     <Compile Include="Assets\Devarc\Test\Script\SceneTest.cs" />
     <Compile Include="Assets\Devarc\Test\Script\Stub_C2S.cs" />
     <Compile Include="Assets\Devarc\Test\Script\Stub_S2C.cs" />

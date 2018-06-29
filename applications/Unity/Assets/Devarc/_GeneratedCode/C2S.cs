@@ -56,7 +56,7 @@ namespace C2S
 			NetBuffer _out_msg = NetBufferPool.Instance.Pop();
 			if (m_Networker == null)
 			{
-				Log.Debug("{{0}} is not initialized.", typeof(Proxy));
+				Log.Debug("{0} is not initialized.", typeof(Proxy));
 				return false;
 			}
 			_out_msg.Init((Int16)RMI_ID.Move, target);
@@ -70,7 +70,7 @@ namespace C2S
 			NetBuffer _out_msg = NetBufferPool.Instance.Pop();
 			if (m_Networker == null)
 			{
-				Log.Debug("{{0}} is not initialized.", typeof(Proxy));
+				Log.Debug("{0} is not initialized.", typeof(Proxy));
 				return false;
 			}
 			_out_msg.Init((Int16)RMI_ID.Chat, target);

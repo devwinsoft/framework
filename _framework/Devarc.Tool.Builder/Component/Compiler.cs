@@ -254,7 +254,7 @@ namespace Devarc
                         sw.WriteLine("\t\t\tNetBuffer _out_msg = NetBufferPool.Instance.Pop();");
                         sw.WriteLine("\t\t\tif (m_Networker == null)");
                         sw.WriteLine("\t\t\t{");
-                        sw.WriteLine("\t\t\t\tLog.Debug(\"{{0}} is not initialized.\", typeof(Proxy));");
+                        sw.WriteLine("\t\t\t\tLog.Debug(\"{0} is not initialized.\", typeof(Proxy));");
                         sw.WriteLine("\t\t\t\treturn false;");
                         sw.WriteLine("\t\t\t}");
                         sw.WriteLine("\t\t\t_out_msg.Init((Int16)RMI_ID.{0}, target);", minfo.Name);

@@ -83,6 +83,7 @@
             this.textBox_port.ReadOnly = true;
             this.textBox_port.Size = new System.Drawing.Size(297, 21);
             this.textBox_port.TabIndex = 4;
+            this.textBox_port.Text = "5000";
             // 
             // button_clear
             // 

@@ -67,7 +67,7 @@ namespace S2C
 			NetBuffer _out_msg = NetBufferPool.Instance.Pop();
 			if (m_Networker == null)
 			{
-				Log.Debug("{{0}} is not initialized.", typeof(Proxy));
+				Log.Debug("{0} is not initialized.", typeof(Proxy));
 				return false;
 			}
 			_out_msg.Init((Int16)RMI_ID.Notify_Player, target);
@@ -81,7 +81,7 @@ namespace S2C
 			NetBuffer _out_msg = NetBufferPool.Instance.Pop();
 			if (m_Networker == null)
 			{
-				Log.Debug("{{0}} is not initialized.", typeof(Proxy));
+				Log.Debug("{0} is not initialized.", typeof(Proxy));
 				return false;
 			}
 			_out_msg.Init((Int16)RMI_ID.Notify_Move, target);
@@ -95,7 +95,7 @@ namespace S2C
 			NetBuffer _out_msg = NetBufferPool.Instance.Pop();
 			if (m_Networker == null)
 			{
-				Log.Debug("{{0}} is not initialized.", typeof(Proxy));
+				Log.Debug("{0} is not initialized.", typeof(Proxy));
 				return false;
 			}
 			_out_msg.Init((Int16)RMI_ID.Notify_Chat, target);
