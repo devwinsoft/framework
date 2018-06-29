@@ -48,6 +48,7 @@ public class SceneTest : MonoBehaviour
 
         //DataCharacter data = TableManager.T_DataCharacter.GetAt(UNIT.HUMAN_FEMALE);
         //TableManager.T_DataCharacter.TryGetAt(TableManager.Connection, UNIT.DRAGON_BLACK, out data);
+        //Table.T_DataCharacter.GetAt(UNIT.DRAGON_BLACK);
 
         client.Init(proxy, stub);
     }
@@ -93,19 +94,4 @@ public class SceneTest : MonoBehaviour
         mMessage = mBuilder.ToString();
     }
 
-    //public PlayerObject CreateMainPlayer(HostID _hid, DataPlayer _data)
-    //{
-    //    Transform trans = Instantiate(prefabMainPlayer);
-    //    PlayerObject obj = trans.GetComponent<PlayerObject>();
-    //    obj.Init(_data);
-    //    return obj;
-    //}
-
-    //public PlayerObject CreateUserPlayer(HostID _hid, DataPlayer _data)
-    //{
-    //    Transform trans = Instantiate(prefabUserPlayer);
-    //    PlayerObject obj = trans.GetComponent<PlayerObject>();
-    //    obj.Init(_data);
-    //    return obj;
-    //}
 }
