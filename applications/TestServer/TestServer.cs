@@ -21,16 +21,13 @@ namespace TestServer
         public TestServer()
         {
             msInstance = this;
-            if (this.State == ServerState.NotInitialized)
+            ServerConfig serverConfig = new ServerConfig
             {
-                ServerConfig serverConfig = new ServerConfig
-                {
-                    Ip = "127.0.0.1",
-                    Port = 5000,
-                    Mode = SocketMode.Tcp,
-                };
-                this.Setup(serverConfig);
-            }
+                Ip = "127.0.0.1",
+                Port = 5000,
+                Mode = SocketMode.Tcp,
+            };
+            this.Setup(serverConfig);
             this.Init(proxy, stub, 10);
         }
 

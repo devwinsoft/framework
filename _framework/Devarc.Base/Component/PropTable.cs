@@ -65,7 +65,6 @@ namespace Devarc
     public enum KEY_TYPE
     {
         NONE,
-        LIST,
         MAP,
     }
 
@@ -228,8 +227,6 @@ namespace Devarc
                 case "TRUE":
                 case "MAP":
                     return KEY_TYPE.MAP;
-                case "LIST":
-                    return KEY_TYPE.LIST;
                 default:
                     return KEY_TYPE.NONE;
             }
@@ -334,12 +331,10 @@ namespace Devarc
                 initKeyType(index, KEY_TYPE.NONE);
             switch (_keyType.ToUpper())
             {
+                case "1":
                 case "TRUE":
                 case "MAP":
                     initKeyType(index, KEY_TYPE.MAP);
-                    break;
-                case "LIST":
-                    initKeyType(index, KEY_TYPE.LIST);
                     break;
                 default:
                     initKeyType(index, KEY_TYPE.NONE);
@@ -355,8 +350,6 @@ namespace Devarc
             {
                 case KEY_TYPE.MAP:
                     m_ItemKeyIndex = index;
-                    break;
-                case KEY_TYPE.LIST:
                     break;
                 default:
                     break;

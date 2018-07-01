@@ -291,6 +291,9 @@
     <Compile Include="Assets\Devarc\Component\Network\NetClientPackageInfo.cs" />
     <Compile Include="Assets\Devarc\Component\Network\NetClientReceiveFilter.cs" />
     <Compile Include="Assets\Devarc\Component\Network\NetworkObject.cs" />
+    <Compile Include="Assets\Devarc\Component\SoundManager\SoundChannel.cs" />
+    <Compile Include="Assets\Devarc\Component\SoundManager\SoundManager.cs" />
+    <Compile Include="Assets\Devarc\Component\SoundManager\SoundPlay.cs" />
     <Compile Include="Assets\Devarc\Test\Script\SceneTest.cs" />
     <Compile Include="Assets\Devarc\Test\Script\Stub_S2C.cs" />
   </ItemGroup>
