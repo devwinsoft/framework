@@ -29,10 +29,9 @@ namespace Devarc
 {
     public class WorkThreadContainer
     {
-        public RLOCK<WorkList> READ_LOCK() { return new RLOCK<WorkList>(m_Lock); }
-        public WLOCK<WorkList> WRITE_LOCK() { return new WLOCK<WorkList>(m_Lock); }
-        ReaderWriterLock m_Lock = new ReaderWriterLock();
-
+        //public RLOCK<WorkList> READ_LOCK() { return new RLOCK<WorkList>(m_Lock); }
+        //public WLOCK<WorkList> WRITE_LOCK() { return new WLOCK<WorkList>(m_Lock); }
+        //ReaderWriterLock m_Lock = new ReaderWriterLock();
 
         public bool IsStart { get { return mIsStart; } }
 
@@ -41,6 +40,7 @@ namespace Devarc
         protected int m_ThreadCnt;
         protected WorkThreadBase[] mThreads;
         private ManualResetEvent[] mEvents;
+        private object mLockObject = new object();
 
         private NetServer mServer;
         private HashSet<HostID> mBusyList = new HashSet<HostID>();
@@ -70,7 +70,7 @@ namespace Devarc
 
         public bool StartAll()
         {
-            using (this.WRITE_LOCK())
+            lock (mLockObject)
             {
                 if (mIsInit == false || mIsStart)
                 {
@@ -88,7 +88,7 @@ namespace Devarc
 
         public bool StopAll(bool _wait)
         {
-            using (this.WRITE_LOCK())
+            lock (mLockObject)
             {
                 if (mIsStart == false)
                 {
@@ -115,7 +115,7 @@ namespace Devarc
 
         public void RegisterWork(NetBuffer _msg)
         {
-            using (this.WRITE_LOCK())
+            lock (mLockObject)
             {
                 mWorkList.Push(_msg);
             }
@@ -123,7 +123,7 @@ namespace Devarc
 
         public void CompleteWork(NetBuffer _msg)
         {
-            using (this.WRITE_LOCK())
+            lock (mLockObject)
             {
                 mBusyList.Remove(_msg.Hid);
             }
@@ -131,7 +131,7 @@ namespace Devarc
 
         public NetBuffer GetWork()
         {
-            using (this.WRITE_LOCK())
+            lock (mLockObject)
             {
                 NetBuffer msg = mWorkList.Pop(mBusyList);
                 if (msg != null)
