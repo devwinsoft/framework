@@ -115,15 +115,6 @@ namespace Devarc
                 sw.WriteLine("using System.Text;");
                 sw.WriteLine("using System.Collections;");
                 sw.WriteLine("using System.Collections.Generic;");
-                sw.WriteLine("//using System.Data;");
-                sw.WriteLine("#if UNITY_5 || UNITY_2017");
-                sw.WriteLine("using Mono.Data.Sqlite;");
-                sw.WriteLine("#else");
-                sw.WriteLine("using System.Data.SQLite;");
-                sw.WriteLine("using SqliteDataReader = System.Data.SQLite.SQLiteDataReader;");
-                sw.WriteLine("using SqliteConnection = System.Data.SQLite.SQLiteConnection;");
-                sw.WriteLine("using SqliteCommand = System.Data.SQLite.SQLiteCommand;"); 
-                sw.WriteLine("#endif");
                 sw.WriteLine("using LitJson;");
                 sw.WriteLine("namespace {0}", this.NameSpace);
                 sw.WriteLine("{");
@@ -658,7 +649,7 @@ namespace Devarc
 
 
 
-                sw.WriteLine("\t\tpublic void Initialize(SqliteDataReader obj)", class_name);
+                sw.WriteLine("\t\tpublic void Initialize(SQLite_Reader obj)", class_name);
                 sw.WriteLine("\t\t{");
                 for (int i = 0; i < tb.Length; i++)
                 {

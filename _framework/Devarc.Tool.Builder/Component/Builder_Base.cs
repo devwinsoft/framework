@@ -19,7 +19,11 @@ namespace Devarc
                 case SCHEMA_TYPE.SHEET:
                     return new XmlSheetReader();
                 case SCHEMA_TYPE.SCHEMA:
+#if UNITY_5 || UNITY_2017
+                    return null;
+#else
                     return new SchemaReader();
+#endif
                 default:
                     return null;
             }

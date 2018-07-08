@@ -24,14 +24,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-//#if UNITY_5 || UNITY_2017
-//using Mono.Data.Sqlite;
-//#else
-//using System.Data.SQLite;
-//using SqliteDataReader = System.Data.SQLite.SQLiteDataReader;
-//using SqliteConnection = System.Data.SQLite.SQLiteConnection;
-//using SqliteCommand = System.Data.SQLite.SQLiteCommand;
-//#endif
 using LitJson;
 
 namespace Devarc

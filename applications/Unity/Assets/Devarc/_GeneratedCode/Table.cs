@@ -1,30 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-#if UNITY_5 || UNITY_2017
-using UnityEngine;
-using Mono.Data.Sqlite;
-#else
-using System.Data.SQLite;
-using SqliteDataReader = System.Data.SQLite.SQLiteDataReader;
-using SqliteConnection = System.Data.SQLite.SQLiteConnection;
-using SqliteCommand = System.Data.SQLite.SQLiteCommand;
-#endif
 
 namespace Devarc
 {
     public partial class Table
     {
-        public static SqliteConnection Connection { get { return msConnection; } }
-        static SqliteConnection msConnection = null;
+        public static SQLite_Session Connection { get { return msConnection; } }
+        static SQLite_Session msConnection = null;
 
         public static bool Open(string _filePath)
         {
-            string conn = "URI=file:" + _filePath;
             if (msConnection == null)
             {
-                msConnection = new SqliteConnection(conn);
-                msConnection.Open();
+                msConnection = new SQLite_Session();
+                msConnection.Open(_filePath);
             }
             return true;
         }

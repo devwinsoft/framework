@@ -2,15 +2,6 @@ using System;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
-//using System.Data;
-#if UNITY_5 || UNITY_2017
-using Mono.Data.Sqlite;
-#else
-using System.Data.SQLite;
-using SqliteDataReader = System.Data.SQLite.SQLiteDataReader;
-using SqliteConnection = System.Data.SQLite.SQLiteConnection;
-using SqliteCommand = System.Data.SQLite.SQLiteCommand;
-#endif
 using LitJson;
 namespace Devarc
 {
@@ -102,7 +93,7 @@ namespace Devarc
 			if (obj.Keys.Contains("unit_uid")) uint.TryParse(obj["unit_uid"].ToString(), out unit_uid); else unit_uid = default(uint);
 			if (obj.Keys.Contains("specialCode")) _specialCode.Key = obj["specialCode"].ToString(); else _specialCode.Key = default(string);
 		}
-		public void Initialize(SqliteDataReader obj)
+		public void Initialize(SQLite_Reader obj)
 		{
 			unit_type           = _UNIT.Parse(obj.GetString(0));
 			_name.Key = FrameworkUtil.MakeLStringKey("DataCharacter", "name", unit_type.ToString());
@@ -264,7 +255,7 @@ namespace Devarc
 			if (obj.Keys.Contains("dex")) int.TryParse(obj["dex"].ToString(), out dex); else dex = default(int);
 			if (obj.Keys.Contains("vit")) int.TryParse(obj["vit"].ToString(), out vit); else vit = default(int);
 		}
-		public void Initialize(SqliteDataReader obj)
+		public void Initialize(SQLite_Reader obj)
 		{
 			str                 = obj.GetInt32(0);
 			dex                 = obj.GetInt32(1);
@@ -388,7 +379,7 @@ namespace Devarc
 			if (obj.Keys.Contains("id")) HostID.TryParse(obj["id"].ToString(), out id); else id = default(short);
 			if (obj.Keys.Contains("pos")) pos.Initialize(obj["pos"]);
 		}
-		public void Initialize(SqliteDataReader obj)
+		public void Initialize(SQLite_Reader obj)
 		{
 			id                  = (HostID)obj.GetInt16(0);
 			pos.Initialize(JsonMapper.ToObject(obj.GetString(1)));
@@ -509,7 +500,7 @@ namespace Devarc
 			if (obj.Keys.Contains("y")) float.TryParse(obj["y"].ToString(), out y); else y = default(float);
 			if (obj.Keys.Contains("z")) float.TryParse(obj["z"].ToString(), out z); else z = default(float);
 		}
-		public void Initialize(SqliteDataReader obj)
+		public void Initialize(SQLite_Reader obj)
 		{
 			x                   = obj.GetFloat(0);
 			y                   = obj.GetFloat(1);
@@ -639,7 +630,7 @@ namespace Devarc
 			if (obj.Keys.Contains("Name")) Name = obj["Name"].ToString(); else Name = default(string);
 			if (obj.Keys.Contains("ID")) ID = _DIRECTION.Parse(obj["ID"].ToString()); else ID = default(DIRECTION);
 		}
-		public void Initialize(SqliteDataReader obj)
+		public void Initialize(SQLite_Reader obj)
 		{
 			Name                = obj.GetString(0);
 			ID                  = _DIRECTION.Parse(obj.GetString(1));
@@ -766,7 +757,7 @@ namespace Devarc
 			if (obj.Keys.Contains("ID")) ID = _MESSAGE.Parse(obj["ID"].ToString()); else ID = default(MESSAGE);
 			_TEXT.Key = FrameworkUtil.MakeLStringKey("_MESSAGE", "TEXT", ID.ToString());
 		}
-		public void Initialize(SqliteDataReader obj)
+		public void Initialize(SQLite_Reader obj)
 		{
 			Name                = obj.GetString(0);
 			ID                  = _MESSAGE.Parse(obj.GetString(1));
@@ -892,7 +883,7 @@ namespace Devarc
 			if (obj.Keys.Contains("Name")) Name = obj["Name"].ToString(); else Name = default(string);
 			if (obj.Keys.Contains("ID")) ID = _UNIT.Parse(obj["ID"].ToString()); else ID = default(UNIT);
 		}
-		public void Initialize(SqliteDataReader obj)
+		public void Initialize(SQLite_Reader obj)
 		{
 			Name                = obj.GetString(0);
 			ID                  = _UNIT.Parse(obj.GetString(1));
@@ -958,69 +949,6 @@ namespace Devarc
 				Marshaler.Write(msg, obj.ID);
 	        }
 	        return msg.IsError;
-	    }
-	}
-	public enum DIRECTION
-	{
-		STOP                = 0,
-		BACK                = 1,
-		FORWARD             = 2,
-		L                   = 3,
-		R                   = 4,
-		FL                  = 5,
-		FR                  = 6,
-		BL                  = 7,
-		BR                  = 8,
-	}
-	public static partial class Marshaler
-	{
-	    public static bool Read(NetBuffer msg, ref DIRECTION obj)
-	    {
-	        obj = (DIRECTION)msg.ReadInt32();
-	        return !msg.IsError;
-	    }
-	    public static bool Write(NetBuffer msg, DIRECTION obj)
-	    {
-	        msg.Write((Int32)obj);
-	        return !msg.IsError;
-	    }
-	    public static bool Read(NetBuffer msg, out DIRECTION[] obj)
-	    {
-	        int cnt = msg.ReadInt16();
-	        obj = new DIRECTION[cnt];
-	        for (int i = 0; i < cnt; i++)
-	        {
-	            obj[i] = (DIRECTION)msg.ReadInt32();
-	        }
-	        return !msg.IsError;
-	    }
-	    public static bool Read(NetBuffer msg, List<DIRECTION> obj)
-	    {
-	        int cnt = msg.ReadInt16();
-	        obj = new List<DIRECTION>();
-	        for (int i = 0; i < cnt; i++)
-	        {
-	            obj[i] = (DIRECTION)msg.ReadInt32();
-	        }
-	        return !msg.IsError;
-	    }
-	    public static bool Write(NetBuffer msg, DIRECTION[] list)
-	    {
-	        msg.Write((Int16)list.Length);
-	        foreach (DIRECTION obj in list)
-	        {
-	            msg.Write((Int32)obj);
-	        }
-	        return !msg.IsError;
-	    }
-	    public static bool Write(NetBuffer msg, List<DIRECTION> list)
-	    {
-	        msg.Write((Int16)list.Count);
-	        foreach (DIRECTION obj in list)
-	        {
-	            msg.Write((Int32)obj);
-	        }
-	        return !msg.IsError;
 	    }
 	}
 	public enum UNIT
@@ -1089,6 +1017,69 @@ namespace Devarc
 	    {
 	        msg.Write((Int16)list.Count);
 	        foreach (UNIT obj in list)
+	        {
+	            msg.Write((Int32)obj);
+	        }
+	        return !msg.IsError;
+	    }
+	}
+	public enum DIRECTION
+	{
+		STOP                = 0,
+		BACK                = 1,
+		FORWARD             = 2,
+		L                   = 3,
+		R                   = 4,
+		FL                  = 5,
+		FR                  = 6,
+		BL                  = 7,
+		BR                  = 8,
+	}
+	public static partial class Marshaler
+	{
+	    public static bool Read(NetBuffer msg, ref DIRECTION obj)
+	    {
+	        obj = (DIRECTION)msg.ReadInt32();
+	        return !msg.IsError;
+	    }
+	    public static bool Write(NetBuffer msg, DIRECTION obj)
+	    {
+	        msg.Write((Int32)obj);
+	        return !msg.IsError;
+	    }
+	    public static bool Read(NetBuffer msg, out DIRECTION[] obj)
+	    {
+	        int cnt = msg.ReadInt16();
+	        obj = new DIRECTION[cnt];
+	        for (int i = 0; i < cnt; i++)
+	        {
+	            obj[i] = (DIRECTION)msg.ReadInt32();
+	        }
+	        return !msg.IsError;
+	    }
+	    public static bool Read(NetBuffer msg, List<DIRECTION> obj)
+	    {
+	        int cnt = msg.ReadInt16();
+	        obj = new List<DIRECTION>();
+	        for (int i = 0; i < cnt; i++)
+	        {
+	            obj[i] = (DIRECTION)msg.ReadInt32();
+	        }
+	        return !msg.IsError;
+	    }
+	    public static bool Write(NetBuffer msg, DIRECTION[] list)
+	    {
+	        msg.Write((Int16)list.Length);
+	        foreach (DIRECTION obj in list)
+	        {
+	            msg.Write((Int32)obj);
+	        }
+	        return !msg.IsError;
+	    }
+	    public static bool Write(NetBuffer msg, List<DIRECTION> list)
+	    {
+	        msg.Write((Int16)list.Count);
+	        foreach (DIRECTION obj in list)
 	        {
 	            msg.Write((Int32)obj);
 	        }

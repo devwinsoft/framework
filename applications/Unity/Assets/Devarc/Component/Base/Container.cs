@@ -17,20 +17,11 @@
 
 //
 // @author Hyoung Joon, Kim (maoshy@nate.com)
-// @version $Rev: 1, $Date: 2012-02-20
 //
 
 using System;
 using System.Collections;
 using System.Collections.Generic;
-#if UNITY_5 || UNITY_2017
-using Mono.Data.Sqlite;
-#else
-using System.Data.SQLite;
-using SqliteDataReader = System.Data.SQLite.SQLiteDataReader;
-using SqliteConnection = System.Data.SQLite.SQLiteConnection;
-using SqliteCommand = System.Data.SQLite.SQLiteCommand;
-#endif
 
 namespace Devarc
 {
@@ -156,13 +147,14 @@ namespace Devarc
 
             try
             {
-                SqliteDataReader reader = _session.ExecuteReader(defaultObject.GetSelectQuery(_key));
+                SQLite_Reader reader = _session.Execute_Reader(defaultObject.GetSelectQuery(_key));
                 if (reader.Read())
                 {
                     obj = new ITEM();
                     obj.Initialize(reader);
                     mMap.Add(obj.GetKey(), obj);
                     mList.Add(obj);
+                    reader.Close();
                 }
             }
             catch (Exception ex)

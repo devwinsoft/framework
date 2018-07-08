@@ -285,6 +285,7 @@
     <Compile Include="Assets\Devarc\Component\Base\NetBuffer.cs" />
     <Compile Include="Assets\Devarc\Component\Base\NetBufferPool.cs" />
     <Compile Include="Assets\Devarc\Component\Base\PropTable.cs" />
+    <Compile Include="Assets\Devarc\Component\Base\SQLite_Reader.cs" />
     <Compile Include="Assets\Devarc\Component\Base\SQLite_Session.cs" />
     <Compile Include="Assets\Devarc\Component\Base\XmlSheetReader.cs" />
     <Compile Include="Assets\Devarc\Component\Base\XmlSheetWriter.cs" />
@@ -295,6 +296,11 @@
     <Compile Include="Assets\Devarc\Component\SoundManager\SoundChannel.cs" />
     <Compile Include="Assets\Devarc\Component\SoundManager\SoundManager.cs" />
     <Compile Include="Assets\Devarc\Component\SoundManager\SoundPlay.cs" />
+    <Compile Include="Assets\Devarc\Component\SQLiteWrapper\SQLiteConstants.cs" />
+    <Compile Include="Assets\Devarc\Component\SQLiteWrapper\SQLiteConvert.cs" />
+    <Compile Include="Assets\Devarc\Component\SQLiteWrapper\SQLiteDelegate.cs" />
+    <Compile Include="Assets\Devarc\Component\SQLiteWrapper\SQLiteException.cs" />
+    <Compile Include="Assets\Devarc\Component\SQLiteWrapper\SQLiteUnsafeNativeMethods.cs" />
     <Compile Include="Assets\Devarc\Test\Script\SceneTest.cs" />
     <Compile Include="Assets\Devarc\Test\Script\Stub_S2C.cs" />
   </ItemGroup>

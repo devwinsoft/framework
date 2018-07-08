@@ -2,15 +2,6 @@ using System;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
-//using System.Data;
-#if UNITY_5 || UNITY_2017
-using Mono.Data.Sqlite;
-#else
-using System.Data.SQLite;
-using SqliteDataReader = System.Data.SQLite.SQLiteDataReader;
-using SqliteConnection = System.Data.SQLite.SQLiteConnection;
-using SqliteCommand = System.Data.SQLite.SQLiteCommand;
-#endif
 using LitJson;
 namespace Devarc
 {
@@ -67,7 +58,7 @@ namespace Devarc
 			if (obj.Keys.Contains("NAME")) NAME = obj["NAME"].ToString(); else NAME = default(string);
 			if (obj.Keys.Contains("ID")) ID = _TEST_ENUM.Parse(obj["ID"].ToString()); else ID = default(TEST_ENUM);
 		}
-		public void Initialize(SqliteDataReader obj)
+		public void Initialize(SQLite_Reader obj)
 		{
 			NAME                = obj.GetString(0);
 			ID                  = _TEST_ENUM.Parse(obj.GetString(1));
@@ -187,7 +178,7 @@ namespace Devarc
 			if (obj.Keys.Contains("y")) float.TryParse(obj["y"].ToString(), out y); else y = default(float);
 			if (obj.Keys.Contains("z")) float.TryParse(obj["z"].ToString(), out z); else z = default(float);
 		}
-		public void Initialize(SqliteDataReader obj)
+		public void Initialize(SQLite_Reader obj)
 		{
 			x                   = obj.GetFloat(0);
 			y                   = obj.GetFloat(1);
@@ -311,7 +302,7 @@ namespace Devarc
 			if (obj.Keys.Contains("Name")) Name = obj["Name"].ToString(); else Name = default(string);
 			if (obj.Keys.Contains("Pos")) Pos.Initialize(obj["Pos"]);
 		}
-		public void Initialize(SqliteDataReader obj)
+		public void Initialize(SQLite_Reader obj)
 		{
 			Name                = obj.GetString(0);
 			Pos.Initialize(JsonMapper.ToObject(obj.GetString(1)));

@@ -2,16 +2,8 @@ using System;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
-//using System.Data;
-#if UNITY_5 || UNITY_2017
-using Mono.Data.Sqlite;
-#else
-using System.Data.SQLite;
-using SqliteDataReader = System.Data.SQLite.SQLiteDataReader;
-using SqliteConnection = System.Data.SQLite.SQLiteConnection;
-using SqliteCommand = System.Data.SQLite.SQLiteCommand;
-#endif
 using LitJson;
+
 namespace Devarc
 {
 	[System.Serializable]
@@ -63,7 +55,7 @@ namespace Devarc
 			if (obj.Keys.Contains("Key")) Key = obj["Key"].ToString(); else Key = default(string);
 			if (obj.Keys.Contains("Value")) Value = obj["Value"].ToString(); else Value = default(string);
 		}
-		public void Initialize(SqliteDataReader obj)
+		public void Initialize(SQLite_Reader obj)
 		{
 			Key                 = obj.GetString(0);
 			Value               = obj.GetString(1);

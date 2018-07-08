@@ -17,7 +17,6 @@
 
 //
 // @author Hyoung Joon, Kim (maoshy@nate.com)
-// @version $Rev: 1, $Date: 2012-02-20
 //
 
 using System;
@@ -25,15 +24,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-//using System.Data;
-#if UNITY_5 || UNITY_2017
-using Mono.Data.Sqlite;
-#else
-using System.Data.SQLite;
-using SqliteDataReader = System.Data.SQLite.SQLiteDataReader;
-using SqliteConnection = System.Data.SQLite.SQLiteConnection;
-using SqliteCommand = System.Data.SQLite.SQLiteCommand;
-#endif
 using LitJson;
 
 namespace Devarc
@@ -127,7 +117,7 @@ namespace Devarc
     {
         void Initialize(IBaseObejct obj);
         void Initialize(PropTable obj);
-        void Initialize(SqliteDataReader obj);
+        void Initialize(SQLite_Reader obj);
         void Initialize(LitJson.JsonData obj);
     }
     public interface IBaseObejct<T> : IBaseObejct

@@ -17,7 +17,6 @@
 
 //
 // @author Hyoung Joon, Kim (maoshy@nate.com)
-// @version $Rev: 1, $Date: 2012-02-20
 //
 
 using System;
@@ -27,14 +26,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
-#if UNITY_5 || UNITY_2017
-using Mono.Data.Sqlite;
-#else
-using System.Data.SQLite;
-using SqliteDataReader = System.Data.SQLite.SQLiteDataReader;
-using SqliteConnection = System.Data.SQLite.SQLiteConnection;
-using SqliteCommand = System.Data.SQLite.SQLiteCommand;
-#endif
+
 
 namespace Devarc
 {
@@ -92,7 +84,7 @@ namespace Devarc
             if (_prop.KeyIndex < 0)
                 return;
             string tableName = GetClassName(_sheetName);
-            mSession.ExecuteNonQuery(string.Format("DROP TABLE IF EXISTS {0};", tableName));
+            mSession.Execute_NonQuery(string.Format("DROP TABLE IF EXISTS {0};", tableName));
 
             StringBuilder sb = new StringBuilder();
             sb.Append("CREATE TABLE ");
@@ -109,7 +101,7 @@ namespace Devarc
             }
             sb.Append(");");
 
-            mSession.ExecuteNonQuery(sb.ToString());
+            mSession.Execute_NonQuery(sb.ToString());
         }
 
         void Callback_Data(string _sheetName, PropTable _prop)
@@ -147,7 +139,7 @@ namespace Devarc
                 }
             }
             sb.Append(");");
-            mSession.ExecuteNonQuery(sb.ToString());
+            mSession.Execute_NonQuery(sb.ToString());
         }
     }
 }
