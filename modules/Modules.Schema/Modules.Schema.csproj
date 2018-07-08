@@ -52,6 +52,7 @@
     <Compile Include="Component\Table.cs" />
     <Compile Include="Component\Table_LString.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="_GeneratedCode\Class_Examples.cs" />
     <Compile Include="_GeneratedCode\Class_TestSchema.cs" />
     <Compile Include="_GeneratedCode\Table_TestSchema.cs" />
   </ItemGroup>

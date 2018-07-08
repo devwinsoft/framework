@@ -139,9 +139,9 @@ namespace Devarc
             }
         }
 
-        public static VAR_TYPE ToVarType(string _name)
+        public static VAR_TYPE ToTypeID(string _name)
         {
-            string var_type = _name.ToLower();
+            string var_type = _name.ToLower().Replace("[]","");
             if (var_type.Equals("bool"))
             {
                 return VAR_TYPE.BOOL;
@@ -291,7 +291,7 @@ namespace Devarc
         {
             if (index >= m_PropList.Length)
                 return;
-            m_PropList[index].VarType = PropTable.ToVarType(_typeName);
+            m_PropList[index].VarType = PropTable.ToTypeID(_typeName);
             m_PropList[index].TypeName = PropTable.ToTypeName(_typeName);
         }
 

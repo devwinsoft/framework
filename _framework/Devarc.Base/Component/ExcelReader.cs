@@ -75,22 +75,22 @@ namespace Devarc
                     }
                     else if (r == 3)
                     {
-                        if (funcCalled == false && callback_every_header != null)
+                        if (funcCalled == false && callback_header != null)
                         {
                             funcCalled = true;
-                            callback_every_header(sheet.SheetName, rowData);
+                            callback_header(sheet.SheetName, rowData);
                         }
                     }
                     else
                     {
-                        invoke_callback_line(sheet.SheetName, rowData);
+                        invoke_callback_data(sheet.SheetName, rowData);
                         rowData.ClearData();
                     }
                 }
-                if (funcCalled == false && callback_every_header != null)
+                if (funcCalled == false && callback_header != null)
                 {
                     funcCalled = true;
-                    callback_every_header(sheet.SheetName, rowData);
+                    callback_header(sheet.SheetName, rowData);
                 }
             }
             return book.NumberOfSheets > 0;

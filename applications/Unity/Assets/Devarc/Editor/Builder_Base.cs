@@ -8,17 +8,24 @@ namespace Devarc
     abstract class Builder_Base
     {
         protected string NameSpace = "Devarc";
-        protected DATA_FILE_TYPE dataFileType = DATA_FILE_TYPE.SHEET;
+        protected SCHEMA_TYPE dataFileType = SCHEMA_TYPE.SHEET;
 
         protected BaseDataReader _createReader()
         {
             switch (dataFileType)
             {
-                case DATA_FILE_TYPE.EXCEL:
+                case SCHEMA_TYPE.EXCEL:
                     return new ExcelReader();
-                case DATA_FILE_TYPE.SHEET:
-                default:
+                case SCHEMA_TYPE.SHEET:
                     return new XmlSheetReader();
+                case SCHEMA_TYPE.SCHEMA:
+#if UNITY_5 || UNITY_2017
+                    return null;
+#else
+                    return new SchemaReader();
+#endif
+                default:
+                    return null;
             }
         }
 

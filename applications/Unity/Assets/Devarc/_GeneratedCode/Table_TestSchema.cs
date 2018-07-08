@@ -7,7 +7,7 @@ namespace Devarc
 	{
 		static void Callback_DataCharacter_Sheet(string sheet_name, PropTable tb)
 		{
-			DataCharacter obj = Table.T_DataCharacter.Alloc(_UNIT.Parse(tb.GetStr("unit_type")));
+			DataCharacter obj = Table.T_DataCharacter.Alloc(FrameworkUtil.Parse<UNIT>(tb.GetStr("unit_type")));
 			if (obj == null)
 			{
 				Log.Error("[Table]Cannot create 'DataCharacter'. (id={0})", tb.GetStr("unit_type"));
@@ -18,17 +18,17 @@ namespace Devarc
 		static void Callback_DataCharacter_JSON(string sheet_name, JsonData node)
 		{
 			if (node.Keys.Contains("unit_type") == false) return;
-			DataCharacter obj = Table.T_DataCharacter.Alloc(_UNIT.Parse(node["unit_type"].ToString()));
+			DataCharacter obj = Table.T_DataCharacter.Alloc(FrameworkUtil.Parse<UNIT>(node["unit_type"].ToString()));
 			if (obj == null)
 			{
-				Log.Error("[Table]Cannot create 'DataCharacter'. (id={0})", _UNIT.Parse(node["unit_type"].ToString()));
+				Log.Error("[Table]Cannot create 'DataCharacter'. (id={0})", FrameworkUtil.Parse<UNIT>(node["unit_type"].ToString()));
 				return;
 			}
 			obj.Initialize(node);
 		}
 		static void Callback_DIRECTION_Sheet(string sheet_name, PropTable tb)
 		{
-			_DIRECTION obj = Table.T_DIRECTION.Alloc(_DIRECTION.Parse(tb.GetStr("ID")));
+			_DIRECTION obj = Table.T_DIRECTION.Alloc(FrameworkUtil.Parse<DIRECTION>(tb.GetStr("ID")));
 			if (obj == null)
 			{
 				Log.Error("[Table]Cannot create 'DIRECTION'. (id={0})", tb.GetStr("ID"));
@@ -39,17 +39,17 @@ namespace Devarc
 		static void Callback_DIRECTION_JSON(string sheet_name, JsonData node)
 		{
 			if (node.Keys.Contains("ID") == false) return;
-			_DIRECTION obj = Table.T_DIRECTION.Alloc(_DIRECTION.Parse(node["ID"].ToString()));
+			_DIRECTION obj = Table.T_DIRECTION.Alloc(FrameworkUtil.Parse<DIRECTION>(node["ID"].ToString()));
 			if (obj == null)
 			{
-				Log.Error("[Table]Cannot create 'DIRECTION'. (id={0})", _DIRECTION.Parse(node["ID"].ToString()));
+				Log.Error("[Table]Cannot create 'DIRECTION'. (id={0})", FrameworkUtil.Parse<DIRECTION>(node["ID"].ToString()));
 				return;
 			}
 			obj.Initialize(node);
 		}
 		static void Callback_MESSAGE_Sheet(string sheet_name, PropTable tb)
 		{
-			_MESSAGE obj = Table.T_MESSAGE.Alloc(_MESSAGE.Parse(tb.GetStr("ID")));
+			_MESSAGE obj = Table.T_MESSAGE.Alloc(FrameworkUtil.Parse<MESSAGE>(tb.GetStr("ID")));
 			if (obj == null)
 			{
 				Log.Error("[Table]Cannot create 'MESSAGE'. (id={0})", tb.GetStr("ID"));
@@ -60,17 +60,17 @@ namespace Devarc
 		static void Callback_MESSAGE_JSON(string sheet_name, JsonData node)
 		{
 			if (node.Keys.Contains("ID") == false) return;
-			_MESSAGE obj = Table.T_MESSAGE.Alloc(_MESSAGE.Parse(node["ID"].ToString()));
+			_MESSAGE obj = Table.T_MESSAGE.Alloc(FrameworkUtil.Parse<MESSAGE>(node["ID"].ToString()));
 			if (obj == null)
 			{
-				Log.Error("[Table]Cannot create 'MESSAGE'. (id={0})", _MESSAGE.Parse(node["ID"].ToString()));
+				Log.Error("[Table]Cannot create 'MESSAGE'. (id={0})", FrameworkUtil.Parse<MESSAGE>(node["ID"].ToString()));
 				return;
 			}
 			obj.Initialize(node);
 		}
 		static void Callback_UNIT_Sheet(string sheet_name, PropTable tb)
 		{
-			_UNIT obj = Table.T_UNIT.Alloc(_UNIT.Parse(tb.GetStr("ID")));
+			_UNIT obj = Table.T_UNIT.Alloc(FrameworkUtil.Parse<UNIT>(tb.GetStr("ID")));
 			if (obj == null)
 			{
 				Log.Error("[Table]Cannot create 'UNIT'. (id={0})", tb.GetStr("ID"));
@@ -81,10 +81,10 @@ namespace Devarc
 		static void Callback_UNIT_JSON(string sheet_name, JsonData node)
 		{
 			if (node.Keys.Contains("ID") == false) return;
-			_UNIT obj = Table.T_UNIT.Alloc(_UNIT.Parse(node["ID"].ToString()));
+			_UNIT obj = Table.T_UNIT.Alloc(FrameworkUtil.Parse<UNIT>(node["ID"].ToString()));
 			if (obj == null)
 			{
-				Log.Error("[Table]Cannot create 'UNIT'. (id={0})", _UNIT.Parse(node["ID"].ToString()));
+				Log.Error("[Table]Cannot create 'UNIT'. (id={0})", FrameworkUtil.Parse<UNIT>(node["ID"].ToString()));
 				return;
 			}
 			obj.Initialize(node);
@@ -115,10 +115,10 @@ namespace Devarc
 		{
 			using (ExcelReader reader = new ExcelReader())
 			{
-				reader.RegisterCallback_DataLine("DataCharacter", Callback_DataCharacter_Sheet);
-				reader.RegisterCallback_DataLine("DIRECTION", Callback_DIRECTION_Sheet);
-				reader.RegisterCallback_DataLine("MESSAGE", Callback_MESSAGE_Sheet);
-				reader.RegisterCallback_DataLine("UNIT", Callback_UNIT_Sheet);
+				reader.RegisterCallback_Data("DataCharacter", Callback_DataCharacter_Sheet);
+				reader.RegisterCallback_Data("DIRECTION", Callback_DIRECTION_Sheet);
+				reader.RegisterCallback_Data("MESSAGE", Callback_MESSAGE_Sheet);
+				reader.RegisterCallback_Data("UNIT", Callback_UNIT_Sheet);
 				return reader.ReadFile(file_path);
 			}
 		}
@@ -177,10 +177,10 @@ namespace Devarc
 		{
 			using (XmlSheetReader reader = new XmlSheetReader())
 			{
-				reader.RegisterCallback_DataLine("DataCharacter", Callback_DataCharacter_Sheet);
-				reader.RegisterCallback_DataLine("DIRECTION", Callback_DIRECTION_Sheet);
-				reader.RegisterCallback_DataLine("MESSAGE", Callback_MESSAGE_Sheet);
-				reader.RegisterCallback_DataLine("UNIT", Callback_UNIT_Sheet);
+				reader.RegisterCallback_Data("DataCharacter", Callback_DataCharacter_Sheet);
+				reader.RegisterCallback_Data("DIRECTION", Callback_DIRECTION_Sheet);
+				reader.RegisterCallback_Data("MESSAGE", Callback_MESSAGE_Sheet);
+				reader.RegisterCallback_Data("UNIT", Callback_UNIT_Sheet);
 				return reader.ReadFile(file_path);
 			}
 		}
@@ -188,10 +188,10 @@ namespace Devarc
 		{
 			using (XmlSheetReader reader = new XmlSheetReader())
 			{
-				reader.RegisterCallback_DataLine("DataCharacter", Callback_DataCharacter_Sheet);
-				reader.RegisterCallback_DataLine("DIRECTION", Callback_DIRECTION_Sheet);
-				reader.RegisterCallback_DataLine("MESSAGE", Callback_MESSAGE_Sheet);
-				reader.RegisterCallback_DataLine("UNIT", Callback_UNIT_Sheet);
+				reader.RegisterCallback_Data("DataCharacter", Callback_DataCharacter_Sheet);
+				reader.RegisterCallback_Data("DIRECTION", Callback_DIRECTION_Sheet);
+				reader.RegisterCallback_Data("MESSAGE", Callback_MESSAGE_Sheet);
+				reader.RegisterCallback_Data("UNIT", Callback_UNIT_Sheet);
 				return reader.ReadData(_data);
 			}
 		}

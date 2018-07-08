@@ -68,11 +68,11 @@ namespace Devarc
             switch (fileExt.ToLower())
             {
                 case ".xml":
-                    dataFileType = DATA_FILE_TYPE.SHEET;
+                    dataFileType = SCHEMA_TYPE.SHEET;
                     break;
                 case ".xls":
                 case ".xlsx":
-                    dataFileType = DATA_FILE_TYPE.EXCEL;
+                    dataFileType = SCHEMA_TYPE.EXCEL;
                     break;
                 default:
                     return false;
@@ -80,8 +80,8 @@ namespace Devarc
 
             using (BaseDataReader reader1 = _createReader())
             {
-                reader1.RegisterCallback_EveryTable(Callback_Header);
-                reader1.RegisterCallback_EveryLine(Callback_Data);
+                reader1.RegisterCallback_Table(Callback_Header);
+                reader1.RegisterCallback_Data(Callback_Data);
                 reader1.ReadFile(_filePath);
             }
             return true;

@@ -260,6 +260,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Devarc\_GeneratedCode\C2S.cs" />
+    <Compile Include="Assets\Devarc\_GeneratedCode\Class_Examples.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\Class_LString.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\Class_LStringEx.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\Class_TestSchema.cs" />

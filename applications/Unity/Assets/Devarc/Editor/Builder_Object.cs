@@ -25,21 +25,22 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Devarc
 {
     class ENUM_INFO
     {
-        public string Name;
+        public string NAME;
         public int ID;
-        public string Desc;
+        public string DESC;
 
         public ENUM_INFO()
         {
-            Name = "";
+            NAME = "";
             ID = 0;
-            Desc = "";
+            DESC = "";
         }
     }
 
@@ -50,16 +51,12 @@ namespace Devarc
         public string container_name { get { return _container_name; } set { _container_name = value; } }
         public string key_type { get { return _key_type; } set { _key_type = value; } }
         public string key_name { get { return _key_name; } set { _key_name = value; } }
-        public string group_type { get { return _group_type; } set { _group_type = value; } }
-        public string group_name { get { return _group_name; } set { _group_name = value; } }
         public bool is_enum { get; set; }
         private string _class_name = "";
         private string _enum_name = "";
         private string _container_name = "";
         private string _key_type = "";
         private string _key_name = "";
-        private string _group_type = "";
-        private string _group_name = "";
     }
 
     class Builder_Object : Builder_Base
@@ -70,15 +67,25 @@ namespace Devarc
         HashSet<string> m_ClassNames = new HashSet<string>();
         List<ClassInfo> m_ClassList = new List<ClassInfo>();
 
-        public void Build_ExcelFile(string _inFilePath, string _outDir)
+        public void Build(string _inFilePath, string _outDir)
         {
-            this.dataFileType = DATA_FILE_TYPE.EXCEL;
-            string tmpFileName = Path.GetFileNameWithoutExtension(_inFilePath);
-            int tmpIndex = tmpFileName.IndexOf('@');
-            if (tmpIndex >= 0)
-                this.FileName = tmpFileName.Substring(0, tmpIndex);
-            else
-                this.FileName = tmpFileName;
+            string ext = Path.GetExtension(_inFilePath).ToLower();
+            switch(ext)
+            {
+                case ".xml":
+                    this.dataFileType = SCHEMA_TYPE.SHEET;
+                    break;
+                case ".xlsx":
+                    this.dataFileType = SCHEMA_TYPE.EXCEL;
+                    break;
+                case ".schema":
+                    this.dataFileType = SCHEMA_TYPE.SCHEMA;
+                    break;
+                default:
+                    Log.Error("Cannot read file: {0}", _inFilePath);
+                    return;
+            }
+            this.FileName = GetClassNameEx(_inFilePath);
             this.OutDir = _outDir;
             string _outFilePath = Path.Combine(this.OutDir, "Class_" + this.FileName + ".cs");
             if (File.Exists(_inFilePath) == false)
@@ -87,26 +94,6 @@ namespace Devarc
                 return;
             }
             this._build(_inFilePath, _outFilePath);
-        }
-
-        public void Build_SheetFile(string _inFilePath, string _outDir)
-        {
-            this.dataFileType = DATA_FILE_TYPE.SHEET;
-            string tmpIputFilePath = _inFilePath.Replace('\\', '/');
-            string tmpFileName = Path.GetFileNameWithoutExtension(_inFilePath);
-            int tmpIndex = tmpFileName.IndexOf('@');
-            if (tmpIndex >= 0)
-                this.FileName = tmpFileName.Substring(0, tmpIndex);
-            else
-                this.FileName = tmpFileName;
-            this.OutDir = _outDir;
-            string _outFilePath = Path.Combine(this.OutDir, "Class_" + this.FileName + ".cs");
-            if (File.Exists(tmpIputFilePath) == false)
-            {
-                Log.Info("Cannot find file: " + tmpIputFilePath);
-                return;
-            }
-            this._build(tmpIputFilePath, _outFilePath);
         }
 
         void _build(string _inFilePath, string _outFilePath)
@@ -118,7 +105,7 @@ namespace Devarc
             // Get Class List
             using (BaseDataReader reader = _createReader())
             {
-                reader.RegisterCallback_EveryTable(Callback_LoadSheet);
+                reader.RegisterCallback_Table(Callback_Pass1);
                 reader.ReadFile(_inFilePath);
             }
 
@@ -144,13 +131,13 @@ namespace Devarc
             }
             using (BaseDataReader reader = _createReader())
             {
-                reader.RegisterCallback_EveryLine(Callback_EnumSheet);
+                reader.RegisterCallback_Data(Callback_Pass2_Enum);
                 reader.ReadFile(_inFilePath);
                 System.Threading.Thread.Sleep(0);
             }
             using (BaseDataReader reader = _createReader())
             {
-                reader.RegisterCallback_EveryTable(Callback_ClassSheet);
+                reader.RegisterCallback_Table(Callback_Pass2_Class);
                 reader.ReadFile(_inFilePath);
                 System.Threading.Thread.Sleep(0);
             }
@@ -165,7 +152,7 @@ namespace Devarc
                     sw.WriteLine("\t{");
                     foreach (ENUM_INFO info in enum_list)
                     {
-                        sw.WriteLine("\t\t{0,-20}= {1},", info.Name, info.ID);
+                        sw.WriteLine("\t\t{0,-20}= {1},", info.NAME, info.ID);
                     }
                     sw.WriteLine("\t}");
                     sw.WriteLine("\tpublic static partial class Marshaler");
@@ -230,7 +217,7 @@ namespace Devarc
             }
         }
 
-        void Callback_ClassSheet(string sheet_name, PropTable tb)
+        void Callback_Pass2_Class(string sheet_name, PropTable tb)
         {
             string class_name = sheet_name;
             string enum_name = sheet_name;
@@ -1242,13 +1229,11 @@ namespace Devarc
         }
 
 
-        void Callback_EnumSheet(string sheet_name, PropTable tb)
+        void Callback_Pass2_Enum(string sheet_name, PropTable tb)
         {
-            //string class_name = sheet_name;
             string enum_name = sheet_name;
             if (sheet_name.StartsWith("!"))
             {
-                //class_name = "_" + sheet_name.Substring(1);
                 enum_name = sheet_name.Substring(1);
             }
             else
@@ -1267,17 +1252,17 @@ namespace Devarc
                 enum_list = m_EnumList[enum_name] as List<ENUM_INFO>;
             }
             ENUM_INFO info = new ENUM_INFO();
-            info.Name = tb.GetStr(0);
+            info.NAME = tb.GetStr(0);
             if (tb.GetStr(1) != "")
                 info.ID = Int32.Parse(tb.GetStr(1));
             else
                 info.ID = 0;
-            info.Desc = tb.GetStr(2);
+            info.DESC = tb.GetStr(2);
             enum_list.Add(info);
         }
 
 
-        void Callback_LoadSheet(string sheet_name, PropTable tb)
+        void Callback_Pass1(string sheet_name, PropTable tb)
         {
             string class_name = sheet_name;
             bool is_enum = false;

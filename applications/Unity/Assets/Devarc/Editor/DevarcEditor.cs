@@ -177,12 +177,12 @@ public class DevarcEditor : EditorWindow
                         switch (tempExt.ToLower())
                         {
                             case ".xml":
-                                builderObject.Build_SheetFile(tempInPath, tempOutDir);
+                                builderObject.Build(tempInPath, tempOutDir);
                                 builderData.Build_SheetFile(tempInPath, tempOutDir);
                                 break;
                             case ".xls":
                             case ".xlsx":
-                                builderObject.Build_ExcelFile(tempInPath, tempOutDir);
+                                builderObject.Build(tempInPath, tempOutDir);
                                 builderData.Build_ExcelFile(tempInPath, tempOutDir);
                                 break;
                             default:
@@ -276,7 +276,7 @@ public class DevarcEditor : EditorWindow
         if (GUI.Button(tempRect, "Generate Json Files"))
         {
             Builder_Localize util = new Builder_Localize();
-            util.BuildDataFile(DATA_FILE_TYPE.JSON, config.inDataFiles, config.outDataTables);
+            util.BuildDataFile(SCHEMA_TYPE.JSON, config.inDataFiles, config.outDataTables);
             EditorUtility.DisplayDialog("Make Json Files", "Build Completed.", "Success");
         }
 

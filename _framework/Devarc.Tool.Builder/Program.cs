@@ -25,15 +25,15 @@ namespace Devarc
                         srcPath = rawPath;
                     else
                         srcPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), rawPath));
-                    Compiller compiler = new Compiller();
+                    Builder_Protocol compiler = new Builder_Protocol();
                     compiler.Build(srcPath, outDir);
                 }
                 else if (args.Contains<string>("-obj"))
                 {
                     if (args.Length > 2)
-                        builder1.Build_ExcelFile(args[1], args[2]);
+                        builder1.Build(args[1], args[2]);
                     else
-                        builder1.Build_ExcelFile(args[1], Path.GetDirectoryName(args[1]));
+                        builder1.Build(args[1], Path.GetDirectoryName(args[1]));
                 }
                 else if (args.Contains<string>("-data"))
                 {

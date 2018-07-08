@@ -37,50 +37,51 @@ namespace Devarc
 
         public void Build_ExcelFile(string _inFilePath, string _outDir)
         {
-            dataFileType = DATA_FILE_TYPE.EXCEL;
-            build_all(_inFilePath, _outDir);
-        }
-
-        public void Build_SheetFile(string _inFilePath, string _outDir)
-        {
-            dataFileType = DATA_FILE_TYPE.SHEET;
-            build_all(_inFilePath, _outDir);
-        }
-
-        bool build_all(string _inFilePath, string _outDir)
-        {
-            string tmpFileName = Path.GetFileNameWithoutExtension(_inFilePath);
-            int tmpIndex = tmpFileName.IndexOf('@');
-            if (tmpIndex >= 0)
-                this.FileName = tmpFileName.Substring(0, tmpIndex);
-            else
-                this.FileName = tmpFileName;
+            dataFileType = SCHEMA_TYPE.EXCEL;
+            this.FileName = GetClassNameEx(_inFilePath);
+            this.OutFilePath = Path.Combine(_outDir, "Table_" + this.FileName + ".cs");
 
             if (File.Exists(_inFilePath) == false)
             {
                 Log.Info("Cannot find file: " + _inFilePath);
-                return false;
+                return;
+            }
+            if (File.Exists(_inFilePath) == false)
+            {
+                Log.Info("Cannot find file: " + _inFilePath);
+                return;
             }
 
-            string OutDir = _outDir;
-            this.OutFilePath = Path.Combine(OutDir, "Table_" + this.FileName + ".cs");
-            if (Directory.Exists(OutDir) == false)
+            _build(_inFilePath);
+        }
+
+        public void Build_SheetFile(string _inFilePath, string _outDir)
+        {
+            dataFileType = SCHEMA_TYPE.SHEET;
+            this.FileName = GetClassNameEx(_inFilePath);
+            this.OutFilePath = Path.Combine(_outDir, "Table_" + this.FileName + ".cs");
+
+            if (Directory.Exists(_outDir) == false)
             {
-                if (Directory.CreateDirectory(OutDir) == null)
+                if (Directory.CreateDirectory(_outDir) == null)
                 {
-                    Log.Info("Cannot find directory: " + OutDir);
-                    return false;
+                    Log.Info("Cannot find directory: " + _outDir);
+                    return;
                 }
             }
-            this._build(_inFilePath);
+            if (File.Exists(_inFilePath) == false)
+            {
+                Log.Info("Cannot find file: " + _inFilePath);
+                return;
+            }
 
-            return true;
+            _build(_inFilePath);
         }
 
 
         public void Build_SheetData(string _file_name, string _inFilePath, string _outDir)
         {
-            dataFileType = DATA_FILE_TYPE.SHEET;
+            dataFileType = SCHEMA_TYPE.SHEET;
 
             string tmpFileName = Path.GetFileNameWithoutExtension(_file_name);
             int tmpIndex = tmpFileName.IndexOf('@');
@@ -120,7 +121,7 @@ namespace Devarc
 
             using (BaseDataReader reader1 = _createReader())
             {
-                reader1.RegisterCallback_EveryTable(Callback_LoadSheet);
+                reader1.RegisterCallback_Table(Callback_LoadSheet);
                 reader1.ReadFile(_inFilePath);
             }
 
@@ -159,7 +160,7 @@ namespace Devarc
                 sw.WriteLine("\t\t\t{");
                 foreach (ClassInfo info in m_ClassList)
                 {
-                    sw.WriteLine("\t\t\t\treader.RegisterCallback_DataLine(\"{0}\", Callback_{0}_Sheet);", info.enum_name);
+                    sw.WriteLine("\t\t\t\treader.RegisterCallback_Data(\"{0}\", Callback_{0}_Sheet);", info.enum_name);
                 }
                 sw.WriteLine("\t\t\t\treturn reader.ReadFile(file_path);");
                 sw.WriteLine("\t\t\t}");
@@ -195,7 +196,7 @@ namespace Devarc
                 sw.WriteLine("\t\t\t{");
                 foreach (ClassInfo info in m_ClassList)
                 {
-                    sw.WriteLine("\t\t\t\treader.RegisterCallback_DataLine(\"{0}\", Callback_{0}_Sheet);", info.enum_name);
+                    sw.WriteLine("\t\t\t\treader.RegisterCallback_Data(\"{0}\", Callback_{0}_Sheet);", info.enum_name);
                 }
                 sw.WriteLine("\t\t\t\treturn reader.ReadFile(file_path);");
                 sw.WriteLine("\t\t\t}");
@@ -208,7 +209,7 @@ namespace Devarc
                 sw.WriteLine("\t\t\t{");
                 foreach (ClassInfo info in m_ClassList)
                 {
-                    sw.WriteLine("\t\t\t\treader.RegisterCallback_DataLine(\"{0}\", Callback_{0}_Sheet);", info.enum_name);
+                    sw.WriteLine("\t\t\t\treader.RegisterCallback_Data(\"{0}\", Callback_{0}_Sheet);", info.enum_name);
                 }
                 sw.WriteLine("\t\t\t\treturn reader.ReadData(_data);");
                 sw.WriteLine("\t\t\t}");
@@ -356,7 +357,7 @@ namespace Devarc
                         sw.WriteLine("\t\t\t{0} obj = Table.{1}.Alloc(tb.GetStr(\"{2}\"));", class_name, container_name, key_var_name);
                         break;
                     case VAR_TYPE.ENUM:
-                        sw.WriteLine("\t\t\t{0} obj = Table.{1}.Alloc(_{2}.Parse(tb.GetStr(\"{3}\")));", class_name, container_name, key_type_name, key_var_name);
+                        sw.WriteLine("\t\t\t{0} obj = Table.{1}.Alloc(FrameworkUtil.Parse<{2}>(tb.GetStr(\"{3}\")));", class_name, container_name, key_type_name, key_var_name);
                         break;                    
                     default:
                         // error
@@ -399,7 +400,7 @@ namespace Devarc
                         keyString = string.Format("node[\"{1}\"].ToString()", container_name, key_var_name);
                         break;
                     case VAR_TYPE.ENUM:
-                        keyString = string.Format("_{1}.Parse(node[\"{2}\"].ToString())", container_name, key_type_name, key_var_name);
+                        keyString = string.Format("FrameworkUtil.Parse<{1}>(node[\"{2}\"].ToString())", container_name, key_type_name, key_var_name);
                         break;
                     default:
                         // error

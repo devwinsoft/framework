@@ -118,9 +118,9 @@ namespace Devarc
                             if (function_called == false)
                             {
                                 function_called = true;
-                                if (callback_every_header != null)
+                                if (callback_header != null)
                                 {
-                                    callback_every_header(m_SheetName, temp_table);
+                                    callback_header(m_SheetName, temp_table);
                                 }
                             }
                         }
@@ -175,9 +175,9 @@ namespace Devarc
                     {
                         if (function_called == false)
                         {
-                            if (callback_every_header != null)
+                            if (callback_header != null)
                             {
-                                callback_every_header(m_SheetName, temp_table);
+                                callback_header(m_SheetName, temp_table);
                             }
                             function_called = true;
                         }
@@ -186,9 +186,9 @@ namespace Devarc
                     {
                         if (function_called == false && line_count > 1)
                         {
-                            if (callback_every_header != null)
+                            if (callback_header != null)
                             {
-                                callback_every_header(m_SheetName, temp_table);
+                                callback_header(m_SheetName, temp_table);
                             }
                             function_called = true;
                         }
@@ -198,7 +198,7 @@ namespace Devarc
                     {
                         if (line_count >= (int)ROW_TYPE.DATA_FIELD)
                         {
-                            invoke_callback_line(m_SheetName, temp_table);
+                            invoke_callback_data(m_SheetName, temp_table);
                         }
                     }
                 }

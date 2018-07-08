@@ -43,7 +43,7 @@ namespace Devarc
 		{
 			using (XmlSheetReader reader = new XmlSheetReader())
 			{
-				reader.RegisterCallback_DataLine("LString", Callback_LString_Sheet);
+				reader.RegisterCallback_Data("LString", Callback_LString_Sheet);
 				return reader.ReadFile(file_path);
 			}
 		}
@@ -51,7 +51,7 @@ namespace Devarc
 		{
 			using (XmlSheetReader reader = new XmlSheetReader())
 			{
-				reader.RegisterCallback_DataLine("LString", Callback_LString_Sheet);
+				reader.RegisterCallback_Data("LString", Callback_LString_Sheet);
 				return reader.ReadData(_data);
 			}
 		}

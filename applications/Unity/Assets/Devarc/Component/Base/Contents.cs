@@ -38,10 +38,11 @@ using LitJson;
 
 namespace Devarc
 {
-    public enum DATA_FILE_TYPE
+    public enum SCHEMA_TYPE
     {
-        SHEET,
+        SCHEMA,
         EXCEL,
+        SHEET,
         JSON,
     }
 
@@ -49,8 +50,8 @@ namespace Devarc
 
     public abstract class BaseDataReader : IDisposable
     {
-        protected CallbackDataReader callback_every_header = null;
-        protected CallbackDataReader callback_every_data = null;
+        protected CallbackDataReader callback_header = null;
+        protected CallbackDataReader callback_data = null;
         protected Dictionary<string, CallbackDataReader> callback_data_list = new Dictionary<string, CallbackDataReader>();
         protected string m_SheetName = "";
 
@@ -59,8 +60,8 @@ namespace Devarc
 
         public void Clear()
         {
-            callback_every_header = null;
-            callback_every_data = null;
+            callback_header = null;
+            callback_data = null;
             callback_data_list.Clear();
             m_SheetName = "";
         }
@@ -70,17 +71,17 @@ namespace Devarc
             Clear();
         }
 
-        public void RegisterCallback_EveryTable(CallbackDataReader func)
+        public void RegisterCallback_Table(CallbackDataReader func)
         {
-            callback_every_header = func;
+            callback_header = func;
         }
 
-        public void RegisterCallback_EveryLine(CallbackDataReader func)
+        public void RegisterCallback_Data(CallbackDataReader func)
         {
-            callback_every_data = func;
+            callback_data = func;
         }
 
-        public void RegisterCallback_DataLine(string sheet_name, CallbackDataReader func)
+        public void RegisterCallback_Data(string sheet_name, CallbackDataReader func)
         {
             if (callback_data_list.ContainsKey(sheet_name) == false)
             {
@@ -88,16 +89,16 @@ namespace Devarc
             }
         }
 
-        protected bool invoke_callback_line(string sheet_name, PropTable tb)
+        protected bool invoke_callback_data(string sheet_name, PropTable tb)
         {
             if (tb.KeyIndex < 0)
                 return false;
             if (string.IsNullOrEmpty(tb.GetStr(tb.KeyIndex)))
                 return false;
 
-            if (callback_every_data != null)
+            if (callback_data != null)
             {
-                callback_every_data(sheet_name, tb);
+                callback_data(sheet_name, tb);
             }
 
             CallbackDataReader func = null;

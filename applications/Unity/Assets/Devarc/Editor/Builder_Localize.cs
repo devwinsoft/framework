@@ -11,9 +11,9 @@ class Builder_Localize : Builder_Base
     Dictionary<string, string> listHistory = new Dictionary<string, string>();
     Dictionary<string, string> listBuilt = new Dictionary<string, string>();
 
-    public bool BuildDataFile(DATA_FILE_TYPE _saveFileType, string[] _inFileList, string[] _outDirList)
+    public bool BuildDataFile(SCHEMA_TYPE _saveFileType, string[] _inFileList, string[] _outDirList)
     {
-        if (_saveFileType == DATA_FILE_TYPE.EXCEL)
+        if (_saveFileType == SCHEMA_TYPE.EXCEL)
         {
             Log.Error("Cannot save excel file.");
             return false;
@@ -82,15 +82,15 @@ class Builder_Localize : Builder_Base
                     string tmpMethodName;
                     switch (_saveFileType)
                     {
-                        case DATA_FILE_TYPE.JSON:
+                        case SCHEMA_TYPE.JSON:
                             savePath = System.IO.Path.Combine(subPath, tmpTableName + ".json");
                             tmpMethodName = string.Format("Save_{0}_JsonFile", tmpTableName);
                             break;
-                        case DATA_FILE_TYPE.SHEET:
+                        case SCHEMA_TYPE.SHEET:
                             savePath = System.IO.Path.Combine(subPath, tmpTableName + ".xml");
                             tmpMethodName = string.Format("Save_{0}_SheetFile", tmpTableName);
                             break;
-                        case DATA_FILE_TYPE.EXCEL:
+                        case SCHEMA_TYPE.EXCEL:
                             savePath = System.IO.Path.Combine(subPath, tmpTableName + ".xlsx");
                             tmpMethodName = string.Format("Save_{0}_ExcelFile", tmpTableName);
                             break;
@@ -139,13 +139,13 @@ class Builder_Localize : Builder_Base
             switch (tmpExt.ToLower())
             {
                 case ".xml":
-                    sheetReader.RegisterCallback_EveryLine(callbackCurrent);
+                    sheetReader.RegisterCallback_Data(callbackCurrent);
                     sheetReader.ReadFile(Path.Combine(Application.dataPath, _inputList[i]));
                     excelReader.Clear();
                     break;
                 case ".xls":
                 case ".xlsx":
-                    excelReader.RegisterCallback_EveryLine(callbackCurrent);
+                    excelReader.RegisterCallback_Data(callbackCurrent);
                     excelReader.ReadFile(Path.Combine(Application.dataPath, _inputList[i]));
                     excelReader.Clear();
                     break;
@@ -159,7 +159,7 @@ class Builder_Localize : Builder_Base
         {
             using (XmlSheetReader readerTemp = new XmlSheetReader())
             {
-                readerTemp.RegisterCallback_EveryLine(callbackHistory);
+                readerTemp.RegisterCallback_Data(callbackHistory);
                 readerTemp.ReadFile(tempPath);
             }
         }
@@ -170,7 +170,7 @@ class Builder_Localize : Builder_Base
             { "" // main language
             , "ENG"
             };
-            readerBuilt.RegisterCallback_EveryLine(callbackBuilt);
+            readerBuilt.RegisterCallback_Data(callbackBuilt);
 
             for (int i = 0; i < locales.Length; i++)
             {

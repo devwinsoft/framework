@@ -1,0 +1,19 @@
+public enum TEST_ENUM
+{
+	NONE,
+	FIGHTER,
+	MAGE,
+}
+
+public class TEST_VECTOR
+{
+	public float x;
+	public float y;
+	public float z;
+}
+
+public class TEST_PLAYER
+{
+	public string Name;
+	public TEST_VECTOR Pos;
+}

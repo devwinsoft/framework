@@ -21,13 +21,13 @@ namespace Devarc
                 tmpFullPath = Path.Combine(Directory.GetCurrentDirectory(), tmpPath);
 
             if (_filePath.ToLower().EndsWith("xml"))
-                dataFileType = DATA_FILE_TYPE.SHEET;
+                dataFileType = SCHEMA_TYPE.SHEET;
             else
-                dataFileType = DATA_FILE_TYPE.EXCEL;
+                dataFileType = SCHEMA_TYPE.EXCEL;
 
             using (BaseDataReader reader = _createReader())
             {
-                reader.RegisterCallback_EveryTable(Callback_LoadSheet);
+                reader.RegisterCallback_Table(Callback_LoadSheet);
                 reader.ReadFile(tmpFullPath);
             }
 

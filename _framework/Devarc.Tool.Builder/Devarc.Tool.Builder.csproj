@@ -90,12 +90,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Component\Builder_Base.cs" />
+    <Compile Include="Component\SchemaReader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Component\Builder_Data.cs" />
     <Compile Include="Component\Builder_Object.cs" />
     <Compile Include="Component\Builder_SimpleCode.cs" />
     <Compile Include="Component\Builder_SQLite.cs" />
-    <Compile Include="Component\Compiler.cs" />
+    <Compile Include="Component\Builder_Protocol.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
