@@ -1,10 +1,9 @@
-﻿namespace Protocols
-{
-    public class S2S
-    {
-        public const int RMI_VERSION = 1;
-        public const int RMI_START = 5000;
+﻿using Devarc;
 
-        public static void Test(string _name) { }
-    }
+public class S2S
+{
+    public const int RMI_VERSION = 1;
+    public const int RMI_START = 5000;
+
+    public void Test(string _name) { }
 }

@@ -2,6 +2,7 @@
 *.suo
 *.pdb
 *.csproj.user
+.vs/
 Debug/
 Release/
 /bin/

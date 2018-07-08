@@ -53,7 +53,7 @@ namespace Devarc
         {
             foreach (FieldInfo fi in tp.GetFields())
             {
-                if (fi.IsLiteral && !fi.IsInitOnly && fi.Name == "RMI_START")
+                if (fi.IsLiteral && !fi.IsInitOnly && string.Equals(fi.Name, "RMI_START"))
                     return true;
             }
             return false;
@@ -173,7 +173,7 @@ namespace Devarc
 
                     sw.WriteLine("\tpublic interface IStub"); // start of stub
                     sw.WriteLine("\t{");
-                    _methods = tp.GetMethods(BindingFlags.Public | BindingFlags.Static);
+                    _methods = tp.GetMethods(BindingFlags.Public | BindingFlags.Instance);
                     foreach (MethodInfo minfo in _methods)
                     {
                         if (IsValid(minfo) == false)
