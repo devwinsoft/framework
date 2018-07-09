@@ -44,15 +44,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Component\Class_LString.cs" />
-    <Compile Include="Component\Class_LStringEx.cs" />
     <Compile Include="Component\Marshaler.Read.cs" />
     <Compile Include="Component\Marshaler.Write.cs" />
     <Compile Include="Component\Table.cs" />
-    <Compile Include="Component\Table_LString.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="_GeneratedCode\Class_Examples.cs" />
+    <Compile Include="_GeneratedCode\Class_LString.cs" />
+    <Compile Include="_GeneratedCode\Class_LStringEx.cs" />
     <Compile Include="_GeneratedCode\Class_TestSchema.cs" />
+    <Compile Include="_GeneratedCode\Table_LString.cs" />
     <Compile Include="_GeneratedCode\Table_TestSchema.cs" />
   </ItemGroup>
   <ItemGroup>

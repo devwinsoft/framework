@@ -37,8 +37,13 @@
     <Reference Include="LitJson">
       <HintPath>..\..\..\_externals\LitJson\LitJson.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="StackExchange.Redis, Version=1.2.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\StackExchange.Redis.1.2.6\lib\net45\StackExchange.Redis.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -48,6 +53,7 @@
     <Compile Include="Component\NetServer.cs" />
     <Compile Include="Component\NetServerReceiveFilter.cs" />
     <Compile Include="Component\NetSession.cs" />
+    <Compile Include="Component\Redis.cs" />
     <Compile Include="Component\WorkList.cs" />
     <Compile Include="Component\WorkThreadBase.cs" />
     <Compile Include="Component\WorkThreadContainer.cs" />
@@ -74,6 +80,9 @@
       <Project>{44aafade-bcd3-45be-8077-0dd9d1c98374}</Project>
       <Name>Devarc.Net.Client.Net45</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

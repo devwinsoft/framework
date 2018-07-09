@@ -3,7 +3,6 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using LitJson;
-
 namespace Devarc
 {
 	[System.Serializable]
@@ -24,7 +23,7 @@ namespace Devarc
 			Initialize(obj);
 		}
 		public string GetKey() { return Key; }
-		public string GetSelectQuery(string _key) { return string.Format("select Key, Value from Key where Key='{0}';", _key); }
+		public string GetSelectQuery(string _key) { return string.Format("select Key, Value from LString where Key='{0}';", _key); }
 		public bool IsDefault
 		{
 			get

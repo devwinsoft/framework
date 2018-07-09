@@ -10,18 +10,18 @@ namespace Devarc
 			LString obj = Table.T_LString.Alloc(tb.GetStr("Key"));
 			if (obj == null)
 			{
-				Log.Error("[TableManager]Cannot create 'LString'. (id={0})", tb.GetStr("Key"));
+				Log.Error("[Table]Cannot create 'LString'. (id={0})", tb.GetStr("Key"));
 				return;
 			}
 			obj.Initialize(tb);
 		}
 		static void Callback_LString_JSON(string sheet_name, JsonData node)
 		{
-			if (node.Keys.Contains("unit_type") == false) return;
+			if (node.Keys.Contains("Key") == false) return;
 			LString obj = Table.T_LString.Alloc(node["Key"].ToString());
 			if (obj == null)
 			{
-				Log.Error("[TableManager]Cannot create 'LString'. (id={0})", node["Key"].ToString());
+				Log.Error("[Table]Cannot create 'LString'. (id={0})", node["Key"].ToString());
 				return;
 			}
 			obj.Initialize(node);
@@ -38,6 +38,32 @@ namespace Devarc
 		public static void UnLoad_LString()
 		{
 			Table.T_LString.Clear();
+		}
+		public static bool Load_LString_ExcelFile(string file_path)
+		{
+			using (ExcelReader reader = new ExcelReader())
+			{
+				reader.RegisterCallback_Data("LString", Callback_LString_Sheet);
+				return reader.ReadFile(file_path);
+			}
+		}
+		public static void Save_LString_ExcelFile(string file_path)
+		{
+			using (ExcelWriter writer = new ExcelWriter())
+			{
+				{
+				    LString temp = new LString();
+				    PropTable tb_header = temp.ToTable();
+				    writer.Write_Header(tb_header, false);
+				    for (int i = 0; i < Table.T_LString.Count; i++)
+				    {
+				        LString obj = Table.T_LString.ElementAt(i);
+				        PropTable tb = obj.ToTable();
+				        writer.Write_Contents(tb);
+				    }
+				}
+			    writer.Write_End(file_path);
+			}
 		}
 		public static bool Load_LString_SheetFile(string file_path)
 		{
@@ -63,6 +89,14 @@ namespace Devarc
 				return reader.ReadFile(file_path);
 			}
 		}
+		public static bool Load_LString_JsonData(string _data)
+		{
+			using (JsonReader reader = new JsonReader())
+			{
+				reader.RegisterCallback("LString", Callback_LString_JSON);
+				return reader.ReadData(_data);
+			}
+		}
 		public static void Save_LString_SheetFile(string file_path)
 		{
 			using (XmlSheetWriter writer = new XmlSheetWriter())
@@ -76,7 +110,7 @@ namespace Devarc
 				        LString obj = Table.T_LString.ElementAt(i);
 				        PropTable tb = obj.ToTable();
 				        writer.Write_Contents(node, tb);
-                    }
+				    }
 				}
 			    writer.Write_End(file_path);
 			}
