@@ -265,6 +265,7 @@
     <Compile Include="Assets\Devarc\_GeneratedCode\Table.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\Table_LString.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\Table_TestSchema.cs" />
+    <Compile Include="Assets\Devarc\Component\Base\BaseDataReader.cs" />
     <Compile Include="Assets\Devarc\Component\Base\Container.cs" />
     <Compile Include="Assets\Devarc\Component\Base\Contents.cs" />
     <Compile Include="Assets\Devarc\Component\Base\DES.cs" />
@@ -274,7 +275,6 @@
     <Compile Include="Assets\Devarc\Component\Base\HostID.cs" />
     <Compile Include="Assets\Devarc\Component\Base\JsonReader.cs" />
     <Compile Include="Assets\Devarc\Component\Base\Lock.cs" />
-    <Compile Include="Assets\Devarc\Component\Base\LockableContainer.cs" />
     <Compile Include="Assets\Devarc\Component\Base\Log.cs" />
     <Compile Include="Assets\Devarc\Component\Base\NetBuffer.cs" />
     <Compile Include="Assets\Devarc\Component\Base\NetBufferPool.cs" />

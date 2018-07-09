@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Devarc
 {
-    abstract class Builder_Base
+    public abstract class Builder_Base
     {
         protected string NameSpace = "Devarc";
         protected SCHEMA_TYPE dataFileType = SCHEMA_TYPE.SHEET;

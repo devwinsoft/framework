@@ -33,15 +33,6 @@ namespace Devarc
         bool mIsOpened = false;
         IntPtr mSQLiteID = IntPtr.Zero;
 
-        //IntPtr StringToPtr(string _value)
-        //{
-        //    if (string.IsNullOrEmpty(_value))
-        //    {
-        //        return IntPtr.Zero;
-        //    }
-        //    return Marshal.StringToHGlobalAnsi(_value);
-        //}
-
         void OnError(IntPtr _err)
         {
             string msg = SQLiteMethods.PtrToString(_err);

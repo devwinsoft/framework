@@ -40,6 +40,7 @@ namespace Devarc
         public Builder_SQLite(string _databasePath)
         {
             mSession.Open(_databasePath);
+            mSession.Begin_Transaction();
         }
 
         public void Commit()

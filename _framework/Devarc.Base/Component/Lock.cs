@@ -76,4 +76,132 @@ namespace Devarc
         }
         protected ReaderWriterLock m_Lock;
     }
+
+    public class TLockObject<T, KEY>
+    {
+        ReaderWriterLock m_Lock = new ReaderWriterLock();
+
+        public RLOCK<T> READ_LOCK() { return new RLOCK<T>(m_Lock); }
+        public WLOCK<T> WRITE_LOCK() { return new WLOCK<T>(m_Lock); }
+
+        public virtual void OnAlloc(KEY k1) { }
+        public virtual void OnFree() { }
+        public virtual KEY GetKey1() { return default(KEY); }
+    }
+
+    public class TLockContainer<T, KEY> where T : TLockObject<T, KEY>, new()
+    {
+        public RLOCK<T> READ_LOCK() { return new RLOCK<T>(m_Lock); }
+        public WLOCK<T> WRITE_LOCK() { return new WLOCK<T>(m_Lock); }
+
+        private ReaderWriterLock m_Lock = new ReaderWriterLock();
+        private Dictionary<KEY, T> m_Table = new Dictionary<KEY, T>();
+        protected List<T> m_List = new List<T>();
+        private Queue<T> m_Pool = new Queue<T>();
+
+        public TLockContainer(int size)
+        {
+            for (int i = 0; i < size; i++)
+            {
+                m_Pool.Enqueue(new T());
+            }
+        }
+
+        public void SetCapacity(int size)
+        {
+            for (int i = m_List.Count + m_Pool.Count; i < size; i++)
+            {
+                m_Pool.Enqueue(new T());
+            }
+        }
+
+        public void Clear()
+        {
+            List<T>.Enumerator enumerator = GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                enumerator.Current.OnFree();
+                m_Pool.Enqueue(enumerator.Current);
+            }
+            m_Table.Clear();
+            m_List.Clear();
+        }
+
+        private T _Alloc(KEY key1)
+        {
+            T obj = default(T);
+            if (m_Pool.Count == 0)
+            {
+                Log.Debug("Not enough buf class. name:" + typeof(T).ToString());
+                return obj;
+            }
+            if (m_Table.ContainsKey(key1))
+            {
+                Log.Debug("Cannot alloc. [name]:" + typeof(T).ToString() + "[key1]:" + key1);
+                return obj;
+            }
+            if (m_Pool.Count == 0)
+                return default(T);
+            obj = m_Pool.Dequeue();
+            m_Table.Add(key1, obj);
+            m_List.Add(obj);
+            return obj;
+        }
+        public T Alloc(KEY key1)
+        {
+            T obj = _Alloc(key1);
+            if (obj == null)
+            {
+                return obj;
+            }
+            obj.OnAlloc(key1);
+            return obj;
+        }
+
+        public void Free1(KEY key1)
+        {
+            using (WRITE_LOCK())
+            {
+                T obj;
+                if (m_Table.TryGetValue(key1, out obj) == false)
+                {
+                    return;
+                }
+                obj.OnFree();
+                m_Table.Remove(key1);
+                m_List.Remove(obj);
+                m_Pool.Enqueue(obj);
+            }
+        }
+
+        public T GetAt1(KEY key1)
+        {
+            T obj;
+            m_Table.TryGetValue(key1, out obj);
+            return obj;
+        }
+        public bool Contains1(KEY key1)
+        {
+            return m_Table.ContainsKey(key1);
+        }
+        public T ElementAt(int index)
+        {
+            if (m_List.Count <= index)
+            {
+                return default(T);
+            }
+            return m_List[index];
+        }
+        public List<T>.Enumerator GetEnumerator()
+        {
+            return m_List.GetEnumerator();
+        }
+        public int Count
+        {
+            get
+            {
+                return m_List.Count;
+            }
+        }
+    }
 }

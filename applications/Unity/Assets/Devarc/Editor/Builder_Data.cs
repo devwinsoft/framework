@@ -28,7 +28,7 @@ using System.Text;
 
 namespace Devarc
 {
-    class Builder_Data : Builder_Base
+    public class Builder_Data : Builder_Base
     {
         string FileName = "";
         string OutFilePath = "";

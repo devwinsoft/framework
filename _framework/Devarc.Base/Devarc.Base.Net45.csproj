@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Component\BaseDataReader.cs" />
     <Compile Include="Component\ExcelReader.cs" />
     <Compile Include="Component\ExcelWriter.cs" />
     <Compile Include="Component\FrameworkUtil.cs" />
@@ -78,7 +79,6 @@
     <Compile Include="Component\PropTable.cs" />
     <Compile Include="Component\Contents.cs" />
     <Compile Include="Component\Container.cs" />
-    <Compile Include="Component\LockableContainer.cs" />
     <Compile Include="Component\SQLiteConstants.cs" />
     <Compile Include="Component\SQLiteDelegate.cs" />
     <Compile Include="Component\SQLiteMethods.cs" />
