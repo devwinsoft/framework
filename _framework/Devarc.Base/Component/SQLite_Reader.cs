@@ -47,7 +47,7 @@ namespace Devarc
         {
             if (mStmt != IntPtr.Zero)
             {
-                SQLiteUnsafeNativeMethods.sqlite3_finalize(mStmt);
+                SQLiteMethods.sqlite3_finalize(mStmt);
                 mStmt = IntPtr.Zero;
             }
         }
@@ -146,7 +146,7 @@ namespace Devarc
             }
             else
             {
-                SQLiteUnsafeNativeMethods.sqlite3_finalize(mStmt);
+                SQLiteMethods.sqlite3_finalize(mStmt);
                 mStmt = IntPtr.Zero;
                 return false;
             }
@@ -154,44 +154,44 @@ namespace Devarc
 
         private ResultCode readFirst()
         {
-            ResultCode resultType = (ResultCode)SQLiteUnsafeNativeMethods.sqlite3_step(mStmt);
+            ResultCode resultType = (ResultCode)SQLiteMethods.sqlite3_step(mStmt);
             if (resultType != ResultCode.SQLITE_ROW)
             {
                 return resultType;
             }
-            this.mColumnCount = SQLiteUnsafeNativeMethods.sqlite3_column_count(mStmt);
+            this.mColumnCount = SQLiteMethods.sqlite3_column_count(mStmt);
             this.mColumnTypes = new Type[mColumnCount];
             this.mColumnNames = new string[mColumnCount];
             this.mColumnValues = new object[mColumnCount];
 
             for (int i = 0; i < mColumnCount; i++)
             {
-                mColumnNames[i] = SQLiteUnsafeNativeMethods.PtrToString(SQLiteUnsafeNativeMethods.sqlite3_column_name(mStmt, i));
-                int columnType = SQLiteUnsafeNativeMethods.sqlite3_column_type(mStmt, i);
+                mColumnNames[i] = SQLiteMethods.PtrToString(SQLiteMethods.sqlite3_column_name(mStmt, i));
+                int columnType = SQLiteMethods.sqlite3_column_type(mStmt, i);
                 switch (columnType)
                 {
                     case (int)FundamentalDatatypes.SQLITE_INTEGER:
                         {
                             mColumnTypes[i] = typeof(Int32);
-                            mColumnValues[i] = SQLiteUnsafeNativeMethods.sqlite3_column_int(mStmt, i);
+                            mColumnValues[i] = SQLiteMethods.sqlite3_column_int(mStmt, i);
                             break;
                         }
                     case (int)FundamentalDatatypes.SQLITE_FLOAT:
                         {
                             mColumnTypes[i] = typeof(Single);
-                            mColumnValues[i] = SQLiteUnsafeNativeMethods.sqlite3_column_double(mStmt, i);
+                            mColumnValues[i] = SQLiteMethods.sqlite3_column_double(mStmt, i);
                             break;
                         }
                     case (int)FundamentalDatatypes.SQLITE_TEXT:
                         {
                             mColumnTypes[i] = typeof(string);
-                            mColumnValues[i] = SQLiteUnsafeNativeMethods.PtrToString(SQLiteUnsafeNativeMethods.sqlite3_column_text(mStmt, i));
+                            mColumnValues[i] = SQLiteMethods.PtrToString(SQLiteMethods.sqlite3_column_text(mStmt, i));
                             break;
                         }
                     case (int)FundamentalDatatypes.SQLITE_BLOB:
                         {
                             mColumnTypes[i] = typeof(string);
-                            mColumnValues[i] = SQLiteUnsafeNativeMethods.PtrToString(SQLiteUnsafeNativeMethods.sqlite3_column_blob(mStmt, i));
+                            mColumnValues[i] = SQLiteMethods.PtrToString(SQLiteMethods.sqlite3_column_blob(mStmt, i));
                             break;
                         }
                     default:
@@ -208,36 +208,36 @@ namespace Devarc
 
         ResultCode readNext()
         {
-            ResultCode resultType = (ResultCode)SQLiteUnsafeNativeMethods.sqlite3_step(mStmt);
+            ResultCode resultType = (ResultCode)SQLiteMethods.sqlite3_step(mStmt);
             if (resultType != ResultCode.SQLITE_ROW)
             {
                 return resultType;
             }
 
-            int columnCount = SQLiteUnsafeNativeMethods.sqlite3_column_count(mStmt);
+            int columnCount = SQLiteMethods.sqlite3_column_count(mStmt);
             for (int i = 0; i < columnCount; i++)
             {
-                int columnType = SQLiteUnsafeNativeMethods.sqlite3_column_type(mStmt, i);
+                int columnType = SQLiteMethods.sqlite3_column_type(mStmt, i);
                 switch (columnType)
                 {
                     case (int)FundamentalDatatypes.SQLITE_INTEGER:
                         {
-                            this.mColumnValues[i] = SQLiteUnsafeNativeMethods.sqlite3_column_int(mStmt, i);
+                            this.mColumnValues[i] = SQLiteMethods.sqlite3_column_int(mStmt, i);
                             break;
                         }
                     case (int)FundamentalDatatypes.SQLITE_FLOAT:
                         {
-                            this.mColumnValues[i] = SQLiteUnsafeNativeMethods.sqlite3_column_double(mStmt, i);
+                            this.mColumnValues[i] = SQLiteMethods.sqlite3_column_double(mStmt, i);
                             break;
                         }
                     case (int)FundamentalDatatypes.SQLITE_TEXT:
                         {
-                            this.mColumnValues[i] = SQLiteUnsafeNativeMethods.PtrToString(SQLiteUnsafeNativeMethods.sqlite3_column_text(mStmt, i));
+                            this.mColumnValues[i] = SQLiteMethods.PtrToString(SQLiteMethods.sqlite3_column_text(mStmt, i));
                             break;
                         }
                     case (int)FundamentalDatatypes.SQLITE_BLOB:
                         {
-                            this.mColumnValues[i] = SQLiteUnsafeNativeMethods.PtrToString(SQLiteUnsafeNativeMethods.sqlite3_column_blob(mStmt, i));
+                            this.mColumnValues[i] = SQLiteMethods.PtrToString(SQLiteMethods.sqlite3_column_blob(mStmt, i));
                             break;
                         }
                     default:

@@ -33,19 +33,10 @@ namespace Devarc
         bool mIsOpened = false;
         IntPtr mSQLiteID = IntPtr.Zero;
 
-        IntPtr StringToPtr(string _value)
-        {
-            if (string.IsNullOrEmpty(_value))
-            {
-                return IntPtr.Zero;
-            }
-            return Marshal.StringToHGlobalAnsi(_value);
-        }
-
         void OnError(IntPtr _err)
         {
-            string msg = SQLiteUnsafeNativeMethods.PtrToString(_err);
-            SQLiteUnsafeNativeMethods.sqlite3_free(_err);
+            string msg = SQLiteMethods.PtrToString(_err);
+            SQLiteMethods.sqlite3_free(_err);
             Log.Error(msg);
         }
 
@@ -56,8 +47,8 @@ namespace Devarc
             {
                 if (mIsOpened == false)
                 {
-                    IntPtr filename = StringToPtr(_databasePath);
-                    result = SQLiteUnsafeNativeMethods.sqlite3_open(filename, out mSQLiteID);
+                    IntPtr filename = SQLiteMethods.StringToPtr(_databasePath);
+                    result = SQLiteMethods.sqlite3_open(filename, out mSQLiteID);
                     mIsOpened = result == 0;
                     return result == 0;
                 }
@@ -84,7 +75,7 @@ namespace Devarc
                 }
                 else
                 {
-                    result = SQLiteUnsafeNativeMethods.sqlite3_close(mSQLiteID);
+                    result = SQLiteMethods.sqlite3_close(mSQLiteID);
                     mIsOpened = false;
                     mSQLiteID = IntPtr.Zero;
                     return result == 0;
@@ -104,11 +95,11 @@ namespace Devarc
                 return false;
             }
             IntPtr err = IntPtr.Zero;
-            IntPtr cmd = StringToPtr("BEGIN TRANSACTION");
+            IntPtr cmd = SQLiteMethods.StringToPtr("BEGIN TRANSACTION");
             try
             {
-                SQLiteUnsafeNativeMethods.sqlite3_exec(mSQLiteID, cmd, null, IntPtr.Zero, out err);
-                SQLiteUnsafeNativeMethods.sqlite3_free(err);
+                SQLiteMethods.sqlite3_exec(mSQLiteID, cmd, null, IntPtr.Zero, out err);
+                SQLiteMethods.sqlite3_free(err);
                 return true;
             }
             catch (System.Exception ex)
@@ -125,11 +116,11 @@ namespace Devarc
                 return false;
             }
             IntPtr err = IntPtr.Zero;
-            IntPtr cmd = StringToPtr("END TRANSACTION");
+            IntPtr cmd = SQLiteMethods.StringToPtr("END TRANSACTION");
             try
             {
-                SQLiteUnsafeNativeMethods.sqlite3_exec(mSQLiteID, cmd, null, IntPtr.Zero, out err);
-                SQLiteUnsafeNativeMethods.sqlite3_free(err);
+                SQLiteMethods.sqlite3_exec(mSQLiteID, cmd, null, IntPtr.Zero, out err);
+                SQLiteMethods.sqlite3_free(err);
                 return true;
             }
             catch (System.Exception ex)
@@ -146,10 +137,10 @@ namespace Devarc
                 return false;
             }
             IntPtr err = IntPtr.Zero;
-            IntPtr cmd = StringToPtr("COMMIT");
+            IntPtr cmd = SQLiteMethods.StringToPtr("COMMIT");
             try
             {
-                SQLiteUnsafeNativeMethods.sqlite3_exec(mSQLiteID, cmd, null, IntPtr.Zero, out err);
+                SQLiteMethods.sqlite3_exec(mSQLiteID, cmd, null, IntPtr.Zero, out err);
                 if (err != IntPtr.Zero)
                 {
                     OnError(err);
@@ -172,10 +163,10 @@ namespace Devarc
             }
 
             IntPtr err = IntPtr.Zero;
-            IntPtr query = StringToPtr(_query);
+            IntPtr query = SQLiteMethods.StringToPtr(_query);
             try
             {
-                SQLiteUnsafeNativeMethods.sqlite3_exec(mSQLiteID, query, null, IntPtr.Zero, out err);
+                SQLiteMethods.sqlite3_exec(mSQLiteID, query, null, IntPtr.Zero, out err);
                 if (err != IntPtr.Zero)
                 {
                     OnError(err);
@@ -197,18 +188,12 @@ namespace Devarc
                 return null;
             }
 
-            IntPtr err = IntPtr.Zero;
-            IntPtr query = StringToPtr(_query);
+            IntPtr query = SQLiteMethods.StringToPtr(_query);
             IntPtr stmt = IntPtr.Zero;
             IntPtr excess = IntPtr.Zero;
             try
             {
-                SQLiteUnsafeNativeMethods.sqlite3_prepare_v2(mSQLiteID, query, SQLiteUnsafeNativeMethods.lstrlen(query), out stmt, out excess);
-                if (err != IntPtr.Zero)
-                {
-                    OnError(err);
-                    return null;
-                }
+                SQLiteMethods.sqlite3_prepare_v2(mSQLiteID, query, -1, out stmt, out excess);
                 SQLite_Reader reader = new SQLite_Reader(stmt);
                 return reader;
             }

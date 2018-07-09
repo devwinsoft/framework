@@ -44,11 +44,12 @@ public class SceneTest : MonoBehaviour
         //TextAsset txtAsset;
         //txtAsset = Resources.Load<TextAsset>("TableData/Localize/LString_"); TableManager.Load_LString_SheetData(txtAsset.text);
 
-        //TableManager.Open(System.IO.Path.Combine(Application.streamingAssetsPath, "database.sqlite"));
+        Table.Open(Application.streamingAssetsPath + "/database.sqlite");
+        DataCharacter data;
 
-        //DataCharacter data = TableManager.T_DataCharacter.GetAt(UNIT.HUMAN_FEMALE);
-        //TableManager.T_DataCharacter.TryGetAt(TableManager.Connection, UNIT.DRAGON_BLACK, out data);
-        //Table.T_DataCharacter.GetAt(UNIT.DRAGON_BLACK);
+        data = Table.T_DataCharacter.GetAt(Table.Session, UNIT.HUMAN_FEMALE);
+        data = Table.T_DataCharacter.GetAt(UNIT.DRAGON_BLACK);
+        Table.Session.Close();
 
         client.Init(proxy, stub);
     }

@@ -293,12 +293,6 @@
     <Reference Include="LitJson">
       <HintPath>Assets\Devarc\Plugins\LitJson.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Data">
-      <HintPath>Assets\Devarc\Plugins\Mono.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Data.Sqlite">
-      <HintPath>Assets\Devarc\Plugins\Mono.Data.Sqlite.dll</HintPath>
-    </Reference>
     <Reference Include="NPOI">
       <HintPath>Assets\Devarc\Plugins\NPOI.dll</HintPath>
     </Reference>

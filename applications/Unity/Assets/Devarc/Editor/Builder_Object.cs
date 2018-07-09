@@ -353,7 +353,7 @@ namespace Devarc
                         else
                             sw.Write(", {0}", tb.GetVarName(i));
                     }
-                    sw.WriteLine(" from {0} where {0}='{{0}}';\", _key); }}", tb.KeyVarName, enum_name);
+                    sw.WriteLine(" from {1} where {0}='{{0}}';\", _key); }}", tb.KeyVarName, enum_name);
                 }
 
                 sw.WriteLine("\t\tpublic bool IsDefault", class_name);

@@ -79,11 +79,9 @@
     <Compile Include="Component\Contents.cs" />
     <Compile Include="Component\Container.cs" />
     <Compile Include="Component\LockableContainer.cs" />
-    <Compile Include="SQLiteWrapper\SQLiteConstants.cs" />
-    <Compile Include="SQLiteWrapper\SQLiteConvert.cs" />
-    <Compile Include="SQLiteWrapper\SQLiteDelegate.cs" />
-    <Compile Include="SQLiteWrapper\SQLiteException.cs" />
-    <Compile Include="SQLiteWrapper\SQLiteUnsafeNativeMethods.cs" />
+    <Compile Include="Component\SQLiteConstants.cs" />
+    <Compile Include="Component\SQLiteDelegate.cs" />
+    <Compile Include="Component\SQLiteMethods.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\_externals\SuperSocket.ClientEngine\SuperSocket.ClientEngine.Net45.csproj">

@@ -31,7 +31,7 @@ namespace Devarc
 			Initialize(obj);
 		}
 		public UNIT GetKey() { return unit_type; }
-		public string GetSelectQuery(UNIT _key) { return string.Format("select unit_type, name, items, stats, ability, nodes, unit_uid, specialCode from unit_type where unit_type='{0}';", _key); }
+		public string GetSelectQuery(UNIT _key) { return string.Format("select unit_type, name, items, stats, ability, nodes, unit_uid, specialCode from DataCharacter where unit_type='{0}';", _key); }
 		public bool IsDefault
 		{
 			get
@@ -599,7 +599,7 @@ namespace Devarc
 			Initialize(obj);
 		}
 		public DIRECTION GetKey() { return ID; }
-		public string GetSelectQuery(DIRECTION _key) { return string.Format("select Name, ID from ID where ID='{0}';", _key); }
+		public string GetSelectQuery(DIRECTION _key) { return string.Format("select Name, ID from DIRECTION where ID='{0}';", _key); }
 		public bool IsDefault
 		{
 			get
@@ -722,7 +722,7 @@ namespace Devarc
 			Initialize(obj);
 		}
 		public MESSAGE GetKey() { return ID; }
-		public string GetSelectQuery(MESSAGE _key) { return string.Format("select Name, ID, TEXT from ID where ID='{0}';", _key); }
+		public string GetSelectQuery(MESSAGE _key) { return string.Format("select Name, ID, TEXT from MESSAGE where ID='{0}';", _key); }
 		public bool IsDefault
 		{
 			get
@@ -852,7 +852,7 @@ namespace Devarc
 			Initialize(obj);
 		}
 		public UNIT GetKey() { return ID; }
-		public string GetSelectQuery(UNIT _key) { return string.Format("select Name, ID from ID where ID='{0}';", _key); }
+		public string GetSelectQuery(UNIT _key) { return string.Format("select Name, ID from UNIT where ID='{0}';", _key); }
 		public bool IsDefault
 		{
 			get
@@ -951,6 +951,69 @@ namespace Devarc
 	        return msg.IsError;
 	    }
 	}
+	public enum DIRECTION
+	{
+		STOP                = 0,
+		BACK                = 1,
+		FORWARD             = 2,
+		L                   = 3,
+		R                   = 4,
+		FL                  = 5,
+		FR                  = 6,
+		BL                  = 7,
+		BR                  = 8,
+	}
+	public static partial class Marshaler
+	{
+	    public static bool Read(NetBuffer msg, ref DIRECTION obj)
+	    {
+	        obj = (DIRECTION)msg.ReadInt32();
+	        return !msg.IsError;
+	    }
+	    public static bool Write(NetBuffer msg, DIRECTION obj)
+	    {
+	        msg.Write((Int32)obj);
+	        return !msg.IsError;
+	    }
+	    public static bool Read(NetBuffer msg, out DIRECTION[] obj)
+	    {
+	        int cnt = msg.ReadInt16();
+	        obj = new DIRECTION[cnt];
+	        for (int i = 0; i < cnt; i++)
+	        {
+	            obj[i] = (DIRECTION)msg.ReadInt32();
+	        }
+	        return !msg.IsError;
+	    }
+	    public static bool Read(NetBuffer msg, List<DIRECTION> obj)
+	    {
+	        int cnt = msg.ReadInt16();
+	        obj = new List<DIRECTION>();
+	        for (int i = 0; i < cnt; i++)
+	        {
+	            obj[i] = (DIRECTION)msg.ReadInt32();
+	        }
+	        return !msg.IsError;
+	    }
+	    public static bool Write(NetBuffer msg, DIRECTION[] list)
+	    {
+	        msg.Write((Int16)list.Length);
+	        foreach (DIRECTION obj in list)
+	        {
+	            msg.Write((Int32)obj);
+	        }
+	        return !msg.IsError;
+	    }
+	    public static bool Write(NetBuffer msg, List<DIRECTION> list)
+	    {
+	        msg.Write((Int16)list.Count);
+	        foreach (DIRECTION obj in list)
+	        {
+	            msg.Write((Int32)obj);
+	        }
+	        return !msg.IsError;
+	    }
+	}
 	public enum UNIT
 	{
 		NONE                = 0,
@@ -1017,69 +1080,6 @@ namespace Devarc
 	    {
 	        msg.Write((Int16)list.Count);
 	        foreach (UNIT obj in list)
-	        {
-	            msg.Write((Int32)obj);
-	        }
-	        return !msg.IsError;
-	    }
-	}
-	public enum DIRECTION
-	{
-		STOP                = 0,
-		BACK                = 1,
-		FORWARD             = 2,
-		L                   = 3,
-		R                   = 4,
-		FL                  = 5,
-		FR                  = 6,
-		BL                  = 7,
-		BR                  = 8,
-	}
-	public static partial class Marshaler
-	{
-	    public static bool Read(NetBuffer msg, ref DIRECTION obj)
-	    {
-	        obj = (DIRECTION)msg.ReadInt32();
-	        return !msg.IsError;
-	    }
-	    public static bool Write(NetBuffer msg, DIRECTION obj)
-	    {
-	        msg.Write((Int32)obj);
-	        return !msg.IsError;
-	    }
-	    public static bool Read(NetBuffer msg, out DIRECTION[] obj)
-	    {
-	        int cnt = msg.ReadInt16();
-	        obj = new DIRECTION[cnt];
-	        for (int i = 0; i < cnt; i++)
-	        {
-	            obj[i] = (DIRECTION)msg.ReadInt32();
-	        }
-	        return !msg.IsError;
-	    }
-	    public static bool Read(NetBuffer msg, List<DIRECTION> obj)
-	    {
-	        int cnt = msg.ReadInt16();
-	        obj = new List<DIRECTION>();
-	        for (int i = 0; i < cnt; i++)
-	        {
-	            obj[i] = (DIRECTION)msg.ReadInt32();
-	        }
-	        return !msg.IsError;
-	    }
-	    public static bool Write(NetBuffer msg, DIRECTION[] list)
-	    {
-	        msg.Write((Int16)list.Length);
-	        foreach (DIRECTION obj in list)
-	        {
-	            msg.Write((Int32)obj);
-	        }
-	        return !msg.IsError;
-	    }
-	    public static bool Write(NetBuffer msg, List<DIRECTION> list)
-	    {
-	        msg.Write((Int16)list.Count);
-	        foreach (DIRECTION obj in list)
 	        {
 	            msg.Write((Int32)obj);
 	        }

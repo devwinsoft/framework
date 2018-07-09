@@ -27,7 +27,7 @@ namespace Devarc
 			Initialize(obj);
 		}
 		public TEST_ENUM GetKey() { return ID; }
-		public string GetSelectQuery(TEST_ENUM _key) { return string.Format("select NAME, ID from ID where ID='{0}';", _key); }
+		public string GetSelectQuery(TEST_ENUM _key) { return string.Format("select NAME, ID from TEST_ENUM where ID='{0}';", _key); }
 		public bool IsDefault
 		{
 			get
