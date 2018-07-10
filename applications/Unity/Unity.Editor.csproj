@@ -332,9 +332,6 @@
     <Compile Include="Assets\Devarc\Editor\DevarcEditor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Devarc\Plugins\NPOI.OOXML.XML" />
-    <None Include="Assets\Devarc\Plugins\NPOI.OpenXml4Net.XML" />
-    <None Include="Assets\Devarc\Plugins\NPOI.XML" />
     <None Include="Assets\Devarc\Test\Graphics\shaderCharacter.shader" />
     <None Include="Assets\Devarc\Test\Graphics\shaderTerrain.shader" />
     <None Include="Assets\Devarc\Test\Localize\LString_.xml" />

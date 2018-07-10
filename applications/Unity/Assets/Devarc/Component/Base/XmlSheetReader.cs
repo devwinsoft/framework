@@ -28,7 +28,7 @@ using System.Xml;
 
 namespace Devarc
 {
-    public class XmlSheetReader : BaseDataReader
+    public class XmlSheetReader : BaseSchemaReader
     {
         public override bool ReadFile(string _filePath)
         {

@@ -119,7 +119,7 @@ namespace Devarc
                 sw.WriteLine("\t{");
             }
 
-            using (BaseDataReader reader1 = _createReader())
+            using (BaseSchemaReader reader1 = _createReader())
             {
                 reader1.RegisterCallback_Table(Callback_LoadSheet);
                 reader1.ReadFile(_inFilePath);

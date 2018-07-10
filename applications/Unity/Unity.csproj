@@ -265,7 +265,7 @@
     <Compile Include="Assets\Devarc\_GeneratedCode\Table.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\Table_LString.cs" />
     <Compile Include="Assets\Devarc\_GeneratedCode\Table_TestSchema.cs" />
-    <Compile Include="Assets\Devarc\Component\Base\BaseDataReader.cs" />
+    <Compile Include="Assets\Devarc\Component\Base\BaseSchemaReader.cs" />
     <Compile Include="Assets\Devarc\Component\Base\Container.cs" />
     <Compile Include="Assets\Devarc\Component\Base\Contents.cs" />
     <Compile Include="Assets\Devarc\Component\Base\DES.cs" />
@@ -297,9 +297,6 @@
     <Compile Include="Assets\Devarc\Test\Script\Stub_S2C.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Devarc\Plugins\NPOI.OOXML.XML" />
-    <None Include="Assets\Devarc\Plugins\NPOI.OpenXml4Net.XML" />
-    <None Include="Assets\Devarc\Plugins\NPOI.XML" />
     <None Include="Assets\Devarc\Test\Graphics\shaderCharacter.shader" />
     <None Include="Assets\Devarc\Test\Graphics\shaderTerrain.shader" />
     <None Include="Assets\Devarc\Test\Localize\LString_.xml" />

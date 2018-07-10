@@ -30,11 +30,6 @@ namespace SQLiteWrapper
             byte[] buffer = new byte[len];
             Marshal.Copy(ptr, buffer, 0, buffer.Length);
             return Encoding.UTF8.GetString(buffer);
-            //Encoding encoding = Encoding.UTF8;
-            //int length = GetPointerLenght(ptr);
-            //Byte[] bytes = new Byte[length];
-            //Marshal.Copy(ptr, bytes, 0, length);
-            //return encoding.GetString(bytes, 0, length);
         }
 
         #region Public Methods

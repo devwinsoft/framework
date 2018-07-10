@@ -12,7 +12,7 @@ using Devarc;
 
 namespace Devarc
 {
-    public class SchemaReader : BaseDataReader
+    public class SchemaReader : BaseSchemaReader
     {
         public override bool ReadFile(string _filePath)
         {

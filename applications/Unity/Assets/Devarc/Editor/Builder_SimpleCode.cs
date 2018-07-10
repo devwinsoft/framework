@@ -25,7 +25,7 @@ namespace Devarc
             else
                 dataFileType = SCHEMA_TYPE.EXCEL;
 
-            using (BaseDataReader reader = _createReader())
+            using (BaseSchemaReader reader = _createReader())
             {
                 reader.RegisterCallback_Table(Callback_LoadSheet);
                 reader.ReadFile(tmpFullPath);

@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Devarc
 {
-    public class ExcelReader : BaseDataReader
+    public class ExcelReader : BaseSchemaReader
     {
         public override bool ReadFile(string _filePath)
         {

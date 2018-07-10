@@ -13,12 +13,7 @@ namespace Devarc
 
         public void Dispose()
         {
-            if (mConnection != null)
-            {
-                mConnection.Close();
-            }
-            mConnection = null;
-            mDatabase = null;
+            Close();
         }
 
         public bool Connect(string _host, int _port)
@@ -38,6 +33,16 @@ namespace Devarc
                 Log.Error(ex.Message);
                 return false;
             }
+        }
+
+        public void Close()
+        {
+            if (mConnection != null)
+            {
+                mConnection.Close();
+            }
+            mConnection = null;
+            mDatabase = null;
         }
 
         public string GetString(string _key)

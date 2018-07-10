@@ -10,7 +10,7 @@ namespace Devarc
         protected string NameSpace = "Devarc";
         protected SCHEMA_TYPE dataFileType = SCHEMA_TYPE.SHEET;
 
-        protected BaseDataReader _createReader()
+        protected BaseSchemaReader _createReader()
         {
             switch (dataFileType)
             {

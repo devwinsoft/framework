@@ -38,7 +38,7 @@ namespace Devarc
 
     public delegate void CallbackDataReader(string sheet_name, PropTable tb);
 
-    public abstract class BaseDataReader : IDisposable
+    public abstract class BaseSchemaReader : IDisposable
     {
         protected CallbackDataReader callback_header = null;
         protected CallbackDataReader callback_data = null;

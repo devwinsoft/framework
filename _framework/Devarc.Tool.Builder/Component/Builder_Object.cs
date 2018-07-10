@@ -103,7 +103,7 @@ namespace Devarc
             m_ClassList.Clear();
 
             // Get Class List
-            using (BaseDataReader reader = _createReader())
+            using (BaseSchemaReader reader = _createReader())
             {
                 reader.RegisterCallback_Table(Callback_Pass1);
                 reader.ReadFile(_inFilePath);
@@ -120,13 +120,13 @@ namespace Devarc
                 sw.WriteLine("{");
                 sw.Close();
             }
-            using (BaseDataReader reader = _createReader())
+            using (BaseSchemaReader reader = _createReader())
             {
                 reader.RegisterCallback_Data(Callback_Pass2_Enum);
                 reader.ReadFile(_inFilePath);
                 System.Threading.Thread.Sleep(0);
             }
-            using (BaseDataReader reader = _createReader())
+            using (BaseSchemaReader reader = _createReader())
             {
                 reader.RegisterCallback_Table(Callback_Pass2_Class);
                 reader.ReadFile(_inFilePath);
