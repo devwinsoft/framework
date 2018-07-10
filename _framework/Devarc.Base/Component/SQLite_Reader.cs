@@ -28,14 +28,12 @@ using Devarc;
 
 namespace Devarc
 {
-    public class SQLite_Reader : IDisposable
+    public class SQLite_Reader : IBaseReader, IDisposable
     {
         IntPtr mStmt = IntPtr.Zero;
         int mReadCount = 0;
         int mColumnCount;
-        Type[] mColumnTypes;
-        string[] mColumnNames;
-        object[] mColumnValues;
+        Dictionary<string, object> mDataList = new Dictionary<string, object>();
 
         public SQLite_Reader(IntPtr _stmt)
         {
@@ -56,71 +54,6 @@ namespace Devarc
         {
             Dispose();
         }
-
-        public short GetInt16(int i)
-        {
-            if (mColumnCount <= i)
-            {
-                return 0;
-            }
-            short value;
-            short.TryParse(mColumnValues[i].ToString(), out value);
-            return value;
-        }
-
-        public int GetInt32(int i)
-        {
-            if (mColumnCount <= i)
-            {
-                return 0;
-            }
-            int value;
-            int.TryParse(mColumnValues[i].ToString(), out value);
-            return value;
-        }
-
-        public long GetInt64(int i)
-        {
-            if (mColumnCount <= i)
-            {
-                return 0;
-            }
-            long value;
-            long.TryParse(mColumnValues[i].ToString(), out value);
-            return value;
-        }
-
-        public uint GetDecimal(int i)
-        {
-            if (mColumnCount <= i)
-            {
-                return 0;
-            }
-            uint value;
-            uint.TryParse(mColumnValues[i].ToString(), out value);
-            return value;
-        }
-
-        public float GetFloat(int i)
-        {
-            if (mColumnCount <= i)
-            {
-                return 0f;
-            }
-            float value;
-            float.TryParse(mColumnValues[i].ToString(), out value);
-            return value;
-        }
-
-        public string GetString(int i)
-        {
-            if (mColumnCount <= i)
-            {
-                return string.Empty;
-            }
-            return mColumnValues[i].ToString();
-        }
-
 
         public bool Read()
         {
@@ -159,48 +92,41 @@ namespace Devarc
             {
                 return resultType;
             }
-            this.mColumnCount = SQLiteMethods.sqlite3_column_count(mStmt);
-            this.mColumnTypes = new Type[mColumnCount];
-            this.mColumnNames = new string[mColumnCount];
-            this.mColumnValues = new object[mColumnCount];
-
+            mColumnCount = SQLiteMethods.sqlite3_column_count(mStmt);
             for (int i = 0; i < mColumnCount; i++)
             {
-                mColumnNames[i] = SQLiteMethods.PtrToString(SQLiteMethods.sqlite3_column_name(mStmt, i));
+                string cName = SQLiteMethods.PtrToString(SQLiteMethods.sqlite3_column_name(mStmt, i));
+                object cValue;
                 int columnType = SQLiteMethods.sqlite3_column_type(mStmt, i);
                 switch (columnType)
                 {
                     case (int)FundamentalDatatypes.SQLITE_INTEGER:
                         {
-                            mColumnTypes[i] = typeof(Int32);
-                            mColumnValues[i] = SQLiteMethods.sqlite3_column_int(mStmt, i);
+                            cValue = SQLiteMethods.sqlite3_column_int(mStmt, i);
                             break;
                         }
                     case (int)FundamentalDatatypes.SQLITE_FLOAT:
                         {
-                            mColumnTypes[i] = typeof(Single);
-                            mColumnValues[i] = SQLiteMethods.sqlite3_column_double(mStmt, i);
+                            cValue = SQLiteMethods.sqlite3_column_double(mStmt, i);
                             break;
                         }
                     case (int)FundamentalDatatypes.SQLITE_TEXT:
                         {
-                            mColumnTypes[i] = typeof(string);
-                            mColumnValues[i] = SQLiteMethods.PtrToString(SQLiteMethods.sqlite3_column_text(mStmt, i));
+                            cValue = SQLiteMethods.PtrToString(SQLiteMethods.sqlite3_column_text(mStmt, i));
                             break;
                         }
                     case (int)FundamentalDatatypes.SQLITE_BLOB:
                         {
-                            mColumnTypes[i] = typeof(string);
-                            mColumnValues[i] = SQLiteMethods.PtrToString(SQLiteMethods.sqlite3_column_blob(mStmt, i));
+                            cValue = SQLiteMethods.PtrToString(SQLiteMethods.sqlite3_column_blob(mStmt, i));
                             break;
                         }
                     default:
                         {
-                            mColumnTypes[i] = typeof(string);
-                            mColumnValues[i] = "";
+                            cValue = "";
                             break;
                         }
                 }
+                mDataList.Add(cName, cValue);
             }
             return resultType;
         }
@@ -217,37 +143,92 @@ namespace Devarc
             int columnCount = SQLiteMethods.sqlite3_column_count(mStmt);
             for (int i = 0; i < columnCount; i++)
             {
+                string cName = SQLiteMethods.PtrToString(SQLiteMethods.sqlite3_column_name(mStmt, i));
+                object cValue;
                 int columnType = SQLiteMethods.sqlite3_column_type(mStmt, i);
                 switch (columnType)
                 {
                     case (int)FundamentalDatatypes.SQLITE_INTEGER:
                         {
-                            this.mColumnValues[i] = SQLiteMethods.sqlite3_column_int(mStmt, i);
+                            cValue = SQLiteMethods.sqlite3_column_int(mStmt, i);
                             break;
                         }
                     case (int)FundamentalDatatypes.SQLITE_FLOAT:
                         {
-                            this.mColumnValues[i] = SQLiteMethods.sqlite3_column_double(mStmt, i);
+                            cValue = SQLiteMethods.sqlite3_column_double(mStmt, i);
                             break;
                         }
                     case (int)FundamentalDatatypes.SQLITE_TEXT:
                         {
-                            this.mColumnValues[i] = SQLiteMethods.PtrToString(SQLiteMethods.sqlite3_column_text(mStmt, i));
+                            cValue = SQLiteMethods.PtrToString(SQLiteMethods.sqlite3_column_text(mStmt, i));
                             break;
                         }
                     case (int)FundamentalDatatypes.SQLITE_BLOB:
                         {
-                            this.mColumnValues[i] = SQLiteMethods.PtrToString(SQLiteMethods.sqlite3_column_blob(mStmt, i));
+                            cValue = SQLiteMethods.PtrToString(SQLiteMethods.sqlite3_column_blob(mStmt, i));
                             break;
                         }
                     default:
                         {
-                            this.mColumnValues[i] = "";
+                            cValue = "";
                             break;
                         }
                 }
+                mDataList.Add(cName, cValue);
             }
             return resultType;
+        }
+
+        T get<T>(string _name)
+        {
+            try
+            {
+                object value;
+                if (mDataList.TryGetValue(_name, out value))
+                    return (T)value;
+                return default(T);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                return default(T);
+            }
+        }
+
+        public short GetInt16(string _name)
+        {
+            short value = get<short>(_name);
+            return value;
+        }
+
+        public int GetInt32(string _name)
+        {
+            int value = get<int>(_name);
+            return value;
+        }
+
+        public long GetInt64(string _name)
+        {
+            long value = get<long>(_name);
+            return value;
+        }
+
+        public uint GetUInt32(string _name)
+        {
+            uint value = get<uint>(_name);
+            return value;
+        }
+
+        public float GetFloat(string _name)
+        {
+            float value = get<float>(_name);
+            return value;
+        }
+
+        public string GetString(string _name)
+        {
+            string value = get<string>(_name);
+            return value;
         }
     }
 

@@ -93,16 +93,16 @@ namespace Devarc
 			if (obj.Keys.Contains("unit_uid")) uint.TryParse(obj["unit_uid"].ToString(), out unit_uid); else unit_uid = default(uint);
 			if (obj.Keys.Contains("specialCode")) _specialCode.Key = obj["specialCode"].ToString(); else _specialCode.Key = default(string);
 		}
-		public void Initialize(SQLite_Reader obj)
+		public void Initialize(IBaseReader obj)
 		{
-			unit_type           = _UNIT.Parse(obj.GetString(0));
+			unit_type           = _UNIT.Parse(obj.GetString("unit_type"));
 			_name.Key = FrameworkUtil.MakeLStringKey("DataCharacter", "name", unit_type.ToString());
-			string __items = obj.GetString(2); items.Clear(); if (!string.IsNullOrEmpty(__items)) foreach (JsonData node in JsonMapper.ToObject(__items)) { items.Add(_UNIT.Parse(node.ToString())); };
-			string __stats = obj.GetString(3); stats.Clear(); if (!string.IsNullOrEmpty(__stats)) FrameworkUtil.FillList<DataAbility>(__stats, stats);
-			ability.Initialize(JsonMapper.ToObject(obj.GetString(4)));
-			string __nodes = obj.GetString(5); nodes.Clear(); if (!string.IsNullOrEmpty(__nodes)) foreach (JsonData node in JsonMapper.ToObject(__nodes)) { nodes.Add(node.ToString()); };
-			unit_uid            = (uint)obj.GetDecimal(6);
-			_specialCode.Key = obj.GetString(7);
+			string __items = obj.GetString("items"); items.Clear(); if (!string.IsNullOrEmpty(__items)) foreach (JsonData node in JsonMapper.ToObject(__items)) { items.Add(_UNIT.Parse(node.ToString())); };
+			string __stats = obj.GetString("stats"); stats.Clear(); if (!string.IsNullOrEmpty(__stats)) FrameworkUtil.FillList<DataAbility>(__stats, stats);
+			ability.Initialize(JsonMapper.ToObject(obj.GetString("ability")));
+			string __nodes = obj.GetString("nodes"); nodes.Clear(); if (!string.IsNullOrEmpty(__nodes)) foreach (JsonData node in JsonMapper.ToObject(__nodes)) { nodes.Add(node.ToString()); };
+			unit_uid            = (uint)obj.GetUInt32("unit_uid");
+			_specialCode.Key = obj.GetString("specialCode");
 		}
 		public override string ToString()
 		{
@@ -135,14 +135,14 @@ namespace Devarc
 		public PropTable ToTable()
 		{
 			PropTable obj = new PropTable("DataCharacter");
-			obj.Attach("unit_type", "UNIT", CLASS_TYPE.VALUE, KEY_TYPE.MAP, unit_type.ToString());
-			obj.Attach("name", "LString", CLASS_TYPE.VALUE, KEY_TYPE.NONE, _name.Value);
+			obj.Attach("unit_type", "UNIT", CLASS_TYPE.VALUE, true, unit_type.ToString());
+			obj.Attach("name", "LString", CLASS_TYPE.VALUE, false, _name.Value);
 			obj.Attach_List<UNIT>("items", "UNIT", VAR_TYPE.ENUM, items);
 			obj.Attach_List<DataAbility>("stats", "DataAbility", VAR_TYPE.CLASS, stats);
 			obj.Attach_Class("ability", "DataAbility", ability.ToTable());
 			obj.Attach_List<string>("nodes", "string", VAR_TYPE.CSTRING, nodes);
-			obj.Attach("unit_uid", "uint", CLASS_TYPE.VALUE, KEY_TYPE.NONE, unit_uid.ToString());
-			obj.Attach("specialCode", "LString", CLASS_TYPE.VALUE, KEY_TYPE.NONE, _specialCode.Key);
+			obj.Attach("unit_uid", "uint", CLASS_TYPE.VALUE, false, unit_uid.ToString());
+			obj.Attach("specialCode", "LString", CLASS_TYPE.VALUE, false, _specialCode.Key);
 			return obj;
 		}
 	}
@@ -255,11 +255,11 @@ namespace Devarc
 			if (obj.Keys.Contains("dex")) int.TryParse(obj["dex"].ToString(), out dex); else dex = default(int);
 			if (obj.Keys.Contains("vit")) int.TryParse(obj["vit"].ToString(), out vit); else vit = default(int);
 		}
-		public void Initialize(SQLite_Reader obj)
+		public void Initialize(IBaseReader obj)
 		{
-			str                 = obj.GetInt32(0);
-			dex                 = obj.GetInt32(1);
-			vit                 = obj.GetInt32(2);
+			str                 = obj.GetInt32("str");
+			dex                 = obj.GetInt32("dex");
+			vit                 = obj.GetInt32("vit");
 		}
 		public override string ToString()
 		{
@@ -283,9 +283,9 @@ namespace Devarc
 		public PropTable ToTable()
 		{
 			PropTable obj = new PropTable("DataAbility");
-			obj.Attach("str", "int", CLASS_TYPE.VALUE, KEY_TYPE.NONE, str.ToString());
-			obj.Attach("dex", "int", CLASS_TYPE.VALUE, KEY_TYPE.NONE, dex.ToString());
-			obj.Attach("vit", "int", CLASS_TYPE.VALUE, KEY_TYPE.NONE, vit.ToString());
+			obj.Attach("str", "int", CLASS_TYPE.VALUE, false, str.ToString());
+			obj.Attach("dex", "int", CLASS_TYPE.VALUE, false, dex.ToString());
+			obj.Attach("vit", "int", CLASS_TYPE.VALUE, false, vit.ToString());
 			return obj;
 		}
 	}
@@ -379,10 +379,10 @@ namespace Devarc
 			if (obj.Keys.Contains("id")) HostID.TryParse(obj["id"].ToString(), out id); else id = default(short);
 			if (obj.Keys.Contains("pos")) pos.Initialize(obj["pos"]);
 		}
-		public void Initialize(SQLite_Reader obj)
+		public void Initialize(IBaseReader obj)
 		{
-			id                  = (HostID)obj.GetInt16(0);
-			pos.Initialize(JsonMapper.ToObject(obj.GetString(1)));
+			id                  = (HostID)obj.GetInt16("id");
+			pos.Initialize(JsonMapper.ToObject(obj.GetString("pos")));
 		}
 		public override string ToString()
 		{
@@ -404,7 +404,7 @@ namespace Devarc
 		public PropTable ToTable()
 		{
 			PropTable obj = new PropTable("DataPlayer");
-			obj.Attach("id", "HostID", CLASS_TYPE.VALUE, KEY_TYPE.NONE, id.ToString());
+			obj.Attach("id", "HostID", CLASS_TYPE.VALUE, false, id.ToString());
 			obj.Attach_Class("pos", "VECTOR3", pos.ToTable());
 			return obj;
 		}
@@ -500,11 +500,11 @@ namespace Devarc
 			if (obj.Keys.Contains("y")) float.TryParse(obj["y"].ToString(), out y); else y = default(float);
 			if (obj.Keys.Contains("z")) float.TryParse(obj["z"].ToString(), out z); else z = default(float);
 		}
-		public void Initialize(SQLite_Reader obj)
+		public void Initialize(IBaseReader obj)
 		{
-			x                   = obj.GetFloat(0);
-			y                   = obj.GetFloat(1);
-			z                   = obj.GetFloat(2);
+			x                   = obj.GetFloat("x");
+			y                   = obj.GetFloat("y");
+			z                   = obj.GetFloat("z");
 		}
 		public override string ToString()
 		{
@@ -528,9 +528,9 @@ namespace Devarc
 		public PropTable ToTable()
 		{
 			PropTable obj = new PropTable("VECTOR3");
-			obj.Attach("x", "float", CLASS_TYPE.VALUE, KEY_TYPE.NONE, x.ToString());
-			obj.Attach("y", "float", CLASS_TYPE.VALUE, KEY_TYPE.NONE, y.ToString());
-			obj.Attach("z", "float", CLASS_TYPE.VALUE, KEY_TYPE.NONE, z.ToString());
+			obj.Attach("x", "float", CLASS_TYPE.VALUE, false, x.ToString());
+			obj.Attach("y", "float", CLASS_TYPE.VALUE, false, y.ToString());
+			obj.Attach("z", "float", CLASS_TYPE.VALUE, false, z.ToString());
 			return obj;
 		}
 	}
@@ -630,10 +630,10 @@ namespace Devarc
 			if (obj.Keys.Contains("Name")) Name = obj["Name"].ToString(); else Name = default(string);
 			if (obj.Keys.Contains("ID")) ID = _DIRECTION.Parse(obj["ID"].ToString()); else ID = default(DIRECTION);
 		}
-		public void Initialize(SQLite_Reader obj)
+		public void Initialize(IBaseReader obj)
 		{
-			Name                = obj.GetString(0);
-			ID                  = _DIRECTION.Parse(obj.GetString(1));
+			Name                = obj.GetString("Name");
+			ID                  = _DIRECTION.Parse(obj.GetString("ID"));
 		}
 		public override string ToString()
 		{
@@ -654,8 +654,8 @@ namespace Devarc
 		public PropTable ToTable()
 		{
 			PropTable obj = new PropTable("_DIRECTION");
-			obj.Attach("Name", "string", CLASS_TYPE.VALUE, KEY_TYPE.NONE, Name);
-			obj.Attach("ID", "DIRECTION", CLASS_TYPE.VALUE, KEY_TYPE.MAP, ((int)ID).ToString());
+			obj.Attach("Name", "string", CLASS_TYPE.VALUE, false, Name);
+			obj.Attach("ID", "DIRECTION", CLASS_TYPE.VALUE, true, ((int)ID).ToString());
 			return obj;
 		}
 	}
@@ -757,10 +757,10 @@ namespace Devarc
 			if (obj.Keys.Contains("ID")) ID = _MESSAGE.Parse(obj["ID"].ToString()); else ID = default(MESSAGE);
 			_TEXT.Key = FrameworkUtil.MakeLStringKey("_MESSAGE", "TEXT", ID.ToString());
 		}
-		public void Initialize(SQLite_Reader obj)
+		public void Initialize(IBaseReader obj)
 		{
-			Name                = obj.GetString(0);
-			ID                  = _MESSAGE.Parse(obj.GetString(1));
+			Name                = obj.GetString("Name");
+			ID                  = _MESSAGE.Parse(obj.GetString("ID"));
 			_TEXT.Key = FrameworkUtil.MakeLStringKey("_MESSAGE", "TEXT", ID.ToString());
 		}
 		public override string ToString()
@@ -783,9 +783,9 @@ namespace Devarc
 		public PropTable ToTable()
 		{
 			PropTable obj = new PropTable("_MESSAGE");
-			obj.Attach("Name", "string", CLASS_TYPE.VALUE, KEY_TYPE.NONE, Name);
-			obj.Attach("ID", "MESSAGE", CLASS_TYPE.VALUE, KEY_TYPE.MAP, ((int)ID).ToString());
-			obj.Attach("TEXT", "LString", CLASS_TYPE.VALUE, KEY_TYPE.NONE, _TEXT.Value);
+			obj.Attach("Name", "string", CLASS_TYPE.VALUE, false, Name);
+			obj.Attach("ID", "MESSAGE", CLASS_TYPE.VALUE, true, ((int)ID).ToString());
+			obj.Attach("TEXT", "LString", CLASS_TYPE.VALUE, false, _TEXT.Value);
 			return obj;
 		}
 	}
@@ -883,10 +883,10 @@ namespace Devarc
 			if (obj.Keys.Contains("Name")) Name = obj["Name"].ToString(); else Name = default(string);
 			if (obj.Keys.Contains("ID")) ID = _UNIT.Parse(obj["ID"].ToString()); else ID = default(UNIT);
 		}
-		public void Initialize(SQLite_Reader obj)
+		public void Initialize(IBaseReader obj)
 		{
-			Name                = obj.GetString(0);
-			ID                  = _UNIT.Parse(obj.GetString(1));
+			Name                = obj.GetString("Name");
+			ID                  = _UNIT.Parse(obj.GetString("ID"));
 		}
 		public override string ToString()
 		{
@@ -907,8 +907,8 @@ namespace Devarc
 		public PropTable ToTable()
 		{
 			PropTable obj = new PropTable("_UNIT");
-			obj.Attach("Name", "string", CLASS_TYPE.VALUE, KEY_TYPE.NONE, Name);
-			obj.Attach("ID", "UNIT", CLASS_TYPE.VALUE, KEY_TYPE.MAP, ((int)ID).ToString());
+			obj.Attach("Name", "string", CLASS_TYPE.VALUE, false, Name);
+			obj.Attach("ID", "UNIT", CLASS_TYPE.VALUE, true, ((int)ID).ToString());
 			return obj;
 		}
 	}

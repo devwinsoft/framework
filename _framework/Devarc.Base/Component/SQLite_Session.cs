@@ -28,10 +28,15 @@ using Devarc;
 
 namespace Devarc
 {
-    public class SQLite_Session
+    public class SQLite_Session : IDisposable
     {
         bool mIsOpened = false;
         IntPtr mSQLiteID = IntPtr.Zero;
+
+        public void Dispose()
+        {
+            Close();
+        }
 
         void OnError(IntPtr _err)
         {

@@ -54,10 +54,10 @@ namespace Devarc
 			if (obj.Keys.Contains("Key")) Key = obj["Key"].ToString(); else Key = default(string);
 			if (obj.Keys.Contains("Value")) Value = obj["Value"].ToString(); else Value = default(string);
 		}
-		public void Initialize(SQLite_Reader obj)
+		public void Initialize(IBaseReader obj)
 		{
-			Key                 = obj.GetString(0);
-			Value               = obj.GetString(1);
+			Key                 = obj.GetString("Key");
+			Value               = obj.GetString("Value");
 		}
 		public override string ToString()
 		{
@@ -79,8 +79,8 @@ namespace Devarc
 		public PropTable ToTable()
 		{
 			PropTable obj = new PropTable("LString");
-			obj.Attach("Key", "string", CLASS_TYPE.VALUE, KEY_TYPE.MAP, Key);
-			obj.Attach("Value", "string", CLASS_TYPE.VALUE, KEY_TYPE.NONE, Value);
+			obj.Attach("Key", "string", CLASS_TYPE.VALUE, true, Key);
+			obj.Attach("Value", "string", CLASS_TYPE.VALUE, false, Value);
 			return obj;
 		}
 	}

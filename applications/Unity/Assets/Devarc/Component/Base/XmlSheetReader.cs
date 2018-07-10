@@ -148,23 +148,23 @@ namespace Devarc
 
                         if (line_count == (int)ROW_TYPE.VAR_NAME)
                         {
-                            temp_table.initVarName(index - 1, xrd.Value);
+                            temp_table.Register(index - 1, xrd.Value);
                         }
                         else if (line_count == (int)ROW_TYPE.TYPE_NAME)
                         {
-                            temp_table.initVarType(index - 1, xrd.Value);
+                            temp_table.Set_VarType(index - 1, xrd.Value);
                         }
                         else if (line_count == (int)ROW_TYPE.CLASS_TYPE)
                         {
-                            temp_table.initClassType(index - 1, xrd.Value);
+                            temp_table.Set_ClassType(index - 1, xrd.Value);
                         }
                         else if (line_count == (int)ROW_TYPE.KEY_TYPE)
                         {
-                            temp_table.initKeyType(index - 1, xrd.Value);
+                            temp_table.Set_KeyType(index - 1, xrd.Value);
                         }
                         else
                         {
-                            temp_table.SetData(index - 1, xrd.Value);
+                            temp_table.Set_Data(index - 1, xrd.Value);
                         }
                     }
                 }

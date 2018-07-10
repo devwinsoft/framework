@@ -54,12 +54,6 @@ namespace Devarc
         CLASS_LIST,
     }
 
-    public enum KEY_TYPE
-    {
-        NONE,
-        MAP,
-    }
-
     enum ROW_TYPE
     {
         VAR_NAME = 1,
@@ -70,13 +64,13 @@ namespace Devarc
     }
 
 
-    public struct PropData
+    public class PropData
     {
         public string VarName { get; set; }
         public string TypeName { get; set; }
         public VAR_TYPE VarType { get; set; }
         public CLASS_TYPE ClassType { get; set; }
-        public KEY_TYPE KeyType { get; set; }
+        public bool KeyType { get; set; }
         public string Data { get; set; }
     }
 
@@ -209,36 +203,29 @@ namespace Devarc
             }
         }
 
-        public static KEY_TYPE ToKeyType(string _name)
+        public static bool ToKeyType(string _name)
         {
             if (string.IsNullOrEmpty(_name))
-                return KEY_TYPE.NONE;
+                return false;
             switch(_name.ToUpper())
             {
                 case "1":
                 case "TRUE":
                 case "MAP":
-                    return KEY_TYPE.MAP;
+                    return true;
                 default:
-                    return KEY_TYPE.NONE;
+                    return false;
             }
         }
 
+
         public PropTable()
         {
-            for (int i = 0; i < m_PropList.Length; i++)
-            {
-                m_PropList[i] = new PropData();
-            }
             ClearAll();
         }
 
         public PropTable(string name)
         {
-            for (int i = 0; i < m_PropList.Length; i++)
-            {
-                m_PropList[i] = new PropData();
-            }
             ClearAll();
             m_TableName = name;
         }
@@ -248,137 +235,134 @@ namespace Devarc
             m_TableName = "";
             m_Length = 0;
             m_ItemKeyIndex = -1;
+            m_PropList.Clear();
             m_PropTable.Clear();
-            for (int i = 0; i < m_PropList.Length; i++)
-            {
-                PropData prop = m_PropList[i];
-                prop.TypeName = "";
-                prop.VarType = VAR_TYPE.NONE;
-                prop.VarName = "";
-                prop.ClassType = CLASS_TYPE.VALUE;
-                prop.Data = "";
-            }
         }
 
         public void ClearData()
         {
-            for (int i = 0; i < m_PropList.Length; i++)
+            var enumer = m_PropList.GetEnumerator();
+            while (enumer.MoveNext())
             {
-                m_PropList[i].Data = "";
+                enumer.Current.Value.Data = "";
             }
         }
 
-        public void initVarName(int index, string name)
+        public void Register(int _index, string name)
         {
-            if (index >= m_PropList.Length)
+            PropData data;
+            if (m_PropList.TryGetValue(_index, out data))
+            {
                 return;
-            m_Length = Math.Max(index+1, m_Length);
-            m_PropList[index].VarName = name;
-            m_PropList[index].VarType = VAR_TYPE.NONE;
-            m_PropList[index].TypeName = "";
-            m_PropTable.Add(name, index);
+            }
+
+            data = new PropData();
+            data.VarName = name;
+            m_PropList.Add(_index, data);
+            m_PropTable.Add(name, data);
+            m_Length = Math.Max(_index + 1, m_Length);
         }
 
-        public void initVarType(int index, string _typeName)
+        public void Set_VarType(int _index, string _typeName)
         {
-            if (index >= m_PropList.Length)
+            PropData data;
+            if (m_PropList.TryGetValue(_index, out data) == false)
+            {
                 return;
-            m_PropList[index].VarType = PropTable.ToTypeID(_typeName);
-            m_PropList[index].TypeName = PropTable.ToTypeName(_typeName);
+            }
+            data.VarType = PropTable.ToTypeID(_typeName);
+            data.TypeName = PropTable.ToTypeName(_typeName);
         }
 
-        public void initClassType(int index, string _typeName)
+        public void Set_ClassType(int _index, string _typeName)
         {
-            if (index >= m_PropList.Length)
+            PropData data;
+            if (m_PropList.TryGetValue(_index, out data) == false)
+            {
                 return;
+            }
             if (string.IsNullOrEmpty(_typeName))
-                m_PropList[index].ClassType = CLASS_TYPE.VALUE;
+            {
+                data.ClassType = CLASS_TYPE.VALUE;
+                return;
+            }
             switch (_typeName.ToUpper())
             {
                 case "CLASS":
-                    m_PropList[index].ClassType = CLASS_TYPE.CLASS;
+                    data.ClassType = CLASS_TYPE.CLASS;
                     break;
                 case "CLASS_LIST":
-                    m_PropList[index].ClassType = CLASS_TYPE.CLASS_LIST;
+                    data.ClassType = CLASS_TYPE.CLASS_LIST;
                     break;
                 case "LIST":
-                    m_PropList[index].ClassType = CLASS_TYPE.VALUE_LIST;
+                    data.ClassType = CLASS_TYPE.VALUE_LIST;
                     break;
                 default:
-                    m_PropList[index].ClassType = CLASS_TYPE.VALUE;
+                    data.ClassType = CLASS_TYPE.VALUE;
                     break;
             }
         }
-        public void initClassType(int index, CLASS_TYPE _type)
+        public void Set_ClassType(int _index, CLASS_TYPE _type)
         {
-            if (index >= m_PropList.Length)
-                return;
-            m_PropList[index].ClassType = _type;
-        }
-        public void initKeyType(int index, string _keyType)
-        {
-            if (index >= m_PropList.Length)
-                return;
-            if (string.IsNullOrEmpty(_keyType))
-                initKeyType(index, KEY_TYPE.NONE);
-            switch (_keyType.ToUpper())
+            PropData data;
+            if (m_PropList.TryGetValue(_index, out data) == false)
             {
-                case "1":
-                case "TRUE":
-                case "MAP":
-                    initKeyType(index, KEY_TYPE.MAP);
-                    break;
-                default:
-                    initKeyType(index, KEY_TYPE.NONE);
-                    break;
+                return;
             }
+            data.ClassType = _type;
         }
-        public void initKeyType(int index, KEY_TYPE _keyType)
+        public void Set_KeyType(int _index, string _keyType)
         {
-            if (index >= m_PropList.Length)
-                return;
-            m_PropList[index].KeyType = _keyType;
-            switch (_keyType)
+            Set_KeyType(_index, ToKeyType(_keyType));
+        }
+        public void Set_KeyType(int _index, bool _keyType)
+        {
+            PropData data;
+            if (m_PropList.TryGetValue(_index, out data) == false)
             {
-                case KEY_TYPE.MAP:
-                    m_ItemKeyIndex = index;
-                    break;
-                default:
-                    break;
+                return;
+            }
+            m_PropList[_index].KeyType = _keyType;
+            if (_keyType)
+            {
+                m_ItemKeyIndex = _index;
             }
         }
 
-        public void SetData(int index, string val)
+        public void Set_Data(int _index, string val)
         {
-            if (index >= m_PropList.Length)
+            PropData data;
+            if (m_PropList.TryGetValue(_index, out data) == false)
+            {
                 return;
-            m_PropList[index].Data = val;
+            }
+            data.Data = val;
         }
 
-        public void Attach(string var_name, string _typeName, CLASS_TYPE _type, KEY_TYPE _keyType, string _value)
+        public void Attach(string _name, string _typeName, CLASS_TYPE _type, bool _keyType, string _value)
         {
-            int index = m_Length;
-            initVarName(index, var_name);
-            initVarType(index, _typeName);
-            initClassType(index, _type);
-            initKeyType(index, _keyType);
-            SetData(index, _value);
+            int _index = m_Length++;
+            Register(_index, _name);
+            Set_VarType(_index, _typeName);
+            Set_ClassType(_index, _type);
+            Set_KeyType(_index, _keyType);
+            Set_Data(_index, _value);
         }
-        public void Attach_List<T>(string var_name, string _typeName, VAR_TYPE val_type, List<T> _list)
+        public void Attach_List<T>(string _name, string _typeName, VAR_TYPE val_type, List<T> _list)
         {
-            int index = m_Length;
-            initVarName(index, var_name);
-            initVarType(index, _typeName);
+            int _index = m_Length++;
+            Register(_index, _name);
+            Set_VarType(_index, _typeName);
             switch (val_type)
             {
                 case VAR_TYPE.CLASS:
-                    initClassType(index, CLASS_TYPE.CLASS_LIST);
+                    Set_ClassType(_index, CLASS_TYPE.CLASS_LIST);
                     break;
                 default:
-                    initClassType(index, CLASS_TYPE.VALUE_LIST);
+                    Set_ClassType(_index, CLASS_TYPE.VALUE_LIST);
                     break;
             }
-            initKeyType(index, KEY_TYPE.NONE);
+            Set_KeyType(_index, false);
             StringBuilder sb = new StringBuilder();
             sb.Append("[");
             for (int i = 0;i<_list.Count;i++)
@@ -400,11 +384,11 @@ namespace Devarc
                 }
             }
             sb.Append("]");
-            SetData(index, sb.ToString());
+            Set_Data(_index, sb.ToString());
         }
-        public void Attach_Class(string var_name, string _raw_type, PropTable obj)
+        public void Attach_Class(string _name, string _raw_type, PropTable obj)
         {
-            Attach(var_name, _raw_type, CLASS_TYPE.CLASS, KEY_TYPE.NONE, "");
+            Attach(_name, _raw_type, CLASS_TYPE.CLASS, false, "");
             string temp_full_name;
             string temp_var_name;
             string temp_type_name;
@@ -412,7 +396,7 @@ namespace Devarc
             {
                 temp_var_name = obj.GetVarName(j);
                 temp_type_name = obj.GetTypeName(j);
-                temp_full_name = var_name + "/" + obj.GetVarName(j);
+                temp_full_name = _name + "/" + obj.GetVarName(j);
                 if (temp_var_name.Length == 0 || temp_type_name.Length == 0)
                 {
                     continue;
@@ -421,150 +405,219 @@ namespace Devarc
             }
         }
 
-        public string GetVarName(string var_name)
+        public string GetVarName(string _name)
         {
-            return GetVarName(GetIndexOfName(var_name));
-        }
-        public string GetVarName(int index)
-        {
-            if (index >= 0 && index < m_PropList.Length && m_PropList[index].VarName != null)
-                return m_PropList[index].VarName;
-            else
-                return "";
+            PropData data;
+            if (m_PropTable.TryGetValue(_name, out data) == false)
+            {
+                return string.Empty;
+            }
+            return data.VarName;
         }
 
-        public VAR_TYPE GetVarType(string var_name)
+        public string GetVarName(int _index)
         {
-            return GetVarType(GetIndexOfName(var_name));
+            PropData data;
+            if (m_PropList.TryGetValue(_index, out data) == false)
+            {
+                return string.Empty;
+            }
+            return data.VarName;
         }
-        public VAR_TYPE GetVarType(int index)
+
+        public VAR_TYPE GetVarType(string _name)
         {
-            switch (this.GetClassType(index))
+            PropData data;
+            if (m_PropTable.TryGetValue(_name, out data) == false)
+            {
+                return VAR_TYPE.NONE;
+            }
+            switch (this.GetClassType(_name))
             {
                 case CLASS_TYPE.CLASS:
                 case CLASS_TYPE.CLASS_LIST:
                     return VAR_TYPE.CLASS;
                 default:
-                    return m_PropList[index].VarType;
+                    return data.VarType;
+            }
+        }
+        public VAR_TYPE GetVarType(int _index)
+        {
+            PropData data;
+            if (m_PropList.TryGetValue(_index, out data) == false)
+            {
+                return VAR_TYPE.NONE;
+            }
+            switch (this.GetClassType(_index))
+            {
+                case CLASS_TYPE.CLASS:
+                case CLASS_TYPE.CLASS_LIST:
+                    return VAR_TYPE.CLASS;
+                default:
+                    return m_PropList[_index].VarType;
             }
         }
 
-        public string GetTypeName(int index)
+        public string GetTypeName(int _index)
         {
-            return m_PropList[index].TypeName;
+            PropData data;
+            if (m_PropList.TryGetValue(_index, out data) == false)
+            {
+                return string.Empty;
+            }
+            return data.TypeName;
         }
 
-
-        public CLASS_TYPE GetClassType(int index)
+        public CLASS_TYPE GetClassType(string _name)
         {
-            if (index >= 0 && index < m_PropList.Length)
-                return m_PropList[index].ClassType;
-            else
+            PropData data;
+            if (m_PropTable.TryGetValue(_name, out data) == false)
+            {
                 return CLASS_TYPE.VALUE;
+            }
+            return data.ClassType;
+        }
+        public CLASS_TYPE GetClassType(int _index)
+        {
+            PropData data;
+            if (m_PropList.TryGetValue(_index, out data) == false)
+            {
+                return CLASS_TYPE.VALUE;
+            }
+            return data.ClassType;
         }
 
-        public KEY_TYPE GetKeyType(string var_name)
+        public bool GetKeyType(string _name)
         {
-            return GetKeyType(GetIndexOfName(var_name));
+            PropData data;
+            if (m_PropTable.TryGetValue(_name, out data) == false)
+            {
+                return false;
+            }
+            return data.KeyType;
         }
-        public KEY_TYPE GetKeyType(int index)
+        public bool GetKeyType(int _index)
         {
-            if (index >= 0 && index < m_PropList.Length)
-                return m_PropList[index].KeyType;
-            else
-                return KEY_TYPE.NONE;
-        }
-
-        public string GetStr(string var_name)
-        {
-            return GetStr(GetIndexOfName(var_name));
-        }
-        public string GetStr(int index)
-        {
-            if (index >= 0 && index < m_PropList.Length && m_PropList[index].Data != null)
-                return m_PropList[index].Data;
-            else
-                return "";
+            PropData data;
+            if (m_PropList.TryGetValue(_index, out data) == false)
+            {
+                return false;
+            }
+            return data.KeyType;
         }
 
-        public bool GetBool(string var_name)
+        public string GetStr(string _name)
         {
-            return GetBool(GetIndexOfName(var_name));
+            PropData data;
+            if (m_PropTable.TryGetValue(_name, out data) == false)
+            {
+                return string.Empty;
+            }
+            return data.Data;
         }
-        public bool GetBool(int index)
+        public string GetStr(int _index)
         {
-            string temp = GetStr(index).ToLower();
+            PropData data;
+            if (m_PropList.TryGetValue(_index, out data) == false)
+            {
+                return string.Empty;
+            }
+            return data.Data;
+        }
+
+        public bool GetBool(string _name)
+        {
+            string temp = GetStr(_name).ToLower();
             if (temp == "true")
                 return true;
             else if (temp == "false")
                 return false;
-            return GetInt32(index) != 0;
+            return GetInt32(_name) != 0;
+        }
+        public bool GetBool(int _index)
+        {
+            string temp = GetStr(_index).ToLower();
+            if (temp == "true")
+                return true;
+            else if (temp == "false")
+                return false;
+            return GetInt32(_index) != 0;
         }
 
-        public Int16 GetInt16(string var_name)
+        public Int16 GetInt16(string _name)
         {
-            return GetInt16(GetIndexOfName(var_name));
-        }
-        public Int16 GetInt16(int index)
-        {
-            string data = GetStr(index);
             Int16 temp = 0;
-            Int16.TryParse(data, out temp);
+            Int16.TryParse(GetStr(_name), out temp);
+            return temp;
+        }
+        public Int16 GetInt16(int _index)
+        {
+            Int16 temp = 0;
+            Int16.TryParse(GetStr(_index), out temp);
             return temp;
         }
 
-        public Int32 GetInt32(string var_name)
+        public Int32 GetInt32(string _name)
         {
-            return GetInt32(GetIndexOfName(var_name));
-        }
-        public Int32 GetInt32(int index)
-        {
-            string data = GetStr(index);
             Int32 temp = 0;
-            Int32.TryParse(data, out temp);
+            Int32.TryParse(GetStr(_name), out temp);
+            return temp;
+        }
+        public Int32 GetInt32(int _index)
+        {
+            Int32 temp = 0;
+            Int32.TryParse(GetStr(_index), out temp);
             return temp;
         }
 
-        public Int64 GetInt64(string var_name)
+        public Int64 GetInt64(string _name)
         {
-            return GetInt64(GetIndexOfName(var_name));
-        }
-        public Int64 GetInt64(int index)
-        {
-            string data = GetStr(index);
             Int64 temp = 0;
-            Int64.TryParse(data, out temp);
+            Int64.TryParse(GetStr(_name), out temp);
+            return temp;
+        }
+        public Int64 GetInt64(int _index)
+        {
+            Int64 temp = 0;
+            Int64.TryParse(GetStr(_index), out temp);
             return temp;
         }
 
-        public UInt32 GetUInt32(string var_name)
+        public UInt32 GetUInt32(string _name)
         {
-            return GetUInt32(GetIndexOfName(var_name));
-        }
-        public UInt32 GetUInt32(int index)
-        {
-            string data = GetStr(index);
             UInt32 temp = 0;
-            UInt32.TryParse(data, out temp);
+            UInt32.TryParse(GetStr(_name), out temp);
+            return temp;
+        }
+        public UInt32 GetUInt32(int _index)
+        {
+            UInt32 temp = 0;
+            UInt32.TryParse(GetStr(_index), out temp);
             return temp;
         }
 
-        public float GetFloat(string var_name)
+        public float GetFloat(string _name)
         {
-            return GetFloat(GetIndexOfName(var_name));
+            float temp = 0;
+            float.TryParse(GetStr(_name), out temp);
+            return temp;
         }
-        public float GetFloat(int index)
+        public float GetFloat(int _index)
         {
-            string data = GetStr(index);
-            float temp = 0.0f;
-            float.TryParse(data, out temp);
+            float temp = 0;
+            float.TryParse(GetStr(_index), out temp);
             return temp;
         }
 
-        public PropTable GetTable(string var_name)
+        public PropTable GetTable(string _name)
         {
+            if (string.IsNullOrEmpty(_name))
+            {
+                return null;
+            }
+
             PropTable tb = new PropTable();
-            string pre_fix = var_name + "/";
+            string pre_fix = _name + "/";
             int i, j;
             for (i = j = 0; i < Length; i++)
             {
@@ -573,59 +626,70 @@ namespace Devarc
                 if (m_PropList[i].VarName.StartsWith(pre_fix) == false)
                     continue;
                 string new_name = data.VarName.Substring(pre_fix.Length);
-                tb.initVarName(j, new_name);
-                tb.initVarType(j, data.TypeName);
-                tb.initClassType(j, data.ClassType);
-                tb.SetData(j, data.Data);
+                tb.Register(j, new_name);
+                tb.Set_VarType(j, data.TypeName);
+                tb.Set_ClassType(j, data.ClassType);
+                tb.Set_Data(j, data.Data);
                 j++;
             }
             return tb;
         }
-        public PropTable GetTable(int index)
+        public PropTable GetTable(int _index)
         {
-            return GetTable(GetVarName(index));
+            return GetTable(GetVarName(_index));
         }
 
-        public bool GetClassList<T>(string var_name, List<T> list) where T : IBaseObejct, new()
+        public bool GetClassList<T>(string _name, List<T> _list) where T : IBaseObejct, new()
         {
-            return GetClassList<T>(GetIndexOfName(var_name), list);
-        }
-        public bool GetClassList<T>(int index, List<T> list) where T : IBaseObejct, new()
-        {
-            list.Clear();
-            if (index < 0 || index > this.Length)
-                return false;
-            JsonData node = JsonMapper.ToObject(GetStr(index));
+            _list.Clear();
+            JsonData node = JsonMapper.ToObject(GetStr(_name));
             for (int i = 0; i < node.Count; i++)
             {
                 T obj = new T();
                 obj.Initialize(node[i]);
-                list.Add(obj);
+                _list.Add(obj);
+            }
+            return true;
+        }
+        public bool GetClassList<T>(int _index, List<T> _list) where T : IBaseObejct, new()
+        {
+            _list.Clear();
+            JsonData node = JsonMapper.ToObject(GetStr(_index));
+            for (int i = 0; i < node.Count; i++)
+            {
+                T obj = new T();
+                obj.Initialize(node[i]);
+                _list.Add(obj);
             }
             return true;
         }
 
-        public bool GetList<T>(string var_name, List<T> list)
+        public bool GetList<T>(string _name, List<T> _list)
         {
-            return GetList<T>(GetIndexOfName(var_name), list);
+            VAR_TYPE type = this.GetVarType(_name);
+            string json = GetStr(_name);
+            return getList<T>(type, json, _list);
         }
-        public bool GetList<T>(int index, List<T> list)
+        public bool GetList<T>(int _index, List<T> list)
         {
-            list.Clear();
-            if (index < 0 || index > this.Length)
-                return false;
-            VAR_TYPE var_type = this.GetVarType(index);
-            string json = GetStr(index);
-            if (string.IsNullOrEmpty(json))
+            VAR_TYPE type = this.GetVarType(_index);
+            string json = GetStr(_index);
+            return getList<T>(type, json, list);
+        }
+
+        bool getList<T>(VAR_TYPE _type, string _json, List<T> _list)
+        {
+            _list.Clear();
+            if (string.IsNullOrEmpty(_json))
             {
                 return true;
             }
-            JsonData node = JsonMapper.ToObject(json);
-            switch (var_type)
+            JsonData node = JsonMapper.ToObject(_json);
+            switch (_type)
             {
                 case VAR_TYPE.BOOL:
                     {
-                        List<bool> temp_list = list as List<bool>;
+                        List<bool> temp_list = _list as List<bool>;
                         if (temp_list != null)
                         {
                             for (int i = 0; i < node.Count; i++)
@@ -637,7 +701,7 @@ namespace Devarc
                     break;
                 case VAR_TYPE.INT16:
                     {
-                        List<Int16> temp_list = list as List<Int16>;
+                        List<Int16> temp_list = _list as List<Int16>;
                         if (temp_list != null)
                         {
                             for (int i = 0; i < node.Count; i++)
@@ -649,7 +713,7 @@ namespace Devarc
                     break;
                 case VAR_TYPE.INT32:
                     {
-                        List<Int32> temp_list = list as List<Int32>;
+                        List<Int32> temp_list = _list as List<Int32>;
                         if (temp_list != null)
                         {
                             for (int i = 0; i < node.Count; i++)
@@ -661,7 +725,7 @@ namespace Devarc
                     break;
                 case VAR_TYPE.INT64:
                     {
-                        List<Int64> temp_list = list as List<Int64>;
+                        List<Int64> temp_list = _list as List<Int64>;
                         if (temp_list != null)
                         {
                             for (int i = 0; i < node.Count; i++)
@@ -673,7 +737,7 @@ namespace Devarc
                     break;
                 case VAR_TYPE.UINT32:
                     {
-                        List<UInt32> temp_list = list as List<UInt32>;
+                        List<UInt32> temp_list = _list as List<UInt32>;
                         if (temp_list != null)
                         {
                             for (int i = 0; i < node.Count; i++)
@@ -685,7 +749,7 @@ namespace Devarc
                     break;
                 case VAR_TYPE.FLOAT:
                     {
-                        List<Single> temp_list = list as List<Single>;
+                        List<Single> temp_list = _list as List<Single>;
                         if (temp_list != null)
                         {
                             for (int i = 0; i < node.Count; i++)
@@ -697,7 +761,7 @@ namespace Devarc
                     break;
                 case VAR_TYPE.CSTRING:
                     {
-                        List<string> temp_list = list as List<string>;
+                        List<string> temp_list = _list as List<string>;
                         if (temp_list != null)
                         {
                             for (int i = 0; i < node.Count; i++)
@@ -709,7 +773,7 @@ namespace Devarc
                     break;
                 case VAR_TYPE.STRING:
                     {
-                        List<string> temp_list = list as List<string>;
+                        List<string> temp_list = _list as List<string>;
                         if (temp_list != null)
                         {
                             for (int i = 0; i < node.Count; i++)
@@ -725,14 +789,6 @@ namespace Devarc
             return false;
         }
 
-        public int GetIndexOfName(string var_name)
-        {
-            if (m_PropTable.Contains(var_name))
-            {
-                return (int)m_PropTable[var_name];
-            }
-            return -1;
-        }
 
         public int Length { get { return m_Length; } }
         public string TableName { get { return m_TableName; } }
@@ -758,10 +814,10 @@ namespace Devarc
             }
         }
 
-        private string m_TableName = "";
-        private PropData[] m_PropList = new PropData[256];
-        private Hashtable m_PropTable = new Hashtable();
-        private int m_Length;
-        private int m_ItemKeyIndex;
+        string m_TableName = "";
+        Dictionary<int, PropData> m_PropList = new Dictionary<int, PropData>();
+        Dictionary<string, PropData> m_PropTable = new Dictionary<string, PropData>();
+        int m_ItemKeyIndex;
+        int m_Length;
     }
 }

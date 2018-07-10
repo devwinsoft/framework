@@ -52,19 +52,19 @@ namespace Devarc
                             switch (r)
                             {
                                 case 0:
-                                    rowData.initVarName(c, value);
+                                    rowData.Register(c, value);
                                     break;
                                 case 1:
-                                    rowData.initVarType(c, value);
+                                    rowData.Set_VarType(c, value);
                                     break;
                                 case 2:
-                                    rowData.initClassType(c, PropTable.ToClassType(value));
+                                    rowData.Set_ClassType(c, PropTable.ToClassType(value));
                                     break;
                                 case 3:
-                                    rowData.initKeyType(c, PropTable.ToKeyType(value));
+                                    rowData.Set_KeyType(c, PropTable.ToKeyType(value));
                                     break;
                                 default:
-                                    rowData.SetData(c, value);
+                                    rowData.Set_Data(c, value);
                                     break;
                             }
                         }

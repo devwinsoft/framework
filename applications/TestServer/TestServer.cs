@@ -27,8 +27,11 @@ namespace TestServer
                 Port = 5000,
                 Mode = SocketMode.Tcp,
             };
-            this.Setup(serverConfig);
-            this.Init(proxy, stub, 10);
+            Setup(serverConfig);
+
+            Init(10);
+            InitStub(stub);
+            proxy.Init(this);
         }
 
         protected override void OnStarted()
@@ -49,7 +52,10 @@ namespace TestServer
         {
             base.OnNewSessionConnected(session);
 
-            PlayerData obj = PlayerData.LIST.Alloc(session.Hid);
+            using (PlayerData.LIST.WRITE_LOCK())
+            {
+                PlayerData obj = PlayerData.LIST.Alloc(session.Hid);
+            }
 
             Log.Debug("OnNewSessionConnected");
         }
@@ -58,7 +64,10 @@ namespace TestServer
         {
             Log.Debug("OnSessionClosed: {0}", reason);
 
-            PlayerData.LIST.Free1(session.Hid);
+            using (PlayerData.LIST.WRITE_LOCK())
+            {
+                PlayerData.LIST.Free1(session.Hid);
+            }
 
             base.OnSessionClosed(session, reason);
         }

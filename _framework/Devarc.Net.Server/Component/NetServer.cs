@@ -47,11 +47,14 @@ namespace Devarc
             mThreadList = new WorkThreadContainer(this);
         }
 
-        public void Init(IProxyBase proxy, IStubBase stub, int threadCnt)
+        public void Init(int threadCnt)
         {
-            proxy.Init(this);
-            this.OnDispatchData += stub.OnReceiveData;
             this.mThreadCnt = threadCnt;
+        }
+
+        public void InitStub(IStubBase _stub)
+        {
+            this.OnDispatchData += _stub.OnReceiveData;
         }
 
         public short GetCurrentSeq(HostID hid)

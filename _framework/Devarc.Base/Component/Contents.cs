@@ -32,7 +32,7 @@ namespace Devarc
     {
         void Initialize(IBaseObejct obj);
         void Initialize(PropTable obj);
-        void Initialize(SQLite_Reader obj);
+        void Initialize(IBaseReader obj);
         void Initialize(LitJson.JsonData obj);
     }
 
@@ -50,4 +50,16 @@ namespace Devarc
         KEY2 GetKey2();
     }
 
+    public interface IBaseReader
+    {
+        void Close();
+        bool Read();
+
+        short GetInt16(string _name);
+        int GetInt32(string _name);
+        long GetInt64(string _name);
+        uint GetUInt32(string _name);
+        float GetFloat(string _name);
+        string GetString(string _name);
+    }
 }

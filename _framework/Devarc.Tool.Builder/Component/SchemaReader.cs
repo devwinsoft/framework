@@ -72,7 +72,7 @@ namespace Devarc
                                 else
                                     classType = CLASS_TYPE.VALUE;
                             }
-                            prop.Attach(finfo.Name, varTypeName, classType, KEY_TYPE.NONE, "");
+                            prop.Attach(finfo.Name, varTypeName, classType, false, "");
                             i++;
                         }
                     }
@@ -86,8 +86,8 @@ namespace Devarc
                     {
                         if (tp.IsEnum)
                         {
-                            prop.Attach("NAME", "string", CLASS_TYPE.VALUE, KEY_TYPE.NONE, "");
-                            prop.Attach("ID", tp.Name, CLASS_TYPE.VALUE, KEY_TYPE.MAP, "");
+                            prop.Attach("NAME", "string", CLASS_TYPE.VALUE, false, "");
+                            prop.Attach("ID", tp.Name, CLASS_TYPE.VALUE, true, "");
                         }
                         callback_header(m_SheetName, prop);
                     }
@@ -99,8 +99,8 @@ namespace Devarc
                         {
                             PropTable temp = new PropTable(tp.Name);
                             object enumValue = Enum.Parse(tp, enumNames[i]);
-                            temp.Attach("NAME", "string", CLASS_TYPE.VALUE, KEY_TYPE.NONE, enumNames[i]);
-                            temp.Attach("ID", tp.Name, CLASS_TYPE.VALUE, KEY_TYPE.MAP, ((int)enumValue).ToString());
+                            temp.Attach("NAME", "string", CLASS_TYPE.VALUE, false, enumNames[i]);
+                            temp.Attach("ID", tp.Name, CLASS_TYPE.VALUE, true, ((int)enumValue).ToString());
                             invoke_callback_data(m_SheetName, temp);
                         }
                     }

@@ -649,7 +649,7 @@ namespace Devarc
 
 
 
-                sw.WriteLine("\t\tpublic void Initialize(SQLite_Reader obj)", class_name);
+                sw.WriteLine("\t\tpublic void Initialize(IBaseReader obj)", class_name);
                 sw.WriteLine("\t\t{");
                 for (int i = 0; i < tb.Length; i++)
                 {
@@ -665,67 +665,67 @@ namespace Devarc
                         case VAR_TYPE.BOOL:
                             if (is_list)
                             {
-                                sw.WriteLine("\t\t\tstring __{0} = obj.GetString({1}); {0}.Clear(); if (!string.IsNullOrEmpty(__{0})) foreach (JsonData node in JsonMapper.ToObject(__{0})) {{ {0}.Add(Convert.ToBoolean(node.ToString())); }};", var_name, i);
+                                sw.WriteLine("\t\t\tstring __{0} = obj.GetString(\"{0}\"); {0}.Clear(); if (!string.IsNullOrEmpty(__{0})) foreach (JsonData node in JsonMapper.ToObject(__{0})) {{ {0}.Add(Convert.ToBoolean(node.ToString())); }};", var_name);
                             }
                             else
-                                sw.WriteLine("\t\t\t{0,-20}= obj.GetBoolean({1});", var_name, i);
+                                sw.WriteLine("\t\t\t{0,-20}= obj.GetBoolean(\"{0}\");", var_name);
                             break;
                         case VAR_TYPE.INT16:
                             if (is_list)
                             {
-                                sw.WriteLine("\t\t\tstring __{0} = obj.GetString({1}); {0}.Clear(); if (!string.IsNullOrEmpty(__{0})) foreach (JsonData node in JsonMapper.ToObject(__{0})) {{ {0}.Add(Convert.ToInt16(node.ToString())); }};", var_name, i);
+                                sw.WriteLine("\t\t\tstring __{0} = obj.GetString(\"{0}\"); {0}.Clear(); if (!string.IsNullOrEmpty(__{0})) foreach (JsonData node in JsonMapper.ToObject(__{0})) {{ {0}.Add(Convert.ToInt16(node.ToString())); }};", var_name);
                             }
                             else
-                                sw.WriteLine("\t\t\t{0,-20}= obj.GetInt16({1});", var_name, i);
+                                sw.WriteLine("\t\t\t{0,-20}= obj.GetInt16(\"{0}\");", var_name);
                             break;
                         case VAR_TYPE.INT32:
                             if (is_list)
                             {
-                                sw.WriteLine("\t\t\tstring __{0} = obj.GetString({1}); {0}.Clear(); if (!string.IsNullOrEmpty(__{0})) foreach (JsonData node in JsonMapper.ToObject(__{0})) {{ {0}.Add(Convert.ToInt32(node.ToString())); }};", var_name, i);
+                                sw.WriteLine("\t\t\tstring __{0} = obj.GetString(\"{0}\"); {0}.Clear(); if (!string.IsNullOrEmpty(__{0})) foreach (JsonData node in JsonMapper.ToObject(__{0})) {{ {0}.Add(Convert.ToInt32(node.ToString())); }};", var_name);
                             }
                             else
-                                sw.WriteLine("\t\t\t{0,-20}= obj.GetInt32({1});", var_name, i);
+                                sw.WriteLine("\t\t\t{0,-20}= obj.GetInt32(\"{0}\");", var_name);
                             break;
                         case VAR_TYPE.UINT32:
                             if (is_list)
                             {
-                                sw.WriteLine("\t\t\tstring __{0} = obj.GetString({1}); {0}.Clear(); if (!string.IsNullOrEmpty(__{0})) foreach (JsonData node in JsonMapper.ToObject(__{0})) {{ {0}.Add(Convert.ToUInt64(node.ToString())); }};", var_name, i);
+                                sw.WriteLine("\t\t\tstring __{0} = obj.GetString(\"{0}\"); {0}.Clear(); if (!string.IsNullOrEmpty(__{0})) foreach (JsonData node in JsonMapper.ToObject(__{0})) {{ {0}.Add(Convert.ToUInt64(node.ToString())); }};", var_name);
                             }
                             else
-                                sw.WriteLine("\t\t\t{0,-20}= (uint)obj.GetDecimal({1});", var_name, i);
+                                sw.WriteLine("\t\t\t{0,-20}= (uint)obj.GetUInt32(\"{0}\");", var_name);
                             break;
                         case VAR_TYPE.INT64:
                             if (is_list)
                             {
-                                sw.WriteLine("\t\t\tstring __{0} = obj.GetString({1}); {0}.Clear(); if (!string.IsNullOrEmpty(__{0})) foreach (JsonData node in JsonMapper.ToObject(__{0})) {{ {0}.Add(Convert.ToInt64(node.ToString())); }};", var_name, i);
+                                sw.WriteLine("\t\t\tstring __{0} = obj.GetString(\"{0}\"); {0}.Clear(); if (!string.IsNullOrEmpty(__{0})) foreach (JsonData node in JsonMapper.ToObject(__{0})) {{ {0}.Add(Convert.ToInt64(node.ToString())); }};", var_name);
                             }
                             else
-                                sw.WriteLine("\t\t\t{0,-20}= obj.GetInt64({1});", var_name, i);
+                                sw.WriteLine("\t\t\t{0,-20}= obj.GetInt64(\"{0}\");", var_name);
                             break;
                         case VAR_TYPE.HOST_ID:
                             if (is_list)
                             {
-                                sw.WriteLine("\t\t\tstring __{0} = obj.GetString({1}); {0}.Clear(); if (!string.IsNullOrEmpty(__{0})) foreach (JsonData node in JsonMapper.ToObject(__{0})) {{ {0}.Add(Convert.ToInt16(node.ToString())); }};", var_name, i);
+                                sw.WriteLine("\t\t\tstring __{0} = obj.GetString(\"{0}\"); {0}.Clear(); if (!string.IsNullOrEmpty(__{0})) foreach (JsonData node in JsonMapper.ToObject(__{0})) {{ {0}.Add(Convert.ToInt16(node.ToString())); }};", var_name);
                             }
                             else
-                                sw.WriteLine("\t\t\t{0,-20}= (HostID)obj.GetInt16({1});", var_name, i);
+                                sw.WriteLine("\t\t\t{0,-20}= (HostID)obj.GetInt16(\"{0}\");", var_name);
                             break;
                         case VAR_TYPE.FLOAT:
                             if (is_list)
                             {
-                                sw.WriteLine("\t\t\tstring __{0} = obj.GetString({1}); {0}.Clear(); if (!string.IsNullOrEmpty(__{0})) foreach (JsonData node in JsonMapper.ToObject(__{0})) {{ {0}.Add(Convert.ToSingle(node.ToString())); }};", var_name, i);
+                                sw.WriteLine("\t\t\tstring __{0} = obj.GetString(\"{0}\"); {0}.Clear(); if (!string.IsNullOrEmpty(__{0})) foreach (JsonData node in JsonMapper.ToObject(__{0})) {{ {0}.Add(Convert.ToSingle(node.ToString())); }};", var_name);
                             }
                             else
-                                sw.WriteLine("\t\t\t{0,-20}= obj.GetFloat({1});", var_name, i);
+                                sw.WriteLine("\t\t\t{0,-20}= obj.GetFloat(\"{0}\");", var_name);
                             break;
                         case VAR_TYPE.CSTRING:
                         case VAR_TYPE.STRING:
                             if (is_list)
                             {
-                                sw.WriteLine("\t\t\tstring __{0} = obj.GetString({1}); {0}.Clear(); if (!string.IsNullOrEmpty(__{0})) foreach (JsonData node in JsonMapper.ToObject(__{0})) {{ {0}.Add(node.ToString()); }};", var_name, i);
+                                sw.WriteLine("\t\t\tstring __{0} = obj.GetString(\"{0}\"); {0}.Clear(); if (!string.IsNullOrEmpty(__{0})) foreach (JsonData node in JsonMapper.ToObject(__{0})) {{ {0}.Add(node.ToString()); }};", var_name);
                             }
                             else
-                                sw.WriteLine("\t\t\t{0,-20}= obj.GetString({1});", var_name, i);
+                                sw.WriteLine("\t\t\t{0,-20}= obj.GetString(\"{0}\");", var_name);
                             break;
                         case VAR_TYPE.LSTRING:
                             if (tb.KeyIndex >= 0)
@@ -734,26 +734,26 @@ namespace Devarc
                             }
                             break;
                         case VAR_TYPE.FSTRING:
-                            sw.WriteLine("\t\t\t_{0}.Key = obj.GetString({1});", var_name, i);
+                            sw.WriteLine("\t\t\t_{0}.Key = obj.GetString(\"{0}\");", var_name);
                             break;
                         case VAR_TYPE.ENUM:
                             if (is_list)
                             {
-                                sw.WriteLine("\t\t\tstring __{0} = obj.GetString({1}); {0}.Clear(); if (!string.IsNullOrEmpty(__{0})) foreach (JsonData node in JsonMapper.ToObject(__{0})) {{ {0}.Add(_{2}.Parse(node.ToString())); }};", var_name, i, type_name);
+                                sw.WriteLine("\t\t\tstring __{0} = obj.GetString(\"{0}\"); {0}.Clear(); if (!string.IsNullOrEmpty(__{0})) foreach (JsonData node in JsonMapper.ToObject(__{0})) {{ {0}.Add(_{1}.Parse(node.ToString())); }};", var_name, type_name);
                             }
                             else
                             {
-                                sw.WriteLine("\t\t\t{0,-20}= _{2}.Parse(obj.GetString({1}));", var_name, i, type_name);
+                                sw.WriteLine("\t\t\t{0,-20}= _{1}.Parse(obj.GetString(\"{0}\"));", var_name, type_name);
                             }
                             break;
                         case VAR_TYPE.CLASS:
                             if (is_list)
                             {
-                                sw.WriteLine("\t\t\tstring __{0} = obj.GetString({1}); {0}.Clear(); if (!string.IsNullOrEmpty(__{0})) FrameworkUtil.FillList<{2}>(__{0}, {0});", var_name, i, type_name);
+                                sw.WriteLine("\t\t\tstring __{0} = obj.GetString(\"{0}\"); {0}.Clear(); if (!string.IsNullOrEmpty(__{0})) FrameworkUtil.FillList<{1}>(__{0}, {0});", var_name, type_name);
                             }
                             else
                             {
-                                sw.WriteLine("\t\t\t{0}.Initialize(JsonMapper.ToObject(obj.GetString({1})));", var_name, i);
+                                sw.WriteLine("\t\t\t{0}.Initialize(JsonMapper.ToObject(obj.GetString(\"{0}\")));", var_name);
                             }
                             break;
                         default:
@@ -1026,14 +1026,14 @@ namespace Devarc
                     string type_name = tb.GetTypeName(i);
                     string var_name = tb.GetVarName(i);
                     bool is_list = tb.GetClassType(i) == CLASS_TYPE.VALUE_LIST || tb.GetClassType(i) == CLASS_TYPE.CLASS_LIST;
-                    KEY_TYPE key_type = tb.GetKeyType(i);
+                    string key_type = tb.GetKeyType(i).ToString().ToLower();
                     if (var_name == "" || type_name == "" || var_name.IndexOf('/') >= 0)
                     {
                         continue;
                     }
                     //if (is_enum)
                     //{
-                    //    sw.WriteLine("\t\t\tobj.Attach(\"Name\", \"\", CLASS_TYPE.VALUE, KEY_TYPE.NONE, {0}.ToString());", var_name, type_name, tb.KeyVarName);
+                    //    sw.WriteLine("\t\t\tobj.Attach(\"Name\", \"\", CLASS_TYPE.VALUE, false, {0}.ToString());", var_name, type_name, tb.KeyVarName);
                     //}
                     if (is_list)
                     {
@@ -1051,29 +1051,29 @@ namespace Devarc
                             case VAR_TYPE.HOST_ID:
                             case VAR_TYPE.FLOAT:
                                 if (is_list)
-                                    sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE_LIST, KEY_TYPE.{2}, {0}.ToString());", var_name, type_name, key_type);
+                                    sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE_LIST, {2}, {0}.ToString());", var_name, type_name, key_type);
                                 else
-                                    sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, KEY_TYPE.{2}, {0}.ToString());", var_name, type_name, key_type);
+                                    sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, {2}, {0}.ToString());", var_name, type_name, key_type);
                                 break;
                             case VAR_TYPE.LSTRING:
-                                sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, KEY_TYPE.{2}, _{0}.Value);", var_name, type_name, key_type);
+                                sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, {2}, _{0}.Value);", var_name, type_name, key_type);
                                 break;
                             case VAR_TYPE.FSTRING:
-                                sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, KEY_TYPE.{2}, _{0}.Key);", var_name, type_name, key_type);
+                                sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, {2}, _{0}.Key);", var_name, type_name, key_type);
                                 break;
                             case VAR_TYPE.STRING:
                                 if (is_list)
-                                    sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, KEY_TYPE.{2}, {0});", var_name, type_name, key_type);
+                                    sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, {2}, {0});", var_name, type_name, key_type);
                                 else
-                                    sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, KEY_TYPE.{2}, {0});", var_name, type_name, key_type);
+                                    sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, {2}, {0});", var_name, type_name, key_type);
                                 break;
                             case VAR_TYPE.ENUM:
                                 if (is_enum)
-                                    sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, KEY_TYPE.{2}, ((int){0}).ToString());", var_name, type_name, key_type);
+                                    sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, {2}, ((int){0}).ToString());", var_name, type_name, key_type);
                                 else if (is_list)
-                                    sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE_LIST, KEY_TYPE.{2}, {0}.ToString());", var_name, type_name, key_type);
+                                    sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE_LIST, {2}, {0}.ToString());", var_name, type_name, key_type);
                                 else
-                                    sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, KEY_TYPE.{2}, {0}.ToString());", var_name, type_name, key_type);
+                                    sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, {2}, {0}.ToString());", var_name, type_name, key_type);
                                 break;
                             case VAR_TYPE.CLASS:
                                 sw.WriteLine("\t\t\tobj.Attach_Class(\"{0}\", \"{1}\", {0}.ToTable());", var_name, type_name);

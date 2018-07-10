@@ -58,10 +58,10 @@ namespace Devarc
 			if (obj.Keys.Contains("NAME")) NAME = obj["NAME"].ToString(); else NAME = default(string);
 			if (obj.Keys.Contains("ID")) ID = _TEST_ENUM.Parse(obj["ID"].ToString()); else ID = default(TEST_ENUM);
 		}
-		public void Initialize(SQLite_Reader obj)
+		public void Initialize(IBaseReader obj)
 		{
-			NAME                = obj.GetString(0);
-			ID                  = _TEST_ENUM.Parse(obj.GetString(1));
+			NAME                = obj.GetString("NAME");
+			ID                  = _TEST_ENUM.Parse(obj.GetString("ID"));
 		}
 		public override string ToString()
 		{
@@ -82,8 +82,8 @@ namespace Devarc
 		public PropTable ToTable()
 		{
 			PropTable obj = new PropTable("_TEST_ENUM");
-			obj.Attach("NAME", "string", CLASS_TYPE.VALUE, KEY_TYPE.NONE, NAME);
-			obj.Attach("ID", "TEST_ENUM", CLASS_TYPE.VALUE, KEY_TYPE.MAP, ((int)ID).ToString());
+			obj.Attach("NAME", "string", CLASS_TYPE.VALUE, false, NAME);
+			obj.Attach("ID", "TEST_ENUM", CLASS_TYPE.VALUE, true, ((int)ID).ToString());
 			return obj;
 		}
 	}
@@ -178,11 +178,11 @@ namespace Devarc
 			if (obj.Keys.Contains("y")) float.TryParse(obj["y"].ToString(), out y); else y = default(float);
 			if (obj.Keys.Contains("z")) float.TryParse(obj["z"].ToString(), out z); else z = default(float);
 		}
-		public void Initialize(SQLite_Reader obj)
+		public void Initialize(IBaseReader obj)
 		{
-			x                   = obj.GetFloat(0);
-			y                   = obj.GetFloat(1);
-			z                   = obj.GetFloat(2);
+			x                   = obj.GetFloat("x");
+			y                   = obj.GetFloat("y");
+			z                   = obj.GetFloat("z");
 		}
 		public override string ToString()
 		{
@@ -206,9 +206,9 @@ namespace Devarc
 		public PropTable ToTable()
 		{
 			PropTable obj = new PropTable("TEST_VECTOR");
-			obj.Attach("x", "float", CLASS_TYPE.VALUE, KEY_TYPE.NONE, x.ToString());
-			obj.Attach("y", "float", CLASS_TYPE.VALUE, KEY_TYPE.NONE, y.ToString());
-			obj.Attach("z", "float", CLASS_TYPE.VALUE, KEY_TYPE.NONE, z.ToString());
+			obj.Attach("x", "float", CLASS_TYPE.VALUE, false, x.ToString());
+			obj.Attach("y", "float", CLASS_TYPE.VALUE, false, y.ToString());
+			obj.Attach("z", "float", CLASS_TYPE.VALUE, false, z.ToString());
 			return obj;
 		}
 	}
@@ -302,10 +302,10 @@ namespace Devarc
 			if (obj.Keys.Contains("Name")) Name = obj["Name"].ToString(); else Name = default(string);
 			if (obj.Keys.Contains("Pos")) Pos.Initialize(obj["Pos"]);
 		}
-		public void Initialize(SQLite_Reader obj)
+		public void Initialize(IBaseReader obj)
 		{
-			Name                = obj.GetString(0);
-			Pos.Initialize(JsonMapper.ToObject(obj.GetString(1)));
+			Name                = obj.GetString("Name");
+			Pos.Initialize(JsonMapper.ToObject(obj.GetString("Pos")));
 		}
 		public override string ToString()
 		{
@@ -327,7 +327,7 @@ namespace Devarc
 		public PropTable ToTable()
 		{
 			PropTable obj = new PropTable("TEST_PLAYER");
-			obj.Attach("Name", "string", CLASS_TYPE.VALUE, KEY_TYPE.NONE, Name);
+			obj.Attach("Name", "string", CLASS_TYPE.VALUE, false, Name);
 			obj.Attach_Class("Pos", "TEST_VECTOR", Pos.ToTable());
 			return obj;
 		}
