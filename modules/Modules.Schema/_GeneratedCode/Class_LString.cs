@@ -23,7 +23,12 @@ namespace Devarc
 			Initialize(obj);
 		}
 		public string GetKey() { return Key; }
-		public string GetSelectQuery(string _key) { return string.Format("select Key, Value from LString where Key='{0}';", _key); }
+		public string GetQuery_Select(string _key) { return string.Format("select * from LString where Key='{0}';", _key); }
+		public string GetQuery_InsertOrUpdate()
+		{
+			PropTable obj = ToTable();
+			return string.Format("insert into LString (`Key`, `Value`) VALUES ('{0}', '{1}') on duplicate key update `Key`='{0}', `Value`='{1}';", FrameworkUtil.InnerString(obj.GetStr("Key")), FrameworkUtil.InnerString(obj.GetStr("Value")));
+		}
 		public bool IsDefault
 		{
 			get

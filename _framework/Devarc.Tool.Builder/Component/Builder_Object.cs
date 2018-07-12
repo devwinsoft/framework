@@ -344,17 +344,69 @@ namespace Devarc
 
                 if (tb.KeyIndex >= 0)
                 {
+                    //sw.Write("\t\tpublic string GetSelectQuery({0} _key) {{ return string.Format(\"select ", tb.KeyTypeName);
+                    //for (int i = 0; i < tb.Length; i++)
+                    //{
+                    //    if (i == 0)
+                    //        sw.Write(tb.GetVarName(i));
+                    //    else
+                    //        sw.Write(", {0}", tb.GetVarName(i));
+                    //}
+                    //sw.WriteLine(" from {1} where {0}='{{0}}';\", _key); }}", tb.KeyVarName, enum_name);
                     sw.WriteLine("\t\tpublic {0} GetKey() {{ return {1}; }}", tb.KeyTypeName, tb.GetVarName(tb.KeyIndex));
-                    sw.Write("\t\tpublic string GetSelectQuery({0} _key) {{ return string.Format(\"select ", tb.KeyTypeName);
+                    sw.WriteLine("\t\tpublic string GetQuery_Select({0} _key) {{ return string.Format(\"select * from {2} where {1}='{{0}}';\", _key); }}"
+                        , tb.KeyTypeName, tb.KeyVarName, enum_name);
+                    sw.WriteLine("\t\tpublic string GetQuery_InsertOrUpdate()");
+                    sw.WriteLine("\t\t{");
+                    sw.WriteLine("\t\t\tPropTable obj = ToTable();");
+                    sw.Write("\t\t\treturn string.Format(\"insert into {0} (", class_name);
                     for (int i = 0; i < tb.Length; i++)
                     {
                         if (i == 0)
-                            sw.Write(tb.GetVarName(i));
+                            sw.Write("`{0}`", tb.GetVarName(i));
                         else
-                            sw.Write(", {0}", tb.GetVarName(i));
+                            sw.Write(", `{0}`", tb.GetVarName(i));
                     }
-                    sw.WriteLine(" from {1} where {0}='{{0}}';\", _key); }}", tb.KeyVarName, enum_name);
+                    sw.Write(") VALUES (");
+                    for (int i = 0; i < tb.Length; i++)
+                    {
+                        if (i == 0)
+                            sw.Write("'{{{0}}}'", i);
+                        else
+                            sw.Write(", '{{{0}}}'", i);
+                    }
+                    sw.Write(") on duplicate key update ");
+                    for (int i = 0; i < tb.Length; i++)
+                    {
+                        if (i > 0)
+                            sw.Write(", ");
+                        sw.Write("`{0}`='{{{1}}}'", tb.GetVarName(i), i);
+                    }
+                    sw.Write(";\"");
+                    for (int i = 0; i < tb.Length; i++)
+                    {
+                        sw.Write(", ");
+                        switch(tb.GetVarType(i))
+                        {
+                            case VAR_TYPE.BOOL:
+                            case VAR_TYPE.ENUM:
+                            case VAR_TYPE.FLOAT:
+                            case VAR_TYPE.HOST_ID:
+                            case VAR_TYPE.INT16:
+                            case VAR_TYPE.INT32:
+                            case VAR_TYPE.INT64:
+                            case VAR_TYPE.UINT32:
+                                sw.Write("obj.GetStr(\"{0}\")", tb.GetVarName(i));
+                                break;
+                            default:
+                                sw.Write("FrameworkUtil.InnerString(obj.GetStr(\"{0}\"))", tb.GetVarName(i));
+                                break;
+                        }
+                    }
+                    sw.WriteLine(");");
+                    sw.WriteLine("\t\t}");
                 }
+
 
                 sw.WriteLine("\t\tpublic bool IsDefault", class_name);
                 sw.WriteLine("\t\t{");

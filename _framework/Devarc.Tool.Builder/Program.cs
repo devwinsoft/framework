@@ -9,7 +9,7 @@ namespace Devarc
     {
         static void Main(string[] args)
         {
-            Log.SetCallback(Callback_Log);
+            Log.OnMessage += Callback_Log;
 
             Builder_Object builder1 = new Builder_Object();
             Builder_Data builder2 = new Builder_Data();

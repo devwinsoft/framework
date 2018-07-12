@@ -22,7 +22,7 @@ namespace TestClient
         {
             InitializeComponent();
             mDelegate = new OnMessage(onMessage);
-            Log.SetCallback(OnLogMessage);
+            Log.OnMessage += OnLogMessage;
         }
 
         void OnLogMessage(LOG_TYPE tp, string msg)

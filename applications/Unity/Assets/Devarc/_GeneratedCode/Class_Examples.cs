@@ -27,7 +27,12 @@ namespace Devarc
 			Initialize(obj);
 		}
 		public TEST_ENUM GetKey() { return ID; }
-		public string GetSelectQuery(TEST_ENUM _key) { return string.Format("select NAME, ID from TEST_ENUM where ID='{0}';", _key); }
+		public string GetQuery_Select(TEST_ENUM _key) { return string.Format("select * from TEST_ENUM where ID='{0}';", _key); }
+		public string GetQuery_InsertOrUpdate()
+		{
+			PropTable obj = ToTable();
+			return string.Format("insert into _TEST_ENUM (`NAME`, `ID`) VALUES ('{0}', '{1}') on duplicate key update `NAME`='{0}', `ID`='{1}';", FrameworkUtil.InnerString(obj.GetStr("NAME")), obj.GetStr("ID"));
+		}
 		public bool IsDefault
 		{
 			get

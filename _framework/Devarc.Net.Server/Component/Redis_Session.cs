@@ -6,7 +6,7 @@ using StackExchange.Redis;
 
 namespace Devarc
 {
-    public class Redis : IDisposable
+    public class Redis_Session : IDisposable
     {
         ConnectionMultiplexer mConnection;
         IDatabase mDatabase;

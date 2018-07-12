@@ -325,6 +325,7 @@
     <Compile Include="Assets\Devarc\Editor\Builder_Base.cs" />
     <Compile Include="Assets\Devarc\Editor\Builder_Data.cs" />
     <Compile Include="Assets\Devarc\Editor\Builder_Localize.cs" />
+    <Compile Include="Assets\Devarc\Editor\Builder_MySQL.cs" />
     <Compile Include="Assets\Devarc\Editor\Builder_Object.cs" />
     <Compile Include="Assets\Devarc\Editor\Builder_SimpleCode.cs" />
     <Compile Include="Assets\Devarc\Editor\Builder_SQLite.cs" />

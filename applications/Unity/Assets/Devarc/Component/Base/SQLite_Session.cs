@@ -114,26 +114,26 @@ namespace Devarc
             }
         }
 
-        public bool End_Transaction()
-        {
-            if (mIsOpened == false)
-            {
-                return false;
-            }
-            IntPtr err = IntPtr.Zero;
-            IntPtr cmd = SQLiteMethods.StringToPtr("END TRANSACTION");
-            try
-            {
-                SQLiteMethods.sqlite3_exec(mSQLiteID, cmd, null, IntPtr.Zero, out err);
-                SQLiteMethods.sqlite3_free(err);
-                return true;
-            }
-            catch (System.Exception ex)
-            {
-                Log.Error(ex.Message);
-                return false;
-            }
-        }
+        //public bool End_Transaction()
+        //{
+        //    if (mIsOpened == false)
+        //    {
+        //        return false;
+        //    }
+        //    IntPtr err = IntPtr.Zero;
+        //    IntPtr cmd = SQLiteMethods.StringToPtr("END TRANSACTION");
+        //    try
+        //    {
+        //        SQLiteMethods.sqlite3_exec(mSQLiteID, cmd, null, IntPtr.Zero, out err);
+        //        SQLiteMethods.sqlite3_free(err);
+        //        return true;
+        //    }
+        //    catch (System.Exception ex)
+        //    {
+        //        Log.Error(ex.Message);
+        //        return false;
+        //    }
+        //}
 
         public bool Commit()
         {

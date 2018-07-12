@@ -46,5 +46,60 @@ namespace Devarc
         {
             return string.Format("{0}_{1}_{2}", _class_name, _field_name, _id); ;
         }
+
+        public static string InnerString<T>(List<T> _list) where T : IBaseObejct
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("[");
+            bool isFirst = true;
+            var enumer = _list.GetEnumerator();
+            while (enumer.MoveNext())
+            {
+                T obj = enumer.Current;
+                if (isFirst)
+                {
+                    isFirst = false;
+                }
+                else
+                {
+                    sb.Append(",");
+                }
+                sb.Append(obj.ToJson());
+            }
+            sb.Append("]");
+            return sb.ToString();
+        }
+
+        public static string InnerString(string _value)
+        {
+            if (string.IsNullOrEmpty(_value))
+                return string.Empty;
+            return _value.Replace("'", "''").Replace("\\", "\\\\");
+        }
+
+        public static string InnerString(List<string> _list)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("[");
+            bool isFirst = true;
+            var enumer = _list.GetEnumerator();
+            while (enumer.MoveNext())
+            {
+                string obj = enumer.Current;
+                if (isFirst)
+                {
+                    isFirst = false;
+                }
+                else
+                {
+                    sb.Append(",");
+                }
+                sb.Append(string.Format("\"{0}\"", InnerString(obj)));
+            }
+            sb.Append("]");
+            return sb.ToString();
+        }
     }
 }

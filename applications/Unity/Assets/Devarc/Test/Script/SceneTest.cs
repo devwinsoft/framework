@@ -39,7 +39,7 @@ public class SceneTest : MonoBehaviour
 
     void Start()
     {
-        Log.SetCallback(callback_Message);
+        Log.OnMessage += callback_Message;
 
         //TextAsset txtAsset;
         //txtAsset = Resources.Load<TextAsset>("TableData/Localize/LString_"); TableManager.Load_LString_SheetData(txtAsset.text);

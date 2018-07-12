@@ -33,13 +33,14 @@ namespace Devarc
         void Initialize(IBaseObejct obj);
         void Initialize(PropTable obj);
         void Initialize(IBaseReader obj);
-        void Initialize(LitJson.JsonData obj);
+        void Initialize(JsonData obj);
+        string ToJson();
     }
 
     public interface IBaseObejct<T> : IBaseObejct
     {
         T GetKey();
-        string GetSelectQuery(T _key);
+        string GetQuery_Select(T _key);
     }
 
     public interface IContents<KEY1, KEY2>

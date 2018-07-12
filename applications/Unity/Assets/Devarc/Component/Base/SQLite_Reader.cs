@@ -43,16 +43,16 @@ namespace Devarc
 
         public void Dispose()
         {
+            Close();
+        }
+
+        public void Close()
+        {
             if (mStmt != IntPtr.Zero)
             {
                 SQLiteMethods.sqlite3_finalize(mStmt);
                 mStmt = IntPtr.Zero;
             }
-        }
-
-        public void Close()
-        {
-            Dispose();
         }
 
         public bool Read()

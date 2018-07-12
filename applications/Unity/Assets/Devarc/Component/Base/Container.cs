@@ -147,7 +147,7 @@ namespace Devarc
 
             try
             {
-                SQLite_Reader reader = _session.Execute_Reader(defaultObject.GetSelectQuery(_key));
+                SQLite_Reader reader = _session.Execute_Reader(defaultObject.GetQuery_Select(_key));
                 if (reader.Read())
                 {
                     obj = new ITEM();

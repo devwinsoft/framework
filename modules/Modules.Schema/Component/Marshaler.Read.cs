@@ -77,6 +77,12 @@ namespace Devarc
             return !msg.IsError;
         }
 
+        public static bool Read(NetBuffer msg, out byte[] obj)
+        {
+            msg.ReadBytes(out obj);
+            return !msg.IsError;
+        }
+
         public static bool Read(NetBuffer msg, out bool[] obj)
         {
             int cnt = msg.ReadInt16();
@@ -85,11 +91,6 @@ namespace Devarc
             {
                 obj[i] = msg.ReadByte() != 0 ? true : false;
             }
-            return !msg.IsError;
-        }
-        public static bool Read(NetBuffer msg, out byte[] obj)
-        {
-            msg.ReadBytes(out obj);
             return !msg.IsError;
         }
         public static bool Read(NetBuffer msg, out Int16[] obj)
@@ -109,6 +110,16 @@ namespace Devarc
             for (int i = 0; i < cnt; i++)
             {
                 obj[i] = msg.ReadInt32();
+            }
+            return !msg.IsError;
+        }
+        public static bool Read(NetBuffer msg, out UInt32[] obj)
+        {
+            int cnt = msg.ReadInt16();
+            obj = new UInt32[cnt];
+            for (int i = 0; i < cnt; i++)
+            {
+                obj[i] = msg.ReadUInt32();
             }
             return !msg.IsError;
         }
@@ -153,12 +164,52 @@ namespace Devarc
             return !msg.IsError;
         }
 
-        public static bool Read(NetBuffer msg, List<int> list)
+        public static bool Read(NetBuffer msg, List<bool> list)
+        {
+            int cnt = msg.ReadInt16();
+            for (int i = 0; i < cnt; i++)
+            {
+                list.Add(msg.ReadByte() != 0);
+            }
+            return !msg.IsError;
+        }
+
+        public static bool Read(NetBuffer msg, List<Int16> list)
+        {
+            int cnt = msg.ReadInt16();
+            for (int i = 0; i < cnt; i++)
+            {
+                list.Add(msg.ReadInt16());
+            }
+            return !msg.IsError;
+        }
+
+        public static bool Read(NetBuffer msg, List<Int32> list)
         {
             int cnt = msg.ReadInt16();
             for (int i = 0; i < cnt; i++)
             {
                 list.Add(msg.ReadInt32());
+            }
+            return !msg.IsError;
+        }
+
+        public static bool Read(NetBuffer msg, List<UInt32> list)
+        {
+            int cnt = msg.ReadInt16();
+            for (int i = 0; i < cnt; i++)
+            {
+                list.Add(msg.ReadUInt32());
+            }
+            return !msg.IsError;
+        }
+
+        public static bool Read(NetBuffer msg, List<Int64> list)
+        {
+            int cnt = msg.ReadInt16();
+            for (int i = 0; i < cnt; i++)
+            {
+                list.Add(msg.ReadInt64());
             }
             return !msg.IsError;
         }

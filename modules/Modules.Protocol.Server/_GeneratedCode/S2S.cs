@@ -4,7 +4,7 @@ namespace S2S
 {
 	public interface IStub
 	{
-		void RMI_S2S_Test(HostID remote, String _name);
+		void RMI_S2S_Test(HostID remote, String _name, Byte[] data);
 	}
 	public static class Stub
 	{
@@ -17,8 +17,9 @@ namespace S2S
 					{
 						Log.Debug("Stub(S2S): Test");
 						System.String _name = default(System.String); Marshaler.Read(_in_msg, ref _name);
+						System.Byte[] data; Marshaler.Read(_in_msg, out data);
 						if (_in_msg.IsCompleted == false) return RECEIVE_RESULT.INVALID_PACKET;
-						stub.RMI_S2S_Test(_in_msg.Hid, _name);
+						stub.RMI_S2S_Test(_in_msg.Hid, _name, data);
 					}
 					break;
 				default:
@@ -40,7 +41,7 @@ namespace S2S
 	{
 		private INetworker m_Networker = null;
 		public void Init(INetworker mgr) { m_Networker = mgr; }
-		public bool Test(HostID target, String _name)
+		public bool Test(HostID target, String _name, Byte[] data)
 		{
 			NetBuffer _out_msg = NetBufferPool.Instance.Pop();
 			if (m_Networker == null)
@@ -50,6 +51,7 @@ namespace S2S
 			}
 			_out_msg.Init((Int16)RMI_ID.Test, target);
 			Marshaler.Write(_out_msg, _name);
+			Marshaler.Write(_out_msg, data);
 			if (_out_msg.IsError) return false;
 			return m_Networker.Send(_out_msg);
 		}

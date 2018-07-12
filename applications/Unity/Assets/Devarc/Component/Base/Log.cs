@@ -38,62 +38,61 @@ namespace Devarc
     {
         public delegate void CALLBACK_MESSAGE(LOG_TYPE tp, string msg);
 
-        public static Log Instance { get { if (ms_Instance == null) ms_Instance = new Log(); return ms_Instance; } }
-        private static Log ms_Instance = null;
+        private static Log Instance { get { if (msInstance == null) msInstance = new Log(); return msInstance; } }
+        private static Log msInstance = null;
 
-        private CALLBACK_MESSAGE callback_message = null;
-
-        public static void SetCallback(CALLBACK_MESSAGE func)
+        public static CALLBACK_MESSAGE OnMessage
         {
-            Log.Instance.callback_message = func;
+            get { return Instance.message; }
+            set { Instance.message = value; }
         }
+        private event CALLBACK_MESSAGE message;
 
         public static void Info(string msg, params object[] args)
         {
-            if (Log.Instance.callback_message != null)
+            if (Log.Instance.message != null)
             {
                 if (args.Length > 0)
-                    Log.Instance.callback_message(LOG_TYPE.INFO, System.String.Format(msg, args));
+                    Log.Instance.message.Invoke(LOG_TYPE.INFO, System.String.Format(msg, args));
                 else
-                    Log.Instance.callback_message(LOG_TYPE.INFO, msg);
+                    Log.Instance.message.Invoke(LOG_TYPE.INFO, msg);
             }
         }
+
         public static void Debug(string msg, params object[] args)
         {
 #if DEBUG
-            if (Log.Instance.callback_message != null)
+            if (Log.Instance.message != null)
             {
                 if (args.Length > 0)
-                    Log.Instance.callback_message(LOG_TYPE.DEBUG, System.String.Format(msg, args));
+                    Log.Instance.message.Invoke(LOG_TYPE.DEBUG, System.String.Format(msg, args));
                 else
-                    Log.Instance.callback_message(LOG_TYPE.DEBUG, msg);
+                    Log.Instance.message.Invoke(LOG_TYPE.DEBUG, msg);
             }
 #endif
         }
 
         public static void Error(string msg, params object[] args)
         {
-            if (Log.Instance.callback_message != null)
+            if (Log.Instance.message != null)
             {
                 if (args.Length > 0)
-                    Log.Instance.callback_message(LOG_TYPE.ERROR, System.String.Format(msg, args));
+                    Log.Instance.message.Invoke(LOG_TYPE.ERROR, System.String.Format(msg + "\r\n" + Environment.StackTrace, args));
                 else
-                    Log.Instance.callback_message(LOG_TYPE.ERROR, msg);
+                    Log.Instance.message.Invoke(LOG_TYPE.ERROR, msg + "\r\n" + Environment.StackTrace);
             }
         }
 
         public static void Exception(Exception e)
         {
-            if (Log.Instance.callback_message != null)
+            if (Log.Instance.message != null)
             {
                 if (e.StackTrace != null)
                 {
-                    Log.Instance.callback_message(LOG_TYPE.EXCEPTION, e.StackTrace.ToString());
+                    Log.Instance.message.Invoke(LOG_TYPE.EXCEPTION, e.StackTrace.ToString());
                 }
-                Log.Instance.callback_message(LOG_TYPE.EXCEPTION, e.Message);
+                Log.Instance.message.Invoke(LOG_TYPE.EXCEPTION, e.Message);
             }
         }
-
-
     }
 }

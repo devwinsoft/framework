@@ -31,7 +31,12 @@ namespace Devarc
 			Initialize(obj);
 		}
 		public UNIT GetKey() { return unit_type; }
-		public string GetSelectQuery(UNIT _key) { return string.Format("select unit_type, name, items, stats, ability, nodes, unit_uid, specialCode from DataCharacter where unit_type='{0}';", _key); }
+		public string GetQuery_Select(UNIT _key) { return string.Format("select * from DataCharacter where unit_type='{0}';", _key); }
+		public string GetQuery_InsertOrUpdate()
+		{
+			PropTable obj = ToTable();
+			return string.Format("insert into DataCharacter (`unit_type`, `name`, `items`, `stats`, `ability`, `nodes`, `unit_uid`, `specialCode`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}') on duplicate key update `unit_type`='{0}', `name`='{1}', `items`='{2}', `stats`='{3}', `ability`='{4}', `nodes`='{5}', `unit_uid`='{6}', `specialCode`='{7}';", obj.GetStr("unit_type"), FrameworkUtil.InnerString(obj.GetStr("name")), obj.GetStr("items"), FrameworkUtil.InnerString(obj.GetStr("stats")), FrameworkUtil.InnerString(obj.GetStr("ability")), FrameworkUtil.InnerString(obj.GetStr("nodes")), obj.GetStr("unit_uid"), FrameworkUtil.InnerString(obj.GetStr("specialCode")));
+		}
 		public bool IsDefault
 		{
 			get
@@ -599,7 +604,12 @@ namespace Devarc
 			Initialize(obj);
 		}
 		public DIRECTION GetKey() { return ID; }
-		public string GetSelectQuery(DIRECTION _key) { return string.Format("select Name, ID from DIRECTION where ID='{0}';", _key); }
+		public string GetQuery_Select(DIRECTION _key) { return string.Format("select * from DIRECTION where ID='{0}';", _key); }
+		public string GetQuery_InsertOrUpdate()
+		{
+			PropTable obj = ToTable();
+			return string.Format("insert into _DIRECTION (`Name`, `ID`) VALUES ('{0}', '{1}') on duplicate key update `Name`='{0}', `ID`='{1}';", FrameworkUtil.InnerString(obj.GetStr("Name")), obj.GetStr("ID"));
+		}
 		public bool IsDefault
 		{
 			get
@@ -722,7 +732,12 @@ namespace Devarc
 			Initialize(obj);
 		}
 		public MESSAGE GetKey() { return ID; }
-		public string GetSelectQuery(MESSAGE _key) { return string.Format("select Name, ID, TEXT from MESSAGE where ID='{0}';", _key); }
+		public string GetQuery_Select(MESSAGE _key) { return string.Format("select * from MESSAGE where ID='{0}';", _key); }
+		public string GetQuery_InsertOrUpdate()
+		{
+			PropTable obj = ToTable();
+			return string.Format("insert into _MESSAGE (`Name`, `ID`, `TEXT`) VALUES ('{0}', '{1}', '{2}') on duplicate key update `Name`='{0}', `ID`='{1}', `TEXT`='{2}';", FrameworkUtil.InnerString(obj.GetStr("Name")), obj.GetStr("ID"), FrameworkUtil.InnerString(obj.GetStr("TEXT")));
+		}
 		public bool IsDefault
 		{
 			get
@@ -852,7 +867,12 @@ namespace Devarc
 			Initialize(obj);
 		}
 		public UNIT GetKey() { return ID; }
-		public string GetSelectQuery(UNIT _key) { return string.Format("select Name, ID from UNIT where ID='{0}';", _key); }
+		public string GetQuery_Select(UNIT _key) { return string.Format("select * from UNIT where ID='{0}';", _key); }
+		public string GetQuery_InsertOrUpdate()
+		{
+			PropTable obj = ToTable();
+			return string.Format("insert into _UNIT (`Name`, `ID`) VALUES ('{0}', '{1}') on duplicate key update `Name`='{0}', `ID`='{1}';", FrameworkUtil.InnerString(obj.GetStr("Name")), obj.GetStr("ID"));
+		}
 		public bool IsDefault
 		{
 			get
