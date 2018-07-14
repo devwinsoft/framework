@@ -158,7 +158,7 @@ namespace Devarc
             return obj;
         }
 
-        public void Free1(KEY key1)
+        public void Free(KEY key1)
         {
             using (WRITE_LOCK())
             {
@@ -174,7 +174,7 @@ namespace Devarc
             }
         }
 
-        public T GetAt1(KEY key1)
+        public T GetAt(KEY key1)
         {
             T obj;
             m_Table.TryGetValue(key1, out obj);

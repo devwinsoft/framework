@@ -48,18 +48,39 @@
     <Compile Include="Component\Marshaler.Write.cs" />
     <Compile Include="Component\Table.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="_GeneratedCode\Class_Examples.cs" />
-    <Compile Include="_GeneratedCode\Class_LString.cs" />
-    <Compile Include="_GeneratedCode\Class_LStringEx.cs" />
-    <Compile Include="_GeneratedCode\Class_TestSchema.cs" />
-    <Compile Include="_GeneratedCode\Table_LString.cs" />
-    <Compile Include="_GeneratedCode\Table_TestSchema.cs" />
+    <Compile Include="_Generated_Code\Class_Examples.cs" />
+    <Compile Include="_Generated_Code\Class_LString.cs" />
+    <Compile Include="_Generated_Code\Class_LStringEx.cs" />
+    <Compile Include="_Generated_Code\Class_TestSchema.cs" />
+    <Compile Include="_Generated_Code\Table_LString.cs" />
+    <Compile Include="_Generated_Code\Table_TestSchema.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\_framework\Devarc.Base\Devarc.Base.Net45.csproj">
       <Project>{2d3ff4eb-7fba-4526-8af4-c745020bc35f}</Project>
       <Name>Devarc.Base.Net45</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="_Generated_MySQL\DataCharacter.data.mysql" />
+    <None Include="_Generated_MySQL\DataCharacter.schema.mysql" />
+    <None Include="_Generated_MySQL\DIRECTION.data.mysql" />
+    <None Include="_Generated_MySQL\DIRECTION.schema.mysql" />
+    <None Include="_Generated_MySQL\MESSAGE.data.mysql" />
+    <None Include="_Generated_MySQL\MESSAGE.schema.mysql" />
+    <None Include="_Generated_MySQL\UNIT.data.mysql" />
+    <None Include="_Generated_MySQL\UNIT.schema.mysql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="_Generated_SQL\DataCharacter.data.sql" />
+    <Content Include="_Generated_SQL\DataCharacter.schema.sql" />
+    <Content Include="_Generated_SQL\DIRECTION.data.sql" />
+    <Content Include="_Generated_SQL\DIRECTION.schema.sql" />
+    <Content Include="_Generated_SQL\MESSAGE.data.sql" />
+    <Content Include="_Generated_SQL\MESSAGE.schema.sql" />
+    <Content Include="_Generated_SQL\UNIT.data.sql" />
+    <Content Include="_Generated_SQL\UNIT.schema.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

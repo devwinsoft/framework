@@ -38,7 +38,6 @@ namespace Devarc
         UINT32,
         HOST_ID,
         FLOAT,
-        CSTRING,
         STRING,
         LSTRING,
         FSTRING,
@@ -155,10 +154,6 @@ namespace Devarc
             else if (var_type.Equals("float"))
             {
                 return VAR_TYPE.FLOAT;
-            }
-            else if (var_type.Equals("cstr") || var_type.Equals("cstring"))
-            {
-                return VAR_TYPE.CSTRING;
             }
             else if (var_type.Equals("lstr") || var_type.Equals("lstring"))
             {
@@ -372,7 +367,6 @@ namespace Devarc
                 switch(val_type)
                 {
                     case VAR_TYPE.ENUM:
-                    case VAR_TYPE.CSTRING:
                     case VAR_TYPE.STRING:
                         sb.Append("\"");
                         sb.Append(tmp.ToString());
@@ -759,18 +753,6 @@ namespace Devarc
                         }
                     }
                     break;
-                case VAR_TYPE.CSTRING:
-                    {
-                        List<string> temp_list = _list as List<string>;
-                        if (temp_list != null)
-                        {
-                            for (int i = 0; i < node.Count; i++)
-                            {
-                                temp_list.Add(DES.Encrypt(node[i].ToString()));
-                            }
-                        }
-                    }
-                    break;
                 case VAR_TYPE.STRING:
                     {
                         List<string> temp_list = _list as List<string>;
@@ -789,6 +771,39 @@ namespace Devarc
             return false;
         }
 
+        public string ToJson()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("{ ");
+            for (int i = 0; i < m_Length; i++)
+            {
+                if (i > 0)
+                {
+                    sb.Append(", ");
+                }
+                string value = m_PropList[i].Data != null ? m_PropList[i].Data : "";
+                switch (GetClassType(i))
+                {
+                    case CLASS_TYPE.VALUE_LIST:
+                    case CLASS_TYPE.CLASS_LIST:
+                        if (string.IsNullOrEmpty(value))
+                            value = "[]";
+
+                        sb.Append(string.Format("\"{0}\":{1}", m_PropList[i].VarName, value));
+                        break;
+                    case CLASS_TYPE.CLASS:
+                        if (string.IsNullOrEmpty(value))
+                            value = "{}";
+                        sb.Append(string.Format("\"{0}\":{1}", m_PropList[i].VarName, value));
+                        break;
+                    default:
+                        sb.Append(string.Format("\"{0}\":\"{1}\"", m_PropList[i].VarName, value.Replace("\\", "\\\\").Replace("\"", "\\\"")));
+                        break;
+                }
+            }
+            sb.Append(" }");
+            return sb.ToString();
+        }
 
         public int Length { get { return m_Length; } }
         public string TableName { get { return m_TableName; } }

@@ -294,7 +294,6 @@ namespace Devarc
                             else
                                 sw.WriteLine("\t\tpublic {0,-20}{1};", "float", var_name);
                             break;
-                        case VAR_TYPE.CSTRING:
                         case VAR_TYPE.STRING:
                             if (is_list)
                                 sw.WriteLine("\t\tpublic List<{0}> {1} = new List<{0}>();", "string", var_name);
@@ -354,8 +353,10 @@ namespace Devarc
                     //}
                     //sw.WriteLine(" from {1} where {0}='{{0}}';\", _key); }}", tb.KeyVarName, enum_name);
                     sw.WriteLine("\t\tpublic {0} GetKey() {{ return {1}; }}", tb.KeyTypeName, tb.GetVarName(tb.KeyIndex));
-                    sw.WriteLine("\t\tpublic string GetQuery_Select({0} _key) {{ return string.Format(\"select * from {2} where {1}='{{0}}';\", _key); }}"
-                        , tb.KeyTypeName, tb.KeyVarName, enum_name);
+                    sw.WriteLine("\t\tpublic string GetQuery_Select({0} _key)", tb.KeyTypeName);
+                    sw.WriteLine("\t\t{");
+                    sw.WriteLine("\t\t\treturn string.Format(\"select * from {2} where {1}='{{0}}';\", _key);", tb.KeyTypeName, tb.KeyVarName, enum_name);
+                    sw.WriteLine("\t\t}");
                     sw.WriteLine("\t\tpublic string GetQuery_InsertOrUpdate()");
                     sw.WriteLine("\t\t{");
                     sw.WriteLine("\t\t\tPropTable obj = ToTable();");
@@ -440,7 +441,6 @@ namespace Devarc
                                 case VAR_TYPE.BOOL:
                                     sw.WriteLine("\t\t\t\tif ({0}) return false;", var_name);
                                     break;
-                                case VAR_TYPE.CSTRING:
                                 case VAR_TYPE.STRING:
                                     sw.WriteLine("\t\t\t\tif (string.IsNullOrEmpty({0}) == false) return false;", var_name);
                                     break;
@@ -558,7 +558,6 @@ namespace Devarc
                             else
                                 sw.WriteLine("\t\t\t{0,-20}= obj.GetFloat(\"{0}\");", var_name);
                             break;
-                        case VAR_TYPE.CSTRING:
                         case VAR_TYPE.STRING:
                             if (is_list)
                                 sw.WriteLine("\t\t\tobj.GetList<string>(\"{0}\", {0});", var_name);
@@ -664,12 +663,6 @@ namespace Devarc
                         case VAR_TYPE.FSTRING:
                             sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) _{0}.Key = obj[\"{0}\"].ToString(); else _{0}.Key = default(string);", var_name);
                             break;
-                        case VAR_TYPE.CSTRING:
-                            if (is_list)
-                                sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) foreach (JsonData node in obj[\"{0}\"]) {{ {0}.Add(DES.Decrypt(node.ToString())); }}", var_name);
-                            else
-                                sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) {0} = DES.Decrypt(obj[\"{0}\"].ToString()); else {0} = default(string);", var_name);
-                            break;
                         case VAR_TYPE.STRING:
                             if (is_list)
                                 sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) foreach (JsonData node in obj[\"{0}\"]) {{ {0}.Add(node.ToString()); }}", var_name);
@@ -770,7 +763,6 @@ namespace Devarc
                             else
                                 sw.WriteLine("\t\t\t{0,-20}= obj.GetFloat(\"{0}\");", var_name);
                             break;
-                        case VAR_TYPE.CSTRING:
                         case VAR_TYPE.STRING:
                             if (is_list)
                             {
@@ -839,7 +831,6 @@ namespace Devarc
 
                     switch (tb.GetVarType(i))
                     {
-                        case VAR_TYPE.CSTRING:
                         case VAR_TYPE.STRING:
                         case VAR_TYPE.FSTRING:
                         case VAR_TYPE.LSTRING:
@@ -915,31 +906,13 @@ namespace Devarc
                             case VAR_TYPE.LSTRING:
                             case VAR_TYPE.FSTRING:
                                 break;
-                            case VAR_TYPE.CSTRING:
-                                if (j == 0)
-                                {
-                                    sw.Write("\t\t    sb.Append(\"{\");");
-                                    sw.Write(" sb.Append(\"\\\"{0}\\\":\");", var_name);
-                                    sw.Write(" sb.Append(\"[\");");
-                                    sw.Write(" for (int i = 0; i < {0}.Count; i++) {{ {1} _obj = {0}[i]; if (i > 0) sb.Append(\",\"); sb.Append(\"\\\"\"); sb.Append(DES.Encrypt(_obj)); sb.Append(\"\\\"\"); }}", var_name, type_name);
-                                    sw.WriteLine(" sb.Append(\"]\");");
-                                }
-                                else
-                                {
-                                    sw.Write("\t\t\tif ({0}.Count > 0) {{ sb.Append(\",\");", var_name, type_name);
-                                    sw.Write(" sb.Append(\"\\\"{0}\\\":\");", var_name);
-                                    sw.Write(" sb.Append(\"[\");");
-                                    sw.Write(" for (int i = 0; i < {0}.Count; i++) {{ {1} _obj = {0}[i]; if (i > 0) sb.Append(\",\"); sb.Append(\"\\\"\"); sb.Append(DES.Encrypt(_obj)); sb.Append(\"\\\"\"); }}", var_name, type_name);
-                                    sw.WriteLine(" sb.Append(\"]\"); }");
-                                }
-                                break;
                             case VAR_TYPE.STRING:
                                 if (j == 0)
                                 {
                                     sw.Write("\t\t    sb.Append(\"{\");");
                                     sw.Write(" sb.Append(\"\\\"{0}\\\":\");", var_name);
                                     sw.Write(" sb.Append(\"[\");");
-                                    sw.Write(" for (int i = 0; i < {0}.Count; i++) {{ {1} _obj = {0}[i]; if (i > 0) sb.Append(\",\"); sb.Append(\"\\\"\"); sb.Append(_obj); sb.Append(\"\\\"\"); }}", var_name, type_name);
+                                    sw.Write(" for (int i = 0; i < {0}.Count; i++) {{ {1} _obj = {0}[i]; if (i > 0) sb.Append(\",\"); sb.Append(\"\\\"\"); sb.Append(FrameworkUtil.JsonString(_obj)); sb.Append(\"\\\"\"); }}", var_name, type_name);
                                     sw.WriteLine(" sb.Append(\"]\");");
                                 }
                                 else
@@ -947,7 +920,7 @@ namespace Devarc
                                     sw.Write("\t\t\tif ({0}.Count > 0) {{ sb.Append(\",\");", var_name, type_name);
                                     sw.Write(" sb.Append(\"\\\"{0}\\\":\");", var_name);
                                     sw.Write(" sb.Append(\"[\");");
-                                    sw.Write(" for (int i = 0; i < {0}.Count; i++) {{ {1} _obj = {0}[i]; if (i > 0) sb.Append(\",\"); sb.Append(\"\\\"\"); sb.Append(_obj); sb.Append(\"\\\"\"); }}", var_name, type_name);
+                                    sw.Write(" for (int i = 0; i < {0}.Count; i++) {{ {1} _obj = {0}[i]; if (i > 0) sb.Append(\",\"); sb.Append(\"\\\"\"); sb.Append(FrameworkUtil.JsonString(_obj)); sb.Append(\"\\\"\"); }}", var_name, type_name);
                                     sw.WriteLine(" sb.Append(\"]\"); }");
                                 }
                                 break;
@@ -998,34 +971,20 @@ namespace Devarc
                             case VAR_TYPE.FSTRING:
                                 sw.Write("\t\t\tif (string.IsNullOrEmpty(_{0}.Key) == false) {{ sb.Append(\",\");", var_name, type_name);
                                 sw.Write(" sb.Append(\"\\\"{0}\\\":\");", var_name);
-                                sw.WriteLine(" sb.Append(\"\\\"\"); sb.Append(_{0}.Key); sb.Append(\"\\\"\"); }}", var_name);
-                                break;
-                            case VAR_TYPE.CSTRING:
-                                if (j == 0)
-                                {
-                                    sw.Write("\t\t    sb.Append(\"{\");");
-                                    sw.Write(" sb.Append(\"\\\"{0}\\\":\");", var_name);
-                                    sw.WriteLine(" sb.Append(\"\\\"\"); sb.Append(DES.Encrypt({0})); sb.Append(\"\\\"\");", var_name);
-                                }
-                                else
-                                {
-                                    sw.Write("\t\t\tif (string.IsNullOrEmpty({0}) == false) {{ sb.Append(\",\");", var_name, type_name);
-                                    sw.Write(" sb.Append(\"\\\"{0}\\\":\");", var_name);
-                                    sw.WriteLine(" sb.Append(\"\\\"\"); sb.Append(DES.Encrypt({0})); sb.Append(\"\\\"\"); }}", var_name);
-                                }
+                                sw.WriteLine(" sb.Append(\"\\\"\"); sb.Append(FrameworkUtil.JsonString(_{0}.Key)); sb.Append(\"\\\"\"); }}", var_name);
                                 break;
                             case VAR_TYPE.STRING:
                                 if (j == 0)
                                 {
                                     sw.Write("\t\t    sb.Append(\"{\");");
                                     sw.Write(" sb.Append(\"\\\"{0}\\\":\");", var_name);
-                                    sw.WriteLine(" sb.Append(\"\\\"\"); sb.Append({0}); sb.Append(\"\\\"\");", var_name);
+                                    sw.WriteLine(" sb.Append(\"\\\"\"); sb.Append(FrameworkUtil.JsonString({0})); sb.Append(\"\\\"\");", var_name);
                                 }
                                 else
                                 {
                                     sw.Write("\t\t\tif (string.IsNullOrEmpty({0}) == false) {{ sb.Append(\",\");", var_name, type_name);
                                     sw.Write(" sb.Append(\"\\\"{0}\\\":\");", var_name);
-                                    sw.WriteLine(" sb.Append(\"\\\"\"); sb.Append({0}); sb.Append(\"\\\"\"); }}", var_name);
+                                    sw.WriteLine(" sb.Append(\"\\\"\"); sb.Append(FrameworkUtil.JsonString({0})); sb.Append(\"\\\"\"); }}", var_name);
                                 }
                                 break;
                             case VAR_TYPE.CLASS:

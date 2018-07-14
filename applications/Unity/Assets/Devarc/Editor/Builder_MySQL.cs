@@ -20,35 +20,152 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 namespace Devarc
 {
     class Builder_MySQL : Builder_Base, IDisposable
     {
+        string FileName;
+        string OutDir;
+        string OutSchemaPath;
+        string OutDataPath;
+        Dictionary<string, TextWriter> mWriters = new Dictionary<string, TextWriter>();
+
         public void Dispose()
         {
         }
 
-        void Callback_Header(string _sheetName, PropTable _prop)
+        public void Build_ExcelFile(string _inFilePath, string _outDir)
+        {
+            dataFileType = SCHEMA_TYPE.EXCEL;
+            this.FileName = GetClassNameEx(_inFilePath);
+            this.OutDir = _outDir;
+            this.OutSchemaPath = Path.Combine(_outDir, this.FileName + ".schema.mysql");
+            this.OutDataPath = Path.Combine(_outDir, this.FileName + ".data.mysql");
+
+            if (File.Exists(_inFilePath) == false)
+            {
+                Log.Info("Cannot find file: " + _inFilePath);
+                return;
+            }
+            if (File.Exists(_inFilePath) == false)
+            {
+                Log.Info("Cannot find file: " + _inFilePath);
+                return;
+            }
+
+            _build(_inFilePath);
+        }
+
+        public void Build_SheetFile(string _inFilePath, string _outDir)
+        {
+            dataFileType = SCHEMA_TYPE.SHEET;
+            this.FileName = GetClassNameEx(_inFilePath);
+            this.OutDir = _outDir;
+            this.OutSchemaPath = Path.Combine(_outDir, this.FileName + ".schema.mysql");
+            this.OutDataPath = Path.Combine(_outDir, this.FileName + ".data.mysql");
+
+            if (Directory.Exists(_outDir) == false)
+            {
+                if (Directory.CreateDirectory(_outDir) == null)
+                {
+                    Log.Info("Cannot find directory: " + _outDir);
+                    return;
+                }
+            }
+            if (File.Exists(_inFilePath) == false)
+            {
+                Log.Info("Cannot find file: " + _inFilePath);
+                return;
+            }
+
+            _build(_inFilePath);
+        }
+
+
+        void _build(string _inFilePath)
+        {
+            using (BaseSchemaReader reader1 = _createReader())
+            {
+                reader1.RegisterCallback_Table(Callback_Table);
+                reader1.RegisterCallback_Data(Callback_Data);
+                reader1.ReadFile(_inFilePath);
+            }
+            var enumer = mWriters.GetEnumerator();
+            while(enumer.MoveNext())
+            {
+                enumer.Current.Value.Close();
+            }
+            mWriters.Clear();
+        }
+
+        void Callback_Table(string _sheetName, PropTable _prop)
         {
             if (_prop.KeyIndex < 0)
                 return;
+
+            string filePath = Path.Combine(OutDir, GetClassName(_sheetName) + ".schema.mysql");
+            TextWriter sw = new StreamWriter(filePath, false);
+
             string tableName = GetClassName(_sheetName);
             StringBuilder sb = new StringBuilder();
-            sb.Append(string.Format("DROP TABLE IF EXISTS {0};", tableName));
+            sb.Append(string.Format("DROP TABLE IF EXISTS {0};\r\n", tableName));
             sb.Append("CREATE TABLE ");
             sb.Append(tableName);
             for (int i = 0; i < _prop.Length; i++)
             {
                 if (i == 0)
-                    sb.Append(" (\n\t");
+                    sb.Append(" (\r\n\t");
                 else
-                    sb.Append(",\n\t");
-                sb.Append(string.Format("{0} varchar(50) NOT NULL", _prop.GetVarName(i)));
+                    sb.Append(",\r\n\t");
+                sb.Append(string.Format("`{0}` varchar(50) NOT NULL", _prop.GetVarName(i)));
                 if (_prop.KeyIndex == i)
                     sb.Append(" PRIMARY KEY");
             }
+            sb.Append("\r\n ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;");
+            sw.WriteLine(sb.ToString());
+            sw.Close();
+        }
+
+        void Callback_Data(string _sheetName, PropTable _prop)
+        {
+            if (_prop.KeyIndex < 0)
+                return;
+
+            string tableName = GetClassName(_sheetName);
+            TextWriter tw;
+            if (mWriters.TryGetValue(tableName, out tw) == false)
+            {
+                string filePath = Path.Combine(OutDir, tableName + ".data.mysql");
+                tw = new StreamWriter(filePath, false);
+                mWriters.Add(tableName, tw);
+                tw.WriteLine("truncate {0};\r\n", tableName);
+            }
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append(string.Format("insert into {0}", tableName));
+            for (int i = 0; i < _prop.Length; i++)
+            {
+                if (i == 0)
+                    sb.Append(" (");
+                else
+                    sb.Append(" ,");
+                sb.Append(string.Format("`{0}`", _prop.GetVarName(i)));
+            }
+            sb.Append(")\r\n VALUES");
+            for (int i = 0; i < _prop.Length; i++)
+            {
+                if (i == 0)
+                    sb.Append(" (");
+                else
+                    sb.Append(" ,");
+                sb.Append(string.Format("'{0}'", FrameworkUtil.InnerString(_prop.GetStr(i))));
+            }
             sb.Append(");");
+            tw.WriteLine(sb.ToString());
+
+            //tw.WriteLine("insert into {0} (`key`, `data`) VALUES ('{1}', '{2}');", tableName, _prop.GetStr(_prop.KeyIndex), FrameworkUtil.InnerString(_prop.ToJson()));
         }
     }
 }

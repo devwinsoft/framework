@@ -47,6 +47,28 @@ namespace TestServer
         private void button_start_Click(object sender, EventArgs e)
         {
             TestServer server = TestServer.Instance;
+
+            try
+            {
+                using (MySQL_Session session = new MySQL_Session())
+                {
+                    session.Open("localhost", 3306, "game", "maoshy", "9536");
+                    MySQL_Reader reader = session.Execute_Reader("select * from DataCharacter;");
+                    while (reader.Read())
+                    {
+                        DataCharacter obj = new DataCharacter();
+                        LitJson.JsonData data = LitJson.JsonMapper.ToObject(reader.GetString("data"));
+                        obj.Initialize(data);
+                        Log.Info(obj.ToJson());
+                    }
+                    session.Close();
+                }
+            }
+            catch(Exception ex)
+            {
+                Log.Error(ex.Message);
+            }
+
             switch (server.State)
             {
                 case ServerState.NotInitialized:

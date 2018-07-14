@@ -13,6 +13,7 @@ namespace Devarc
     {
         IDataReader mReader = null;
         Dictionary<string, int> mKeys = new Dictionary<string, int>();
+        int mRowCount = 0;
 
         private MySQL_Reader()
         {
@@ -48,10 +49,14 @@ namespace Devarc
                 }
                 if (mReader.Read())
                 {
-                    for (int i = 0; i < mReader.FieldCount; i++)
+                    if (mRowCount == 0)
                     {
-                        mKeys.Add(mReader.GetName(i), i);
+                        for (int i = 0; i < mReader.FieldCount; i++)
+                        {
+                            mKeys.Add(mReader.GetName(i), i);
+                        }
                     }
+                    mRowCount++;
                     return true;
                 }
                 return false;

@@ -71,11 +71,18 @@ namespace Devarc
             return sb.ToString();
         }
 
+        public static string JsonString(string _value)
+        {
+            if (string.IsNullOrEmpty(_value))
+                return string.Empty;
+            return _value.Replace("\\", "\\\\").Replace("\"", "\\\"");
+        }
+
         public static string InnerString(string _value)
         {
             if (string.IsNullOrEmpty(_value))
                 return string.Empty;
-            return _value.Replace("'", "''").Replace("\\", "\\\\");
+            return _value.Replace("'", "''").Replace("\\", "\\\\").Replace("\"", "\\\"");
         }
 
         public static string InnerString(List<string> _list)

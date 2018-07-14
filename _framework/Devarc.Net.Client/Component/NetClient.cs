@@ -113,9 +113,8 @@ namespace Devarc
             return 0;
         }
 
-        public void Init(IProxyBase proxy, IStubBase stub)
+        public void InitStub(IStubBase stub)
         {
-            proxy.Init(this);
             this.OnReceiveData += stub.OnReceiveData;
         }
 

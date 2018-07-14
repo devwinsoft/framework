@@ -21,8 +21,8 @@ namespace TestClient
         public TestClient()
         {
             ms_Instance = this;
-
-            this.Init(proxy, stub);
+            proxy.Init(this);
+            this.InitStub(stub);
         }
 
         protected override void OnConnected()

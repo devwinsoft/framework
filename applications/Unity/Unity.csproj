@@ -253,18 +253,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Devarc\_GeneratedCode\C2S.cs" />
-    <Compile Include="Assets\Devarc\_GeneratedCode\Class_Examples.cs" />
-    <Compile Include="Assets\Devarc\_GeneratedCode\Class_LString.cs" />
-    <Compile Include="Assets\Devarc\_GeneratedCode\Class_LStringEx.cs" />
-    <Compile Include="Assets\Devarc\_GeneratedCode\Class_TestSchema.cs" />
-    <Compile Include="Assets\Devarc\_GeneratedCode\Marshaler.Read.cs" />
-    <Compile Include="Assets\Devarc\_GeneratedCode\Marshaler.Write.cs" />
-    <Compile Include="Assets\Devarc\_GeneratedCode\S2C.cs" />
-    <Compile Include="Assets\Devarc\_GeneratedCode\S2S.cs" />
-    <Compile Include="Assets\Devarc\_GeneratedCode\Table.cs" />
-    <Compile Include="Assets\Devarc\_GeneratedCode\Table_LString.cs" />
-    <Compile Include="Assets\Devarc\_GeneratedCode\Table_TestSchema.cs" />
+    <Compile Include="Assets\Devarc\_Generated_Code\C2S.cs" />
+    <Compile Include="Assets\Devarc\_Generated_Code\Class_Examples.cs" />
+    <Compile Include="Assets\Devarc\_Generated_Code\Class_LString.cs" />
+    <Compile Include="Assets\Devarc\_Generated_Code\Class_LStringEx.cs" />
+    <Compile Include="Assets\Devarc\_Generated_Code\Class_TestSchema.cs" />
+    <Compile Include="Assets\Devarc\_Generated_Code\Marshaler.Read.cs" />
+    <Compile Include="Assets\Devarc\_Generated_Code\Marshaler.Write.cs" />
+    <Compile Include="Assets\Devarc\_Generated_Code\S2C.cs" />
+    <Compile Include="Assets\Devarc\_Generated_Code\S2S.cs" />
+    <Compile Include="Assets\Devarc\_Generated_Code\Table.cs" />
+    <Compile Include="Assets\Devarc\_Generated_Code\Table_LString.cs" />
+    <Compile Include="Assets\Devarc\_Generated_Code\Table_TestSchema.cs" />
     <Compile Include="Assets\Devarc\Component\Base\BaseSchemaReader.cs" />
     <Compile Include="Assets\Devarc\Component\Base\Container.cs" />
     <Compile Include="Assets\Devarc\Component\Base\Contents.cs" />

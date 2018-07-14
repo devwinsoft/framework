@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="Component\Builder_Base.cs" />
     <Compile Include="Component\Builder_MySQL.cs" />
+    <Compile Include="Component\Builder_SQL.cs" />
     <Compile Include="Component\SchemaReader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Component\Builder_Data.cs" />

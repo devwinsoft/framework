@@ -67,7 +67,7 @@ namespace TestServer
 
             using (PlayerData.LIST.WRITE_LOCK())
             {
-                PlayerData.LIST.Free1(session.Hid);
+                PlayerData.LIST.Free(session.Hid);
             }
 
             base.OnSessionClosed(session, reason);

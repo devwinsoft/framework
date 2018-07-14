@@ -41,9 +41,9 @@ namespace Devarc
             Close();
         }
 
-        public bool Open(string _host, string _database, string _user, string _passwd)
+        public bool Open(string _host, int _port, string _database, string _user, string _passwd)
         {
-            string connStr = string.Format("Server={0};Database={1};Uid={2};Pwd={3};", _host, _database, _user, _passwd);
+            string connStr = string.Format("Server={0};Port={1};Database={2};Uid={3};Pwd={4};SslMode=none;", _host, _port, _database, _user, _passwd);
             try
             {
                 mConnection = new MySqlConnection(connStr);
@@ -73,6 +73,21 @@ namespace Devarc
                 Log.Error(ex.Message);
                 return false;
             }
+        }
+
+        public bool Lock_Read(string _tableName)
+        {
+            return Execute_NonQuery(string.Format("LOCK TABLES {0} READ;", _tableName));
+        }
+
+        public bool Lock_Write(string _tableName)
+        {
+            return Execute_NonQuery(string.Format("LOCK TABLES {0} WRITE;", _tableName));
+        }
+
+        public bool UnLock(string _tableName)
+        {
+            return Execute_NonQuery("UNLOCK TABLES;");
         }
 
         public bool Begin_Transaction()
