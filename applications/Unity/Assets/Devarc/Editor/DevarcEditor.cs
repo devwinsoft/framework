@@ -41,10 +41,8 @@ public class DevarcEditor : EditorWindow
     bool showStrInput = false;
     List<string> backupStrInput = new List<string>();
 
-
     bool showSQLiteConfig = true;
     bool[] showSQLiteItem = new bool[32];
-    List<BuildData> backupSQLite = new List<BuildData>();
 
     void OnEnable()
     {
@@ -271,76 +269,6 @@ public class DevarcEditor : EditorWindow
             Builder_Localize util = new Builder_Localize();
             util.BuildDataFile(SCHEMA_TYPE.JSON, config.inDataFiles, config.outDataTables);
             EditorUtility.DisplayDialog("Make Json Files", "Build Completed.", "Success");
-        }
-
-        GUILayout.Space(20f);
-
-        showSQLiteConfig = EditorGUILayout.Foldout(showDataConfig, "Generate SQLite");
-        EditorGUI.indentLevel++;
-        if (showSQLiteConfig)
-        {
-            if (config.dataSQLite == null)
-            {
-                config.dataSQLite = new BuildData[0];
-            }
-
-            int newDataCount = EditorGUILayout.IntField("Config Count", config.dataSQLite.Length);
-            if (newDataCount != config.dataSQLite.Length)
-            {
-                config.dataSQLite = resize<BuildData>(config.dataSQLite, backupSQLite, newDataCount);
-                EditorUtility.SetDirty(config);
-            }
-
-            for (int a = 0; a < config.dataSQLite.Length; a++)
-            {
-                if (config.dataSQLite[a] == null)
-                    config.dataSQLite[a] = new BuildData();
-                BuildData data = config.dataSQLite[a];
-
-                showSQLiteItem[a] = EditorGUILayout.Foldout(showSQLiteItem[a], string.Format("Config-{0}", a));
-                if (showSQLiteItem[a] == false)
-                    continue;
-
-                EditorGUI.indentLevel++;
-                int newFileCount = EditorGUILayout.IntField("Input Count", data.inFiles.Length);
-                if (newFileCount != data.inFiles.Length)
-                {
-                    data.inFiles = resize<string>(data.inFiles, data.backupFiles, newFileCount);
-                    EditorUtility.SetDirty(config);
-                }
-                EditorGUI.indentLevel++;
-                for (int b = 0; b < data.inFiles.Length; b++)
-                {
-                    data.inFiles[b] = EditorGUILayout.TextField(string.Format("Input-{0}", b), data.inFiles[b]);
-                }
-                EditorGUI.indentLevel--;
-                data.outFile = EditorGUILayout.TextField("Output Path", data.outFile);
-
-                EditorGUI.indentLevel--;
-            }
-        }
-        EditorGUI.indentLevel--;
-
-        tempRect = GUILayoutUtility.GetAspectRect(position.width / 18f);
-        tempRect.xMin = 20f;
-        tempRect.xMax = position.width - 20f;
-        if (GUI.Button(tempRect, "Generate SQLite"))
-        {
-            for (int a = 0; a < config.dataSQLite.Length; a++)
-            {
-                BuildData data = config.dataSQLite[a];
-                string dbPath = Path.Combine(Application.dataPath, data.outFile);
-                using (Builder_SQLite builder = new Builder_SQLite(dbPath))
-                {
-                    for (int b = 0; b < data.inFiles.Length; b++)
-                    {
-                        string filePath = Path.Combine(Application.dataPath, data.inFiles[b]);
-                        builder.Build(filePath);
-                    }
-                    builder.Commit();
-                }
-            }
-            EditorUtility.DisplayDialog("Generate SQLite", "Build Completed.", "Success");
         }
 
         GUILayout.EndScrollView();

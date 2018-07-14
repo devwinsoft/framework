@@ -41,6 +41,14 @@ namespace Devarc
                     else
                         builder2.Build_ExcelFile(args[1], Path.GetDirectoryName(args[1]));
                 }
+                else if (args.Contains<string>("-sqlite"))
+                {
+                    Builder_SQLite builder = new Builder_SQLite();
+                    if (args.Length > 2)
+                        builder.Build_ExcelFile(args[1], args[2]);
+                    else
+                        builder.Build_ExcelFile(args[1], Path.GetDirectoryName(args[1]));
+                }
                 else if (args.Contains<string>("-sql"))
                 {
                     Builder_SQL builder3 = new Builder_SQL();

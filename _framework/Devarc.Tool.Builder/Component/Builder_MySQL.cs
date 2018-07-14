@@ -28,12 +28,21 @@ namespace Devarc
     {
         string FileName;
         string OutDir;
-        string OutSchemaPath;
-        string OutDataPath;
         Dictionary<string, TextWriter> mWriters = new Dictionary<string, TextWriter>();
 
         public void Dispose()
         {
+            Clear();
+        }
+
+        public void Clear()
+        {
+            var enumer = mWriters.GetEnumerator();
+            while (enumer.MoveNext())
+            {
+                enumer.Current.Value.Close();
+            }
+            mWriters.Clear();
         }
 
         public void Build_ExcelFile(string _inFilePath, string _outDir)
@@ -41,8 +50,6 @@ namespace Devarc
             dataFileType = SCHEMA_TYPE.EXCEL;
             this.FileName = GetClassNameEx(_inFilePath);
             this.OutDir = _outDir;
-            this.OutSchemaPath = Path.Combine(_outDir, this.FileName + ".schema.mysql");
-            this.OutDataPath = Path.Combine(_outDir, this.FileName + ".data.mysql");
 
             if (File.Exists(_inFilePath) == false)
             {
@@ -63,8 +70,6 @@ namespace Devarc
             dataFileType = SCHEMA_TYPE.SHEET;
             this.FileName = GetClassNameEx(_inFilePath);
             this.OutDir = _outDir;
-            this.OutSchemaPath = Path.Combine(_outDir, this.FileName + ".schema.mysql");
-            this.OutDataPath = Path.Combine(_outDir, this.FileName + ".data.mysql");
 
             if (Directory.Exists(_outDir) == false)
             {
@@ -92,12 +97,7 @@ namespace Devarc
                 reader1.RegisterCallback_Data(Callback_Data);
                 reader1.ReadFile(_inFilePath);
             }
-            var enumer = mWriters.GetEnumerator();
-            while(enumer.MoveNext())
-            {
-                enumer.Current.Value.Close();
-            }
-            mWriters.Clear();
+            Clear();
         }
 
         void Callback_Table(string _sheetName, PropTable _prop)
@@ -105,7 +105,7 @@ namespace Devarc
             if (_prop.KeyIndex < 0)
                 return;
 
-            string filePath = Path.Combine(OutDir, GetClassName(_sheetName) + ".schema.mysql");
+            string filePath = Path.Combine(OutDir, GetClassName(_sheetName) + ".schema.sql");
             TextWriter sw = new StreamWriter(filePath, false);
 
             string tableName = GetClassName(_sheetName);
@@ -137,7 +137,7 @@ namespace Devarc
             TextWriter tw;
             if (mWriters.TryGetValue(tableName, out tw) == false)
             {
-                string filePath = Path.Combine(OutDir, tableName + ".data.mysql");
+                string filePath = Path.Combine(OutDir, tableName + ".data.sql");
                 tw = new StreamWriter(filePath, false);
                 mWriters.Add(tableName, tw);
                 tw.WriteLine("truncate {0};\r\n", tableName);
@@ -164,8 +164,6 @@ namespace Devarc
             }
             sb.Append(");");
             tw.WriteLine(sb.ToString());
-
-            //tw.WriteLine("insert into {0} (`key`, `data`) VALUES ('{1}', '{2}');", tableName, _prop.GetStr(_prop.KeyIndex), FrameworkUtil.InnerString(_prop.ToJson()));
         }
     }
 }

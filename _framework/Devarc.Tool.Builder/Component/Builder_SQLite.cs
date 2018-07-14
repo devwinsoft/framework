@@ -31,27 +31,77 @@ namespace Devarc
 {
     class Builder_SQLite : Builder_Base, IDisposable
     {
-        SQLite_Session mSession = new SQLite_Session();
-
-        private Builder_SQLite()
-        {
-        }
-
-        public Builder_SQLite(string _databasePath)
-        {
-            mSession.Open(_databasePath);
-            mSession.Begin_Transaction();
-        }
-
-        public void Commit()
-        {
-            mSession.Commit();
-            mSession.Close();
-        }
+        string FileName;
+        string OutDir;
+        Dictionary<string, TextWriter> mWriters = new Dictionary<string, TextWriter>();
 
         public void Dispose()
         {
-            Commit();
+            Clear();
+        }
+
+        public void Clear()
+        {
+            var enumer = mWriters.GetEnumerator();
+            while (enumer.MoveNext())
+            {
+                enumer.Current.Value.Close();
+            }
+            mWriters.Clear();
+        }
+
+        public void Build_ExcelFile(string _inFilePath, string _outDir)
+        {
+            dataFileType = SCHEMA_TYPE.EXCEL;
+            this.FileName = GetClassNameEx(_inFilePath);
+            this.OutDir = _outDir;
+
+            if (File.Exists(_inFilePath) == false)
+            {
+                Log.Info("Cannot find file: " + _inFilePath);
+                return;
+            }
+            if (File.Exists(_inFilePath) == false)
+            {
+                Log.Info("Cannot find file: " + _inFilePath);
+                return;
+            }
+
+            _build(_inFilePath);
+        }
+
+        public void Build_SheetFile(string _inFilePath, string _outDir)
+        {
+            dataFileType = SCHEMA_TYPE.SHEET;
+            this.FileName = GetClassNameEx(_inFilePath);
+            this.OutDir = _outDir;
+
+            if (Directory.Exists(_outDir) == false)
+            {
+                if (Directory.CreateDirectory(_outDir) == null)
+                {
+                    Log.Info("Cannot find directory: " + _outDir);
+                    return;
+                }
+            }
+            if (File.Exists(_inFilePath) == false)
+            {
+                Log.Info("Cannot find file: " + _inFilePath);
+                return;
+            }
+
+            _build(_inFilePath);
+        }
+
+        void _build(string _inFilePath)
+        {
+            using (BaseSchemaReader reader1 = _createReader())
+            {
+                reader1.RegisterCallback_Table(Callback_Table);
+                reader1.RegisterCallback_Data(Callback_Data);
+                reader1.ReadFile(_inFilePath);
+            }
+            Clear();
         }
 
         public bool Build(string _filePath)
@@ -72,43 +122,57 @@ namespace Devarc
 
             using (BaseSchemaReader reader1 = _createReader())
             {
-                reader1.RegisterCallback_Table(Callback_Header);
+                reader1.RegisterCallback_Table(Callback_Table);
                 reader1.RegisterCallback_Data(Callback_Data);
                 reader1.ReadFile(_filePath);
             }
             return true;
         }
 
-        void Callback_Header(string _sheetName, PropTable _prop)
+        void Callback_Table(string _sheetName, PropTable _prop)
         {
             if (_prop.KeyIndex < 0)
                 return;
-            string tableName = GetClassName(_sheetName);
-            mSession.Execute_NonQuery(string.Format("DROP TABLE IF EXISTS {0};", tableName));
 
+            string filePath = Path.Combine(OutDir, GetClassName(_sheetName) + ".schema.sql");
+            TextWriter tw = new StreamWriter(filePath, false);
+
+            string tableName = GetClassName(_sheetName);
             StringBuilder sb = new StringBuilder();
+            sb.Append(string.Format("DROP TABLE IF EXISTS {0};\r\n", tableName));
+
             sb.Append("CREATE TABLE ");
             sb.Append(tableName);
             for (int i = 0; i < _prop.Length; i++)
             {
                 if (i == 0)
-                    sb.Append(" (\n\t");
+                    sb.Append(" (\r\n\t");
                 else
-                    sb.Append(",\n\t");
+                    sb.Append(",\r\n\t");
                 sb.Append(string.Format("{0} TEXT NOT NULL", _prop.GetVarName(i)));
                 if (_prop.KeyIndex == i)
                     sb.Append(" PRIMARY KEY");
             }
-            sb.Append(");");
-
-            mSession.Execute_NonQuery(sb.ToString());
+            sb.Append("\r\n);");
+            tw.WriteLine(sb.ToString());
+            tw.Close();
         }
 
         void Callback_Data(string _sheetName, PropTable _prop)
         {
             if (_prop.KeyIndex < 0)
                 return;
+
             string tableName = GetClassName(_sheetName);
+            TextWriter tw;
+            if (mWriters.TryGetValue(tableName, out tw) == false)
+            {
+                string filePath = Path.Combine(OutDir, tableName + ".data.sql");
+                tw = new StreamWriter(filePath, false);
+                mWriters.Add(tableName, tw);
+                tw.WriteLine("delete from {0};\r\n", tableName);
+            }
+
             StringBuilder sb = new StringBuilder();
             sb.Append("INSERT INTO ");
             sb.Append(tableName);
@@ -133,13 +197,12 @@ namespace Devarc
                         sb.Append("''");
                         break;
                     default:
-                        string tempStr = _prop.GetStr(i).Replace("\'", "\'\'");
-                        sb.Append(string.Format("'{0}'", tempStr));
+                        sb.Append(string.Format("'{0}'", FrameworkUtil.InnerString(_prop.GetStr(i))));
                         break;
                 }
             }
             sb.Append(");");
-            mSession.Execute_NonQuery(sb.ToString());
+            tw.WriteLine(sb.ToString());
         }
     }
 }

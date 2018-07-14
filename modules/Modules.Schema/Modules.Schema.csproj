@@ -61,20 +61,24 @@
       <Name>Devarc.Base.Net45</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="_Generated_SQLite\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="_Generated_MySQL\DataCharacter.data.mysql" />
-    <None Include="_Generated_MySQL\DataCharacter.schema.mysql" />
-    <None Include="_Generated_MySQL\DIRECTION.data.mysql" />
-    <None Include="_Generated_MySQL\DIRECTION.schema.mysql" />
-    <None Include="_Generated_MySQL\MESSAGE.data.mysql" />
-    <None Include="_Generated_MySQL\MESSAGE.schema.mysql" />
-    <None Include="_Generated_MySQL\UNIT.data.mysql" />
-    <None Include="_Generated_MySQL\UNIT.schema.mysql" />
-  </ItemGroup>
-  <ItemGroup>
+    <Content Include="_Generated_MySQL\DataCharacter.data.sql" />
+    <Content Include="_Generated_MySQL\DataCharacter.schema.sql" />
+    <Content Include="_Generated_MySQL\DIRECTION.data.sql" />
+    <Content Include="_Generated_MySQL\DIRECTION.schema.sql" />
+    <Content Include="_Generated_MySQL\MESSAGE.data.sql" />
+    <Content Include="_Generated_MySQL\MESSAGE.schema.sql" />
+    <Content Include="_Generated_MySQL\UNIT.data.sql" />
+    <Content Include="_Generated_MySQL\UNIT.schema.sql" />
+    <Content Include="_Generated_SQLite\DataCharacter.data.sql" />
+    <Content Include="_Generated_SQLite\DataCharacter.schema.sql" />
+    <Content Include="_Generated_SQLite\DIRECTION.data.sql" />
+    <Content Include="_Generated_SQLite\DIRECTION.schema.sql" />
+    <Content Include="_Generated_SQLite\MESSAGE.data.sql" />
+    <Content Include="_Generated_SQLite\MESSAGE.schema.sql" />
+    <Content Include="_Generated_SQLite\UNIT.data.sql" />
+    <Content Include="_Generated_SQLite\UNIT.schema.sql" />
     <Content Include="_Generated_SQL\DataCharacter.data.sql" />
     <Content Include="_Generated_SQL\DataCharacter.schema.sql" />
     <Content Include="_Generated_SQL\DIRECTION.data.sql" />

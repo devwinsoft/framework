@@ -3,15 +3,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-[Serializable]
-public class BuildData : System.Object
-{
-    public string[] inFiles = new string[0];
-    public string outFile = "";
+//[Serializable]
+//public class BuildData : System.Object
+//{
+//    public string[] inFiles = new string[0];
+//    public string outFile = "";
 
-    [NonSerialized]
-    public List<string> backupFiles = new List<string>();
-}
+//    [NonSerialized]
+//    public List<string> backupFiles = new List<string>();
+//}
 
 
 public class BuilderSaveData : ScriptableObject
@@ -24,6 +24,4 @@ public class BuilderSaveData : ScriptableObject
 
     public string[] inDataFiles = new string[0];
     public string[] outDataTables = new string[0];
-
-    public BuildData[] dataSQLite = new BuildData[0];
 }
