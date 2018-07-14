@@ -5,7 +5,7 @@ set MODULE=..\modules
 set UNITY=..\applications\Unity\Assets
 
 %IDL% -idl %SRC%				%TMPDIR%
-xcopy      %TMPDIR%\*.cs		%UNITY%\Devarc\_GeneratedCode\ /Y
-move       %TMPDIR%\*.cs		%MODULE%\Modules.Protocol.Client\_GeneratedCode\
+xcopy      %TMPDIR%\*.cs		%UNITY%\Devarc\_Generated_Code\ /Y
+move       %TMPDIR%\*.cs		%MODULE%\Modules.Protocol.Client\_Generated_Code\
 
 pause

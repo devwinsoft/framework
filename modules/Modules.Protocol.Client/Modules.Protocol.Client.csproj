@@ -44,8 +44,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="_GeneratedCode\C2S.cs" />
-    <Compile Include="_GeneratedCode\S2C.cs" />
+    <Compile Include="_Generated_Code\C2S.cs" />
+    <Compile Include="_Generated_Code\S2C.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\_framework\Devarc.Base\Devarc.Base.Net45.csproj">

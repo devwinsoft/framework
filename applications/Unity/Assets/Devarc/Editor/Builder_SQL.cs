@@ -116,8 +116,8 @@ namespace Devarc
             sb.Append(tableName);
             sb.Append(" (\r\n");
             sb.Append("\t`key` varchar(256) NOT NULL PRIMARY KEY,\r\n");
-            sb.Append("\t`data` varchar(4096) NOT NULL\r\n");
-            sb.Append(" ) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;");
+            sb.Append(string.Format("\t`data` varchar({0}) NOT NULL\r\n", _prop.GetDBSize()));
+            sb.Append(" ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;");
             tw.WriteLine(sb.ToString());
             tw.Close();
         }

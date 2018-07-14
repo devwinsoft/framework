@@ -282,12 +282,6 @@ namespace Devarc
                             else
                                 sw.WriteLine("\t\tpublic {0,-20}{1};", "Int64", var_name);
                             break;
-                        case VAR_TYPE.HOST_ID:
-                            if (is_list)
-                                sw.WriteLine("\t\tpublic List<{0}> {1} = new List<{0}>();", "HostID", var_name);
-                            else
-                                sw.WriteLine("\t\tpublic {0,-20}{1};", "HostID", var_name);
-                            break;
                         case VAR_TYPE.FLOAT:
                             if (is_list)
                                 sw.WriteLine("\t\tpublic List<{0}> {1} = new List<{0}>();", "float", var_name);
@@ -392,7 +386,6 @@ namespace Devarc
                             case VAR_TYPE.BOOL:
                             case VAR_TYPE.ENUM:
                             case VAR_TYPE.FLOAT:
-                            case VAR_TYPE.HOST_ID:
                             case VAR_TYPE.INT16:
                             case VAR_TYPE.INT32:
                             case VAR_TYPE.INT64:
@@ -546,12 +539,6 @@ namespace Devarc
                             else
                                 sw.WriteLine("\t\t\t{0,-20}= obj.GetInt64(\"{0}\");", var_name);
                             break;
-                        case VAR_TYPE.HOST_ID:
-                            if (is_list)
-                                sw.WriteLine("\t\t\tobj.GetList<HostID>(\"{0}\", {0});", var_name);
-                            else
-                                sw.WriteLine("\t\t\t{0,-20}= (HostID)obj.GetInt16(\"{0}\");", var_name);
-                            break;
                         case VAR_TYPE.FLOAT:
                             if (is_list)
                                 sw.WriteLine("\t\t\tobj.GetList<float>(\"{0}\", {0});", var_name);
@@ -627,7 +614,6 @@ namespace Devarc
                                 sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) bool.TryParse(obj[\"{0}\"].ToString(), out {0}); else {0} = default(bool);", var_name);
                             break;
                         case VAR_TYPE.INT16:
-                        case VAR_TYPE.HOST_ID:
                             if (is_list)
                                 sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) foreach (JsonData node in obj[\"{0}\"]) {{ {0}.Add(Convert.ToInt16(node.ToString())); }}", var_name);
                             else
@@ -746,14 +732,6 @@ namespace Devarc
                             }
                             else
                                 sw.WriteLine("\t\t\t{0,-20}= obj.GetInt64(\"{0}\");", var_name);
-                            break;
-                        case VAR_TYPE.HOST_ID:
-                            if (is_list)
-                            {
-                                sw.WriteLine("\t\t\tstring __{0} = obj.GetString(\"{0}\"); {0}.Clear(); if (!string.IsNullOrEmpty(__{0})) foreach (JsonData node in JsonMapper.ToObject(__{0})) {{ {0}.Add(Convert.ToInt16(node.ToString())); }};", var_name);
-                            }
-                            else
-                                sw.WriteLine("\t\t\t{0,-20}= (HostID)obj.GetInt16(\"{0}\");", var_name);
                             break;
                         case VAR_TYPE.FLOAT:
                             if (is_list)
@@ -1059,7 +1037,6 @@ namespace Devarc
                             case VAR_TYPE.INT32:
                             case VAR_TYPE.UINT32:
                             case VAR_TYPE.INT64:
-                            case VAR_TYPE.HOST_ID:
                             case VAR_TYPE.FLOAT:
                                 if (is_list)
                                     sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE_LIST, {2}, {0}.ToString());", var_name, type_name, key_type);
@@ -1122,7 +1099,6 @@ namespace Devarc
                         case VAR_TYPE.INT32:
                         case VAR_TYPE.UINT32:
                         case VAR_TYPE.INT64:
-                        case VAR_TYPE.HOST_ID:
                         case VAR_TYPE.FLOAT:
                         case VAR_TYPE.STRING:
                         case VAR_TYPE.ENUM:
@@ -1182,7 +1158,6 @@ namespace Devarc
                         case VAR_TYPE.INT32:
                         case VAR_TYPE.UINT32:
                         case VAR_TYPE.INT64:
-                        case VAR_TYPE.HOST_ID:
                         case VAR_TYPE.FLOAT:
                         case VAR_TYPE.STRING:
                         case VAR_TYPE.ENUM:
