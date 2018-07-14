@@ -71,6 +71,13 @@ namespace Devarc
             return sb.ToString();
         }
 
+        public static string InnerString_SQLite(string _value)
+        {
+            if (string.IsNullOrEmpty(_value))
+                return string.Empty;
+            return _value.Replace("'", "''");
+        }
+
         public static string JsonString(string _value)
         {
             if (string.IsNullOrEmpty(_value))

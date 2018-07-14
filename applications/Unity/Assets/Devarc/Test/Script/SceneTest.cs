@@ -49,6 +49,7 @@ public class SceneTest : MonoBehaviour
 
         data = Table.T_DataCharacter.GetAt(Table.Session, UNIT.HUMAN_FEMALE);
         data = Table.T_DataCharacter.GetAt(UNIT.DRAGON_BLACK);
+
         Table.Session.Close();
 
         client.Init(proxy, stub);

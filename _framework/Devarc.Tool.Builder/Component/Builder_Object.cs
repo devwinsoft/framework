@@ -723,7 +723,7 @@ namespace Devarc
                                 sw.WriteLine("\t\t\tstring __{0} = obj.GetString(\"{0}\"); {0}.Clear(); if (!string.IsNullOrEmpty(__{0})) foreach (JsonData node in JsonMapper.ToObject(__{0})) {{ {0}.Add(Convert.ToUInt64(node.ToString())); }};", var_name);
                             }
                             else
-                                sw.WriteLine("\t\t\t{0,-20}= (uint)obj.GetUInt32(\"{0}\");", var_name);
+                                sw.WriteLine("\t\t\t{0,-20}= obj.GetUInt32(\"{0}\");", var_name);
                             break;
                         case VAR_TYPE.INT64:
                             if (is_list)

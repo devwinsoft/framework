@@ -33,7 +33,7 @@ namespace Devarc
         IntPtr mStmt = IntPtr.Zero;
         int mReadCount = 0;
         int mColumnCount;
-        Dictionary<string, object> mDataList = new Dictionary<string, object>();
+        Dictionary<string, string> mDataList = new Dictionary<string, string>();
 
         public SQLite_Reader(IntPtr _stmt)
         {
@@ -96,18 +96,18 @@ namespace Devarc
             for (int i = 0; i < mColumnCount; i++)
             {
                 string cName = SQLiteMethods.PtrToString(SQLiteMethods.sqlite3_column_name(mStmt, i));
-                object cValue;
+                string cValue;
                 int columnType = SQLiteMethods.sqlite3_column_type(mStmt, i);
                 switch (columnType)
                 {
                     case (int)FundamentalDatatypes.SQLITE_INTEGER:
                         {
-                            cValue = SQLiteMethods.sqlite3_column_int(mStmt, i);
+                            cValue = SQLiteMethods.sqlite3_column_int(mStmt, i).ToString();
                             break;
                         }
                     case (int)FundamentalDatatypes.SQLITE_FLOAT:
                         {
-                            cValue = SQLiteMethods.sqlite3_column_double(mStmt, i);
+                            cValue = SQLiteMethods.sqlite3_column_double(mStmt, i).ToString();
                             break;
                         }
                     case (int)FundamentalDatatypes.SQLITE_TEXT:
@@ -144,18 +144,18 @@ namespace Devarc
             for (int i = 0; i < columnCount; i++)
             {
                 string cName = SQLiteMethods.PtrToString(SQLiteMethods.sqlite3_column_name(mStmt, i));
-                object cValue;
+                string cValue;
                 int columnType = SQLiteMethods.sqlite3_column_type(mStmt, i);
                 switch (columnType)
                 {
                     case (int)FundamentalDatatypes.SQLITE_INTEGER:
                         {
-                            cValue = SQLiteMethods.sqlite3_column_int(mStmt, i);
+                            cValue = SQLiteMethods.sqlite3_column_int(mStmt, i).ToString();
                             break;
                         }
                     case (int)FundamentalDatatypes.SQLITE_FLOAT:
                         {
-                            cValue = SQLiteMethods.sqlite3_column_double(mStmt, i);
+                            cValue = SQLiteMethods.sqlite3_column_double(mStmt, i).ToString();
                             break;
                         }
                     case (int)FundamentalDatatypes.SQLITE_TEXT:
@@ -179,76 +179,115 @@ namespace Devarc
             return resultType;
         }
 
-        T get<T>(string _name)
+        string get(string _name)
         {
-            try
-            {
-                object value;
-                if (mDataList.TryGetValue(_name, out value))
-                    return (T)value;
-                return default(T);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex.Message);
-                return default(T);
-            }
+            string value;
+            if (mDataList.TryGetValue(_name, out value))
+                return value;
+            return string.Empty;
         }
 
         public bool GetBoolean(string _name)
         {
-            string value = get<string>(_name);
-            switch (value.ToLower())
+            try
             {
-                case "0":
-                case "false":
-                case "f":
-                case "no":
-                case "n":
-                    return false;
-                //case "true":
-                //case "t":
-                //case "yes":
-                //case "y":
-                default:
-                    return true;
+                string value = get(_name);
+                switch (value.ToLower())
+                {
+                    case "0":
+                    case "false":
+                    case "f":
+                    case "no":
+                    case "n":
+                        return false;
+                    //case "true":
+                    //case "t":
+                    //case "yes":
+                    //case "y":
+                    default:
+                        return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                return false;
             }
         }
 
         public short GetInt16(string _name)
         {
-            short value = get<short>(_name);
-            return value;
+            try
+            {
+                string value = get(_name);
+                return short.Parse(value);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                return 0;
+            }
         }
 
         public int GetInt32(string _name)
         {
-            int value = get<int>(_name);
-            return value;
+            try
+            {
+                string value = get(_name);
+                return int.Parse(value);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                return 0;
+            }
         }
 
         public long GetInt64(string _name)
         {
-            long value = get<long>(_name);
-            return value;
+            try
+            {
+                string value = get(_name);
+                return long.Parse(value);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                return 0;
+            }
         }
 
         public uint GetUInt32(string _name)
         {
-            uint value = get<uint>(_name);
-            return value;
+            try
+            {
+                string value = get(_name);
+                return uint.Parse(value);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                return 0;
+            }
         }
 
         public float GetFloat(string _name)
         {
-            float value = get<float>(_name);
-            return value;
+            try
+            {
+                string value = get(_name);
+                return float.Parse(value);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                return 0;
+            }
         }
 
         public string GetString(string _name)
         {
-            string value = get<string>(_name);
-            return value;
+            return get(_name);
         }
     }
 

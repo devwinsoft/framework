@@ -120,7 +120,7 @@ namespace Devarc
 			string __stats = obj.GetString("stats"); stats.Clear(); if (!string.IsNullOrEmpty(__stats)) FrameworkUtil.FillList<DataAbility>(__stats, stats);
 			ability.Initialize(JsonMapper.ToObject(obj.GetString("ability")));
 			string __nodes = obj.GetString("nodes"); nodes.Clear(); if (!string.IsNullOrEmpty(__nodes)) foreach (JsonData node in JsonMapper.ToObject(__nodes)) { nodes.Add(node.ToString()); };
-			unit_uid            = (uint)obj.GetUInt32("unit_uid");
+			unit_uid            = obj.GetUInt32("unit_uid");
 			_specialCode.Key = obj.GetString("specialCode");
 			player_data.Initialize(JsonMapper.ToObject(obj.GetString("player_data")));
 		}

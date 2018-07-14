@@ -149,7 +149,8 @@ namespace Devarc
                     sb.Append(" (\r\n\t");
                 else
                     sb.Append(",\r\n\t");
-                sb.Append(string.Format("{0} TEXT NOT NULL", _prop.GetVarName(i)));
+
+                sb.Append(string.Format("`{0}` TEXT NOT NULL", _prop.GetVarName(i)));
                 if (_prop.KeyIndex == i)
                     sb.Append(" PRIMARY KEY");
             }
@@ -191,15 +192,8 @@ namespace Devarc
                     sb.Append(" (");
                 else
                     sb.Append(", ");
-                switch (_prop.GetVarType(i))
-                {
-                    case VAR_TYPE.LSTRING:
-                        sb.Append("''");
-                        break;
-                    default:
-                        sb.Append(string.Format("'{0}'", FrameworkUtil.InnerString(_prop.GetStr(i))));
-                        break;
-                }
+
+                sb.Append(string.Format("'{0}'", FrameworkUtil.InnerString_SQLite(_prop.GetStr(i))));
             }
             sb.Append(");");
             tw.WriteLine(sb.ToString());
