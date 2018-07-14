@@ -195,6 +195,26 @@ namespace Devarc
             }
         }
 
+        public bool GetBoolean(string _name)
+        {
+            string value = get<string>(_name);
+            switch (value.ToLower())
+            {
+                case "0":
+                case "false":
+                case "f":
+                case "no":
+                case "n":
+                    return false;
+                //case "true":
+                //case "t":
+                //case "yes":
+                //case "y":
+                default:
+                    return true;
+            }
+        }
+
         public short GetInt16(string _name)
         {
             short value = get<short>(_name);

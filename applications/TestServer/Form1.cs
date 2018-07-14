@@ -57,8 +57,9 @@ namespace TestServer
                     while (reader.Read())
                     {
                         DataCharacter obj = new DataCharacter();
-                        LitJson.JsonData data = LitJson.JsonMapper.ToObject(reader.GetString("data"));
-                        obj.Initialize(data);
+                        //LitJson.JsonData data = LitJson.JsonMapper.ToObject(reader.GetString("data"));
+                        //obj.Initialize(data);
+                        obj.Initialize(reader);
                         Log.Info(obj.ToJson());
                     }
                     session.Close();

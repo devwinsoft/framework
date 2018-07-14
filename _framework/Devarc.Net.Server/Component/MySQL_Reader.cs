@@ -11,6 +11,10 @@ namespace Devarc
 {
     public class MySQL_Reader : IBaseReader, IDisposable
     {
+        public bool IsClosed
+        {
+            get { return mReader == null || mReader.IsClosed; }
+        }
         IDataReader mReader = null;
         Dictionary<string, int> mKeys = new Dictionary<string, int>();
         int mRowCount = 0;
@@ -43,7 +47,7 @@ namespace Devarc
 
             try
             {
-                if (mReader == null || mReader.IsClosed)
+                if (IsClosed)
                 {
                     throw new Exception("[MySQL_Reader] Reader is closed.");
                 }
@@ -76,15 +80,78 @@ namespace Devarc
             throw new Exception(string.Format("[MySQL_Reader] Cannot find field name: {0}", _name));
         }
 
+        bool getStringValue(int _index, out string _value)
+        {
+            if (mReader.IsDBNull(_index))
+            {
+                _value = string.Empty;
+                return false;
+            }
+            if (mReader.GetFieldType(_index) == typeof(string))
+            {
+                _value = mReader.GetString(_index);
+                return true;
+            }
+            _value = string.Empty;
+            return false;
+        }
+
+        public bool GetBoolean(string _name)
+        {
+            try
+            {
+                if (IsClosed)
+                {
+                    throw new Exception("[MySQL_Reader] Reader is closed.");
+                }
+                int index = getKey(_name);
+                string value;
+                if (getStringValue(index, out value))
+                {
+                    if (string.IsNullOrEmpty(value))
+                        return default(bool);
+                    switch(value.ToLower())
+                    {
+                        case "0":
+                        case "false":
+                        case "f":
+                        case "no":
+                        case "n":
+                            return false;
+                        //case "true":
+                        //case "t":
+                        //case "yes":
+                        //case "y":
+                        default:
+                            return true;
+                    }
+                }
+                return mReader.GetBoolean(index);
+            }
+            catch (System.Exception ex)
+            {
+                Log.Error(ex.Message);
+                return false;
+            }
+        }
+
         public short GetInt16(string _name)
         {
             try
             {
-                if (mReader == null || mReader.IsClosed)
+                if (IsClosed)
                 {
                     throw new Exception("[MySQL_Reader] Reader is closed.");
                 }
-                return mReader.GetInt16(getKey(_name));
+                int index = getKey(_name);
+                string value;
+                if (getStringValue(index, out value))
+                {
+                    if (string.IsNullOrEmpty(value))
+                        return default(short);
+                    return short.Parse(value);
+                }
+                return mReader.GetInt16(index);
             }
             catch (System.Exception ex)
             {
@@ -97,11 +164,19 @@ namespace Devarc
         {
             try
             {
-                if (mReader == null || mReader.IsClosed)
+                if (IsClosed)
                 {
                     throw new Exception("[MySQL_Reader] Reader is closed.");
                 }
-                return mReader.GetInt32(getKey(_name));
+                int index = getKey(_name);
+                string value;
+                if (getStringValue(index, out value))
+                {
+                    if (string.IsNullOrEmpty(value))
+                        return default(int);
+                    return int.Parse(value);
+                }
+                return mReader.GetInt32(index);
             }
             catch (System.Exception ex)
             {
@@ -114,11 +189,19 @@ namespace Devarc
         {
             try
             {
-                if (mReader == null || mReader.IsClosed)
+                if (IsClosed)
                 {
                     throw new Exception("[MySQL_Reader] Reader is closed.");
                 }
-                return mReader.GetInt64(getKey(_name));
+                int index = getKey(_name);
+                string value;
+                if (getStringValue(index, out value))
+                {
+                    if (string.IsNullOrEmpty(value))
+                        return default(long);
+                    return long.Parse(value);
+                }
+                return mReader.GetInt64(index);
             }
             catch (System.Exception ex)
             {
@@ -131,11 +214,19 @@ namespace Devarc
         {
             try
             {
-                if (mReader == null || mReader.IsClosed)
+                if (IsClosed)
                 {
                     throw new Exception("[MySQL_Reader] Reader is closed.");
                 }
-                return (uint)mReader.GetDecimal(getKey(_name));
+                int index = getKey(_name);
+                string value;
+                if (getStringValue(index, out value))
+                {
+                    if (string.IsNullOrEmpty(value))
+                        return default(uint);
+                    return uint.Parse(value);
+                }
+                return (uint)mReader.GetDecimal(index);
             }
             catch (System.Exception ex)
             {
@@ -148,11 +239,19 @@ namespace Devarc
         {
             try
             {
-                if (mReader == null || mReader.IsClosed)
+                if (IsClosed)
                 {
                     throw new Exception("[MySQL_Reader] Reader is closed.");
                 }
-                return mReader.GetFloat(getKey(_name));
+                int index = getKey(_name);
+                string value;
+                if (getStringValue(index, out value))
+                {
+                    if (string.IsNullOrEmpty(value))
+                        return default(float);
+                    return float.Parse(value);
+                }
+                return mReader.GetFloat(index);
             }
             catch (System.Exception ex)
             {
@@ -165,11 +264,17 @@ namespace Devarc
         {
             try
             {
-                if (mReader == null || mReader.IsClosed)
+                if (IsClosed)
                 {
                     throw new Exception("[MySQL_Reader] Reader is closed.");
                 }
-                return mReader.GetString(getKey(_name));
+                int index = getKey(_name);
+                string value;
+                if (getStringValue(index, out value))
+                {
+                    return value;
+                }
+                return string.Empty;
             }
             catch (System.Exception ex)
             {

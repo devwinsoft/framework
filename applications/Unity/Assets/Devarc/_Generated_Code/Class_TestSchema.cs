@@ -9,6 +9,7 @@ namespace Devarc
 	public partial class DataCharacter : IBaseObejct<UNIT>
 	{
 		public UNIT                unit_type;
+		public bool                show;
 		public string              name { get { return Table.T_LString.GetAt(_name.Key); } }
 		LString             _name = new LString();
 		public List<UNIT> items = new List<UNIT>();
@@ -38,13 +39,14 @@ namespace Devarc
 		public string GetQuery_InsertOrUpdate()
 		{
 			PropTable obj = ToTable();
-			return string.Format("insert into DataCharacter (`unit_type`, `name`, `items`, `stats`, `ability`, `nodes`, `unit_uid`, `specialCode`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}') on duplicate key update `unit_type`='{0}', `name`='{1}', `items`='{2}', `stats`='{3}', `ability`='{4}', `nodes`='{5}', `unit_uid`='{6}', `specialCode`='{7}';", obj.GetStr("unit_type"), FrameworkUtil.InnerString(obj.GetStr("name")), obj.GetStr("items"), FrameworkUtil.InnerString(obj.GetStr("stats")), FrameworkUtil.InnerString(obj.GetStr("ability")), FrameworkUtil.InnerString(obj.GetStr("nodes")), obj.GetStr("unit_uid"), FrameworkUtil.InnerString(obj.GetStr("specialCode")));
+			return string.Format("insert into DataCharacter (`unit_type`, `show`, `name`, `items`, `stats`, `ability`, `nodes`, `unit_uid`, `specialCode`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}') on duplicate key update `unit_type`='{0}', `show`='{1}', `name`='{2}', `items`='{3}', `stats`='{4}', `ability`='{5}', `nodes`='{6}', `unit_uid`='{7}', `specialCode`='{8}';", obj.GetStr("unit_type"), obj.GetStr("show"), FrameworkUtil.InnerString(obj.GetStr("name")), obj.GetStr("items"), FrameworkUtil.InnerString(obj.GetStr("stats")), FrameworkUtil.InnerString(obj.GetStr("ability")), FrameworkUtil.InnerString(obj.GetStr("nodes")), obj.GetStr("unit_uid"), FrameworkUtil.InnerString(obj.GetStr("specialCode")));
 		}
 		public bool IsDefault
 		{
 			get
 			{
 				if ((int)unit_type != 0) return false;
+				if (show) return false;
 				if (items.Count > 0) return false;
 				if (stats.Count > 0) return false;
 				if (ability.IsDefault == false) return false;
@@ -62,6 +64,7 @@ namespace Devarc
 				return;
 			}
 			unit_type           = obj.unit_type;
+			show                = obj.show;
 			_name.Initialize(obj._name);
 			items.Clear();
 			items.AddRange(obj.items);
@@ -76,6 +79,7 @@ namespace Devarc
 		public void Initialize(PropTable obj)
 		{
 			unit_type           = _UNIT.Parse(obj.GetStr("unit_type"));
+			show                = obj.GetBool("show");
 			_name.Key = FrameworkUtil.MakeLStringKey("DataCharacter", "name", unit_type.ToString());
 			_name.Value = obj.GetStr("name");
 			items.Clear();
@@ -93,6 +97,7 @@ namespace Devarc
 		public void Initialize(JsonData obj)
 		{
 			if (obj.Keys.Contains("unit_type")) unit_type = _UNIT.Parse(obj["unit_type"].ToString()); else unit_type = default(UNIT);
+			if (obj.Keys.Contains("show")) bool.TryParse(obj["show"].ToString(), out show); else show = default(bool);
 			_name.Key = FrameworkUtil.MakeLStringKey("DataCharacter", "name", unit_type.ToString());
 			if (obj.Keys.Contains("items")) foreach (JsonData node in obj["items"]) { items.Add(_UNIT.Parse(node.ToString())); }
 			if (obj.Keys.Contains("stats")) foreach (JsonData node in obj["stats"]) { DataAbility _v = new DataAbility(); _v.Initialize(node); stats.Add(_v); }
@@ -104,6 +109,7 @@ namespace Devarc
 		public void Initialize(IBaseReader obj)
 		{
 			unit_type           = _UNIT.Parse(obj.GetString("unit_type"));
+			show                = obj.GetBoolean("show");
 			_name.Key = FrameworkUtil.MakeLStringKey("DataCharacter", "name", unit_type.ToString());
 			string __items = obj.GetString("items"); items.Clear(); if (!string.IsNullOrEmpty(__items)) foreach (JsonData node in JsonMapper.ToObject(__items)) { items.Add(_UNIT.Parse(node.ToString())); };
 			string __stats = obj.GetString("stats"); stats.Clear(); if (!string.IsNullOrEmpty(__stats)) FrameworkUtil.FillList<DataAbility>(__stats, stats);
@@ -116,6 +122,7 @@ namespace Devarc
 		{
 		    StringBuilder sb = new StringBuilder();
 		    sb.Append("{"); sb.Append(" \"unit_type\":"); sb.Append("\""); sb.Append(unit_type.ToString()); sb.Append("\"");
+		    sb.Append(","); sb.Append(" \"show\":"); sb.Append("\""); sb.Append(show.ToString()); sb.Append("\"");
 		    sb.Append(","); sb.Append(" \"name\":"); sb.Append("\""); sb.Append(name); sb.Append("\"");
 		    sb.Append(","); sb.Append(" \"items\":"); sb.Append("["); for (int i = 0; i < items.Count; i++) { UNIT _obj = items[i]; if (i > 0) sb.Append(","); sb.Append(string.Format("\"{0}\"", _obj)); } sb.Append("]");
 		    sb.Append(","); sb.Append(" \"stats\":"); sb.Append("["); for (int i = 0; i < stats.Count; i++) { sb.Append(stats[i].ToString()); } sb.Append("]");
@@ -131,6 +138,7 @@ namespace Devarc
 		    if (IsDefault) { return "{}"; }
 		    StringBuilder sb = new StringBuilder();
 		    sb.Append("{"); sb.Append("\"unit_type\":"); sb.Append("\""); sb.Append(unit_type.ToString()); sb.Append("\"");
+			if (default(bool) != show) { sb.Append(","); sb.Append("\"show\":"); sb.Append("\""); sb.Append(show.ToString()); sb.Append("\""); }
 			if (items.Count > 0) { sb.Append(","); sb.Append("\"items\":"); sb.Append("["); for (int i = 0; i < items.Count; i++) { UNIT _obj = items[i]; if (i > 0) sb.Append(","); sb.Append(string.Format("\"{0}\"", _obj)); } sb.Append("]"); }
 			if (stats.Count > 0) { sb.Append(","); sb.Append("\"stats\":"); sb.Append("["); for (int i = 0; i < stats.Count; i++) { if (i > 0) sb.Append(","); sb.Append(stats[i].ToJson()); } sb.Append("]"); }
 		    sb.Append(","); sb.Append("\"ability\":"); sb.Append(ability != null ? ability.ToJson() : "{}");
@@ -144,6 +152,7 @@ namespace Devarc
 		{
 			PropTable obj = new PropTable("DataCharacter");
 			obj.Attach("unit_type", "UNIT", CLASS_TYPE.VALUE, true, unit_type.ToString());
+			obj.Attach("show", "bool", CLASS_TYPE.VALUE, false, show.ToString());
 			obj.Attach("name", "LString", CLASS_TYPE.VALUE, false, _name.Value);
 			obj.Attach_List<UNIT>("items", "UNIT", VAR_TYPE.ENUM, items);
 			obj.Attach_List<DataAbility>("stats", "DataAbility", VAR_TYPE.CLASS, stats);
@@ -160,6 +169,7 @@ namespace Devarc
 	    {
 	        bool success = true;
 			success = success ? Marshaler.Read(msg, ref obj.unit_type) : false;
+			success = success ? Marshaler.Read(msg, ref obj.show) : false;
 			success = success ? Marshaler.Read(msg, obj.items) : false;
 			success = success ? Marshaler.Read(msg, obj.stats) : false;
 			success = success ? Marshaler.Read(msg, obj.ability) : false;
@@ -170,6 +180,7 @@ namespace Devarc
 	    public static bool Write(NetBuffer msg, DataCharacter obj)
 	    {
 			Marshaler.Write(msg, obj.unit_type);
+			Marshaler.Write(msg, obj.show);
 			Marshaler.Write(msg, obj.name);
 			Marshaler.Write(msg, obj.items);
 			Marshaler.Write(msg, obj.stats);
@@ -187,6 +198,7 @@ namespace Devarc
 	        {
 				DataCharacter obj = new DataCharacter();
 				success = success ? Marshaler.Read(msg, ref obj.unit_type) : false;
+				success = success ? Marshaler.Read(msg, ref obj.show) : false;
 				success = success ? Marshaler.Read(msg, obj.items) : false;
 				success = success ? Marshaler.Read(msg, obj.stats) : false;
 				success = success ? Marshaler.Read(msg, obj.ability) : false;
@@ -202,6 +214,7 @@ namespace Devarc
 	        foreach (DataCharacter obj in list)
 	        {
 				Marshaler.Write(msg, obj.unit_type);
+				Marshaler.Write(msg, obj.show);
 				Marshaler.Write(msg, obj.name);
 				Marshaler.Write(msg, obj.items);
 				Marshaler.Write(msg, obj.stats);
