@@ -347,7 +347,6 @@ namespace Devarc
                         sw.WriteLine("\t\t\t{0} obj = Table.{1}.Alloc(tb.GetUInt32(\"{2}\"));", class_name, container_name, key_var_name);
                         break;
                     case VAR_TYPE.INT64:
-                    case VAR_TYPE.HOST_ID:
                         sw.WriteLine("\t\t\t{0} obj = Table.{1}.Alloc(tb.ToInt64(\"{2}\"));", class_name, container_name, key_var_name);
                         break;
                     case VAR_TYPE.FLOAT:
@@ -390,7 +389,6 @@ namespace Devarc
                         keyString = string.Format("(uint)node[\"{1}\"]", container_name, key_var_name);
                         break;
                     case VAR_TYPE.INT64:
-                    case VAR_TYPE.HOST_ID:
                         keyString = string.Format("(long)node[\"{1}\"])", container_name, key_var_name);
                         break;
                     case VAR_TYPE.FLOAT:
@@ -446,7 +444,6 @@ namespace Devarc
                         case VAR_TYPE.INT32:
                         case VAR_TYPE.UINT32:
                         case VAR_TYPE.INT64:
-                        case VAR_TYPE.HOST_ID:
                             {
                                 string temp = tb.GetStr(i);
                                 if (temp.Length == 0)

@@ -8,5 +8,6 @@ CREATE TABLE DataCharacter (
 	ability TEXT NOT NULL,
 	nodes TEXT NOT NULL,
 	unit_uid TEXT NOT NULL,
-	specialCode TEXT NOT NULL
+	specialCode TEXT NOT NULL,
+	player_data TEXT NOT NULL
 );

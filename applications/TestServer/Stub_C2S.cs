@@ -26,7 +26,7 @@ namespace TestServer
                     PlayerData obj = enumerator.Current;
                     using (obj.READ_LOCK())
                     {
-                        TestServer.Instance.Proxy.Notify_Chat(obj.Data.id, _msg);
+                        //TestServer.Instance.Proxy.Notify_Chat(obj.Data.id, _msg);
                     }
                 }
             } // unlock

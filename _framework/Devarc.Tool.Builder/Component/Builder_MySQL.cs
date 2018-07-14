@@ -119,7 +119,35 @@ namespace Devarc
                     sb.Append(" (\r\n\t");
                 else
                     sb.Append(",\r\n\t");
-                sb.Append(string.Format("`{0}` varchar(50) NOT NULL", _prop.GetVarName(i)));
+
+                switch(_prop.GetVarType(i))
+                {
+                    case VAR_TYPE.BOOL:
+                        sb.Append(string.Format("`{0}` VARCHAR(6) NOT NULL", _prop.GetVarName(i)));
+                        break;
+                    case VAR_TYPE.INT16:
+                        sb.Append(string.Format("`{0}` SMALLINT(6) NOT NULL", _prop.GetVarName(i)));
+                        break;
+                    case VAR_TYPE.INT32:
+                        sb.Append(string.Format("`{0}` INT(11) NOT NULL", _prop.GetVarName(i)));
+                        break;
+                    case VAR_TYPE.INT64:
+                    case VAR_TYPE.UINT32:
+                        sb.Append(string.Format("`{0}` BIGINT(20) NOT NULL", _prop.GetVarName(i)));
+                        break;
+                    case VAR_TYPE.FLOAT:
+                        sb.Append(string.Format("`{0}` FLOAT NOT NULL", _prop.GetVarName(i)));
+                        break;
+                    case VAR_TYPE.CLASS:
+                    default:
+                        int length = _prop.GetCustomLength(i);
+                        if (length <= 0)
+                            sb.Append(string.Format("`{0}` VARCHAR(256) NOT NULL", _prop.GetVarName(i)));
+                        else
+                            sb.Append(string.Format("`{0}` VARCHAR({1}) NOT NULL", _prop.GetVarName(i), length));
+                        break;
+                }
+
                 if (_prop.KeyIndex == i)
                     sb.Append(" PRIMARY KEY");
             }
@@ -160,7 +188,26 @@ namespace Devarc
                     sb.Append(" (");
                 else
                     sb.Append(" ,");
-                sb.Append(string.Format("'{0}'", FrameworkUtil.InnerString(_prop.GetStr(i))));
+
+                switch (_prop.GetVarType(i))
+                {
+                    case VAR_TYPE.INT16:
+                    case VAR_TYPE.INT32:
+                    case VAR_TYPE.INT64:
+                    case VAR_TYPE.UINT32:
+                    case VAR_TYPE.FLOAT:
+                        string value = _prop.GetStr(i);
+                        if (string.IsNullOrEmpty(value))
+                            sb.Append(string.Format("{0}", 0));
+                        else
+                            sb.Append(string.Format("{0}", value));
+                        break;
+                    case VAR_TYPE.BOOL:
+                    case VAR_TYPE.CLASS:
+                    default:
+                        sb.Append(string.Format("'{0}'", FrameworkUtil.InnerString(_prop.GetStr(i))));
+                        break;
+                }
             }
             sb.Append(");");
             tw.WriteLine(sb.ToString());

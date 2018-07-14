@@ -36,7 +36,6 @@ namespace Devarc
         INT32,
         INT64,
         UINT32,
-        HOST_ID,
         FLOAT,
         STRING,
         LSTRING,
@@ -65,12 +64,13 @@ namespace Devarc
 
     public class PropData
     {
-        public string VarName { get; set; }
-        public string TypeName { get; set; }
-        public VAR_TYPE VarType { get; set; }
-        public CLASS_TYPE ClassType { get; set; }
-        public bool KeyType { get; set; }
-        public string Data { get; set; }
+        public string VarName;
+        public string TypeName;
+        public VAR_TYPE VarType;
+        public CLASS_TYPE ClassType;
+        public bool KeyType;
+        public string Data;
+        public int CustomLength;
     }
 
     public class PropTable
@@ -82,39 +82,35 @@ namespace Devarc
             {
                 return "";
             }
-            if (_raw_name.Equals("int") || _raw_name.Equals("int32"))
+            if (_raw_name.StartsWith("int") || _raw_name.StartsWith("int32"))
             {
                 return "int";
             }
-            else if (_raw_name.Equals("uint") || _raw_name.Equals("uint32"))
+            else if (_raw_name.StartsWith("uint") || _raw_name.StartsWith("uint32"))
             {
                 return "uint";
             }
-            else if (_raw_name.Equals("long") || _raw_name.Equals("int64"))
+            else if (_raw_name.StartsWith("long") || _raw_name.StartsWith("int64"))
             {
                 return "long";
             }
-            else if (_raw_name.Equals("hid") || _raw_name.Equals("hostid"))
-            {
-                return "HostID";
-            }
-            else if (_raw_name.Equals("float"))
+            else if (_raw_name.StartsWith("float"))
             {
                 return "float";
             }
-            else if (_raw_name.Equals("cstr") || _raw_name.Equals("cstring"))
+            else if (_raw_name.StartsWith("cstr") || _raw_name.StartsWith("cstring"))
             {
                 return "string";
             }
-            else if (_raw_name.Equals("lstr") || _raw_name.Equals("lstring"))
+            else if (_raw_name.StartsWith("lstr") || _raw_name.StartsWith("lstring"))
             {
                 return "LString";
             }
-            else if (_raw_name.Equals("fstr") || _raw_name.Equals("fstring"))
+            else if (_raw_name.StartsWith("fstr") || _raw_name.StartsWith("fstring"))
             {
                 return "LString";
             }
-            else if (_raw_name.Equals("str") || _raw_name.Equals("string"))
+            else if (_raw_name.StartsWith("str") || _raw_name.StartsWith("string"))
             {
                 return "string";
             }
@@ -126,44 +122,40 @@ namespace Devarc
 
         public static VAR_TYPE ToTypeID(string _name)
         {
-            string var_type = _name.ToLower().Replace("[]","");
-            if (var_type.Equals("bool"))
+            string var_type = _name.ToLower().Trim();
+            if (var_type.StartsWith("bool"))
             {
                 return VAR_TYPE.BOOL;
             }
-            else if (var_type.Equals("short") || var_type.Equals("int16"))
+            else if (var_type.StartsWith("short") || var_type.StartsWith("int16"))
             {
                 return VAR_TYPE.INT16;
             }
-            else if (var_type.Equals("int") || var_type.Equals("int32"))
+            else if (var_type.StartsWith("int") || var_type.StartsWith("int32"))
             {
                 return VAR_TYPE.INT32;
             }
-            else if (var_type.Equals("uint") || var_type.Equals("uint32"))
+            else if (var_type.StartsWith("uint") || var_type.StartsWith("uint32"))
             {
                 return VAR_TYPE.UINT32;
             }
-            else if (var_type.Equals("long") || var_type.Equals("int64"))
+            else if (var_type.StartsWith("long") || var_type.StartsWith("int64"))
             {
                 return VAR_TYPE.INT64;
             }
-            else if (var_type.Equals("hid") || var_type.Equals("hostid"))
-            {
-                return VAR_TYPE.HOST_ID;
-            }
-            else if (var_type.Equals("float"))
+            else if (var_type.StartsWith("float"))
             {
                 return VAR_TYPE.FLOAT;
             }
-            else if (var_type.Equals("lstr") || var_type.Equals("lstring"))
+            else if (var_type.StartsWith("lstr") || var_type.StartsWith("lstring"))
             {
                 return VAR_TYPE.LSTRING;
             }
-            else if (var_type.Equals("fstr") || var_type.Equals("fstring"))
+            else if (var_type.StartsWith("fstr") || var_type.StartsWith("fstring"))
             {
                 return VAR_TYPE.FSTRING;
             }
-            else if (var_type.Equals("str") || var_type.Equals("string"))
+            else if (var_type.StartsWith("str") || var_type.StartsWith("string"))
             {
                 return VAR_TYPE.STRING;
             }
@@ -267,6 +259,18 @@ namespace Devarc
             }
             data.VarType = PropTable.ToTypeID(_typeName);
             data.TypeName = PropTable.ToTypeName(_typeName);
+            int s = _typeName.IndexOf('(');
+            int e = _typeName.IndexOf(')');
+            if (s <= 0 || e <= 0 || _typeName.Length <= s + 1)
+            {
+                data.CustomLength = 0;
+            }
+            else
+            {
+                int length = 0;
+                int.TryParse(_typeName.Substring(s + 1, e - s - 1), out length);
+                data.CustomLength = length;
+            }
         }
 
         public void Set_ClassType(int _index, string _typeName)
@@ -332,6 +336,16 @@ namespace Devarc
                 return;
             }
             data.Data = val;
+        }
+
+        public void Set_CustomLength(int _index, int val)
+        {
+            PropData data;
+            if (m_PropList.TryGetValue(_index, out data) == false)
+            {
+                return;
+            }
+            data.CustomLength = val;
         }
 
         public void Attach(string _name, string _typeName, CLASS_TYPE _type, bool _keyType, string _value)
@@ -456,10 +470,19 @@ namespace Devarc
         {
             PropData data;
             if (m_PropList.TryGetValue(_index, out data) == false)
-            {
                 return string.Empty;
+            if (string.IsNullOrEmpty(data.TypeName))
+                return string.Empty;
+
+            int t = data.TypeName.IndexOf('(');
+            if (t <= 0)
+            {
+                return data.TypeName;
             }
-            return data.TypeName;
+            else
+            {
+                return data.TypeName.Substring(0, t);
+            }
         }
 
         public CLASS_TYPE GetClassType(string _name)
@@ -490,6 +513,7 @@ namespace Devarc
             }
             return data.KeyType;
         }
+
         public bool GetKeyType(int _index)
         {
             PropData data;
@@ -498,6 +522,26 @@ namespace Devarc
                 return false;
             }
             return data.KeyType;
+        }
+
+        public int GetCustomLength(string _name)
+        {
+            PropData data;
+            if (m_PropTable.TryGetValue(_name, out data) == false)
+            {
+                return 0;
+            }
+            return data.CustomLength;
+        }
+
+        public int GetCustomLength(int _index)
+        {
+            PropData data;
+            if (m_PropList.TryGetValue(_index, out data) == false)
+            {
+                return 0;
+            }
+            return data.CustomLength;
         }
 
         public string GetStr(string _name)
@@ -624,6 +668,7 @@ namespace Devarc
                 tb.Set_VarType(j, data.TypeName);
                 tb.Set_ClassType(j, data.ClassType);
                 tb.Set_Data(j, data.Data);
+                tb.Set_CustomLength(j, data.CustomLength);
                 j++;
             }
             return tb;
@@ -631,6 +676,41 @@ namespace Devarc
         public PropTable GetTable(int _index)
         {
             return GetTable(GetVarName(_index));
+        }
+
+        public int GetDBSize()
+        {
+            int length = 0;
+            for (int i = 0; i < m_Length; i++)
+            {
+                PropData data = m_PropList[i];
+                switch(data.VarType)
+                {
+                    case VAR_TYPE.NONE:
+                        break;
+                    case VAR_TYPE.BOOL:
+                    case VAR_TYPE.INT16:
+                        length += 6;
+                        break;
+                    case VAR_TYPE.FLOAT:
+                    case VAR_TYPE.INT32:
+                    case VAR_TYPE.UINT32:
+                        length += 11;
+                        break;
+                    case VAR_TYPE.INT64:
+                        length += 20;
+                        break;
+                    default:
+                        if (data.CustomLength == 0)
+                            length += 50;
+                        else
+                            length += data.CustomLength;
+                        break;
+                }
+            }
+            const int blockSize = 256;
+            int block = (length / blockSize) + 1;
+            return blockSize * block;
         }
 
         public bool GetClassList<T>(string _name, List<T> _list) where T : IBaseObejct, new()

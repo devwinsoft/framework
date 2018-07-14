@@ -15,15 +15,11 @@ namespace Devarc
             {
                 if (args.Contains<string>("-idl"))
                 {
-                    string rawPath = args[1];
-                    string outDir = args[2];
-                    string srcPath;
-                    if (rawPath.Length > 2 && rawPath[1] == ':')
-                        srcPath = rawPath;
-                    else
-                        srcPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), rawPath));
                     Builder_Protocol compiler = new Builder_Protocol();
-                    compiler.Build(srcPath, outDir);
+                    if (args.Length > 2)
+                        compiler.Build(args[1], args[2]);
+                    else
+                        compiler.Build(args[1], Path.GetDirectoryName(args[1]));
                 }
                 else if (args.Contains<string>("-obj"))
                 {

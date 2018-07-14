@@ -19,6 +19,7 @@ namespace Devarc
 		public UInt32              unit_uid;
 		public string              specialCode { get { return Table.T_LString.GetAt(_specialCode.Key); } }
 		LString             _specialCode = new LString();
+		public TEST_PLAYER         player_data = new TEST_PLAYER();
 
 		public DataCharacter()
 		{
@@ -39,7 +40,7 @@ namespace Devarc
 		public string GetQuery_InsertOrUpdate()
 		{
 			PropTable obj = ToTable();
-			return string.Format("insert into DataCharacter (`unit_type`, `show`, `name`, `items`, `stats`, `ability`, `nodes`, `unit_uid`, `specialCode`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}') on duplicate key update `unit_type`='{0}', `show`='{1}', `name`='{2}', `items`='{3}', `stats`='{4}', `ability`='{5}', `nodes`='{6}', `unit_uid`='{7}', `specialCode`='{8}';", obj.GetStr("unit_type"), obj.GetStr("show"), FrameworkUtil.InnerString(obj.GetStr("name")), obj.GetStr("items"), FrameworkUtil.InnerString(obj.GetStr("stats")), FrameworkUtil.InnerString(obj.GetStr("ability")), FrameworkUtil.InnerString(obj.GetStr("nodes")), obj.GetStr("unit_uid"), FrameworkUtil.InnerString(obj.GetStr("specialCode")));
+			return string.Format("insert into DataCharacter (`unit_type`, `show`, `name`, `items`, `stats`, `ability`, `nodes`, `unit_uid`, `specialCode`, `player_data`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}') on duplicate key update `unit_type`='{0}', `show`='{1}', `name`='{2}', `items`='{3}', `stats`='{4}', `ability`='{5}', `nodes`='{6}', `unit_uid`='{7}', `specialCode`='{8}', `player_data`='{9}';", obj.GetStr("unit_type"), obj.GetStr("show"), FrameworkUtil.InnerString(obj.GetStr("name")), obj.GetStr("items"), FrameworkUtil.InnerString(obj.GetStr("stats")), FrameworkUtil.InnerString(obj.GetStr("ability")), FrameworkUtil.InnerString(obj.GetStr("nodes")), obj.GetStr("unit_uid"), FrameworkUtil.InnerString(obj.GetStr("specialCode")), FrameworkUtil.InnerString(obj.GetStr("player_data")));
 		}
 		public bool IsDefault
 		{
@@ -52,6 +53,7 @@ namespace Devarc
 				if (ability.IsDefault == false) return false;
 				if (nodes.Count > 0) return false;
 				if (unit_uid != 0) return false;
+				if (player_data.IsDefault == false) return false;
 				return true;
 			}
 		}
@@ -75,6 +77,7 @@ namespace Devarc
 			nodes.AddRange(obj.nodes);
 			unit_uid            = obj.unit_uid;
 			_specialCode.Initialize(obj._specialCode);
+			player_data.Initialize(obj.player_data);
 		}
 		public void Initialize(PropTable obj)
 		{
@@ -93,6 +96,7 @@ namespace Devarc
 			unit_uid            = obj.GetUInt32("unit_uid");
 			_specialCode.Key = obj.GetStr("specialCode");
 			_specialCode.Value = obj.GetStr("specialCode");
+			player_data.Initialize(obj.GetTable("player_data"));
 		}
 		public void Initialize(JsonData obj)
 		{
@@ -105,6 +109,7 @@ namespace Devarc
 			if (obj.Keys.Contains("nodes")) foreach (JsonData node in obj["nodes"]) { nodes.Add(node.ToString()); }
 			if (obj.Keys.Contains("unit_uid")) uint.TryParse(obj["unit_uid"].ToString(), out unit_uid); else unit_uid = default(uint);
 			if (obj.Keys.Contains("specialCode")) _specialCode.Key = obj["specialCode"].ToString(); else _specialCode.Key = default(string);
+			if (obj.Keys.Contains("player_data")) player_data.Initialize(obj["player_data"]);
 		}
 		public void Initialize(IBaseReader obj)
 		{
@@ -117,6 +122,7 @@ namespace Devarc
 			string __nodes = obj.GetString("nodes"); nodes.Clear(); if (!string.IsNullOrEmpty(__nodes)) foreach (JsonData node in JsonMapper.ToObject(__nodes)) { nodes.Add(node.ToString()); };
 			unit_uid            = (uint)obj.GetUInt32("unit_uid");
 			_specialCode.Key = obj.GetString("specialCode");
+			player_data.Initialize(JsonMapper.ToObject(obj.GetString("player_data")));
 		}
 		public override string ToString()
 		{
@@ -130,6 +136,7 @@ namespace Devarc
 		    sb.Append(","); sb.Append(" \"nodes\":"); sb.Append("["); for (int i = 0; i < nodes.Count; i++) { string _obj = nodes[i]; if (i > 0) sb.Append(","); sb.Append("\""); sb.Append(_obj); sb.Append("\""); } sb.Append("]");
 		    sb.Append(","); sb.Append(" \"unit_uid\":"); sb.Append("\""); sb.Append(unit_uid.ToString()); sb.Append("\"");
 		    sb.Append(","); sb.Append(" \"specialCode\":"); sb.Append("\""); sb.Append(specialCode); sb.Append("\"");
+		    sb.Append(","); sb.Append(" \"player_data\":"); sb.Append(player_data != null ? player_data.ToString() : "{}");
 		    sb.Append("}");
 		    return sb.ToString();
 		}
@@ -145,6 +152,7 @@ namespace Devarc
 			if (nodes.Count > 0) { sb.Append(","); sb.Append("\"nodes\":"); sb.Append("["); for (int i = 0; i < nodes.Count; i++) { string _obj = nodes[i]; if (i > 0) sb.Append(","); sb.Append("\""); sb.Append(FrameworkUtil.JsonString(_obj)); sb.Append("\""); } sb.Append("]"); }
 			if (default(uint) != unit_uid) { sb.Append(","); sb.Append("\"unit_uid\":"); sb.Append("\""); sb.Append(unit_uid.ToString()); sb.Append("\""); }
 			if (string.IsNullOrEmpty(_specialCode.Key) == false) { sb.Append(","); sb.Append("\"specialCode\":"); sb.Append("\""); sb.Append(FrameworkUtil.JsonString(_specialCode.Key)); sb.Append("\""); }
+		    sb.Append(","); sb.Append("\"player_data\":"); sb.Append(player_data != null ? player_data.ToJson() : "{}");
 		    sb.Append("}");
 		    return sb.ToString();
 		}
@@ -160,6 +168,7 @@ namespace Devarc
 			obj.Attach_List<string>("nodes", "string", VAR_TYPE.STRING, nodes);
 			obj.Attach("unit_uid", "uint", CLASS_TYPE.VALUE, false, unit_uid.ToString());
 			obj.Attach("specialCode", "LString", CLASS_TYPE.VALUE, false, _specialCode.Key);
+			obj.Attach_Class("player_data", "TEST_PLAYER", player_data.ToTable());
 			return obj;
 		}
 	}
@@ -175,6 +184,7 @@ namespace Devarc
 			success = success ? Marshaler.Read(msg, obj.ability) : false;
 			success = success ? Marshaler.Read(msg, obj.nodes) : false;
 			success = success ? Marshaler.Read(msg, ref obj.unit_uid) : false;
+			success = success ? Marshaler.Read(msg, obj.player_data) : false;
 	        return success;
 	    }
 	    public static bool Write(NetBuffer msg, DataCharacter obj)
@@ -188,6 +198,7 @@ namespace Devarc
 			Marshaler.Write(msg, obj.nodes);
 			Marshaler.Write(msg, obj.unit_uid);
 			Marshaler.Write(msg, obj.specialCode);
+			Marshaler.Write(msg, obj.player_data);
 	        return msg.IsError;
 	    }
 	    public static bool Read(NetBuffer msg, List<DataCharacter> list)
@@ -204,6 +215,7 @@ namespace Devarc
 				success = success ? Marshaler.Read(msg, obj.ability) : false;
 				success = success ? Marshaler.Read(msg, obj.nodes) : false;
 				success = success ? Marshaler.Read(msg, ref obj.unit_uid) : false;
+				success = success ? Marshaler.Read(msg, obj.player_data) : false;
 				list.Add(obj);
 	        }
 	        return success;
@@ -222,6 +234,7 @@ namespace Devarc
 				Marshaler.Write(msg, obj.nodes);
 				Marshaler.Write(msg, obj.unit_uid);
 				Marshaler.Write(msg, obj.specialCode);
+				Marshaler.Write(msg, obj.player_data);
 	        }
 	        return msg.IsError;
 	    }
@@ -358,7 +371,7 @@ namespace Devarc
 	[System.Serializable]
 	public class DataPlayer : IBaseObejct
 	{
-		public HostID              id;
+		public Int32               id;
 		public VECTOR3             pos = new VECTOR3();
 
 		public DataPlayer()
@@ -394,17 +407,17 @@ namespace Devarc
 		}
 		public void Initialize(PropTable obj)
 		{
-			id                  = (HostID)obj.GetInt16("id");
+			id                  = obj.GetInt32("id");
 			pos.Initialize(obj.GetTable("pos"));
 		}
 		public void Initialize(JsonData obj)
 		{
-			if (obj.Keys.Contains("id")) HostID.TryParse(obj["id"].ToString(), out id); else id = default(short);
+			if (obj.Keys.Contains("id")) int.TryParse(obj["id"].ToString(), out id); else id = default(int);
 			if (obj.Keys.Contains("pos")) pos.Initialize(obj["pos"]);
 		}
 		public void Initialize(IBaseReader obj)
 		{
-			id                  = (HostID)obj.GetInt16("id");
+			id                  = obj.GetInt32("id");
 			pos.Initialize(JsonMapper.ToObject(obj.GetString("pos")));
 		}
 		public override string ToString()
@@ -427,7 +440,7 @@ namespace Devarc
 		public PropTable ToTable()
 		{
 			PropTable obj = new PropTable("DataPlayer");
-			obj.Attach("id", "HostID", CLASS_TYPE.VALUE, false, id.ToString());
+			obj.Attach("id", "int", CLASS_TYPE.VALUE, false, id.ToString());
 			obj.Attach_Class("pos", "VECTOR3", pos.ToTable());
 			return obj;
 		}

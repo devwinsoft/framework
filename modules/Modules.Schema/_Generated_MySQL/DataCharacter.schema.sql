@@ -1,12 +1,13 @@
 DROP TABLE IF EXISTS DataCharacter;
 CREATE TABLE DataCharacter (
-	`unit_type` varchar(50) NOT NULL PRIMARY KEY,
-	`show` varchar(50) NOT NULL,
-	`name` varchar(50) NOT NULL,
-	`items` varchar(50) NOT NULL,
-	`stats` varchar(50) NOT NULL,
-	`ability` varchar(50) NOT NULL,
-	`nodes` varchar(50) NOT NULL,
-	`unit_uid` varchar(50) NOT NULL,
-	`specialCode` varchar(50) NOT NULL
+	`unit_type` VARCHAR(32) NOT NULL PRIMARY KEY,
+	`show` VARCHAR(6) NOT NULL,
+	`name` VARCHAR(256) NOT NULL,
+	`items` VARCHAR(256) NOT NULL,
+	`stats` VARCHAR(256) NOT NULL,
+	`ability` VARCHAR(256) NOT NULL,
+	`nodes` VARCHAR(1024) NOT NULL,
+	`unit_uid` BIGINT(20) NOT NULL,
+	`specialCode` VARCHAR(256) NOT NULL,
+	`player_data` VARCHAR(1024) NOT NULL
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
