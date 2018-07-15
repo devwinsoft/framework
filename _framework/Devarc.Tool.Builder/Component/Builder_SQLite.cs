@@ -134,7 +134,7 @@ namespace Devarc
             if (_prop.KeyIndex < 0)
                 return;
 
-            string filePath = Path.Combine(OutDir, GetClassName(_sheetName) + ".schema.sql");
+            string filePath = Path.Combine(OutDir, GetClassName(_sheetName) + ".ddl");
             TextWriter tw = new StreamWriter(filePath, false);
 
             string tableName = GetClassName(_sheetName);
@@ -168,7 +168,7 @@ namespace Devarc
             TextWriter tw;
             if (mWriters.TryGetValue(tableName, out tw) == false)
             {
-                string filePath = Path.Combine(OutDir, tableName + ".data.sql");
+                string filePath = Path.Combine(OutDir, tableName + ".sql");
                 tw = new StreamWriter(filePath, false);
                 mWriters.Add(tableName, tw);
                 tw.WriteLine("delete from {0};\r\n", tableName);

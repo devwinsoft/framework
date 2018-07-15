@@ -11,6 +11,7 @@ using Devarc;
 using SuperSocket.SocketBase;
 using SuperSocket.SocketBase.Config;
 using SuperSocket.SocketBase.Protocol;
+using LitJson;
 
 namespace TestServer
 {
@@ -37,6 +38,8 @@ namespace TestServer
             mString.Append(msg);
             mString.Append("\r\n");
             textBox1.Text = mString.ToString();
+            textBox1.SelectionStart = textBox1.TextLength;
+            textBox1.ScrollToCaret();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -50,20 +53,38 @@ namespace TestServer
 
             try
             {
-                using (MySQL_Session session = new MySQL_Session())
                 {
-                    session.Open("localhost", 3306, "game", "maoshy", "9536");
-                    MySQL_Reader reader = session.Execute_Reader("select * from DataCharacter;");
+                    MySQL_Session mysql = new MySQL_Session();
+                    mysql.Open("localhost", 3306, "game", "maoshy", "9536");
+
+                    Redis_Session redis = new Redis_Session();
+                    redis.Connect("localhost", 6379);
+
+                    foreach(string key in redis.GetKeys("localhost:6379"))
+                    {
+                        Log.Info(key);
+                    }
+                    //redis.FlushAll();
+
+                    MySQL_Reader reader = mysql.Execute_Reader("select * from DataCharacter;");
                     while (reader.Read())
                     {
                         DataCharacter obj = new DataCharacter();
-                        //LitJson.JsonData data = LitJson.JsonMapper.ToObject(reader.GetString("data"));
-                        //obj.Initialize(data);
                         obj.Initialize(reader);
-                        Log.Info(obj.ToJson());
+
+                        UNIT key = obj.GetKey();
+                        redis.SetString(key.ToString(), obj.ToJson());
+
+                        DataCharacter temp = new DataCharacter();
+                        JsonData data = JsonMapper.ToObject(redis.GetString(key.ToString()));
+                        temp.Initialize(data);
+                        Log.Info(temp.ToJson());
                     }
-                    session.Close();
+
+                    mysql.Close();
+                    redis.Close();
                 }
+
             }
             catch(Exception ex)
             {

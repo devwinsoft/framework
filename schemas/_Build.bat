@@ -19,12 +19,16 @@ xcopy /Y  %TMPDIR%\*.cs    %OUTDIR1%\
 move      %TMPDIR%\*.cs    %OUTDIR2%\
 						  
 %CMD%     -mysql           TestSchema.xlsx   %TMPDIR%
+move      %TMPDIR%\*.ddl   %OUTDIR3%\
 move      %TMPDIR%\*.sql   %OUTDIR3%\
 
 %CMD%     -sql             TestSchema.xlsx   %TMPDIR%
+move      %TMPDIR%\*.ddl   %OUTDIR4%\
 move      %TMPDIR%\*.sql   %OUTDIR4%\
 
 %CMD%     -sqlite          TestSchema.xlsx   %TMPDIR%
+xcopy /Y  %TMPDIR%\*.ddl   %OUTDIR5%\
+move      %TMPDIR%\*.ddl   %OUTDIR6%\
 xcopy /Y  %TMPDIR%\*.sql   %OUTDIR5%\
 move      %TMPDIR%\*.sql   %OUTDIR6%\
 

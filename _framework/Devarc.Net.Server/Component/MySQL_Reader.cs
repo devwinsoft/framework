@@ -141,7 +141,7 @@ namespace Devarc
                 int index = getKey(_name);
                 if (mReader.IsDBNull(index))
                 {
-                    return default(short);
+                    return 0;
                 }
                 string value;
                 if (getStringValue(index, out value))
@@ -170,7 +170,7 @@ namespace Devarc
                 int index = getKey(_name);
                 if (mReader.IsDBNull(index))
                 {
-                    return default(int);
+                    return 0;
                 }
                 string value;
                 if (getStringValue(index, out value))
@@ -199,7 +199,7 @@ namespace Devarc
                 int index = getKey(_name);
                 if (mReader.IsDBNull(index))
                 {
-                    return default(long);
+                    return 0;
                 }
                 string value;
                 if (getStringValue(index, out value))
@@ -228,7 +228,7 @@ namespace Devarc
                 int index = getKey(_name);
                 if (mReader.IsDBNull(index))
                 {
-                    return default(uint);
+                    return 0;
                 }
                 string value;
                 if (getStringValue(index, out value))
@@ -257,7 +257,7 @@ namespace Devarc
                 int index = getKey(_name);
                 if (mReader.IsDBNull(index))
                 {
-                    return default(float);
+                    return 0;
                 }
                 string value;
                 if (getStringValue(index, out value))

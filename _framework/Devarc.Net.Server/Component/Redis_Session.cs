@@ -45,6 +45,31 @@ namespace Devarc
             mDatabase = null;
         }
 
+        public bool FlushAll()
+        {
+            try
+            {
+                mDatabase.Execute("FLUSHALL");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                return false;
+            }
+        }
+
+        public List<string> GetKeys(string _hostAndPort)
+        {
+            List<string> list = new List<string>();
+            var enumer = mConnection.GetServer(_hostAndPort).Keys().GetEnumerator();
+            while (enumer.MoveNext())
+            {
+                list.Add(enumer.Current);
+            }
+            return list;
+        }
+
         public string GetString(string _key)
         {
             return mDatabase.StringGet(_key);

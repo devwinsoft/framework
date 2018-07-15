@@ -34,6 +34,8 @@ namespace TestClient
             mString.Append(msg);
             mString.Append("\r\n");
             textBox2.Text = mString.ToString();
+            textBox2.SelectionStart = textBox2.TextLength;
+            textBox2.ScrollToCaret();
         }
 
         private void button_connect_Click(object sender, EventArgs e)

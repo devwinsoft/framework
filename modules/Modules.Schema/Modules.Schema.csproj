@@ -63,30 +63,32 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="_Generated_MySQL\DataCharacter.data.sql" />
-    <Content Include="_Generated_MySQL\DataCharacter.schema.sql" />
-    <Content Include="_Generated_MySQL\DIRECTION.data.sql" />
-    <Content Include="_Generated_MySQL\DIRECTION.schema.sql" />
-    <Content Include="_Generated_MySQL\MESSAGE.data.sql" />
-    <Content Include="_Generated_MySQL\MESSAGE.schema.sql" />
-    <Content Include="_Generated_MySQL\UNIT.data.sql" />
-    <Content Include="_Generated_MySQL\UNIT.schema.sql" />
-    <Content Include="_Generated_SQLite\DataCharacter.data.sql" />
-    <Content Include="_Generated_SQLite\DataCharacter.schema.sql" />
-    <Content Include="_Generated_SQLite\DIRECTION.data.sql" />
-    <Content Include="_Generated_SQLite\DIRECTION.schema.sql" />
-    <Content Include="_Generated_SQLite\MESSAGE.data.sql" />
-    <Content Include="_Generated_SQLite\MESSAGE.schema.sql" />
-    <Content Include="_Generated_SQLite\UNIT.data.sql" />
-    <Content Include="_Generated_SQLite\UNIT.schema.sql" />
-    <Content Include="_Generated_SQL\DataCharacter.data.sql" />
-    <Content Include="_Generated_SQL\DataCharacter.schema.sql" />
-    <Content Include="_Generated_SQL\DIRECTION.data.sql" />
-    <Content Include="_Generated_SQL\DIRECTION.schema.sql" />
-    <Content Include="_Generated_SQL\MESSAGE.data.sql" />
-    <Content Include="_Generated_SQL\MESSAGE.schema.sql" />
-    <Content Include="_Generated_SQL\UNIT.data.sql" />
-    <Content Include="_Generated_SQL\UNIT.schema.sql" />
+    <Content Include="_Generated_MySQL\DataCharacter.InnoDB.sql" />
+    <Content Include="_Generated_MySQL\DIRECTION.InnoDB.sql" />
+    <Content Include="_Generated_MySQL\MESSAGE.InnoDB.sql" />
+    <Content Include="_Generated_MySQL\UNIT.InnoDB.sql" />
+    <Content Include="_Generated_SQLite\DataCharacter.sql" />
+    <Content Include="_Generated_SQLite\DIRECTION.sql" />
+    <Content Include="_Generated_SQLite\MESSAGE.sql" />
+    <Content Include="_Generated_SQLite\UNIT.sql" />
+    <Content Include="_Generated_SQL\DataCharacter.MyISAM.sql" />
+    <Content Include="_Generated_SQL\DIRECTION.MyISAM.sql" />
+    <Content Include="_Generated_SQL\MESSAGE.MyISAM.sql" />
+    <Content Include="_Generated_SQL\UNIT.MyISAM.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="_Generated_MySQL\DataCharacter.InnoDB.ddl" />
+    <None Include="_Generated_MySQL\DIRECTION.InnoDB.ddl" />
+    <None Include="_Generated_MySQL\MESSAGE.InnoDB.ddl" />
+    <None Include="_Generated_MySQL\UNIT.InnoDB.ddl" />
+    <None Include="_Generated_SQLite\DataCharacter.ddl" />
+    <None Include="_Generated_SQLite\DIRECTION.ddl" />
+    <None Include="_Generated_SQLite\MESSAGE.ddl" />
+    <None Include="_Generated_SQLite\UNIT.ddl" />
+    <None Include="_Generated_SQL\DataCharacter.MyISAM.ddl" />
+    <None Include="_Generated_SQL\DIRECTION.MyISAM.ddl" />
+    <None Include="_Generated_SQL\MESSAGE.MyISAM.ddl" />
+    <None Include="_Generated_SQL\UNIT.MyISAM.ddl" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
