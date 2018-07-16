@@ -5,8 +5,15 @@ public class C2S
     public const int RMI_VERSION = 1;
     public const int RMI_START = 6000;
 
-    public void Move(VECTOR3 _look, DIRECTION _move) { }
-    public void Chat(string _msg) { }
+    public class Move
+	{
+		VECTOR3 look;
+		DIRECTION move;
+	}
+    public class Chat
+	{
+		string msg;
+	}
 }
 
 public class S2C
@@ -14,7 +21,20 @@ public class S2C
     public const int RMI_VERSION = 1;
     public const int RMI_START = 5000;
 
-    public void Notify_Player(HostID _id, DataPlayer _data) { }
-    public void Notify_Move(VECTOR3 _look, DIRECTION _move) { }
-    public void Notify_Chat(string _msg) { }
+    public class Notify_Player
+	{
+		HostID id;
+		DataPlayer data;
+	}
+
+    public class Notify_Move
+	{
+		VECTOR3 look;
+		DIRECTION move;
+	}
+
+    public class Notify_Chat
+	{
+		string _msg;
+	}
 }

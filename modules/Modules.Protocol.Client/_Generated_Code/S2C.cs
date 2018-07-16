@@ -2,11 +2,28 @@ using System;
 using Devarc;
 namespace S2C
 {
+	namespace MSG
+	{
+		public class Notify_Player
+		{
+			public HostID id;
+			public DataPlayer data = new DataPlayer();
+		}
+		public class Notify_Move
+		{
+			public VECTOR3 look = new VECTOR3();
+			public DIRECTION move;
+		}
+		public class Notify_Chat
+		{
+			public String _msg;
+		}
+	}
 	public interface IStub
 	{
-		void RMI_S2C_Notify_Player(HostID remote, HostID _id, DataPlayer _data);
-		void RMI_S2C_Notify_Move(HostID remote, VECTOR3 _look, DIRECTION _move);
-		void RMI_S2C_Notify_Chat(HostID remote, String _msg);
+		void RMI_S2C_Notify_Player(HostID remote, S2C.MSG.Notify_Player msg);
+		void RMI_S2C_Notify_Move(HostID remote, S2C.MSG.Notify_Move msg);
+		void RMI_S2C_Notify_Chat(HostID remote, S2C.MSG.Notify_Chat msg);
 	}
 	public static class Stub
 	{
@@ -17,28 +34,31 @@ namespace S2C
 			{
 				case RMI_ID.Notify_Player:
 					{
-						Log.Debug("Stub(S2C): Notify_Player");
-						Devarc.HostID _id = default(Devarc.HostID); Marshaler.Read(_in_msg, ref _id);
-						DataPlayer _data = new DataPlayer(); Marshaler.Read(_in_msg, _data);
+						Log.Debug("S2C.Stub.Notify_Player");
+						MSG.Notify_Player msg = new MSG.Notify_Player();
+						Marshaler.Read(_in_msg, ref msg.id);
+						Marshaler.Read(_in_msg, msg.data);
 						if (_in_msg.IsCompleted == false) return RECEIVE_RESULT.INVALID_PACKET;
-						stub.RMI_S2C_Notify_Player(_in_msg.Hid, _id, _data);
+						stub.RMI_S2C_Notify_Player(_in_msg.Hid, msg);
 					}
 					break;
 				case RMI_ID.Notify_Move:
 					{
-						Log.Debug("Stub(S2C): Notify_Move");
-						VECTOR3 _look = new VECTOR3(); Marshaler.Read(_in_msg, _look);
-						DIRECTION _move = default(DIRECTION); Marshaler.Read(_in_msg, ref _move);
+						Log.Debug("S2C.Stub.Notify_Move");
+						MSG.Notify_Move msg = new MSG.Notify_Move();
+						Marshaler.Read(_in_msg, msg.look);
+						Marshaler.Read(_in_msg, ref msg.move);
 						if (_in_msg.IsCompleted == false) return RECEIVE_RESULT.INVALID_PACKET;
-						stub.RMI_S2C_Notify_Move(_in_msg.Hid, _look, _move);
+						stub.RMI_S2C_Notify_Move(_in_msg.Hid, msg);
 					}
 					break;
 				case RMI_ID.Notify_Chat:
 					{
-						Log.Debug("Stub(S2C): Notify_Chat");
-						System.String _msg = default(System.String); Marshaler.Read(_in_msg, ref _msg);
+						Log.Debug("S2C.Stub.Notify_Chat");
+						MSG.Notify_Chat msg = new MSG.Notify_Chat();
+						Marshaler.Read(_in_msg, ref msg._msg);
 						if (_in_msg.IsCompleted == false) return RECEIVE_RESULT.INVALID_PACKET;
-						stub.RMI_S2C_Notify_Chat(_in_msg.Hid, _msg);
+						stub.RMI_S2C_Notify_Chat(_in_msg.Hid, msg);
 					}
 					break;
 				default:
@@ -50,20 +70,20 @@ namespace S2C
 
 	public enum RMI_VERSION
 	{
-		RMI_VERSION                    = 1,
 	}
 	enum RMI_ID
 	{
-		Notify_Player                  = 5000,
-		Notify_Move                    = 5001,
-		Notify_Chat                    = 5002,
+		Notify_Player                  = 2,
+		Notify_Move                    = 3,
+		Notify_Chat                    = 4,
 	}
 	public class Proxy : IProxyBase
 	{
 		private INetworker m_Networker = null;
 		public void Init(INetworker mgr) { m_Networker = mgr; }
-		public bool Notify_Player(HostID target, HostID _id, DataPlayer _data)
+		public bool Notify_Player(HostID target, HostID id, DataPlayer data)
 		{
+			Log.Debug("S2C.Proxy.Notify_Player");
 			NetBuffer _out_msg = NetBufferPool.Instance.Pop();
 			if (m_Networker == null)
 			{
@@ -71,13 +91,14 @@ namespace S2C
 				return false;
 			}
 			_out_msg.Init((Int16)RMI_ID.Notify_Player, target);
-			Marshaler.Write(_out_msg, _id);
-			Marshaler.Write(_out_msg, _data);
+			Marshaler.Write(_out_msg, id);
+			Marshaler.Write(_out_msg, data);
 			if (_out_msg.IsError) return false;
 			return m_Networker.Send(_out_msg);
 		}
-		public bool Notify_Move(HostID target, VECTOR3 _look, DIRECTION _move)
+		public bool Notify_Move(HostID target, VECTOR3 look, DIRECTION move)
 		{
+			Log.Debug("S2C.Proxy.Notify_Move");
 			NetBuffer _out_msg = NetBufferPool.Instance.Pop();
 			if (m_Networker == null)
 			{
@@ -85,13 +106,14 @@ namespace S2C
 				return false;
 			}
 			_out_msg.Init((Int16)RMI_ID.Notify_Move, target);
-			Marshaler.Write(_out_msg, _look);
-			Marshaler.Write(_out_msg, _move);
+			Marshaler.Write(_out_msg, look);
+			Marshaler.Write(_out_msg, move);
 			if (_out_msg.IsError) return false;
 			return m_Networker.Send(_out_msg);
 		}
 		public bool Notify_Chat(HostID target, String _msg)
 		{
+			Log.Debug("S2C.Proxy.Notify_Chat");
 			NetBuffer _out_msg = NetBufferPool.Instance.Pop();
 			if (m_Networker == null)
 			{

@@ -39,19 +39,6 @@ namespace Devarc
 
         int RMI_START = 0;
 
-        bool IsValid(MethodInfo _minfo)
-        {
-            try
-            {
-                _minfo.GetParameters();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
         public bool IsProtocol(Type tp)
         {
             foreach (FieldInfo fi in tp.GetFields())
@@ -153,7 +140,6 @@ namespace Devarc
                 return;
             }
 
-            MethodInfo[] _methods;
             foreach (Type tp in assem.GetTypes())
             {
                 if (this.IsProtocol(tp) == false)
@@ -161,7 +147,8 @@ namespace Devarc
 
                 using (TextWriter sw = new StreamWriter(_outDir + "\\" + tp.Name + ".cs"))
                 {
-                    foreach (FieldInfo finfo in tp.GetFields())
+                    Type[] msgClasses = tp.GetNestedTypes(BindingFlags.Public);
+                    foreach (FieldInfo finfo in tp.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
                     {
                         if (finfo.Name == "RMI_START")
                         {
@@ -175,23 +162,36 @@ namespace Devarc
                     sw.WriteLine("namespace {0}", tp.Name); // start of namespace
                     sw.WriteLine("{");
 
+                    sw.WriteLine("\tnamespace MSG");
+                    sw.WriteLine("\t{");
+                    foreach (Type msgType in msgClasses)
+                    {
+                        sw.WriteLine("\t\tpublic class {0}", msgType.Name);
+                        sw.WriteLine("\t\t{");
+                        foreach (FieldInfo finfo in msgType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+                        {
+                            if (finfo.FieldType.Name.EndsWith("[]"))
+                            {
+                                sw.WriteLine("\t\t\tpublic {0} {1} = null;", finfo.FieldType.Name, finfo.Name);
+                            }
+                            else if (finfo.FieldType.IsClass && finfo.FieldType.Name.ToLower() != "string")
+                            {
+                                sw.WriteLine("\t\t\tpublic {0} {1} = new {0}();", finfo.FieldType.Name, finfo.Name);
+                            }
+                            else
+                            {
+                                sw.WriteLine("\t\t\tpublic {0} {1};", finfo.FieldType.Name, finfo.Name);
+                            }
+                        }
+                        sw.WriteLine("\t\t}");
+                    }
+                    sw.WriteLine("\t}");
+
                     sw.WriteLine("\tpublic interface IStub"); // start of stub
                     sw.WriteLine("\t{");
-                    _methods = tp.GetMethods(BindingFlags.Public | BindingFlags.Instance);
-                    foreach (MethodInfo minfo in _methods)
+                    foreach (Type msgType in msgClasses)
                     {
-                        if (IsValid(minfo) == false)
-                            continue;
-                        if (minfo.Name == "ToString" || minfo.Name == "Equals" || minfo.Name == "GetHashCode" || minfo.Name == "GetType")
-                        {
-                            continue;
-                        }
-                        sw.Write("\t\tvoid RMI_{0}_{1}(HostID remote", tp.Name, minfo.Name);
-                        foreach (ParameterInfo pinfo in minfo.GetParameters())
-                        {
-                            sw.Write(", " + pinfo.ParameterType.Name + " " + pinfo.Name);
-                        }
-                        sw.WriteLine(");");
+                        sw.WriteLine("\t\tvoid RMI_{0}_{1}(HostID remote, {0}.MSG.{1} msg);", tp.Name, msgType.Name);
                     }
                     sw.WriteLine("\t}"); // end of stub
 
@@ -205,7 +205,7 @@ namespace Devarc
 
                     sw.WriteLine("\tpublic enum RMI_VERSION"); // start of version
                     sw.WriteLine("\t{");
-                    foreach (FieldInfo finfo in tp.GetFields())
+                    foreach (FieldInfo finfo in tp.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
                     {
                         if (finfo.Name == "RMI_VERSION")
                         {
@@ -218,16 +218,9 @@ namespace Devarc
 
                     sw.WriteLine("\tenum RMI_ID"); // start of enum
                     sw.WriteLine("\t{");
-                    _methods = tp.GetMethods();
-                    foreach (MethodInfo minfo in _methods)
+                    foreach (Type msgType in msgClasses)
                     {
-                        if (IsValid(minfo) == false)
-                            continue;
-                        if (minfo.Name == "ToString" || minfo.Name == "Equals" || minfo.Name == "GetHashCode" || minfo.Name == "GetType")
-                        {
-                            continue;
-                        }
-                        sw.WriteLine("\t\t{0,-30} = {1},", minfo.Name, RMI_START++);
+                        sw.WriteLine("\t\t{0,-30} = {1},", msgType.Name, RMI_START++);
                     }
                     sw.WriteLine("\t}"); // end of enum
 
@@ -235,35 +228,29 @@ namespace Devarc
                     sw.WriteLine("\t{");
                     sw.WriteLine("\t\tprivate INetworker m_Networker = null;");
                     sw.WriteLine("\t\tpublic void Init(INetworker mgr) { m_Networker = mgr; }");
-                    _methods = tp.GetMethods();
-                    foreach (MethodInfo minfo in _methods)
+
+                    foreach (Type msgType in msgClasses)
                     {
-                        if (IsValid(minfo) == false)
-                            continue;
-                        if (minfo.Name == "ToString" || minfo.Name == "Equals" || minfo.Name == "GetHashCode" || minfo.Name == "GetType")
+                        sw.Write("\t\tpublic bool {0}(HostID target", msgType.Name);
+                        foreach (FieldInfo finfo in msgType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
                         {
-                            continue;
-                        }
-                        sw.Write("\t\tpublic bool {0}(HostID target", minfo.Name);
-                        foreach (ParameterInfo pinfo in minfo.GetParameters())
-                        {
-                            sw.Write(", " + pinfo.ParameterType.Name + " " + pinfo.Name);
+                            sw.Write(", " + finfo.FieldType.Name + " " + finfo.Name);
                         }
                         sw.WriteLine(")");
 
                         sw.WriteLine("\t\t{");
-                        //sw.WriteLine("\t\t\tLog.Debug(\"{0}.Proxy.{1}\");", tp.Name, minfo.Name);
+                        sw.WriteLine("\t\t\tLog.Debug(\"{0}.Proxy.{1}\");", tp.Name, msgType.Name);
                         sw.WriteLine("\t\t\tNetBuffer _out_msg = NetBufferPool.Instance.Pop();");
                         sw.WriteLine("\t\t\tif (m_Networker == null)");
                         sw.WriteLine("\t\t\t{");
                         sw.WriteLine("\t\t\t\tLog.Debug(\"{0} is not initialized.\", typeof(Proxy));");
                         sw.WriteLine("\t\t\t\treturn false;");
                         sw.WriteLine("\t\t\t}");
-                        sw.WriteLine("\t\t\t_out_msg.Init((Int16)RMI_ID.{0}, target);", minfo.Name);
 
-                        foreach (ParameterInfo pinfo in minfo.GetParameters())
+                        sw.WriteLine("\t\t\t_out_msg.Init((Int16)RMI_ID.{0}, target);", msgType.Name);
+                        foreach (FieldInfo finfo in msgType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
                         {
-                            sw.WriteLine("\t\t\tMarshaler.Write(_out_msg, {0});", pinfo.Name);
+                            sw.WriteLine("\t\t\tMarshaler.Write(_out_msg, {0});", finfo.Name);
                         }
                         sw.WriteLine("\t\t\tif (_out_msg.IsError) return false;");
                         sw.WriteLine("\t\t\treturn m_Networker.Send(_out_msg);");
@@ -344,43 +331,32 @@ namespace Devarc
             sw.WriteLine("\t\t\tRMI_ID rmi_id = (RMI_ID)_in_msg.Rmi;");
             sw.WriteLine("\t\t\tswitch (rmi_id)");
             sw.WriteLine("\t\t\t{");
-            MethodInfo[] _methods = tp.GetMethods();
-            foreach (MethodInfo minfo in _methods)
+
+            Type[] msgClasses = tp.GetNestedTypes(BindingFlags.Public);
+            foreach (Type msgType in msgClasses)
             {
-                if (IsValid(minfo) == false)
-                    continue;
-                if (minfo.Name == "ToString" || minfo.Name == "Equals" || minfo.Name == "GetHashCode" || minfo.Name == "GetType")
-                {
-                    continue;
-                }
-                sw.WriteLine("\t\t\t\tcase RMI_ID.{0}:", minfo.Name);
+                sw.WriteLine("\t\t\t\tcase RMI_ID.{0}:", msgType.Name);
                 sw.WriteLine("\t\t\t\t\t{");
-                sw.WriteLine("\t\t\t\t\t\tLog.Debug(\"Stub({0}): {1}\");", tp.Name, minfo.Name);
-                foreach (ParameterInfo pinfo in minfo.GetParameters())
+                sw.WriteLine("\t\t\t\t\t\tLog.Debug(\"{0}.Stub.{1}\");", tp.Name, msgType.Name);
+                sw.WriteLine("\t\t\t\t\t\tMSG.{0} msg = new MSG.{0}();", msgType.Name);
+                foreach (FieldInfo finfo in msgType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
                 {
-                    if (pinfo.ParameterType.Name.EndsWith("[]"))
+                    if (finfo.FieldType.Name.EndsWith("[]"))
                     {
-                        string type_name = pinfo.ParameterType.ToString().Substring(0, pinfo.ParameterType.ToString().Length - 2);
-                        sw.WriteLine("\t\t\t\t\t\t{0} {1}; Marshaler.Read(_in_msg, out {1});", pinfo.ParameterType, pinfo.Name, type_name);
+                        string type_name = finfo.FieldType.ToString().Substring(0, finfo.FieldType.ToString().Length - 2);
+                        sw.WriteLine("\t\t\t\t\t\tMarshaler.Read(_in_msg, out msg.{1});", finfo.FieldType, finfo.Name, type_name);
                     }
-                    else if (pinfo.ParameterType.IsClass && pinfo.ParameterType.Name.ToLower() != "string")
+                    else if (finfo.FieldType.IsClass && finfo.FieldType.Name.ToLower() != "string")
                     {
-                        sw.WriteLine("\t\t\t\t\t\t{0} {1} = new {0}(); Marshaler.Read(_in_msg, {1});", pinfo.ParameterType, pinfo.Name);
+                        sw.WriteLine("\t\t\t\t\t\tMarshaler.Read(_in_msg, msg.{1});", finfo.FieldType, finfo.Name);
                     }
                     else
                     {
-                        sw.WriteLine("\t\t\t\t\t\t{0} {1} = default({0}); Marshaler.Read(_in_msg, ref {1});", pinfo.ParameterType, pinfo.Name);
+                        sw.WriteLine("\t\t\t\t\t\tMarshaler.Read(_in_msg, ref msg.{1});", finfo.FieldType, finfo.Name);
                     }
                 }
-
                 sw.WriteLine("\t\t\t\t\t\tif (_in_msg.IsCompleted == false) return RECEIVE_RESULT.INVALID_PACKET;");
-                sw.Write("\t\t\t\t\t\tstub.RMI_{0}_{1}(_in_msg.Hid", tp.Name, minfo.Name);
-                foreach (ParameterInfo pinfo in minfo.GetParameters())
-                {
-                    sw.Write(", {0}", pinfo.Name);
-                }
-                sw.WriteLine(");");
-
+                sw.WriteLine("\t\t\t\t\t\tstub.RMI_{0}_{1}(_in_msg.Hid, msg);", tp.Name, msgType.Name);
                 sw.WriteLine("\t\t\t\t\t}");
                 sw.WriteLine("\t\t\t\t\tbreak;");
             }

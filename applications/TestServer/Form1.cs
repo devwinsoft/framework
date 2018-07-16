@@ -53,40 +53,20 @@ namespace TestServer
 
             try
             {
+                MySQL_Session mysql = new MySQL_Session();
+                mysql.Open("localhost", 3306, "game", "maoshy", "9536");
+
+                MySQL_Reader reader = mysql.Execute_Reader("select * from DataCharacter;");
+                while (reader.Read())
                 {
-                    MySQL_Session mysql = new MySQL_Session();
-                    mysql.Open("localhost", 3306, "game", "maoshy", "9536");
-
-                    Redis_Session redis = new Redis_Session();
-                    redis.Connect("localhost", 6379);
-
-                    foreach(string key in redis.GetKeys("localhost:6379"))
-                    {
-                        Log.Info(key);
-                    }
-                    //redis.FlushAll();
-
-                    MySQL_Reader reader = mysql.Execute_Reader("select * from DataCharacter;");
-                    while (reader.Read())
-                    {
-                        DataCharacter obj = new DataCharacter();
-                        obj.Initialize(reader);
-
-                        UNIT key = obj.GetKey();
-                        redis.SetString(key.ToString(), obj.ToJson());
-
-                        DataCharacter temp = new DataCharacter();
-                        JsonData data = JsonMapper.ToObject(redis.GetString(key.ToString()));
-                        temp.Initialize(data);
-                        Log.Info(temp.ToJson());
-                    }
-
-                    mysql.Close();
-                    redis.Close();
+                    DataCharacter obj = new DataCharacter();
+                    obj.Initialize(reader);
+                    Log.Info(obj.ToJson());
                 }
 
+                mysql.Close();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log.Error(ex.Message);
             }

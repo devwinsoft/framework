@@ -9,19 +9,19 @@ namespace TestClient
 {
     class Stub_S2C : IStubBase, S2C.IStub
     {
-        public void RMI_S2C_Notify_Player(HostID remote, HostID _id, DataPlayer _data)
+        public void RMI_S2C_Notify_Player(HostID remote, S2C.MSG.Notify_Player msg)
         {
 
         }
 
-        public void RMI_S2C_Notify_Move(HostID remote, VECTOR3 _look, DIRECTION _move)
+        public void RMI_S2C_Notify_Move(HostID remote, S2C.MSG.Notify_Move msg)
         {
 
         }
 
-        public void RMI_S2C_Notify_Chat(HostID remote, String _msg)
+        public void RMI_S2C_Notify_Chat(HostID remote, S2C.MSG.Notify_Chat msg)
         {
-            Log.Info("[{0}] {1}", remote, _msg);
+            Log.Info("[{0}] {1}", remote, msg._msg);
         }
 
         public bool OnReceiveData(object sender, NetBuffer msg)

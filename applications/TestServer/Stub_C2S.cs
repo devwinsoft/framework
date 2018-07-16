@@ -12,11 +12,12 @@ namespace TestServer
 {
     class Stub_C2S : IStubBase, C2S.IStub
     {
-        public void RMI_C2S_Move(HostID remote, VECTOR3 _look, DIRECTION _move)
+        public void RMI_C2S_Move(HostID remote, C2S.MSG.Move msg)
         {
+
         }
 
-        public void RMI_C2S_Chat(HostID remote, String _msg)
+        public void RMI_C2S_Chat(HostID remote, C2S.MSG.Chat msg)
         {
             using (PlayerData.LIST.READ_LOCK())
             {
