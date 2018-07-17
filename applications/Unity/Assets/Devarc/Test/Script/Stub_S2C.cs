@@ -4,16 +4,16 @@ using Devarc;
 
 public class Stub_S2C : IStubBase, S2C.IStub
 {
-    public void RMI_S2C_Notify_Player(HostID remote, S2C.MSG.Notify_Player msg)
+    public void RMI_S2C_Notify_Player(HostID remote, Notify_Player msg)
     {
 
     }
 
-    public void RMI_S2C_Notify_Move(HostID remote, S2C.MSG.Notify_Move msg)
+    public void RMI_S2C_Notify_Move(HostID remote, Notify_Move msg)
     {
     }
 
-    public void RMI_S2C_Notify_Chat(HostID remote, S2C.MSG.Notify_Chat msg)
+    public void RMI_S2C_Notify_Chat(HostID remote, Notify_Chat msg)
     {
         Log.Info(msg._msg);
     }

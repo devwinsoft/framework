@@ -81,13 +81,13 @@ namespace Devarc
 		}
 		public void Initialize(PropTable obj)
 		{
-			unit_type           = _UNIT.Parse(obj.GetStr("unit_type"));
+			unit_type           = FrameworkUtil.Parse<UNIT>(obj.GetStr("unit_type"));
 			show                = obj.GetBool("show");
 			_name.Key = FrameworkUtil.MakeLStringKey("DataCharacter", "name", unit_type.ToString());
 			_name.Value = obj.GetStr("name");
 			items.Clear();
 			JsonData __items = JsonMapper.ToObject(obj.GetStr("items"));
-			if (__items != null && __items.IsArray) { foreach (var node in __items as IList) { items.Add(_UNIT.Parse(node.ToString())); } }
+			if (__items != null && __items.IsArray) { foreach (var node in __items as IList) { items.Add(FrameworkUtil.Parse<UNIT>(node.ToString())); } }
 			stats.Clear();
 			JsonData __stats = JsonMapper.ToObject(obj.GetStr("stats"));
 			if (__stats != null && __stats.IsArray) { foreach (var node in __stats as IList) { DataAbility _v = new DataAbility(); _v.Initialize(node as JsonData); stats.Add(_v); } }
@@ -100,10 +100,10 @@ namespace Devarc
 		}
 		public void Initialize(JsonData obj)
 		{
-			if (obj.Keys.Contains("unit_type")) unit_type = _UNIT.Parse(obj["unit_type"].ToString()); else unit_type = default(UNIT);
+			if (obj.Keys.Contains("unit_type")) unit_type = FrameworkUtil.Parse<UNIT>(obj["unit_type"].ToString()); else unit_type = default(UNIT);
 			if (obj.Keys.Contains("show")) bool.TryParse(obj["show"].ToString(), out show); else show = default(bool);
 			_name.Key = FrameworkUtil.MakeLStringKey("DataCharacter", "name", unit_type.ToString());
-			if (obj.Keys.Contains("items")) foreach (JsonData node in obj["items"]) { items.Add(_UNIT.Parse(node.ToString())); }
+			if (obj.Keys.Contains("items")) foreach (JsonData node in obj["items"]) { items.Add(FrameworkUtil.Parse<UNIT>(node.ToString())); }
 			if (obj.Keys.Contains("stats")) foreach (JsonData node in obj["stats"]) { DataAbility _v = new DataAbility(); _v.Initialize(node); stats.Add(_v); }
 			if (obj.Keys.Contains("ability")) ability.Initialize(obj["ability"]);
 			if (obj.Keys.Contains("nodes")) foreach (JsonData node in obj["nodes"]) { nodes.Add(node.ToString()); }
@@ -113,10 +113,10 @@ namespace Devarc
 		}
 		public void Initialize(IBaseReader obj)
 		{
-			unit_type           = _UNIT.Parse(obj.GetString("unit_type"));
+			unit_type           = FrameworkUtil.Parse<UNIT>(obj.GetString("unit_type"));
 			show                = obj.GetBoolean("show");
 			_name.Key = FrameworkUtil.MakeLStringKey("DataCharacter", "name", unit_type.ToString());
-			string __items = obj.GetString("items"); items.Clear(); if (!string.IsNullOrEmpty(__items)) foreach (JsonData node in JsonMapper.ToObject(__items)) { items.Add(_UNIT.Parse(node.ToString())); };
+			string __items = obj.GetString("items"); items.Clear(); if (!string.IsNullOrEmpty(__items)) foreach (JsonData node in JsonMapper.ToObject(__items)) { items.Add(FrameworkUtil.Parse<UNIT>(node.ToString())); };
 			string __stats = obj.GetString("stats"); stats.Clear(); if (!string.IsNullOrEmpty(__stats)) FrameworkUtil.FillList<DataAbility>(__stats, stats);
 			ability.Initialize(JsonMapper.ToObject(obj.GetString("ability")));
 			string __nodes = obj.GetString("nodes"); nodes.Clear(); if (!string.IsNullOrEmpty(__nodes)) foreach (JsonData node in JsonMapper.ToObject(__nodes)) { nodes.Add(node.ToString()); };
@@ -616,10 +616,6 @@ namespace Devarc
 	[System.Serializable]
 	public partial class _DIRECTION : IBaseObejct<DIRECTION>
 	{
-		public static DIRECTION Parse(string name)
-		{
-			return FrameworkUtil.Parse<DIRECTION>(name);
-		}
 		public string              Name = "";
 		public DIRECTION           ID;
 
@@ -667,17 +663,17 @@ namespace Devarc
 		public void Initialize(PropTable obj)
 		{
 			Name                = obj.GetStr("Name");
-			ID                  = _DIRECTION.Parse(obj.GetStr("ID"));
+			ID                  = FrameworkUtil.Parse<DIRECTION>(obj.GetStr("ID"));
 		}
 		public void Initialize(JsonData obj)
 		{
 			if (obj.Keys.Contains("Name")) Name = obj["Name"].ToString(); else Name = default(string);
-			if (obj.Keys.Contains("ID")) ID = _DIRECTION.Parse(obj["ID"].ToString()); else ID = default(DIRECTION);
+			if (obj.Keys.Contains("ID")) ID = FrameworkUtil.Parse<DIRECTION>(obj["ID"].ToString()); else ID = default(DIRECTION);
 		}
 		public void Initialize(IBaseReader obj)
 		{
 			Name                = obj.GetString("Name");
-			ID                  = _DIRECTION.Parse(obj.GetString("ID"));
+			ID                  = FrameworkUtil.Parse<DIRECTION>(obj.GetString("ID"));
 		}
 		public override string ToString()
 		{
@@ -702,326 +698,6 @@ namespace Devarc
 			obj.Attach("ID", "DIRECTION", CLASS_TYPE.VALUE, true, ((int)ID).ToString());
 			return obj;
 		}
-	}
-	public static partial class Marshaler
-	{
-	    public static bool Read(NetBuffer msg, _DIRECTION obj)
-	    {
-	        bool success = true;
-			success = success ? Marshaler.Read(msg, ref obj.Name) : false;
-			success = success ? Marshaler.Read(msg, ref obj.ID) : false;
-	        return success;
-	    }
-	    public static bool Write(NetBuffer msg, _DIRECTION obj)
-	    {
-			Marshaler.Write(msg, obj.Name);
-			Marshaler.Write(msg, obj.ID);
-	        return msg.IsError;
-	    }
-	    public static bool Read(NetBuffer msg, List<_DIRECTION> list)
-	    {
-	        bool success = true;
-	        int cnt = msg.ReadInt16();
-	        for (int i = 0; i < cnt; i++)
-	        {
-				_DIRECTION obj = new _DIRECTION();
-				success = success ? Marshaler.Read(msg, ref obj.Name) : false;
-				success = success ? Marshaler.Read(msg, ref obj.ID) : false;
-				list.Add(obj);
-	        }
-	        return success;
-	    }
-	    public static bool Write(NetBuffer msg, List<_DIRECTION> list)
-	    {
-	        msg.Write((Int16)list.Count);
-	        foreach (_DIRECTION obj in list)
-	        {
-				Marshaler.Write(msg, obj.Name);
-				Marshaler.Write(msg, obj.ID);
-	        }
-	        return msg.IsError;
-	    }
-	}
-	[System.Serializable]
-	public partial class _MESSAGE : IBaseObejct<MESSAGE>
-	{
-		public static MESSAGE Parse(string name)
-		{
-			return FrameworkUtil.Parse<MESSAGE>(name);
-		}
-		public string              Name = "";
-		public MESSAGE             ID;
-		public string              TEXT { get { return Table.T_LString.GetAt(_TEXT.Key); } }
-		LString             _TEXT = new LString();
-
-		public _MESSAGE()
-		{
-		}
-		public _MESSAGE(_MESSAGE obj)
-		{
-			Initialize(obj);
-		}
-		public _MESSAGE(PropTable obj)
-		{
-			Initialize(obj);
-		}
-		public MESSAGE GetKey() { return ID; }
-		public string GetQuery_Select(MESSAGE _key)
-		{
-			return string.Format("select * from MESSAGE where ID='{0}';", _key);
-		}
-		public string GetQuery_InsertOrUpdate()
-		{
-			PropTable obj = ToTable();
-			return string.Format("insert into _MESSAGE (`Name`, `ID`, `TEXT`) VALUES ('{0}', '{1}', '{2}') on duplicate key update `Name`='{0}', `ID`='{1}', `TEXT`='{2}';", FrameworkUtil.InnerString(obj.GetStr("Name")), obj.GetStr("ID"), FrameworkUtil.InnerString(obj.GetStr("TEXT")));
-		}
-		public bool IsDefault
-		{
-			get
-			{
-				if (string.IsNullOrEmpty(Name) == false) return false;
-				if ((int)ID != 0) return false;
-				return true;
-			}
-		}
-		public void Initialize(IBaseObejct from)
-		{
-			_MESSAGE obj = from as _MESSAGE;
-			if (obj == null)
-			{
-				Log.Error("Cannot Initialize [name]:_MESSAGE");
-				return;
-			}
-			Name                = obj.Name;
-			ID                  = obj.ID;
-			_TEXT.Initialize(obj._TEXT);
-		}
-		public void Initialize(PropTable obj)
-		{
-			Name                = obj.GetStr("Name");
-			ID                  = _MESSAGE.Parse(obj.GetStr("ID"));
-			_TEXT.Key = FrameworkUtil.MakeLStringKey("_MESSAGE", "TEXT", ID.ToString());
-			_TEXT.Value = obj.GetStr("TEXT");
-		}
-		public void Initialize(JsonData obj)
-		{
-			if (obj.Keys.Contains("Name")) Name = obj["Name"].ToString(); else Name = default(string);
-			if (obj.Keys.Contains("ID")) ID = _MESSAGE.Parse(obj["ID"].ToString()); else ID = default(MESSAGE);
-			_TEXT.Key = FrameworkUtil.MakeLStringKey("_MESSAGE", "TEXT", ID.ToString());
-		}
-		public void Initialize(IBaseReader obj)
-		{
-			Name                = obj.GetString("Name");
-			ID                  = _MESSAGE.Parse(obj.GetString("ID"));
-			_TEXT.Key = FrameworkUtil.MakeLStringKey("_MESSAGE", "TEXT", ID.ToString());
-		}
-		public override string ToString()
-		{
-		    StringBuilder sb = new StringBuilder();
-		    sb.Append("{"); sb.Append(" \"Name\":"); sb.Append("\""); sb.Append(Name); sb.Append("\"");
-		    sb.Append(","); sb.Append(" \"ID\":"); sb.Append("\""); sb.Append(ID.ToString()); sb.Append("\"");
-		    sb.Append(","); sb.Append(" \"TEXT\":"); sb.Append("\""); sb.Append(TEXT); sb.Append("\"");
-		    sb.Append("}");
-		    return sb.ToString();
-		}
-		public string ToJson()
-		{
-		    StringBuilder sb = new StringBuilder();
-		    sb.Append("{"); sb.Append("\"Name\":"); sb.Append("\""); sb.Append(FrameworkUtil.JsonString(Name)); sb.Append("\"");
-			if (default(MESSAGE) != ID) { sb.Append(","); sb.Append("\"ID\":"); sb.Append("\""); sb.Append(ID.ToString()); sb.Append("\""); }
-		    sb.Append("}");
-		    return sb.ToString();
-		}
-		public PropTable ToTable()
-		{
-			PropTable obj = new PropTable("_MESSAGE");
-			obj.Attach("Name", "string", CLASS_TYPE.VALUE, false, Name);
-			obj.Attach("ID", "MESSAGE", CLASS_TYPE.VALUE, true, ((int)ID).ToString());
-			obj.Attach("TEXT", "LString", CLASS_TYPE.VALUE, false, _TEXT.Value);
-			return obj;
-		}
-	}
-	public static partial class Marshaler
-	{
-	    public static bool Read(NetBuffer msg, _MESSAGE obj)
-	    {
-	        bool success = true;
-			success = success ? Marshaler.Read(msg, ref obj.Name) : false;
-			success = success ? Marshaler.Read(msg, ref obj.ID) : false;
-	        return success;
-	    }
-	    public static bool Write(NetBuffer msg, _MESSAGE obj)
-	    {
-			Marshaler.Write(msg, obj.Name);
-			Marshaler.Write(msg, obj.ID);
-			Marshaler.Write(msg, obj.TEXT);
-	        return msg.IsError;
-	    }
-	    public static bool Read(NetBuffer msg, List<_MESSAGE> list)
-	    {
-	        bool success = true;
-	        int cnt = msg.ReadInt16();
-	        for (int i = 0; i < cnt; i++)
-	        {
-				_MESSAGE obj = new _MESSAGE();
-				success = success ? Marshaler.Read(msg, ref obj.Name) : false;
-				success = success ? Marshaler.Read(msg, ref obj.ID) : false;
-				list.Add(obj);
-	        }
-	        return success;
-	    }
-	    public static bool Write(NetBuffer msg, List<_MESSAGE> list)
-	    {
-	        msg.Write((Int16)list.Count);
-	        foreach (_MESSAGE obj in list)
-	        {
-				Marshaler.Write(msg, obj.Name);
-				Marshaler.Write(msg, obj.ID);
-				Marshaler.Write(msg, obj.TEXT);
-	        }
-	        return msg.IsError;
-	    }
-	}
-	[System.Serializable]
-	public partial class _UNIT : IBaseObejct<UNIT>
-	{
-		public static UNIT Parse(string name)
-		{
-			return FrameworkUtil.Parse<UNIT>(name);
-		}
-		public string              Name = "";
-		public UNIT                ID;
-
-		public _UNIT()
-		{
-		}
-		public _UNIT(_UNIT obj)
-		{
-			Initialize(obj);
-		}
-		public _UNIT(PropTable obj)
-		{
-			Initialize(obj);
-		}
-		public UNIT GetKey() { return ID; }
-		public string GetQuery_Select(UNIT _key)
-		{
-			return string.Format("select * from UNIT where ID='{0}';", _key);
-		}
-		public string GetQuery_InsertOrUpdate()
-		{
-			PropTable obj = ToTable();
-			return string.Format("insert into _UNIT (`Name`, `ID`) VALUES ('{0}', '{1}') on duplicate key update `Name`='{0}', `ID`='{1}';", FrameworkUtil.InnerString(obj.GetStr("Name")), obj.GetStr("ID"));
-		}
-		public bool IsDefault
-		{
-			get
-			{
-				if (string.IsNullOrEmpty(Name) == false) return false;
-				if ((int)ID != 0) return false;
-				return true;
-			}
-		}
-		public void Initialize(IBaseObejct from)
-		{
-			_UNIT obj = from as _UNIT;
-			if (obj == null)
-			{
-				Log.Error("Cannot Initialize [name]:_UNIT");
-				return;
-			}
-			Name                = obj.Name;
-			ID                  = obj.ID;
-		}
-		public void Initialize(PropTable obj)
-		{
-			Name                = obj.GetStr("Name");
-			ID                  = _UNIT.Parse(obj.GetStr("ID"));
-		}
-		public void Initialize(JsonData obj)
-		{
-			if (obj.Keys.Contains("Name")) Name = obj["Name"].ToString(); else Name = default(string);
-			if (obj.Keys.Contains("ID")) ID = _UNIT.Parse(obj["ID"].ToString()); else ID = default(UNIT);
-		}
-		public void Initialize(IBaseReader obj)
-		{
-			Name                = obj.GetString("Name");
-			ID                  = _UNIT.Parse(obj.GetString("ID"));
-		}
-		public override string ToString()
-		{
-		    StringBuilder sb = new StringBuilder();
-		    sb.Append("{"); sb.Append(" \"Name\":"); sb.Append("\""); sb.Append(Name); sb.Append("\"");
-		    sb.Append(","); sb.Append(" \"ID\":"); sb.Append("\""); sb.Append(ID.ToString()); sb.Append("\"");
-		    sb.Append("}");
-		    return sb.ToString();
-		}
-		public string ToJson()
-		{
-		    StringBuilder sb = new StringBuilder();
-		    sb.Append("{"); sb.Append("\"Name\":"); sb.Append("\""); sb.Append(FrameworkUtil.JsonString(Name)); sb.Append("\"");
-			if (default(UNIT) != ID) { sb.Append(","); sb.Append("\"ID\":"); sb.Append("\""); sb.Append(ID.ToString()); sb.Append("\""); }
-		    sb.Append("}");
-		    return sb.ToString();
-		}
-		public PropTable ToTable()
-		{
-			PropTable obj = new PropTable("_UNIT");
-			obj.Attach("Name", "string", CLASS_TYPE.VALUE, false, Name);
-			obj.Attach("ID", "UNIT", CLASS_TYPE.VALUE, true, ((int)ID).ToString());
-			return obj;
-		}
-	}
-	public static partial class Marshaler
-	{
-	    public static bool Read(NetBuffer msg, _UNIT obj)
-	    {
-	        bool success = true;
-			success = success ? Marshaler.Read(msg, ref obj.Name) : false;
-			success = success ? Marshaler.Read(msg, ref obj.ID) : false;
-	        return success;
-	    }
-	    public static bool Write(NetBuffer msg, _UNIT obj)
-	    {
-			Marshaler.Write(msg, obj.Name);
-			Marshaler.Write(msg, obj.ID);
-	        return msg.IsError;
-	    }
-	    public static bool Read(NetBuffer msg, List<_UNIT> list)
-	    {
-	        bool success = true;
-	        int cnt = msg.ReadInt16();
-	        for (int i = 0; i < cnt; i++)
-	        {
-				_UNIT obj = new _UNIT();
-				success = success ? Marshaler.Read(msg, ref obj.Name) : false;
-				success = success ? Marshaler.Read(msg, ref obj.ID) : false;
-				list.Add(obj);
-	        }
-	        return success;
-	    }
-	    public static bool Write(NetBuffer msg, List<_UNIT> list)
-	    {
-	        msg.Write((Int16)list.Count);
-	        foreach (_UNIT obj in list)
-	        {
-				Marshaler.Write(msg, obj.Name);
-				Marshaler.Write(msg, obj.ID);
-	        }
-	        return msg.IsError;
-	    }
-	}
-	public enum DIRECTION
-	{
-		STOP                = 0,
-		BACK                = 1,
-		FORWARD             = 2,
-		L                   = 3,
-		R                   = 4,
-		FL                  = 5,
-		FR                  = 6,
-		BL                  = 7,
-		BR                  = 8,
 	}
 	public static partial class Marshaler
 	{
@@ -1074,26 +750,237 @@ namespace Devarc
 	        return !msg.IsError;
 	    }
 	}
-	public enum UNIT
+	[System.Serializable]
+	public partial class _MESSAGE : IBaseObejct<MESSAGE>
 	{
-		NONE                = 0,
-		HUMAN_FEMALE        = 1,
-		HUMAN_MALE          = 2,
-		ELF_FEMALE          = 3,
-		ELF_MALE            = 4,
-		DARKELF_FEMALE      = 5,
-		DARKELF_MALE        = 6,
-		DWARF_FEMALE        = 7,
-		DWARF_MALE          = 8,
-		GOBLIN              = 9,
-		IMP                 = 10,
-		MUMMY               = 11,
-		ORC                 = 12,
-		TROLL               = 13,
-		UNDEAD              = 14,
-		DRAGON_BLACK        = 15,
-		DRAGON_RED          = 16,
-		DRAGON_UNDEAD       = 17,
+		public string              Name = "";
+		public MESSAGE             ID;
+		public string              TEXT { get { return Table.T_LString.GetAt(_TEXT.Key); } }
+		LString             _TEXT = new LString();
+
+		public _MESSAGE()
+		{
+		}
+		public _MESSAGE(_MESSAGE obj)
+		{
+			Initialize(obj);
+		}
+		public _MESSAGE(PropTable obj)
+		{
+			Initialize(obj);
+		}
+		public MESSAGE GetKey() { return ID; }
+		public string GetQuery_Select(MESSAGE _key)
+		{
+			return string.Format("select * from MESSAGE where ID='{0}';", _key);
+		}
+		public string GetQuery_InsertOrUpdate()
+		{
+			PropTable obj = ToTable();
+			return string.Format("insert into _MESSAGE (`Name`, `ID`, `TEXT`) VALUES ('{0}', '{1}', '{2}') on duplicate key update `Name`='{0}', `ID`='{1}', `TEXT`='{2}';", FrameworkUtil.InnerString(obj.GetStr("Name")), obj.GetStr("ID"), FrameworkUtil.InnerString(obj.GetStr("TEXT")));
+		}
+		public bool IsDefault
+		{
+			get
+			{
+				if (string.IsNullOrEmpty(Name) == false) return false;
+				if ((int)ID != 0) return false;
+				return true;
+			}
+		}
+		public void Initialize(IBaseObejct from)
+		{
+			_MESSAGE obj = from as _MESSAGE;
+			if (obj == null)
+			{
+				Log.Error("Cannot Initialize [name]:_MESSAGE");
+				return;
+			}
+			Name                = obj.Name;
+			ID                  = obj.ID;
+			_TEXT.Initialize(obj._TEXT);
+		}
+		public void Initialize(PropTable obj)
+		{
+			Name                = obj.GetStr("Name");
+			ID                  = FrameworkUtil.Parse<MESSAGE>(obj.GetStr("ID"));
+			_TEXT.Key = FrameworkUtil.MakeLStringKey("_MESSAGE", "TEXT", ID.ToString());
+			_TEXT.Value = obj.GetStr("TEXT");
+		}
+		public void Initialize(JsonData obj)
+		{
+			if (obj.Keys.Contains("Name")) Name = obj["Name"].ToString(); else Name = default(string);
+			if (obj.Keys.Contains("ID")) ID = FrameworkUtil.Parse<MESSAGE>(obj["ID"].ToString()); else ID = default(MESSAGE);
+			_TEXT.Key = FrameworkUtil.MakeLStringKey("_MESSAGE", "TEXT", ID.ToString());
+		}
+		public void Initialize(IBaseReader obj)
+		{
+			Name                = obj.GetString("Name");
+			ID                  = FrameworkUtil.Parse<MESSAGE>(obj.GetString("ID"));
+			_TEXT.Key = FrameworkUtil.MakeLStringKey("_MESSAGE", "TEXT", ID.ToString());
+		}
+		public override string ToString()
+		{
+		    StringBuilder sb = new StringBuilder();
+		    sb.Append("{"); sb.Append(" \"Name\":"); sb.Append("\""); sb.Append(Name); sb.Append("\"");
+		    sb.Append(","); sb.Append(" \"ID\":"); sb.Append("\""); sb.Append(ID.ToString()); sb.Append("\"");
+		    sb.Append(","); sb.Append(" \"TEXT\":"); sb.Append("\""); sb.Append(TEXT); sb.Append("\"");
+		    sb.Append("}");
+		    return sb.ToString();
+		}
+		public string ToJson()
+		{
+		    StringBuilder sb = new StringBuilder();
+		    sb.Append("{"); sb.Append("\"Name\":"); sb.Append("\""); sb.Append(FrameworkUtil.JsonString(Name)); sb.Append("\"");
+			if (default(MESSAGE) != ID) { sb.Append(","); sb.Append("\"ID\":"); sb.Append("\""); sb.Append(ID.ToString()); sb.Append("\""); }
+		    sb.Append("}");
+		    return sb.ToString();
+		}
+		public PropTable ToTable()
+		{
+			PropTable obj = new PropTable("_MESSAGE");
+			obj.Attach("Name", "string", CLASS_TYPE.VALUE, false, Name);
+			obj.Attach("ID", "MESSAGE", CLASS_TYPE.VALUE, true, ((int)ID).ToString());
+			obj.Attach("TEXT", "LString", CLASS_TYPE.VALUE, false, _TEXT.Value);
+			return obj;
+		}
+	}
+	public static partial class Marshaler
+	{
+	    public static bool Read(NetBuffer msg, ref MESSAGE obj)
+	    {
+	        obj = (MESSAGE)msg.ReadInt32();
+	        return !msg.IsError;
+	    }
+	    public static bool Write(NetBuffer msg, MESSAGE obj)
+	    {
+	        msg.Write((Int32)obj);
+	        return !msg.IsError;
+	    }
+	    public static bool Read(NetBuffer msg, out MESSAGE[] obj)
+	    {
+	        int cnt = msg.ReadInt16();
+	        obj = new MESSAGE[cnt];
+	        for (int i = 0; i < cnt; i++)
+	        {
+	            obj[i] = (MESSAGE)msg.ReadInt32();
+	        }
+	        return !msg.IsError;
+	    }
+	    public static bool Read(NetBuffer msg, List<MESSAGE> obj)
+	    {
+	        int cnt = msg.ReadInt16();
+	        obj = new List<MESSAGE>();
+	        for (int i = 0; i < cnt; i++)
+	        {
+	            obj[i] = (MESSAGE)msg.ReadInt32();
+	        }
+	        return !msg.IsError;
+	    }
+	    public static bool Write(NetBuffer msg, MESSAGE[] list)
+	    {
+	        msg.Write((Int16)list.Length);
+	        foreach (MESSAGE obj in list)
+	        {
+	            msg.Write((Int32)obj);
+	        }
+	        return !msg.IsError;
+	    }
+	    public static bool Write(NetBuffer msg, List<MESSAGE> list)
+	    {
+	        msg.Write((Int16)list.Count);
+	        foreach (MESSAGE obj in list)
+	        {
+	            msg.Write((Int32)obj);
+	        }
+	        return !msg.IsError;
+	    }
+	}
+	[System.Serializable]
+	public partial class _UNIT : IBaseObejct<UNIT>
+	{
+		public string              Name = "";
+		public UNIT                ID;
+
+		public _UNIT()
+		{
+		}
+		public _UNIT(_UNIT obj)
+		{
+			Initialize(obj);
+		}
+		public _UNIT(PropTable obj)
+		{
+			Initialize(obj);
+		}
+		public UNIT GetKey() { return ID; }
+		public string GetQuery_Select(UNIT _key)
+		{
+			return string.Format("select * from UNIT where ID='{0}';", _key);
+		}
+		public string GetQuery_InsertOrUpdate()
+		{
+			PropTable obj = ToTable();
+			return string.Format("insert into _UNIT (`Name`, `ID`) VALUES ('{0}', '{1}') on duplicate key update `Name`='{0}', `ID`='{1}';", FrameworkUtil.InnerString(obj.GetStr("Name")), obj.GetStr("ID"));
+		}
+		public bool IsDefault
+		{
+			get
+			{
+				if (string.IsNullOrEmpty(Name) == false) return false;
+				if ((int)ID != 0) return false;
+				return true;
+			}
+		}
+		public void Initialize(IBaseObejct from)
+		{
+			_UNIT obj = from as _UNIT;
+			if (obj == null)
+			{
+				Log.Error("Cannot Initialize [name]:_UNIT");
+				return;
+			}
+			Name                = obj.Name;
+			ID                  = obj.ID;
+		}
+		public void Initialize(PropTable obj)
+		{
+			Name                = obj.GetStr("Name");
+			ID                  = FrameworkUtil.Parse<UNIT>(obj.GetStr("ID"));
+		}
+		public void Initialize(JsonData obj)
+		{
+			if (obj.Keys.Contains("Name")) Name = obj["Name"].ToString(); else Name = default(string);
+			if (obj.Keys.Contains("ID")) ID = FrameworkUtil.Parse<UNIT>(obj["ID"].ToString()); else ID = default(UNIT);
+		}
+		public void Initialize(IBaseReader obj)
+		{
+			Name                = obj.GetString("Name");
+			ID                  = FrameworkUtil.Parse<UNIT>(obj.GetString("ID"));
+		}
+		public override string ToString()
+		{
+		    StringBuilder sb = new StringBuilder();
+		    sb.Append("{"); sb.Append(" \"Name\":"); sb.Append("\""); sb.Append(Name); sb.Append("\"");
+		    sb.Append(","); sb.Append(" \"ID\":"); sb.Append("\""); sb.Append(ID.ToString()); sb.Append("\"");
+		    sb.Append("}");
+		    return sb.ToString();
+		}
+		public string ToJson()
+		{
+		    StringBuilder sb = new StringBuilder();
+		    sb.Append("{"); sb.Append("\"Name\":"); sb.Append("\""); sb.Append(FrameworkUtil.JsonString(Name)); sb.Append("\"");
+			if (default(UNIT) != ID) { sb.Append(","); sb.Append("\"ID\":"); sb.Append("\""); sb.Append(ID.ToString()); sb.Append("\""); }
+		    sb.Append("}");
+		    return sb.ToString();
+		}
+		public PropTable ToTable()
+		{
+			PropTable obj = new PropTable("_UNIT");
+			obj.Attach("Name", "string", CLASS_TYPE.VALUE, false, Name);
+			obj.Attach("ID", "UNIT", CLASS_TYPE.VALUE, true, ((int)ID).ToString());
+			return obj;
+		}
 	}
 	public static partial class Marshaler
 	{
@@ -1146,60 +1033,42 @@ namespace Devarc
 	        return !msg.IsError;
 	    }
 	}
+	public enum DIRECTION
+	{
+		STOP                = 0,
+		BACK                = 1,
+		FORWARD             = 2,
+		L                   = 3,
+		R                   = 4,
+		FL                  = 5,
+		FR                  = 6,
+		BL                  = 7,
+		BR                  = 8,
+	}
+	public enum UNIT
+	{
+		NONE                = 0,
+		HUMAN_FEMALE        = 1,
+		HUMAN_MALE          = 2,
+		ELF_FEMALE          = 3,
+		ELF_MALE            = 4,
+		DARKELF_FEMALE      = 5,
+		DARKELF_MALE        = 6,
+		DWARF_FEMALE        = 7,
+		DWARF_MALE          = 8,
+		GOBLIN              = 9,
+		IMP                 = 10,
+		MUMMY               = 11,
+		ORC                 = 12,
+		TROLL               = 13,
+		UNDEAD              = 14,
+		DRAGON_BLACK        = 15,
+		DRAGON_RED          = 16,
+		DRAGON_UNDEAD       = 17,
+	}
 	public enum MESSAGE
 	{
 		SUCCESS             = 0,
 		ERROR_UNKNOWN       = 1,
-	}
-	public static partial class Marshaler
-	{
-	    public static bool Read(NetBuffer msg, ref MESSAGE obj)
-	    {
-	        obj = (MESSAGE)msg.ReadInt32();
-	        return !msg.IsError;
-	    }
-	    public static bool Write(NetBuffer msg, MESSAGE obj)
-	    {
-	        msg.Write((Int32)obj);
-	        return !msg.IsError;
-	    }
-	    public static bool Read(NetBuffer msg, out MESSAGE[] obj)
-	    {
-	        int cnt = msg.ReadInt16();
-	        obj = new MESSAGE[cnt];
-	        for (int i = 0; i < cnt; i++)
-	        {
-	            obj[i] = (MESSAGE)msg.ReadInt32();
-	        }
-	        return !msg.IsError;
-	    }
-	    public static bool Read(NetBuffer msg, List<MESSAGE> obj)
-	    {
-	        int cnt = msg.ReadInt16();
-	        obj = new List<MESSAGE>();
-	        for (int i = 0; i < cnt; i++)
-	        {
-	            obj[i] = (MESSAGE)msg.ReadInt32();
-	        }
-	        return !msg.IsError;
-	    }
-	    public static bool Write(NetBuffer msg, MESSAGE[] list)
-	    {
-	        msg.Write((Int16)list.Length);
-	        foreach (MESSAGE obj in list)
-	        {
-	            msg.Write((Int32)obj);
-	        }
-	        return !msg.IsError;
-	    }
-	    public static bool Write(NetBuffer msg, List<MESSAGE> list)
-	    {
-	        msg.Write((Int16)list.Count);
-	        foreach (MESSAGE obj in list)
-	        {
-	            msg.Write((Int32)obj);
-	        }
-	        return !msg.IsError;
-	    }
 	}
 } // end of namespace

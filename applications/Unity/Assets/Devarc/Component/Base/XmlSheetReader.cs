@@ -91,6 +91,8 @@ namespace Devarc
                             m_SheetName = tmpSheetName.Substring(0, tmpIndex);
                         else
                             m_SheetName = tmpSheetName;
+                        temp_table.TableName = GetClassName(tmpSheetName);
+                        temp_table.IsEnum = tmpSheetName.StartsWith("!");
                     }
                     if ("Table" == xrd.Name)
                     {

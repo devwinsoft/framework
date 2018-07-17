@@ -47,6 +47,8 @@ namespace Devarc
                 foreach (Type tp in types)
                 {
                     PropTable prop = new PropTable(tp.Name);
+                    prop.TableName = GetClassName(tp.Name);
+                    prop.IsEnum = tp.IsEnum;
 
                     FieldInfo[] _fields = tp.GetFields();
                     if (tp.IsEnum == false)
@@ -54,17 +56,6 @@ namespace Devarc
                         int i = 0;
                         foreach (FieldInfo finfo in _fields)
                         {
-                            int tmpLength = 0;
-                            foreach(CustomAttributeData attrData in finfo.CustomAttributes)
-                            {
-                                foreach(CustomAttributeNamedArgument argument in attrData.NamedArguments)
-                                {
-                                    if (string.Equals("Length", argument.TypedValue))
-                                    {
-                                        tmpLength = (int)argument.TypedValue.Value;
-                                    }
-                                }
-                            }
                             bool isArray = finfo.FieldType.Name.EndsWith("[]");
                             bool isClass = IsClass(finfo.FieldType);
                             string varTypeName = ToTypeName(finfo.FieldType.Name, isClass);
@@ -84,14 +75,7 @@ namespace Devarc
                                     classType = CLASS_TYPE.VALUE;
                             }
 
-                            if (tmpLength <= 0)
-                            {
-                                prop.Attach(finfo.Name, varTypeName, classType, false, "");
-                            }
-                            else
-                            {
-                                prop.Attach(finfo.Name, string.Format("{0}({1})", varTypeName, tmpLength), classType, false, "");
-                            }
+                            prop.Attach(finfo.Name, varTypeName, classType, false, "");
                             i++;
                         }
                     }

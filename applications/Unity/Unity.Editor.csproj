@@ -329,6 +329,7 @@
     <Compile Include="Assets\Devarc\Editor\Builder_Object.cs" />
     <Compile Include="Assets\Devarc\Editor\Builder_SQL.cs" />
     <Compile Include="Assets\Devarc\Editor\Builder_SQLite.cs" />
+    <Compile Include="Assets\Devarc\Editor\Builder_Util.cs" />
     <Compile Include="Assets\Devarc\Editor\BuilderSaveData.cs" />
     <Compile Include="Assets\Devarc\Editor\DevarcEditor.cs" />
   </ItemGroup>

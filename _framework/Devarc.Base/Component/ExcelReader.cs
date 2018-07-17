@@ -35,6 +35,8 @@ namespace Devarc
                 PropTable rowData = new PropTable();
                 ISheet sheet = book.GetSheetAt(s);
                 bool funcCalled = false;
+                rowData.TableName = GetClassName(sheet.SheetName);
+                rowData.IsEnum = sheet.SheetName.StartsWith("!");
                 for (int r = 0; r <= sheet.LastRowNum; r++)
                 {
                     IRow row = sheet.GetRow(r);

@@ -5,12 +5,12 @@ public class C2S
     public const int RMI_VERSION = 1;
     public const int RMI_START = 6000;
 
-    public class Move
+    public class Request_Move
 	{
 		VECTOR3 look;
 		DIRECTION move;
 	}
-    public class Chat
+    public class Request_Chat
 	{
 		string msg;
 	}

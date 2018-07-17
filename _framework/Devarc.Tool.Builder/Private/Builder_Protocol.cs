@@ -158,40 +158,20 @@ namespace Devarc
                     }
 
                     sw.WriteLine("using System;");
+                    sw.WriteLine("using System.Text;");
+                    sw.WriteLine("using System.Collections;");
+                    sw.WriteLine("using System.Collections.Generic;");
+                    sw.WriteLine("using LitJson;");
                     sw.WriteLine("using Devarc;");
+
                     sw.WriteLine("namespace {0}", tp.Name); // start of namespace
                     sw.WriteLine("{");
-
-                    sw.WriteLine("\tnamespace MSG");
-                    sw.WriteLine("\t{");
-                    foreach (Type msgType in msgClasses)
-                    {
-                        sw.WriteLine("\t\tpublic class {0}", msgType.Name);
-                        sw.WriteLine("\t\t{");
-                        foreach (FieldInfo finfo in msgType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
-                        {
-                            if (finfo.FieldType.Name.EndsWith("[]"))
-                            {
-                                sw.WriteLine("\t\t\tpublic {0} {1} = null;", finfo.FieldType.Name, finfo.Name);
-                            }
-                            else if (finfo.FieldType.IsClass && finfo.FieldType.Name.ToLower() != "string")
-                            {
-                                sw.WriteLine("\t\t\tpublic {0} {1} = new {0}();", finfo.FieldType.Name, finfo.Name);
-                            }
-                            else
-                            {
-                                sw.WriteLine("\t\t\tpublic {0} {1};", finfo.FieldType.Name, finfo.Name);
-                            }
-                        }
-                        sw.WriteLine("\t\t}");
-                    }
-                    sw.WriteLine("\t}");
 
                     sw.WriteLine("\tpublic interface IStub"); // start of stub
                     sw.WriteLine("\t{");
                     foreach (Type msgType in msgClasses)
                     {
-                        sw.WriteLine("\t\tvoid RMI_{0}_{1}(HostID remote, {0}.MSG.{1} msg);", tp.Name, msgType.Name);
+                        sw.WriteLine("\t\tvoid RMI_{0}_{1}(HostID remote, {1} msg);", tp.Name, msgType.Name);
                     }
                     sw.WriteLine("\t}"); // end of stub
 
@@ -258,8 +238,18 @@ namespace Devarc
                     }
                     sw.WriteLine("\t}"); // end of proxy
                     sw.WriteLine("");
-
                     sw.WriteLine("}"); // end of namespace
+
+
+                    sw.WriteLine("namespace Devarc");
+                    sw.WriteLine("{");
+                    foreach (Type msgType in msgClasses)
+                    {
+                        PropTable tb = Builder_Util.ToTable(msgType);
+                        Builder_Util.Make_Class_Code(tb, sw);
+                    }
+                    sw.WriteLine("}");
+
                 } // close file
             }
 
@@ -338,7 +328,7 @@ namespace Devarc
                 sw.WriteLine("\t\t\t\tcase RMI_ID.{0}:", msgType.Name);
                 sw.WriteLine("\t\t\t\t\t{");
                 sw.WriteLine("\t\t\t\t\t\tLog.Debug(\"{0}.Stub.{1}\");", tp.Name, msgType.Name);
-                sw.WriteLine("\t\t\t\t\t\tMSG.{0} msg = new MSG.{0}();", msgType.Name);
+                sw.WriteLine("\t\t\t\t\t\t{0} msg = new {0}();", msgType.Name);
                 foreach (FieldInfo finfo in msgType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
                 {
                     if (finfo.FieldType.Name.EndsWith("[]"))

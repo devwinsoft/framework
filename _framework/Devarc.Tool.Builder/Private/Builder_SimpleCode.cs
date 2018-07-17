@@ -46,7 +46,14 @@ namespace Devarc
             if (is_enum)
                 mStrBuilder.Append(string.Format("public enum {0} {{ }}\r\n", class_name ));
             else
-                mStrBuilder.Append(string.Format("public class {0} {{ }}\r\n", class_name));
+            {
+                mStrBuilder.Append(string.Format("public class {0} {{ ", class_name));
+                for (int i = 0; i < tb.Length; i++)
+                {
+                    mStrBuilder.Append(string.Format("public {0} {1}; ", tb.GetTypeName(i), tb.GetVarName(i)));
+                }
+                mStrBuilder.Append("}\r\n");
+            }
         }
     }
 }

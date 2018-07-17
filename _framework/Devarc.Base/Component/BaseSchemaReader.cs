@@ -101,7 +101,7 @@ namespace Devarc
             return false;
         }
 
-        string GetClassName(string _path)
+        public string GetClassName(string _path)
         {
             int startIndex = _path[0] == '!' ? 1 : 0;
             int endIndex = _path.IndexOf('@');

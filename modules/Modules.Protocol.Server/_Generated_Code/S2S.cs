@@ -1,18 +1,94 @@
 using System;
+using System.Text;
+using System.Collections;
+using System.Collections.Generic;
+using LitJson;
 using Devarc;
-namespace S2S
+namespace Devarc
 {
-	namespace Message
+	[System.Serializable]
+	public class Ping : IBaseObejct
 	{
-		public class Ping
+		public TEST_VECTOR         pos = new TEST_VECTOR();
+		public string              data = "";
+
+		public Ping()
 		{
-			public TEST_VECTOR pos = new TEST_VECTOR();
-			public Byte[] data = null;
+		}
+		public Ping(Ping obj)
+		{
+			Initialize(obj);
+		}
+		public Ping(PropTable obj)
+		{
+			Initialize(obj);
+		}
+		public bool IsDefault
+		{
+			get
+			{
+				if (pos.IsDefault == false) return false;
+				if (string.IsNullOrEmpty(data) == false) return false;
+				return true;
+			}
+		}
+		public void Initialize(IBaseObejct from)
+		{
+			Ping obj = from as Ping;
+			if (obj == null)
+			{
+				Log.Error("Cannot Initialize [name]:Ping");
+				return;
+			}
+			pos.Initialize(obj.pos);
+			data                = obj.data;
+		}
+		public void Initialize(PropTable obj)
+		{
+			pos.Initialize(obj.GetTable("pos"));
+			data                = obj.GetStr("data");
+		}
+		public void Initialize(JsonData obj)
+		{
+			if (obj.Keys.Contains("pos")) pos.Initialize(obj["pos"]);
+			if (obj.Keys.Contains("data")) data = obj["data"].ToString(); else data = default(string);
+		}
+		public void Initialize(IBaseReader obj)
+		{
+			pos.Initialize(JsonMapper.ToObject(obj.GetString("pos")));
+			data                = obj.GetString("data");
+		}
+		public override string ToString()
+		{
+		    StringBuilder sb = new StringBuilder();
+		    sb.Append("{"); sb.Append(" \"pos\":"); sb.Append(pos != null ? pos.ToString() : "{}");
+		    sb.Append(","); sb.Append(" \"data\":"); sb.Append("\""); sb.Append(data); sb.Append("\"");
+		    sb.Append("}");
+		    return sb.ToString();
+		}
+		public string ToJson()
+		{
+		    if (IsDefault) { return "{}"; }
+		    StringBuilder sb = new StringBuilder();
+		    sb.Append("{"); sb.Append("\"pos\":"); sb.Append(pos != null ? pos.ToJson() : "{}");
+			if (string.IsNullOrEmpty(data) == false) { sb.Append(","); sb.Append("\"data\":"); sb.Append("\""); sb.Append(FrameworkUtil.JsonString(data)); sb.Append("\""); }
+		    sb.Append("}");
+		    return sb.ToString();
+		}
+		public PropTable ToTable()
+		{
+			PropTable obj = new PropTable("Ping");
+			obj.Attach_Class("pos", "TEST_VECTOR", pos.ToTable());
+			obj.Attach("data", "string", CLASS_TYPE.VALUE, false, data);
+			return obj;
 		}
 	}
+}
+namespace S2S
+{
 	public interface IStub
 	{
-		void RMI_S2S_Ping(HostID remote, Message.Ping msg);
+		void RMI_S2S_Ping(HostID remote, Ping msg);
 	}
 	public static class Stub
 	{
@@ -24,9 +100,9 @@ namespace S2S
 				case RMI_ID.Ping:
 					{
 						Log.Debug("S2S.Stub.Ping");
-						Message.Ping msg = new Message.Ping();
+						Ping msg = new Ping();
 						Marshaler.Read(_in_msg, msg.pos);
-						Marshaler.Read(_in_msg, out msg.data);
+						Marshaler.Read(_in_msg, ref msg.data);
 						if (_in_msg.IsCompleted == false) return RECEIVE_RESULT.INVALID_PACKET;
 						stub.RMI_S2S_Ping(_in_msg.Hid, msg);
 					}
@@ -40,17 +116,16 @@ namespace S2S
 
 	public enum RMI_VERSION
 	{
-		RMI_VERSION                    = 1,
 	}
 	enum RMI_ID
 	{
-		Ping                           = 5000,
+		Ping                           = 0,
 	}
 	public class Proxy : IProxyBase
 	{
 		private INetworker m_Networker = null;
 		public void Init(INetworker mgr) { m_Networker = mgr; }
-		public bool Ping(HostID target, TEST_VECTOR pos, Byte[] data)
+		public bool Ping(HostID target, TEST_VECTOR pos, String data)
 		{
 			Log.Debug("S2S.Proxy.Ping");
 			NetBuffer _out_msg = NetBufferPool.Instance.Pop();
@@ -59,6 +134,7 @@ namespace S2S
 				Log.Debug("{0} is not initialized.", typeof(Proxy));
 				return false;
 			}
+			_out_msg.Init((Int16)RMI_ID.Ping, target);
 			Marshaler.Write(_out_msg, pos);
 			Marshaler.Write(_out_msg, data);
 			if (_out_msg.IsError) return false;

@@ -28,27 +28,14 @@ using SuperSocket;
 
 namespace Devarc
 {
+    public delegate bool NET_RECEIVER(object sender, NetBuffer msg);
+
     public enum DISCONNECTION_REASON
     {
         CONNECTION_FAIL,
         ERROR,
         BY_USER,
         BY_SERVER,
-    }
-
-    public enum RMI_BASIC
-    {
-        INIT_HOST_ID = -1,
-        UNKNOWN_REQUEST = -2,
-    }
-
-    public delegate bool NET_RECEIVER(object sender, NetBuffer msg);
-
-    public enum RECEIVE_RESULT
-    {
-        SUCCESS,
-        NOT_IMPLEMENTED,
-        INVALID_PACKET,
     }
 
     public interface INetworker

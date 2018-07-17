@@ -8,6 +8,6 @@ public class S2S
 	public class Ping
 	{
 		public TEST_VECTOR pos;
-		public byte[] data;
+		public string data;
 	}
 }

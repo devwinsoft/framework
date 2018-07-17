@@ -8,10 +8,6 @@ namespace Devarc
 	[System.Serializable]
 	public partial class _TEST_ENUM : IBaseObejct<TEST_ENUM>
 	{
-		public static TEST_ENUM Parse(string name)
-		{
-			return FrameworkUtil.Parse<TEST_ENUM>(name);
-		}
 		public string              NAME = "";
 		public TEST_ENUM           ID;
 
@@ -59,17 +55,17 @@ namespace Devarc
 		public void Initialize(PropTable obj)
 		{
 			NAME                = obj.GetStr("NAME");
-			ID                  = _TEST_ENUM.Parse(obj.GetStr("ID"));
+			ID                  = FrameworkUtil.Parse<TEST_ENUM>(obj.GetStr("ID"));
 		}
 		public void Initialize(JsonData obj)
 		{
 			if (obj.Keys.Contains("NAME")) NAME = obj["NAME"].ToString(); else NAME = default(string);
-			if (obj.Keys.Contains("ID")) ID = _TEST_ENUM.Parse(obj["ID"].ToString()); else ID = default(TEST_ENUM);
+			if (obj.Keys.Contains("ID")) ID = FrameworkUtil.Parse<TEST_ENUM>(obj["ID"].ToString()); else ID = default(TEST_ENUM);
 		}
 		public void Initialize(IBaseReader obj)
 		{
 			NAME                = obj.GetString("NAME");
-			ID                  = _TEST_ENUM.Parse(obj.GetString("ID"));
+			ID                  = FrameworkUtil.Parse<TEST_ENUM>(obj.GetString("ID"));
 		}
 		public override string ToString()
 		{
@@ -97,41 +93,53 @@ namespace Devarc
 	}
 	public static partial class Marshaler
 	{
-	    public static bool Read(NetBuffer msg, _TEST_ENUM obj)
+	    public static bool Read(NetBuffer msg, ref TEST_ENUM obj)
 	    {
-	        bool success = true;
-			success = success ? Marshaler.Read(msg, ref obj.NAME) : false;
-			success = success ? Marshaler.Read(msg, ref obj.ID) : false;
-	        return success;
+	        obj = (TEST_ENUM)msg.ReadInt32();
+	        return !msg.IsError;
 	    }
-	    public static bool Write(NetBuffer msg, _TEST_ENUM obj)
+	    public static bool Write(NetBuffer msg, TEST_ENUM obj)
 	    {
-			Marshaler.Write(msg, obj.NAME);
-			Marshaler.Write(msg, obj.ID);
-	        return msg.IsError;
+	        msg.Write((Int32)obj);
+	        return !msg.IsError;
 	    }
-	    public static bool Read(NetBuffer msg, List<_TEST_ENUM> list)
+	    public static bool Read(NetBuffer msg, out TEST_ENUM[] obj)
 	    {
-	        bool success = true;
 	        int cnt = msg.ReadInt16();
+	        obj = new TEST_ENUM[cnt];
 	        for (int i = 0; i < cnt; i++)
 	        {
-				_TEST_ENUM obj = new _TEST_ENUM();
-				success = success ? Marshaler.Read(msg, ref obj.NAME) : false;
-				success = success ? Marshaler.Read(msg, ref obj.ID) : false;
-				list.Add(obj);
+	            obj[i] = (TEST_ENUM)msg.ReadInt32();
 	        }
-	        return success;
+	        return !msg.IsError;
 	    }
-	    public static bool Write(NetBuffer msg, List<_TEST_ENUM> list)
+	    public static bool Read(NetBuffer msg, List<TEST_ENUM> obj)
+	    {
+	        int cnt = msg.ReadInt16();
+	        obj = new List<TEST_ENUM>();
+	        for (int i = 0; i < cnt; i++)
+	        {
+	            obj[i] = (TEST_ENUM)msg.ReadInt32();
+	        }
+	        return !msg.IsError;
+	    }
+	    public static bool Write(NetBuffer msg, TEST_ENUM[] list)
+	    {
+	        msg.Write((Int16)list.Length);
+	        foreach (TEST_ENUM obj in list)
+	        {
+	            msg.Write((Int32)obj);
+	        }
+	        return !msg.IsError;
+	    }
+	    public static bool Write(NetBuffer msg, List<TEST_ENUM> list)
 	    {
 	        msg.Write((Int16)list.Count);
-	        foreach (_TEST_ENUM obj in list)
+	        foreach (TEST_ENUM obj in list)
 	        {
-				Marshaler.Write(msg, obj.NAME);
-				Marshaler.Write(msg, obj.ID);
+	            msg.Write((Int32)obj);
 	        }
-	        return msg.IsError;
+	        return !msg.IsError;
 	    }
 	}
 	[System.Serializable]
@@ -384,56 +392,5 @@ namespace Devarc
 		NONE                = 0,
 		FIGHTER             = 1,
 		MAGE                = 2,
-	}
-	public static partial class Marshaler
-	{
-	    public static bool Read(NetBuffer msg, ref TEST_ENUM obj)
-	    {
-	        obj = (TEST_ENUM)msg.ReadInt32();
-	        return !msg.IsError;
-	    }
-	    public static bool Write(NetBuffer msg, TEST_ENUM obj)
-	    {
-	        msg.Write((Int32)obj);
-	        return !msg.IsError;
-	    }
-	    public static bool Read(NetBuffer msg, out TEST_ENUM[] obj)
-	    {
-	        int cnt = msg.ReadInt16();
-	        obj = new TEST_ENUM[cnt];
-	        for (int i = 0; i < cnt; i++)
-	        {
-	            obj[i] = (TEST_ENUM)msg.ReadInt32();
-	        }
-	        return !msg.IsError;
-	    }
-	    public static bool Read(NetBuffer msg, List<TEST_ENUM> obj)
-	    {
-	        int cnt = msg.ReadInt16();
-	        obj = new List<TEST_ENUM>();
-	        for (int i = 0; i < cnt; i++)
-	        {
-	            obj[i] = (TEST_ENUM)msg.ReadInt32();
-	        }
-	        return !msg.IsError;
-	    }
-	    public static bool Write(NetBuffer msg, TEST_ENUM[] list)
-	    {
-	        msg.Write((Int16)list.Length);
-	        foreach (TEST_ENUM obj in list)
-	        {
-	            msg.Write((Int32)obj);
-	        }
-	        return !msg.IsError;
-	    }
-	    public static bool Write(NetBuffer msg, List<TEST_ENUM> list)
-	    {
-	        msg.Write((Int16)list.Count);
-	        foreach (TEST_ENUM obj in list)
-	        {
-	            msg.Write((Int32)obj);
-	        }
-	        return !msg.IsError;
-	    }
 	}
 } // end of namespace

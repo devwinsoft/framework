@@ -27,6 +27,31 @@ using System.IO;
 
 namespace Devarc
 {
+    public enum RMI_BASIC
+    {
+        INIT_HOST_ID = -1,
+        UNKNOWN_REQUEST = -2,
+    }
+
+    public enum RECEIVE_RESULT
+    {
+        SUCCESS,
+        NOT_IMPLEMENTED,
+        INVALID_PACKET,
+    }
+
+    public class NetException : System.Exception
+    {
+        public RECEIVE_RESULT ERROR { get { return mError; } }
+        RECEIVE_RESULT mError = RECEIVE_RESULT.SUCCESS;
+
+        public NetException(RECEIVE_RESULT _error)
+        {
+            mError = _error;
+        }
+    }
+
+
     public class NetBuffer
     {
         const int headeSize = 8;
@@ -223,7 +248,7 @@ namespace Devarc
         {
             if (checkReadBuffer(sizeof(Int32)) == false)
             {
-                return 0;
+                throw new NetException(RECEIVE_RESULT.INVALID_PACKET);
             }
             Int32 value = BitConverter.ToInt32(m_buf, m_pos);
             m_pos += sizeof(Int32);

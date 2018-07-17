@@ -90,7 +90,7 @@ namespace TestClient
         {
             if (string.IsNullOrEmpty(textBox_chat.Text) == false)
             {
-                TestClient.Instance.Proxy.Chat(HostID.Server, textBox_chat.Text);
+                TestClient.Instance.Proxy.Request_Chat(HostID.Server, textBox_chat.Text);
                 //textBox_chat.Text = "";
             }
         }
