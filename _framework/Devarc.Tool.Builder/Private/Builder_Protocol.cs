@@ -148,7 +148,7 @@ namespace Devarc
                 using (TextWriter sw = new StreamWriter(_outDir + "\\" + tp.Name + ".cs"))
                 {
                     Type[] msgClasses = tp.GetNestedTypes(BindingFlags.Public);
-                    foreach (FieldInfo finfo in tp.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+                    foreach (FieldInfo finfo in tp.GetFields())
                     {
                         if (finfo.Name == "RMI_START")
                         {
@@ -185,7 +185,7 @@ namespace Devarc
 
                     sw.WriteLine("\tpublic enum RMI_VERSION"); // start of version
                     sw.WriteLine("\t{");
-                    foreach (FieldInfo finfo in tp.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+                    foreach (FieldInfo finfo in tp.GetFields())
                     {
                         if (finfo.Name == "RMI_VERSION")
                         {
@@ -219,13 +219,13 @@ namespace Devarc
                         sw.WriteLine(")");
 
                         sw.WriteLine("\t\t{");
-                        sw.WriteLine("\t\t\tLog.Debug(\"{0}.Proxy.{1}\");", tp.Name, msgType.Name);
-                        sw.WriteLine("\t\t\tNetBuffer _out_msg = NetBufferPool.Instance.Pop();");
                         sw.WriteLine("\t\t\tif (m_Networker == null)");
                         sw.WriteLine("\t\t\t{");
                         sw.WriteLine("\t\t\t\tLog.Debug(\"{0} is not initialized.\", typeof(Proxy));");
                         sw.WriteLine("\t\t\t\treturn false;");
                         sw.WriteLine("\t\t\t}");
+                        sw.WriteLine("\t\t\tLog.Debug(\"{0}.Proxy.{1}\");", tp.Name, msgType.Name);
+                        sw.WriteLine("\t\t\tNetBuffer _out_msg = NetBufferPool.Instance.Pop();");
 
                         sw.WriteLine("\t\t\t_out_msg.Init((Int16)RMI_ID.{0}, target);", msgType.Name);
                         foreach (FieldInfo finfo in msgType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
@@ -326,6 +326,7 @@ namespace Devarc
             foreach (Type msgType in msgClasses)
             {
                 sw.WriteLine("\t\t\t\tcase RMI_ID.{0}:", msgType.Name);
+                sw.WriteLine("\t\t\t\t\ttry");
                 sw.WriteLine("\t\t\t\t\t{");
                 sw.WriteLine("\t\t\t\t\t\tLog.Debug(\"{0}.Stub.{1}\");", tp.Name, msgType.Name);
                 sw.WriteLine("\t\t\t\t\t\t{0} msg = new {0}();", msgType.Name);
@@ -347,6 +348,10 @@ namespace Devarc
                 }
                 sw.WriteLine("\t\t\t\t\t\tif (_in_msg.IsCompleted == false) return RECEIVE_RESULT.INVALID_PACKET;");
                 sw.WriteLine("\t\t\t\t\t\tstub.RMI_{0}_{1}(_in_msg.Hid, msg);", tp.Name, msgType.Name);
+                sw.WriteLine("\t\t\t\t\t}");
+                sw.WriteLine("\t\t\t\t\tcatch (NetException ex)");
+                sw.WriteLine("\t\t\t\t\t{");
+                sw.WriteLine("\t\t\t\t\t\treturn ex.ERROR;");
                 sw.WriteLine("\t\t\t\t\t}");
                 sw.WriteLine("\t\t\t\t\tbreak;");
             }

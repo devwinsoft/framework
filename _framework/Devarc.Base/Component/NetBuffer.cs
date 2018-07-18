@@ -38,6 +38,7 @@ namespace Devarc
         SUCCESS,
         NOT_IMPLEMENTED,
         INVALID_PACKET,
+        INVALID_PACKET_OVERFLOW,
     }
 
     public class NetException : System.Exception
@@ -202,20 +203,18 @@ namespace Devarc
 
         public byte ReadByte()
         {
+            checkReadBuffer(sizeof(byte));
             return m_buf[m_pos++];
         }
 
         public int ReadBytes(out byte[] _data)
         {
+            checkReadBuffer(sizeof(Int16));
             Int16 readCnt = ReadInt16();
             readCnt = Math.Min((short)(m_buf.Length - m_pos), readCnt);
             readCnt = Math.Max(readCnt, (short)0);
 
-            if (checkReadBuffer(readCnt) == false)
-            {
-                _data = new byte[0];
-                return 0;
-            }
+            checkReadBuffer(readCnt);
             _data = new byte[readCnt];
             Buffer.BlockCopy(m_buf, m_pos, _data, 0, readCnt);
             m_pos += readCnt;
@@ -224,10 +223,7 @@ namespace Devarc
 
         public float ReadFloat()
         {
-            if (checkReadBuffer(sizeof(float)) == false)
-            {
-                return 0;
-            }
+            checkReadBuffer(sizeof(float));
             float value = BitConverter.ToSingle(m_buf, m_pos);
             m_pos += sizeof(float);
             return value;
@@ -235,10 +231,7 @@ namespace Devarc
 
         public Int16 ReadInt16()
         {
-            if (checkReadBuffer(sizeof(Int16)) == false)
-            {
-                return 0;
-            }
+            checkReadBuffer(sizeof(Int16));
             Int16 value = BitConverter.ToInt16(m_buf, m_pos);
             m_pos += sizeof(Int16);
             return value;
@@ -246,10 +239,7 @@ namespace Devarc
 
         public Int32 ReadInt32()
         {
-            if (checkReadBuffer(sizeof(Int32)) == false)
-            {
-                throw new NetException(RECEIVE_RESULT.INVALID_PACKET);
-            }
+            checkReadBuffer(sizeof(Int32));
             Int32 value = BitConverter.ToInt32(m_buf, m_pos);
             m_pos += sizeof(Int32);
             return value;
@@ -257,10 +247,7 @@ namespace Devarc
 
         public UInt32 ReadUInt32()
         {
-            if (checkReadBuffer(sizeof(UInt32)) == false)
-            {
-                return 0;
-            }
+            checkReadBuffer(sizeof(UInt32));
             UInt32 value = BitConverter.ToUInt32(m_buf, m_pos);
             m_pos += sizeof(UInt32);
             return value;
@@ -268,10 +255,7 @@ namespace Devarc
 
         public Int64 ReadInt64()
         {
-            if (checkReadBuffer(sizeof(Int64)) == false)
-            {
-                return 0;
-            }
+            checkReadBuffer(sizeof(Int64));
             Int64 value = BitConverter.ToInt64(m_buf, m_pos);
             m_pos += sizeof(Int64);
             return value;
@@ -279,20 +263,12 @@ namespace Devarc
 
         public string ReadString()
         {
-            if (checkReadBuffer(sizeof(Int16)) == false)
-            {
-                return string.Empty;
-            }
-
+            checkReadBuffer(sizeof(Int16));
             Int16 tmpLength = ReadInt16();
             tmpLength = Math.Min((short)(m_buf.Length - Pos), tmpLength);
             tmpLength = Math.Max(tmpLength, (short)0);
 
-            if (checkReadBuffer(tmpLength) == false)
-            {
-                return string.Empty;
-            }
-
+            checkReadBuffer(tmpLength);
             string value = m_encoding.GetString(m_buf, m_pos, tmpLength);
             m_pos += tmpLength;
             return value;
@@ -300,11 +276,7 @@ namespace Devarc
 
         public bool Write(byte val)
         {
-            if (checkWriteBuffer(sizeof(byte)) == false)
-            {
-                return false;
-            }
-
+            checkReadBuffer(sizeof(byte));
             m_buf[m_len] = val;
             m_len++;
             m_dirty = true;
@@ -313,11 +285,7 @@ namespace Devarc
 
         public bool Write(float val)
         {
-            if (checkWriteBuffer(sizeof(float)) == false)
-            {
-                return false;
-            }
-
+            checkReadBuffer(sizeof(float));
             Buffer.BlockCopy(BitConverter.GetBytes(val), 0, m_buf, m_len, sizeof(float));
             m_len += sizeof(float);
             m_dirty = true;
@@ -431,14 +399,13 @@ namespace Devarc
             return true;
         }
 
-        bool checkReadBuffer(int _size)
+        void checkReadBuffer(int _size)
         {
             if (_size > m_buf.Length - m_pos)
             {
                 m_error = true;
-                return false;
+                throw new NetException(RECEIVE_RESULT.INVALID_PACKET_OVERFLOW);
             }
-            return true;
         }
 
         bool checkWriteBuffer(int _size)

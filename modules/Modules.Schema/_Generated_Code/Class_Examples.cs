@@ -78,8 +78,12 @@ namespace Devarc
 		public string ToJson()
 		{
 		    StringBuilder sb = new StringBuilder();
-		    sb.Append("{"); sb.Append("\"NAME\":"); sb.Append("\""); sb.Append(FrameworkUtil.JsonString(NAME)); sb.Append("\"");
-			if (default(TEST_ENUM) != ID) { sb.Append(","); sb.Append("\"ID\":"); sb.Append("\""); sb.Append(ID.ToString()); sb.Append("\""); }
+		    int j = 0;
+			sb.Append("{");
+			if (string.IsNullOrEmpty(NAME) == false) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"NAME\":"); sb.Append("\""); sb.Append(FrameworkUtil.JsonString(NAME)); sb.Append("\""); }
+			if (default(TEST_ENUM) != ID) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"ID\":"); sb.Append(string.Format("\"{0}\"", ID.ToString())); }
 		    sb.Append("}");
 		    return sb.ToString();
 		}
@@ -213,9 +217,14 @@ namespace Devarc
 		{
 		    if (IsDefault) { return "{}"; }
 		    StringBuilder sb = new StringBuilder();
-		    sb.Append("{"); sb.Append("\"x\":"); sb.Append("\""); sb.Append(x.ToString()); sb.Append("\"");
-			if (default(float) != y) { sb.Append(","); sb.Append("\"y\":"); sb.Append("\""); sb.Append(y.ToString()); sb.Append("\""); }
-			if (default(float) != z) { sb.Append(","); sb.Append("\"z\":"); sb.Append("\""); sb.Append(z.ToString()); sb.Append("\""); }
+		    int j = 0;
+			sb.Append("{");
+			if (default(float) != x) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"x\":"); sb.Append(string.Format("\"{0}\"", x.ToString())); }
+			if (default(float) != y) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"y\":"); sb.Append(string.Format("\"{0}\"", y.ToString())); }
+			if (default(float) != z) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"z\":"); sb.Append(string.Format("\"{0}\"", z.ToString())); }
 		    sb.Append("}");
 		    return sb.ToString();
 		}
@@ -327,7 +336,7 @@ namespace Devarc
 		{
 		    StringBuilder sb = new StringBuilder();
 		    sb.Append("{"); sb.Append(" \"Name\":"); sb.Append("\""); sb.Append(Name); sb.Append("\"");
-		    sb.Append(","); sb.Append(" \"Pos\":"); sb.Append(Pos != null ? Pos.ToString() : "{}");
+		    sb.Append(","); sb.Append(" \"Pos\":"); sb.Append(Pos.IsDefault == false ? Pos.ToString() : "{}");
 		    sb.Append("}");
 		    return sb.ToString();
 		}
@@ -335,8 +344,12 @@ namespace Devarc
 		{
 		    if (IsDefault) { return "{}"; }
 		    StringBuilder sb = new StringBuilder();
-		    sb.Append("{"); sb.Append("\"Name\":"); sb.Append("\""); sb.Append(FrameworkUtil.JsonString(Name)); sb.Append("\"");
-		    sb.Append(","); sb.Append("\"Pos\":"); sb.Append(Pos != null ? Pos.ToJson() : "{}");
+		    int j = 0;
+			sb.Append("{");
+			if (string.IsNullOrEmpty(Name) == false) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"Name\":"); sb.Append("\""); sb.Append(FrameworkUtil.JsonString(Name)); sb.Append("\""); }
+			if (Pos.IsDefault == false) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"Pos\":"); sb.Append(Pos.ToJson()); }
 		    sb.Append("}");
 		    return sb.ToString();
 		}

@@ -79,8 +79,12 @@ namespace Devarc
 		{
 		    if (IsDefault) { return "{}"; }
 		    StringBuilder sb = new StringBuilder();
-		    sb.Append("{"); sb.Append("\"Key\":"); sb.Append("\""); sb.Append(FrameworkUtil.JsonString(Key)); sb.Append("\"");
-			if (string.IsNullOrEmpty(Value) == false) { sb.Append(","); sb.Append("\"Value\":"); sb.Append("\""); sb.Append(FrameworkUtil.JsonString(Value)); sb.Append("\""); }
+		    int j = 0;
+			sb.Append("{");
+			if (string.IsNullOrEmpty(Key) == false) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"Key\":"); sb.Append("\""); sb.Append(FrameworkUtil.JsonString(Key)); sb.Append("\""); }
+			if (string.IsNullOrEmpty(Value) == false) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"Value\":"); sb.Append("\""); sb.Append(FrameworkUtil.JsonString(Value)); sb.Append("\""); }
 		    sb.Append("}");
 		    return sb.ToString();
 		}

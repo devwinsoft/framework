@@ -132,11 +132,11 @@ namespace Devarc
 		    sb.Append(","); sb.Append(" \"name\":"); sb.Append("\""); sb.Append(name); sb.Append("\"");
 		    sb.Append(","); sb.Append(" \"items\":"); sb.Append("["); for (int i = 0; i < items.Count; i++) { UNIT _obj = items[i]; if (i > 0) sb.Append(","); sb.Append(string.Format("\"{0}\"", _obj)); } sb.Append("]");
 		    sb.Append(","); sb.Append(" \"stats\":"); sb.Append("["); for (int i = 0; i < stats.Count; i++) { sb.Append(stats[i].ToString()); } sb.Append("]");
-		    sb.Append(","); sb.Append(" \"ability\":"); sb.Append(ability != null ? ability.ToString() : "{}");
+		    sb.Append(","); sb.Append(" \"ability\":"); sb.Append(ability.IsDefault == false ? ability.ToString() : "{}");
 		    sb.Append(","); sb.Append(" \"nodes\":"); sb.Append("["); for (int i = 0; i < nodes.Count; i++) { string _obj = nodes[i]; if (i > 0) sb.Append(","); sb.Append("\""); sb.Append(_obj); sb.Append("\""); } sb.Append("]");
 		    sb.Append(","); sb.Append(" \"unit_uid\":"); sb.Append("\""); sb.Append(unit_uid.ToString()); sb.Append("\"");
 		    sb.Append(","); sb.Append(" \"specialCode\":"); sb.Append("\""); sb.Append(specialCode); sb.Append("\"");
-		    sb.Append(","); sb.Append(" \"player_data\":"); sb.Append(player_data != null ? player_data.ToString() : "{}");
+		    sb.Append(","); sb.Append(" \"player_data\":"); sb.Append(player_data.IsDefault == false ? player_data.ToString() : "{}");
 		    sb.Append("}");
 		    return sb.ToString();
 		}
@@ -144,15 +144,26 @@ namespace Devarc
 		{
 		    if (IsDefault) { return "{}"; }
 		    StringBuilder sb = new StringBuilder();
-		    sb.Append("{"); sb.Append("\"unit_type\":"); sb.Append("\""); sb.Append(unit_type.ToString()); sb.Append("\"");
-			if (default(bool) != show) { sb.Append(","); sb.Append("\"show\":"); sb.Append("\""); sb.Append(show.ToString()); sb.Append("\""); }
-			if (items.Count > 0) { sb.Append(","); sb.Append("\"items\":"); sb.Append("["); for (int i = 0; i < items.Count; i++) { UNIT _obj = items[i]; if (i > 0) sb.Append(","); sb.Append(string.Format("\"{0}\"", _obj)); } sb.Append("]"); }
-			if (stats.Count > 0) { sb.Append(","); sb.Append("\"stats\":"); sb.Append("["); for (int i = 0; i < stats.Count; i++) { if (i > 0) sb.Append(","); sb.Append(stats[i].ToJson()); } sb.Append("]"); }
-		    sb.Append(","); sb.Append("\"ability\":"); sb.Append(ability != null ? ability.ToJson() : "{}");
-			if (nodes.Count > 0) { sb.Append(","); sb.Append("\"nodes\":"); sb.Append("["); for (int i = 0; i < nodes.Count; i++) { string _obj = nodes[i]; if (i > 0) sb.Append(","); sb.Append("\""); sb.Append(FrameworkUtil.JsonString(_obj)); sb.Append("\""); } sb.Append("]"); }
-			if (default(uint) != unit_uid) { sb.Append(","); sb.Append("\"unit_uid\":"); sb.Append("\""); sb.Append(unit_uid.ToString()); sb.Append("\""); }
-			if (string.IsNullOrEmpty(_specialCode.Key) == false) { sb.Append(","); sb.Append("\"specialCode\":"); sb.Append("\""); sb.Append(FrameworkUtil.JsonString(_specialCode.Key)); sb.Append("\""); }
-		    sb.Append(","); sb.Append("\"player_data\":"); sb.Append(player_data != null ? player_data.ToJson() : "{}");
+		    int j = 0;
+			sb.Append("{");
+			if (default(UNIT) != unit_type) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"unit_type\":"); sb.Append(string.Format("\"{0}\"", unit_type.ToString())); }
+			if (default(bool) != show) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"show\":"); sb.Append(string.Format("\"{0}\"", show.ToString())); }
+			if (items.Count > 0) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"items\":"); sb.Append("["); for (int i = 0; i < items.Count; i++) { UNIT _obj = items[i]; if (i > 0) sb.Append(","); sb.Append(string.Format("\"{0}\"", _obj)); } sb.Append("]"); }
+			if (stats.Count > 0) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"stats\":"); sb.Append("["); for (int i = 0; i < stats.Count; i++) { if (i > 0) sb.Append(","); sb.Append(stats[i].ToJson()); } sb.Append("]"); }
+			if (ability.IsDefault == false) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"ability\":"); sb.Append(ability.ToJson()); }
+			if (nodes.Count > 0) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"nodes\":"); sb.Append("["); for (int i = 0; i < nodes.Count; i++) { string _obj = nodes[i]; if (i > 0) sb.Append(","); sb.Append(string.Format("\"{0}\"", FrameworkUtil.JsonString(_obj))); } sb.Append("]"); }
+			if (default(uint) != unit_uid) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"unit_uid\":"); sb.Append(string.Format("\"{0}\"", unit_uid.ToString())); }
+			if (string.IsNullOrEmpty(_specialCode.Key) == false) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"specialCode\":"); sb.Append("\""); sb.Append(FrameworkUtil.JsonString(_specialCode.Key)); sb.Append("\""); }
+			if (player_data.IsDefault == false) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"player_data\":"); sb.Append(player_data.ToJson()); }
 		    sb.Append("}");
 		    return sb.ToString();
 		}
@@ -310,9 +321,14 @@ namespace Devarc
 		{
 		    if (IsDefault) { return "{}"; }
 		    StringBuilder sb = new StringBuilder();
-		    sb.Append("{"); sb.Append("\"str\":"); sb.Append("\""); sb.Append(str.ToString()); sb.Append("\"");
-			if (default(int) != dex) { sb.Append(","); sb.Append("\"dex\":"); sb.Append("\""); sb.Append(dex.ToString()); sb.Append("\""); }
-			if (default(int) != vit) { sb.Append(","); sb.Append("\"vit\":"); sb.Append("\""); sb.Append(vit.ToString()); sb.Append("\""); }
+		    int j = 0;
+			sb.Append("{");
+			if (default(int) != str) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"str\":"); sb.Append(string.Format("\"{0}\"", str.ToString())); }
+			if (default(int) != dex) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"dex\":"); sb.Append(string.Format("\"{0}\"", dex.ToString())); }
+			if (default(int) != vit) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"vit\":"); sb.Append(string.Format("\"{0}\"", vit.ToString())); }
 		    sb.Append("}");
 		    return sb.ToString();
 		}
@@ -424,7 +440,7 @@ namespace Devarc
 		{
 		    StringBuilder sb = new StringBuilder();
 		    sb.Append("{"); sb.Append(" \"id\":"); sb.Append("\""); sb.Append(id.ToString()); sb.Append("\"");
-		    sb.Append(","); sb.Append(" \"pos\":"); sb.Append(pos != null ? pos.ToString() : "{}");
+		    sb.Append(","); sb.Append(" \"pos\":"); sb.Append(pos.IsDefault == false ? pos.ToString() : "{}");
 		    sb.Append("}");
 		    return sb.ToString();
 		}
@@ -432,8 +448,12 @@ namespace Devarc
 		{
 		    if (IsDefault) { return "{}"; }
 		    StringBuilder sb = new StringBuilder();
-		    sb.Append("{"); sb.Append("\"id\":"); sb.Append("\""); sb.Append(id.ToString()); sb.Append("\"");
-		    sb.Append(","); sb.Append("\"pos\":"); sb.Append(pos != null ? pos.ToJson() : "{}");
+		    int j = 0;
+			sb.Append("{");
+			if (default(int) != id) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"id\":"); sb.Append(string.Format("\"{0}\"", id.ToString())); }
+			if (pos.IsDefault == false) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"pos\":"); sb.Append(pos.ToJson()); }
 		    sb.Append("}");
 		    return sb.ToString();
 		}
@@ -555,9 +575,14 @@ namespace Devarc
 		{
 		    if (IsDefault) { return "{}"; }
 		    StringBuilder sb = new StringBuilder();
-		    sb.Append("{"); sb.Append("\"x\":"); sb.Append("\""); sb.Append(x.ToString()); sb.Append("\"");
-			if (default(float) != y) { sb.Append(","); sb.Append("\"y\":"); sb.Append("\""); sb.Append(y.ToString()); sb.Append("\""); }
-			if (default(float) != z) { sb.Append(","); sb.Append("\"z\":"); sb.Append("\""); sb.Append(z.ToString()); sb.Append("\""); }
+		    int j = 0;
+			sb.Append("{");
+			if (default(float) != x) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"x\":"); sb.Append(string.Format("\"{0}\"", x.ToString())); }
+			if (default(float) != y) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"y\":"); sb.Append(string.Format("\"{0}\"", y.ToString())); }
+			if (default(float) != z) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"z\":"); sb.Append(string.Format("\"{0}\"", z.ToString())); }
 		    sb.Append("}");
 		    return sb.ToString();
 		}
@@ -686,8 +711,12 @@ namespace Devarc
 		public string ToJson()
 		{
 		    StringBuilder sb = new StringBuilder();
-		    sb.Append("{"); sb.Append("\"Name\":"); sb.Append("\""); sb.Append(FrameworkUtil.JsonString(Name)); sb.Append("\"");
-			if (default(DIRECTION) != ID) { sb.Append(","); sb.Append("\"ID\":"); sb.Append("\""); sb.Append(ID.ToString()); sb.Append("\""); }
+		    int j = 0;
+			sb.Append("{");
+			if (string.IsNullOrEmpty(Name) == false) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"Name\":"); sb.Append("\""); sb.Append(FrameworkUtil.JsonString(Name)); sb.Append("\""); }
+			if (default(DIRECTION) != ID) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"ID\":"); sb.Append(string.Format("\"{0}\"", ID.ToString())); }
 		    sb.Append("}");
 		    return sb.ToString();
 		}
@@ -831,8 +860,12 @@ namespace Devarc
 		public string ToJson()
 		{
 		    StringBuilder sb = new StringBuilder();
-		    sb.Append("{"); sb.Append("\"Name\":"); sb.Append("\""); sb.Append(FrameworkUtil.JsonString(Name)); sb.Append("\"");
-			if (default(MESSAGE) != ID) { sb.Append(","); sb.Append("\"ID\":"); sb.Append("\""); sb.Append(ID.ToString()); sb.Append("\""); }
+		    int j = 0;
+			sb.Append("{");
+			if (string.IsNullOrEmpty(Name) == false) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"Name\":"); sb.Append("\""); sb.Append(FrameworkUtil.JsonString(Name)); sb.Append("\""); }
+			if (default(MESSAGE) != ID) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"ID\":"); sb.Append(string.Format("\"{0}\"", ID.ToString())); }
 		    sb.Append("}");
 		    return sb.ToString();
 		}
@@ -969,8 +1002,12 @@ namespace Devarc
 		public string ToJson()
 		{
 		    StringBuilder sb = new StringBuilder();
-		    sb.Append("{"); sb.Append("\"Name\":"); sb.Append("\""); sb.Append(FrameworkUtil.JsonString(Name)); sb.Append("\"");
-			if (default(UNIT) != ID) { sb.Append(","); sb.Append("\"ID\":"); sb.Append("\""); sb.Append(ID.ToString()); sb.Append("\""); }
+		    int j = 0;
+			sb.Append("{");
+			if (string.IsNullOrEmpty(Name) == false) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"Name\":"); sb.Append("\""); sb.Append(FrameworkUtil.JsonString(Name)); sb.Append("\""); }
+			if (default(UNIT) != ID) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"ID\":"); sb.Append(string.Format("\"{0}\"", ID.ToString())); }
 		    sb.Append("}");
 		    return sb.ToString();
 		}

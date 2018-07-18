@@ -628,7 +628,7 @@ namespace Devarc
                     case VAR_TYPE.ENUM:
                         if (is_list)
                         {
-                            sw.WriteLine("\t\t\tstring __{0} = obj.GetString(\"{0}\"); {0}.Clear(); if (!string.IsNullOrEmpty(__{0})) foreach (JsonData node in JsonMapper.ToObject(__{0})) {{ {0}.Add(FrameworkUtil.Parse<{1}>(obj.GetString(node.ToString()))); }};", var_name, type_name);
+                            sw.WriteLine("\t\t\tstring __{0} = obj.GetString(\"{0}\"); {0}.Clear(); if (!string.IsNullOrEmpty(__{0})) foreach (JsonData node in JsonMapper.ToObject(__{0})) {{ {0}.Add(FrameworkUtil.Parse<{1}>(node.ToString())); }};", var_name, type_name);
                         }
                         else
                         {
@@ -700,7 +700,7 @@ namespace Devarc
                         }
                         else
                         {
-                            sw.WriteLine(" sb.Append({0} != null ? {0}.ToString() : \"{{}}\");", var_name);
+                            sw.WriteLine(" sb.Append({0}.IsDefault == false ? {0}.ToString() : \"{{}}\");", var_name);
                         }
                         break;
                     default:
@@ -734,7 +734,9 @@ namespace Devarc
                 sw.WriteLine("\t\t    if (IsDefault) { return \"{}\"; }");
             }
             sw.WriteLine("\t\t    StringBuilder sb = new StringBuilder();");
-            for (int i = 0, j = 0; i < tb.Length; i++)
+            sw.WriteLine("\t\t    int j = 0;");
+            sw.WriteLine("\t\t\tsb.Append(\"{\");");
+            for (int i = 0; i < tb.Length; i++)
             {
                 string type_name = tb.GetTypeName(i);
                 string var_name = tb.GetVarName(i);
@@ -752,58 +754,25 @@ namespace Devarc
                         case VAR_TYPE.FSTRING:
                             break;
                         case VAR_TYPE.STRING:
-                            if (j == 0)
-                            {
-                                sw.Write("\t\t    sb.Append(\"{\");");
-                                sw.Write(" sb.Append(\"\\\"{0}\\\":\");", var_name);
-                                sw.Write(" sb.Append(\"[\");");
-                                sw.Write(" for (int i = 0; i < {0}.Count; i++) {{ {1} _obj = {0}[i]; if (i > 0) sb.Append(\",\"); sb.Append(\"\\\"\"); sb.Append(FrameworkUtil.JsonString(_obj)); sb.Append(\"\\\"\"); }}", var_name, type_name);
-                                sw.WriteLine(" sb.Append(\"]\");");
-                            }
-                            else
-                            {
-                                sw.Write("\t\t\tif ({0}.Count > 0) {{ sb.Append(\",\");", var_name, type_name);
-                                sw.Write(" sb.Append(\"\\\"{0}\\\":\");", var_name);
-                                sw.Write(" sb.Append(\"[\");");
-                                sw.Write(" for (int i = 0; i < {0}.Count; i++) {{ {1} _obj = {0}[i]; if (i > 0) sb.Append(\",\"); sb.Append(\"\\\"\"); sb.Append(FrameworkUtil.JsonString(_obj)); sb.Append(\"\\\"\"); }}", var_name, type_name);
-                                sw.WriteLine(" sb.Append(\"]\"); }");
-                            }
+                            sw.WriteLine("\t\t\tif ({0}.Count > 0) {{ if (j > 0) {{ sb.Append(\", \"); }} j++;", var_name);
+                            sw.Write("\t\t\t sb.Append(\"\\\"{0}\\\":\");", var_name);
+                            sw.Write(" sb.Append(\"[\");");
+                            sw.Write(" for (int i = 0; i < {0}.Count; i++) {{ {1} _obj = {0}[i]; if (i > 0) sb.Append(\",\"); sb.Append(string.Format(\"\\\"{{0}}\\\"\", FrameworkUtil.JsonString(_obj))); }}", var_name, type_name);
+                            sw.WriteLine(" sb.Append(\"]\"); }");
                             break;
                         case VAR_TYPE.CLASS:
-                            if (j == 0)
-                            {
-                                sw.Write("\t\t    sb.Append(\"{\");");
-                                sw.Write(" sb.Append(\"\\\"{0}\\\":\");", var_name);
-                                sw.Write(" sb.Append(\"[\");");
-                                sw.Write(" for (int i = 0; i < {0}.Count; i++) {{ if (i > 0) sb.Append(\",\"); sb.Append({0}[i].ToJson()); }}", var_name, type_name);
-                                sw.WriteLine(" sb.Append(\"]\");");
-                            }
-                            else
-                            {
-                                sw.Write("\t\t\tif ({0}.Count > 0) {{ sb.Append(\",\");", var_name, type_name);
-                                sw.Write(" sb.Append(\"\\\"{0}\\\":\");", var_name);
-                                sw.Write(" sb.Append(\"[\");");
-                                sw.Write(" for (int i = 0; i < {0}.Count; i++) {{ if (i > 0) sb.Append(\",\"); sb.Append({0}[i].ToJson()); }}", var_name, type_name);
-                                sw.WriteLine(" sb.Append(\"]\"); }");
-                            }
+                            sw.WriteLine("\t\t\tif ({0}.Count > 0) {{ if (j > 0) {{ sb.Append(\", \"); }} j++;", var_name);
+                            sw.Write("\t\t\t sb.Append(\"\\\"{0}\\\":\");", var_name);
+                            sw.Write(" sb.Append(\"[\");");
+                            sw.Write(" for (int i = 0; i < {0}.Count; i++) {{ if (i > 0) sb.Append(\",\"); sb.Append({0}[i].ToJson()); }}", var_name, type_name);
+                            sw.WriteLine(" sb.Append(\"]\"); }");
                             break;
                         default:
-                            if (j == 0)
-                            {
-                                sw.Write("\t\t    sb.Append(\"{\");");
-                                sw.Write(" sb.Append(\"\\\"{0}\\\":\");", var_name);
-                                sw.Write(" sb.Append(\"[\");");
-                                sw.Write(" for (int i = 0; i < {0}.Count; i++) {{ {1} _obj = {0}[i]; if (i > 0) sb.Append(\",\"); sb.Append(string.Format(\"\\\"{{0}}\\\"\", _obj)); }}", var_name, type_name);
-                                sw.WriteLine(" sb.Append(\"]\");");
-                            }
-                            else
-                            {
-                                sw.Write("\t\t\tif ({0}.Count > 0) {{ sb.Append(\",\");", var_name, type_name);
-                                sw.Write(" sb.Append(\"\\\"{0}\\\":\");", var_name);
-                                sw.Write(" sb.Append(\"[\");");
-                                sw.Write(" for (int i = 0; i < {0}.Count; i++) {{ {1} _obj = {0}[i]; if (i > 0) sb.Append(\",\"); sb.Append(string.Format(\"\\\"{{0}}\\\"\", _obj)); }}", var_name, type_name);
-                                sw.WriteLine(" sb.Append(\"]\"); }");
-                            }
+                            sw.WriteLine("\t\t\tif ({0}.Count > 0) {{ if (j > 0) {{ sb.Append(\", \"); }} j++;", var_name);
+                            sw.Write("\t\t\t sb.Append(\"\\\"{0}\\\":\");", var_name);
+                            sw.Write(" sb.Append(\"[\");");
+                            sw.Write(" for (int i = 0; i < {0}.Count; i++) {{ {1} _obj = {0}[i]; if (i > 0) sb.Append(\",\"); sb.Append(string.Format(\"\\\"{{0}}\\\"\", _obj)); }}", var_name, type_name);
+                            sw.WriteLine(" sb.Append(\"]\"); }");
                             break;
                     }
                 }
@@ -814,59 +783,27 @@ namespace Devarc
                         case VAR_TYPE.LSTRING:
                             break;
                         case VAR_TYPE.FSTRING:
-                            sw.Write("\t\t\tif (string.IsNullOrEmpty(_{0}.Key) == false) {{ sb.Append(\",\");", var_name, type_name);
-                            sw.Write(" sb.Append(\"\\\"{0}\\\":\");", var_name);
+                            sw.WriteLine("\t\t\tif (string.IsNullOrEmpty(_{0}.Key) == false) {{ if (j > 0) {{ sb.Append(\", \"); }} j++;", var_name, type_name);
+                            sw.Write("\t\t\t sb.Append(\"\\\"{0}\\\":\");", var_name);
                             sw.WriteLine(" sb.Append(\"\\\"\"); sb.Append(FrameworkUtil.JsonString(_{0}.Key)); sb.Append(\"\\\"\"); }}", var_name);
                             break;
                         case VAR_TYPE.STRING:
-                            if (j == 0)
-                            {
-                                sw.Write("\t\t    sb.Append(\"{\");");
-                                sw.Write(" sb.Append(\"\\\"{0}\\\":\");", var_name);
-                                sw.WriteLine(" sb.Append(\"\\\"\"); sb.Append(FrameworkUtil.JsonString({0})); sb.Append(\"\\\"\");", var_name);
-                            }
-                            else
-                            {
-                                sw.Write("\t\t\tif (string.IsNullOrEmpty({0}) == false) {{ sb.Append(\",\");", var_name, type_name);
-                                sw.Write(" sb.Append(\"\\\"{0}\\\":\");", var_name);
-                                sw.WriteLine(" sb.Append(\"\\\"\"); sb.Append(FrameworkUtil.JsonString({0})); sb.Append(\"\\\"\"); }}", var_name);
-                            }
+                            sw.WriteLine("\t\t\tif (string.IsNullOrEmpty({0}) == false) {{ if (j > 0) {{ sb.Append(\", \"); }} j++;", var_name);
+                            sw.Write("\t\t\t sb.Append(\"\\\"{0}\\\":\");", var_name);
+                            sw.WriteLine(" sb.Append(\"\\\"\"); sb.Append(FrameworkUtil.JsonString({0})); sb.Append(\"\\\"\"); }}", var_name);
                             break;
                         case VAR_TYPE.CLASS:
-                            if (j == 0)
-                            {
-                                sw.Write("\t\t    sb.Append(\"{\");");
-                                sw.Write(" sb.Append(\"\\\"{0}\\\":\");", var_name);
-                                sw.WriteLine(" sb.Append({0} != null ? {0}.ToJson() : \"{{}}\");", var_name);
-                            }
-                            else
-                            {
-                                sw.Write("\t\t    sb.Append(\",\");");
-                                sw.Write(" sb.Append(\"\\\"{0}\\\":\");", var_name);
-                                sw.WriteLine(" sb.Append({0} != null ? {0}.ToJson() : \"{{}}\");", var_name);
-                            }
+                            sw.WriteLine("\t\t\tif ({0}.IsDefault == false) {{ if (j > 0) {{ sb.Append(\", \"); }} j++;", var_name);
+                            sw.Write("\t\t\t sb.Append(\"\\\"{0}\\\":\");", var_name);
+                            sw.WriteLine(" sb.Append({0}.ToJson()); }}", var_name);
                             break;
                         default:
-                            if (j == 0)
-                            {
-                                sw.Write("\t\t    sb.Append(\"{\");");
-                                sw.Write(" sb.Append(\"\\\"{0}\\\":\");", var_name);
-                                sw.Write(" sb.Append(\"\\\"\");");
-                                sw.Write(" sb.Append({0}.ToString());", var_name);
-                                sw.WriteLine(" sb.Append(\"\\\"\");");
-                            }
-                            else
-                            {
-                                sw.Write("\t\t\tif (default({1}) != {0}) {{ sb.Append(\",\");", var_name, type_name);
-                                sw.Write(" sb.Append(\"\\\"{0}\\\":\");", var_name);
-                                sw.Write(" sb.Append(\"\\\"\");");
-                                sw.Write(" sb.Append({0}.ToString());", var_name);
-                                sw.WriteLine(" sb.Append(\"\\\"\"); }");
-                            }
+                            sw.WriteLine("\t\t\tif (default({1}) != {0}) {{ if (j > 0) {{ sb.Append(\", \"); }} j++;", var_name, type_name);
+                            sw.Write("\t\t\t sb.Append(\"\\\"{0}\\\":\");", var_name);
+                            sw.WriteLine(" sb.Append(string.Format(\"\\\"{{0}}\\\"\", {0}.ToString())); }}", var_name);
                             break;
                     }
                 }
-                j++;
             }
             sw.WriteLine("\t\t    sb.Append(\"}\");");
             sw.WriteLine("\t\t    return sb.ToString();");

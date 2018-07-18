@@ -4,6 +4,71 @@ using System.Collections;
 using System.Collections.Generic;
 using LitJson;
 using Devarc;
+namespace S2S
+{
+	public interface IStub
+	{
+		void RMI_S2S_Ping(HostID remote, Ping msg);
+	}
+	public static class Stub
+	{
+		public static RECEIVE_RESULT OnReceive(IStub stub, NetBuffer _in_msg)
+		{
+			RMI_ID rmi_id = (RMI_ID)_in_msg.Rmi;
+			switch (rmi_id)
+			{
+				case RMI_ID.Ping:
+					try
+					{
+						Log.Debug("S2S.Stub.Ping");
+						Ping msg = new Ping();
+						Marshaler.Read(_in_msg, msg.pos);
+						Marshaler.Read(_in_msg, ref msg.data);
+						if (_in_msg.IsCompleted == false) return RECEIVE_RESULT.INVALID_PACKET;
+						stub.RMI_S2S_Ping(_in_msg.Hid, msg);
+					}
+					catch (NetException ex)
+					{
+						return ex.ERROR;
+					}
+					break;
+				default:
+					return RECEIVE_RESULT.NOT_IMPLEMENTED;
+			}
+			return RECEIVE_RESULT.SUCCESS;
+		}
+	}
+
+	public enum RMI_VERSION
+	{
+		RMI_VERSION                    = 1,
+	}
+	enum RMI_ID
+	{
+		Ping                           = 5000,
+	}
+	public class Proxy : IProxyBase
+	{
+		private INetworker m_Networker = null;
+		public void Init(INetworker mgr) { m_Networker = mgr; }
+		public bool Ping(HostID target, TEST_VECTOR pos, String data)
+		{
+			if (m_Networker == null)
+			{
+				Log.Debug("{0} is not initialized.", typeof(Proxy));
+				return false;
+			}
+			Log.Debug("S2S.Proxy.Ping");
+			NetBuffer _out_msg = NetBufferPool.Instance.Pop();
+			_out_msg.Init((Int16)RMI_ID.Ping, target);
+			Marshaler.Write(_out_msg, pos);
+			Marshaler.Write(_out_msg, data);
+			if (_out_msg.IsError) return false;
+			return m_Networker.Send(_out_msg);
+		}
+	}
+
+}
 namespace Devarc
 {
 	[System.Serializable]
@@ -61,7 +126,7 @@ namespace Devarc
 		public override string ToString()
 		{
 		    StringBuilder sb = new StringBuilder();
-		    sb.Append("{"); sb.Append(" \"pos\":"); sb.Append(pos != null ? pos.ToString() : "{}");
+		    sb.Append("{"); sb.Append(" \"pos\":"); sb.Append(pos.IsDefault == false ? pos.ToString() : "{}");
 		    sb.Append(","); sb.Append(" \"data\":"); sb.Append("\""); sb.Append(data); sb.Append("\"");
 		    sb.Append("}");
 		    return sb.ToString();
@@ -70,8 +135,12 @@ namespace Devarc
 		{
 		    if (IsDefault) { return "{}"; }
 		    StringBuilder sb = new StringBuilder();
-		    sb.Append("{"); sb.Append("\"pos\":"); sb.Append(pos != null ? pos.ToJson() : "{}");
-			if (string.IsNullOrEmpty(data) == false) { sb.Append(","); sb.Append("\"data\":"); sb.Append("\""); sb.Append(FrameworkUtil.JsonString(data)); sb.Append("\""); }
+		    int j = 0;
+			sb.Append("{");
+			if (pos.IsDefault == false) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"pos\":"); sb.Append(pos.ToJson()); }
+			if (string.IsNullOrEmpty(data) == false) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"data\":"); sb.Append("\""); sb.Append(FrameworkUtil.JsonString(data)); sb.Append("\""); }
 		    sb.Append("}");
 		    return sb.ToString();
 		}
@@ -83,63 +152,4 @@ namespace Devarc
 			return obj;
 		}
 	}
-}
-namespace S2S
-{
-	public interface IStub
-	{
-		void RMI_S2S_Ping(HostID remote, Ping msg);
-	}
-	public static class Stub
-	{
-		public static RECEIVE_RESULT OnReceive(IStub stub, NetBuffer _in_msg)
-		{
-			RMI_ID rmi_id = (RMI_ID)_in_msg.Rmi;
-			switch (rmi_id)
-			{
-				case RMI_ID.Ping:
-					{
-						Log.Debug("S2S.Stub.Ping");
-						Ping msg = new Ping();
-						Marshaler.Read(_in_msg, msg.pos);
-						Marshaler.Read(_in_msg, ref msg.data);
-						if (_in_msg.IsCompleted == false) return RECEIVE_RESULT.INVALID_PACKET;
-						stub.RMI_S2S_Ping(_in_msg.Hid, msg);
-					}
-					break;
-				default:
-					return RECEIVE_RESULT.NOT_IMPLEMENTED;
-			}
-			return RECEIVE_RESULT.SUCCESS;
-		}
-	}
-
-	public enum RMI_VERSION
-	{
-	}
-	enum RMI_ID
-	{
-		Ping                           = 0,
-	}
-	public class Proxy : IProxyBase
-	{
-		private INetworker m_Networker = null;
-		public void Init(INetworker mgr) { m_Networker = mgr; }
-		public bool Ping(HostID target, TEST_VECTOR pos, String data)
-		{
-			Log.Debug("S2S.Proxy.Ping");
-			NetBuffer _out_msg = NetBufferPool.Instance.Pop();
-			if (m_Networker == null)
-			{
-				Log.Debug("{0} is not initialized.", typeof(Proxy));
-				return false;
-			}
-			_out_msg.Init((Int16)RMI_ID.Ping, target);
-			Marshaler.Write(_out_msg, pos);
-			Marshaler.Write(_out_msg, data);
-			if (_out_msg.IsError) return false;
-			return m_Networker.Send(_out_msg);
-		}
-	}
-
 }
