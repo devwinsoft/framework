@@ -57,6 +57,7 @@ namespace Devarc
         bool Read();
 
         bool GetBoolean(string _name);
+        byte GetByte(string _name);
         short GetInt16(string _name);
         int GetInt32(string _name);
         long GetInt64(string _name);

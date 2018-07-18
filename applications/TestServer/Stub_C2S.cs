@@ -18,6 +18,8 @@ namespace TestServer
 
         public void RMI_C2S_Request_Chat(HostID remote, Request_Chat msg)
         {
+            Log.Info(msg.msg);
+            Log.Info(System.Convert.ToBase64String(msg.data));
             using (PlayerData.LIST.READ_LOCK())
             {
                 List<PlayerData>.Enumerator enumerator = PlayerData.LIST.GetEnumerator();

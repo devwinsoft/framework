@@ -130,6 +130,34 @@ namespace Devarc
             }
         }
 
+        public byte GetByte(string _name)
+        {
+            try
+            {
+                if (IsClosed)
+                {
+                    throw new Exception("[MySQL_Reader] Reader is closed.");
+                }
+                int index = getKey(_name);
+                if (mReader.IsDBNull(index))
+                {
+                    return 0;
+                }
+                string value;
+                if (getStringValue(index, out value))
+                {
+                    if (string.IsNullOrEmpty(value))
+                        return default(byte);
+                    return byte.Parse(value);
+                }
+                return mReader.GetByte(index);
+            }
+            catch (System.Exception ex)
+            {
+                Log.Error(ex.Message);
+                return 0;
+            }
+        }
         public short GetInt16(string _name)
         {
             try

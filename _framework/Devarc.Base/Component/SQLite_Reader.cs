@@ -215,6 +215,20 @@ namespace Devarc
             }
         }
 
+        public byte GetByte(string _name)
+        {
+            try
+            {
+                string value = get(_name);
+                return byte.Parse(value);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                return 0;
+            }
+        }
+
         public short GetInt16(string _name)
         {
             try

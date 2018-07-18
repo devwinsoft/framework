@@ -23,7 +23,7 @@ namespace S2S
 						Log.Debug("S2S.Stub.Ping");
 						Ping msg = new Ping();
 						Marshaler.Read(_in_msg, msg.pos);
-						Marshaler.Read(_in_msg, ref msg.data);
+						Marshaler.Read(_in_msg, out msg.data);
 						if (_in_msg.IsCompleted == false) return RECEIVE_RESULT.INVALID_PACKET;
 						stub.RMI_S2S_Ping(_in_msg.Hid, msg);
 					}
@@ -51,7 +51,7 @@ namespace S2S
 	{
 		private INetworker m_Networker = null;
 		public void Init(INetworker mgr) { m_Networker = mgr; }
-		public bool Ping(HostID target, TEST_VECTOR pos, String data)
+		public bool Ping(HostID target, TEST_VECTOR pos, Byte[] data)
 		{
 			if (m_Networker == null)
 			{
@@ -75,7 +75,7 @@ namespace Devarc
 	public class Ping : IBaseObejct
 	{
 		public TEST_VECTOR         pos = new TEST_VECTOR();
-		public string              data = "";
+		public byte[]              data = null;
 
 		public Ping()
 		{
@@ -93,7 +93,7 @@ namespace Devarc
 			get
 			{
 				if (pos.IsDefault == false) return false;
-				if (string.IsNullOrEmpty(data) == false) return false;
+				if (data != null && data.Length > 0) return false;
 				return true;
 			}
 		}
@@ -106,28 +106,29 @@ namespace Devarc
 				return;
 			}
 			pos.Initialize(obj.pos);
-			data                = obj.data;
+			data = new byte[obj.data.Length];
+			Array.Copy(obj.data, data, data.Length);
 		}
 		public void Initialize(PropTable obj)
 		{
 			pos.Initialize(obj.GetTable("pos"));
-			data                = obj.GetStr("data");
+			data                = obj.GetBytes("data");
 		}
 		public void Initialize(JsonData obj)
 		{
 			if (obj.Keys.Contains("pos")) pos.Initialize(obj["pos"]);
-			if (obj.Keys.Contains("data")) data = obj["data"].ToString(); else data = default(string);
+			data = Convert.FromBase64String(obj["data"].ToString());
 		}
 		public void Initialize(IBaseReader obj)
 		{
 			pos.Initialize(JsonMapper.ToObject(obj.GetString("pos")));
-			data                = obj.GetString("data");
+			data = Convert.FromBase64String(obj.GetString("data"));
 		}
 		public override string ToString()
 		{
 		    StringBuilder sb = new StringBuilder();
 		    sb.Append("{"); sb.Append(" \"pos\":"); sb.Append(pos.IsDefault == false ? pos.ToString() : "{}");
-		    sb.Append(","); sb.Append(" \"data\":"); sb.Append("\""); sb.Append(data); sb.Append("\"");
+		    sb.Append(","); sb.Append(" \"data\":"); sb.Append("\""); sb.Append(Convert.ToBase64String(data)); sb.Append("\"");
 		    sb.Append("}");
 		    return sb.ToString();
 		}
@@ -139,8 +140,8 @@ namespace Devarc
 			sb.Append("{");
 			if (pos.IsDefault == false) { if (j > 0) { sb.Append(", "); } j++;
 			 sb.Append("\"pos\":"); sb.Append(pos.ToJson()); }
-			if (string.IsNullOrEmpty(data) == false) { if (j > 0) { sb.Append(", "); } j++;
-			 sb.Append("\"data\":"); sb.Append("\""); sb.Append(FrameworkUtil.JsonString(data)); sb.Append("\""); }
+			if (data != null && data.Length > 0) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"data\":"); sb.Append(string.Format("\"{0}\"", Convert.ToBase64String(data))); }
 		    sb.Append("}");
 		    return sb.ToString();
 		}
@@ -148,7 +149,7 @@ namespace Devarc
 		{
 			PropTable obj = new PropTable("Ping");
 			obj.Attach_Class("pos", "TEST_VECTOR", pos.ToTable());
-			obj.Attach("data", "string", CLASS_TYPE.VALUE, false, data);
+			obj.Attach("data", "byte", CLASS_TYPE.ARRAY, false, Convert.ToBase64String(data));
 			return obj;
 		}
 	}

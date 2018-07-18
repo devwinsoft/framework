@@ -77,7 +77,7 @@ public class SceneTest : MonoBehaviour
             GUI.Label(new Rect(160, 20, 60, 20), mPort);
             if (GUI.Button(new Rect(Screen.width - 120, 20, 100, 20), "Test"))
             {
-                proxy.Request_Chat(HostID.Server, "ABC TEST 1234");
+                proxy.Request_Chat(HostID.Server, "ABC TEST 1234", new byte[] { 1, 2, 3, 4, 5 });
             }
         }
     }

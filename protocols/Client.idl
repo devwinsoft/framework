@@ -13,6 +13,7 @@ public class C2S
     public class Request_Chat
 	{
 		string msg;
+		byte[] data;
 	}
 }
 

@@ -49,6 +49,10 @@ namespace TestServer
 
         private void button_start_Click(object sender, EventArgs e)
         {
+            Type tp = typeof(List<int>);
+            Log.Info(tp.Name);
+            Log.Info(tp.FullName);
+
             TestServer server = TestServer.Instance;
 
             try

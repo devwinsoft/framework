@@ -32,6 +32,7 @@ namespace Devarc
     {
         NONE,
         BOOL,
+        BYTE,
         INT16,
         INT32,
         INT64,
@@ -50,6 +51,7 @@ namespace Devarc
         CLASS,
         VALUE_LIST,
         CLASS_LIST,
+        ARRAY,
     }
 
     enum ROW_TYPE
@@ -82,7 +84,15 @@ namespace Devarc
             {
                 return "";
             }
-            if (_raw_name.StartsWith("int") || _raw_name.StartsWith("int32"))
+            if (_raw_name.StartsWith("bool") || _raw_name.StartsWith("boolean"))
+            {
+                return "bool";
+            }
+            else if (_raw_name.StartsWith("byte"))
+            {
+                return "byte";
+            }
+            else if (_raw_name.StartsWith("int") || _raw_name.StartsWith("int32"))
             {
                 return "int";
             }
@@ -126,6 +136,10 @@ namespace Devarc
             if (var_type.StartsWith("bool"))
             {
                 return VAR_TYPE.BOOL;
+            }
+            else if (var_type.StartsWith("byte"))
+            {
+                return VAR_TYPE.BYTE;
             }
             else if (var_type.StartsWith("short") || var_type.StartsWith("int16"))
             {
@@ -183,6 +197,10 @@ namespace Devarc
             else if (_typeName.ToLower().Equals("list"))
             {
                 return CLASS_TYPE.VALUE_LIST;
+            }
+            else if (_typeName.ToLower().Equals("array"))
+            {
+                return CLASS_TYPE.ARRAY;
             }
             else
             {
@@ -287,6 +305,9 @@ namespace Devarc
             }
             switch (_typeName.ToUpper())
             {
+                case "ARRAY":
+                    data.ClassType = CLASS_TYPE.ARRAY;
+                    break;
                 case "CLASS":
                     data.ClassType = CLASS_TYPE.CLASS;
                     break;
@@ -544,6 +565,25 @@ namespace Devarc
             return data.CustomLength;
         }
 
+        public byte[] GetBytes(string _name)
+        {
+            PropData data;
+            if (mPropTable.TryGetValue(_name, out data) == false)
+            {
+                return null;
+            }
+            return System.Convert.FromBase64String(data.Data);
+        }
+        public byte[] GetBytes(int _index)
+        {
+            PropData data;
+            if (mPropList.TryGetValue(_index, out data) == false)
+            {
+                return null;
+            }
+            return System.Convert.FromBase64String(data.Data);
+        }
+
         public string GetStr(string _name)
         {
             PropData data;
@@ -580,6 +620,20 @@ namespace Devarc
             else if (temp == "false")
                 return false;
             return GetInt32(_index) != 0;
+        }
+
+
+        public byte GetByte(string _name)
+        {
+            byte temp = 0;
+            byte.TryParse(GetStr(_name), out temp);
+            return temp;
+        }
+        public Int16 GetByte(int _index)
+        {
+            byte temp = 0;
+            byte.TryParse(GetStr(_index), out temp);
+            return temp;
         }
 
         public Int16 GetInt16(string _name)
@@ -864,6 +918,7 @@ namespace Devarc
                 string value = mPropList[i].Data != null ? mPropList[i].Data : "";
                 switch (GetClassType(i))
                 {
+                    case CLASS_TYPE.ARRAY:
                     case CLASS_TYPE.VALUE_LIST:
                     case CLASS_TYPE.CLASS_LIST:
                         if (string.IsNullOrEmpty(value))
