@@ -276,7 +276,7 @@ namespace Devarc
 
         public bool Write(byte val)
         {
-            checkReadBuffer(sizeof(byte));
+            checkWriteBuffer(sizeof(byte));
             m_buf[m_len] = val;
             m_len++;
             m_dirty = true;
@@ -285,7 +285,7 @@ namespace Devarc
 
         public bool Write(float val)
         {
-            checkReadBuffer(sizeof(float));
+            checkWriteBuffer(sizeof(float));
             Buffer.BlockCopy(BitConverter.GetBytes(val), 0, m_buf, m_len, sizeof(float));
             m_len += sizeof(float);
             m_dirty = true;

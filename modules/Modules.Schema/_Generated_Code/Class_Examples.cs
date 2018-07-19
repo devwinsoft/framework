@@ -97,17 +97,16 @@ namespace Devarc
 	}
 	public static partial class Marshaler
 	{
-	    public static bool Read(NetBuffer msg, ref TEST_ENUM obj)
+	    public static void Read(NetBuffer msg, ref TEST_ENUM obj)
 	    {
 	        obj = (TEST_ENUM)msg.ReadInt32();
-	        return !msg.IsError;
 	    }
 	    public static bool Write(NetBuffer msg, TEST_ENUM obj)
 	    {
 	        msg.Write((Int32)obj);
 	        return !msg.IsError;
 	    }
-	    public static bool Read(NetBuffer msg, out TEST_ENUM[] obj)
+	    public static void Read(NetBuffer msg, out TEST_ENUM[] obj)
 	    {
 	        int cnt = msg.ReadInt16();
 	        obj = new TEST_ENUM[cnt];
@@ -115,9 +114,8 @@ namespace Devarc
 	        {
 	            obj[i] = (TEST_ENUM)msg.ReadInt32();
 	        }
-	        return !msg.IsError;
 	    }
-	    public static bool Read(NetBuffer msg, List<TEST_ENUM> obj)
+	    public static void Read(NetBuffer msg, List<TEST_ENUM> obj)
 	    {
 	        int cnt = msg.ReadInt16();
 	        obj = new List<TEST_ENUM>();
@@ -125,7 +123,6 @@ namespace Devarc
 	        {
 	            obj[i] = (TEST_ENUM)msg.ReadInt32();
 	        }
-	        return !msg.IsError;
 	    }
 	    public static bool Write(NetBuffer msg, TEST_ENUM[] list)
 	    {
@@ -239,13 +236,11 @@ namespace Devarc
 	}
 	public static partial class Marshaler
 	{
-	    public static bool Read(NetBuffer msg, TEST_VECTOR obj)
+	    public static void Read(NetBuffer msg, TEST_VECTOR obj)
 	    {
-	        bool success = true;
-			success = success ? Marshaler.Read(msg, ref obj.x) : false;
-			success = success ? Marshaler.Read(msg, ref obj.y) : false;
-			success = success ? Marshaler.Read(msg, ref obj.z) : false;
-	        return success;
+			Marshaler.Read(msg, ref obj.x);
+			Marshaler.Read(msg, ref obj.y);
+			Marshaler.Read(msg, ref obj.z);
 	    }
 	    public static bool Write(NetBuffer msg, TEST_VECTOR obj)
 	    {
@@ -254,19 +249,17 @@ namespace Devarc
 			Marshaler.Write(msg, obj.z);
 	        return msg.IsError;
 	    }
-	    public static bool Read(NetBuffer msg, List<TEST_VECTOR> list)
+	    public static void Read(NetBuffer msg, List<TEST_VECTOR> list)
 	    {
-	        bool success = true;
 	        int cnt = msg.ReadInt16();
 	        for (int i = 0; i < cnt; i++)
 	        {
 				TEST_VECTOR obj = new TEST_VECTOR();
-				success = success ? Marshaler.Read(msg, ref obj.x) : false;
-				success = success ? Marshaler.Read(msg, ref obj.y) : false;
-				success = success ? Marshaler.Read(msg, ref obj.z) : false;
+				Marshaler.Read(msg, ref obj.x);
+				Marshaler.Read(msg, ref obj.y);
+				Marshaler.Read(msg, ref obj.z);
 				list.Add(obj);
 	        }
-	        return success;
 	    }
 	    public static bool Write(NetBuffer msg, List<TEST_VECTOR> list)
 	    {
@@ -363,12 +356,10 @@ namespace Devarc
 	}
 	public static partial class Marshaler
 	{
-	    public static bool Read(NetBuffer msg, TEST_PLAYER obj)
+	    public static void Read(NetBuffer msg, TEST_PLAYER obj)
 	    {
-	        bool success = true;
-			success = success ? Marshaler.Read(msg, ref obj.Name) : false;
-			success = success ? Marshaler.Read(msg, obj.Pos) : false;
-	        return success;
+			Marshaler.Read(msg, ref obj.Name);
+			Marshaler.Read(msg, obj.Pos);
 	    }
 	    public static bool Write(NetBuffer msg, TEST_PLAYER obj)
 	    {
@@ -376,18 +367,16 @@ namespace Devarc
 			Marshaler.Write(msg, obj.Pos);
 	        return msg.IsError;
 	    }
-	    public static bool Read(NetBuffer msg, List<TEST_PLAYER> list)
+	    public static void Read(NetBuffer msg, List<TEST_PLAYER> list)
 	    {
-	        bool success = true;
 	        int cnt = msg.ReadInt16();
 	        for (int i = 0; i < cnt; i++)
 	        {
 				TEST_PLAYER obj = new TEST_PLAYER();
-				success = success ? Marshaler.Read(msg, ref obj.Name) : false;
-				success = success ? Marshaler.Read(msg, obj.Pos) : false;
+				Marshaler.Read(msg, ref obj.Name);
+				Marshaler.Read(msg, obj.Pos);
 				list.Add(obj);
 	        }
-	        return success;
 	    }
 	    public static bool Write(NetBuffer msg, List<TEST_PLAYER> list)
 	    {

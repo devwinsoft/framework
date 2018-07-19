@@ -31,6 +31,7 @@ namespace Devarc
     public enum VAR_TYPE
     {
         NONE,
+        ARRAY, // byte[]
         BOOL,
         BYTE,
         INT16,
@@ -51,7 +52,6 @@ namespace Devarc
         CLASS,
         VALUE_LIST,
         CLASS_LIST,
-        ARRAY,
     }
 
     enum ROW_TYPE
@@ -87,6 +87,10 @@ namespace Devarc
             if (_raw_name.StartsWith("bool") || _raw_name.StartsWith("boolean"))
             {
                 return "bool";
+            }
+            else if (_raw_name.StartsWith("byte[]") || _raw_name.StartsWith("array"))
+            {
+                return "byte[]";
             }
             else if (_raw_name.StartsWith("byte"))
             {
@@ -136,6 +140,10 @@ namespace Devarc
             if (var_type.StartsWith("bool"))
             {
                 return VAR_TYPE.BOOL;
+            }
+            else if (var_type.StartsWith("byte[]") || var_type.StartsWith("array"))
+            {
+                return VAR_TYPE.ARRAY;
             }
             else if (var_type.StartsWith("byte"))
             {
@@ -197,10 +205,6 @@ namespace Devarc
             else if (_typeName.ToLower().Equals("list"))
             {
                 return CLASS_TYPE.VALUE_LIST;
-            }
-            else if (_typeName.ToLower().Equals("array"))
-            {
-                return CLASS_TYPE.ARRAY;
             }
             else
             {
@@ -305,9 +309,6 @@ namespace Devarc
             }
             switch (_typeName.ToUpper())
             {
-                case "ARRAY":
-                    data.ClassType = CLASS_TYPE.ARRAY;
-                    break;
                 case "CLASS":
                     data.ClassType = CLASS_TYPE.CLASS;
                     break;
@@ -918,7 +919,6 @@ namespace Devarc
                 string value = mPropList[i].Data != null ? mPropList[i].Data : "";
                 switch (GetClassType(i))
                 {
-                    case CLASS_TYPE.ARRAY:
                     case CLASS_TYPE.VALUE_LIST:
                     case CLASS_TYPE.CLASS_LIST:
                         if (string.IsNullOrEmpty(value))

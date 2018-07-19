@@ -84,49 +84,41 @@ namespace S2C
 	{
 		private INetworker m_Networker = null;
 		public void Init(INetworker mgr) { m_Networker = mgr; }
-		public bool Notify_Player(HostID target, HostID id, DataPlayer data)
+		public bool Send(NetBuffer msg)
 		{
 			if (m_Networker == null)
 			{
 				Log.Debug("{0} is not initialized.", typeof(Proxy));
 				return false;
 			}
+			if (msg.IsError) return false;
+			return m_Networker.Send(msg);
+		}
+		public bool Notify_Player(HostID target, HostID id, DataPlayer data)
+		{
 			Log.Debug("S2C.Proxy.Notify_Player");
 			NetBuffer _out_msg = NetBufferPool.Instance.Pop();
 			_out_msg.Init((Int16)RMI_ID.Notify_Player, target);
 			Marshaler.Write(_out_msg, id);
 			Marshaler.Write(_out_msg, data);
-			if (_out_msg.IsError) return false;
-			return m_Networker.Send(_out_msg);
+			return Send(_out_msg);
 		}
 		public bool Notify_Move(HostID target, VECTOR3 look, DIRECTION move)
 		{
-			if (m_Networker == null)
-			{
-				Log.Debug("{0} is not initialized.", typeof(Proxy));
-				return false;
-			}
 			Log.Debug("S2C.Proxy.Notify_Move");
 			NetBuffer _out_msg = NetBufferPool.Instance.Pop();
 			_out_msg.Init((Int16)RMI_ID.Notify_Move, target);
 			Marshaler.Write(_out_msg, look);
 			Marshaler.Write(_out_msg, move);
-			if (_out_msg.IsError) return false;
-			return m_Networker.Send(_out_msg);
+			return Send(_out_msg);
 		}
 		public bool Notify_Chat(HostID target, String _msg)
 		{
-			if (m_Networker == null)
-			{
-				Log.Debug("{0} is not initialized.", typeof(Proxy));
-				return false;
-			}
 			Log.Debug("S2C.Proxy.Notify_Chat");
 			NetBuffer _out_msg = NetBufferPool.Instance.Pop();
 			_out_msg.Init((Int16)RMI_ID.Notify_Chat, target);
 			Marshaler.Write(_out_msg, _msg);
-			if (_out_msg.IsError) return false;
-			return m_Networker.Send(_out_msg);
+			return Send(_out_msg);
 		}
 	}
 

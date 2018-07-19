@@ -208,7 +208,16 @@ namespace Devarc
                     sw.WriteLine("\t{");
                     sw.WriteLine("\t\tprivate INetworker m_Networker = null;");
                     sw.WriteLine("\t\tpublic void Init(INetworker mgr) { m_Networker = mgr; }");
-
+                    sw.WriteLine("\t\tpublic bool Send(NetBuffer msg)");
+                    sw.WriteLine("\t\t{");
+                    sw.WriteLine("\t\t\tif (m_Networker == null)");
+                    sw.WriteLine("\t\t\t{");
+                    sw.WriteLine("\t\t\t\tLog.Debug(\"{0} is not initialized.\", typeof(Proxy));");
+                    sw.WriteLine("\t\t\t\treturn false;");
+                    sw.WriteLine("\t\t\t}");
+                    sw.WriteLine("\t\t\tif (msg.IsError) return false;");
+                    sw.WriteLine("\t\t\treturn m_Networker.Send(msg);");
+                    sw.WriteLine("\t\t}");
                     foreach (Type msgType in msgClasses)
                     {
                         sw.Write("\t\tpublic bool {0}(HostID target", msgType.Name);
@@ -219,21 +228,14 @@ namespace Devarc
                         sw.WriteLine(")");
 
                         sw.WriteLine("\t\t{");
-                        sw.WriteLine("\t\t\tif (m_Networker == null)");
-                        sw.WriteLine("\t\t\t{");
-                        sw.WriteLine("\t\t\t\tLog.Debug(\"{0} is not initialized.\", typeof(Proxy));");
-                        sw.WriteLine("\t\t\t\treturn false;");
-                        sw.WriteLine("\t\t\t}");
                         sw.WriteLine("\t\t\tLog.Debug(\"{0}.Proxy.{1}\");", tp.Name, msgType.Name);
                         sw.WriteLine("\t\t\tNetBuffer _out_msg = NetBufferPool.Instance.Pop();");
-
                         sw.WriteLine("\t\t\t_out_msg.Init((Int16)RMI_ID.{0}, target);", msgType.Name);
                         foreach (FieldInfo finfo in msgType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
                         {
                             sw.WriteLine("\t\t\tMarshaler.Write(_out_msg, {0});", finfo.Name);
                         }
-                        sw.WriteLine("\t\t\tif (_out_msg.IsError) return false;");
-                        sw.WriteLine("\t\t\treturn m_Networker.Send(_out_msg);");
+                        sw.WriteLine("\t\t\treturn Send(_out_msg);");
                         sw.WriteLine("\t\t}");
                     }
                     sw.WriteLine("\t}"); // end of proxy

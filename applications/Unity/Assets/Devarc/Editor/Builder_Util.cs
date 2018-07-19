@@ -35,7 +35,7 @@ namespace Devarc
         static bool IsClass(Type _type)
         {
             string temp = _type.Name.ToLower();
-            return _type.IsClass && temp.StartsWith("string") == false;
+            return _type.IsClass && temp.StartsWith("string") == false && temp.EndsWith("[]") == false;
         }
 
         static string GetClassName(string _path)
@@ -70,16 +70,11 @@ namespace Devarc
                 int i = 0;
                 foreach (FieldInfo finfo in _fields)
                 {
-                    bool isArray = finfo.FieldType.Name.EndsWith("[]");
                     bool isList = finfo.FieldType.FullName.StartsWith("System.Collections.Generic.List");
                     bool isClass = IsClass(finfo.FieldType);
                     string varTypeName = ToTypeName(finfo.FieldType.Name, isClass);
                     CLASS_TYPE classType = CLASS_TYPE.VALUE;
-                    if (isArray)
-                    {
-                        classType = CLASS_TYPE.ARRAY;
-                    }
-                    else if (isList)
+                    if (isList)
                     {
                         if (isClass)
                             classType = CLASS_TYPE.CLASS_LIST;
@@ -121,7 +116,6 @@ namespace Devarc
             {
                 string type_name = tb.GetTypeName(i);
                 string var_name = tb.GetVarName(i);
-                bool is_array = tb.GetClassType(i) == CLASS_TYPE.ARRAY;
                 bool is_list = tb.GetClassType(i) == CLASS_TYPE.VALUE_LIST || tb.GetClassType(i) == CLASS_TYPE.CLASS_LIST;
                 if (var_name == null || var_name == "")
                 {
@@ -133,6 +127,9 @@ namespace Devarc
                 }
                 switch (tb.GetVarType(i))
                 {
+                    case VAR_TYPE.ARRAY:
+                        sw.WriteLine("\t\tpublic {0,-20}{1} = null;", "byte[]", var_name);
+                        break;
                     case VAR_TYPE.BOOL:
                         if (is_list)
                             sw.WriteLine("\t\tpublic List<{0}> {1} = new List<{0}>();", "bool", var_name);
@@ -140,9 +137,7 @@ namespace Devarc
                             sw.WriteLine("\t\tpublic {0,-20}{1};", "bool", var_name);
                         break;
                     case VAR_TYPE.BYTE:
-                        if (is_array)
-                            sw.WriteLine("\t\tpublic {0,-20}{1} = null;", "byte[]", var_name);
-                        else if (is_list)
+                        if (is_list)
                             sw.WriteLine("\t\tpublic List<{0}> {1} = new List<{0}>();", "byte", var_name);
                         else
                             sw.WriteLine("\t\tpublic {0,-20}{1};", "byte", var_name);
@@ -298,9 +293,6 @@ namespace Devarc
                     continue;
                 switch (tb.GetClassType(i))
                 {
-                    case CLASS_TYPE.ARRAY:
-                        sw.WriteLine("\t\t\t\tif ({0} != null && {0}.Length > 0) return false;", var_name);
-                        break;
                     case CLASS_TYPE.CLASS:
                         sw.WriteLine("\t\t\t\tif ({0}.IsDefault == false) return false;", var_name);
                         break;
@@ -313,6 +305,9 @@ namespace Devarc
                         {
                             case VAR_TYPE.LSTRING:
                             case VAR_TYPE.FSTRING:
+                                break;
+                            case VAR_TYPE.ARRAY:
+                                sw.WriteLine("\t\t\t\tif ({0} != null && {0}.Length > 0) return false;", var_name);
                                 break;
                             case VAR_TYPE.BOOL:
                                 sw.WriteLine("\t\t\t\tif ({0}) return false;", var_name);
@@ -352,10 +347,6 @@ namespace Devarc
                 }
                 switch (tb.GetClassType(i))
                 {
-                    case CLASS_TYPE.ARRAY:
-                        sw.WriteLine("\t\t\t{0} = new byte[obj.{0}.Length];", var_name);
-                        sw.WriteLine("\t\t\tArray.Copy(obj.{0}, {0}, {0}.Length);", var_name);
-                        break;
                     case CLASS_TYPE.CLASS:
                         sw.WriteLine("\t\t\t{0}.Initialize(obj.{0});", var_name);
                         break;
@@ -370,6 +361,10 @@ namespace Devarc
                     default:
                         switch (tb.GetVarType(i))
                         {
+                            case VAR_TYPE.ARRAY:
+                                sw.WriteLine("\t\t\t{0} = new byte[obj.{0}.Length];", var_name);
+                                sw.WriteLine("\t\t\tArray.Copy(obj.{0}, {0}, {0}.Length);", var_name);
+                                break;
                             case VAR_TYPE.LSTRING:
                             case VAR_TYPE.FSTRING:
                                 sw.WriteLine("\t\t\t_{0}.Initialize(obj._{0});", var_name);
@@ -389,7 +384,6 @@ namespace Devarc
             {
                 string type_name = tb.GetTypeName(i);
                 string var_name = tb.GetVarName(i);
-                bool is_array = tb.GetClassType(i) == CLASS_TYPE.ARRAY;
                 bool is_list = tb.GetClassType(i) == CLASS_TYPE.VALUE_LIST || tb.GetClassType(i) == CLASS_TYPE.CLASS_LIST;
                 if (var_name == "" || type_name == "" || var_name.IndexOf('/') >= 0)
                 {
@@ -397,9 +391,12 @@ namespace Devarc
                 }
                 switch (tb.GetVarType(i))
                 {
+                    case VAR_TYPE.ARRAY:
+                        sw.WriteLine("\t\t\t{0,-20}= obj.GetBytes(\"{0}\");", var_name);
+                        break;
                     case VAR_TYPE.BYTE:
-                        if (is_array)
-                            sw.WriteLine("\t\t\t{0,-20}= obj.GetBytes(\"{0}\");", var_name);
+                        if (is_list)
+                            sw.WriteLine("\t\t\tobj.GetList<byte>(\"{0}\", {0});", var_name);
                         else
                             sw.WriteLine("\t\t\t{0,-20}= obj.GetByte(\"{0}\");", var_name);
                         break;
@@ -495,7 +492,6 @@ namespace Devarc
             {
                 string type_name = tb.GetTypeName(i);
                 string var_name = tb.GetVarName(i);
-                bool is_array = tb.GetClassType(i) == CLASS_TYPE.ARRAY;
                 bool is_list = tb.GetClassType(i) == CLASS_TYPE.VALUE_LIST || tb.GetClassType(i) == CLASS_TYPE.CLASS_LIST;
                 if (var_name == "" || type_name == "" || var_name.IndexOf('/') >= 0)
                 {
@@ -503,10 +499,11 @@ namespace Devarc
                 }
                 switch (tb.GetVarType(i))
                 {
+                    case VAR_TYPE.ARRAY:
+                        sw.WriteLine("\t\t\t{0} = Convert.FromBase64String(obj[\"{0}\"].ToString());", var_name);
+                        break;
                     case VAR_TYPE.BYTE:
-                        if (is_array)
-                            sw.WriteLine("\t\t\t{0} = Convert.FromBase64String(obj[\"{0}\"].ToString());", var_name);
-                        else if (is_list)
+                        if (is_list)
                             sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) foreach (JsonData node in obj[\"{0}\"]) {{ {0}.Add(Convert.ToByte(node.ToString())); }}", var_name);
                         else
                             sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) bool.TryParse(obj[\"{0}\"].ToString(), out {0}); else {0} = default(bool);", var_name);
@@ -590,7 +587,6 @@ namespace Devarc
             {
                 string type_name = tb.GetTypeName(i);
                 string var_name = tb.GetVarName(i);
-                bool is_array = tb.GetClassType(i) == CLASS_TYPE.ARRAY;
                 bool is_list = tb.GetClassType(i) == CLASS_TYPE.VALUE_LIST || tb.GetClassType(i) == CLASS_TYPE.CLASS_LIST;
                 if (var_name == "" || type_name == "" || var_name.IndexOf('/') >= 0)
                 {
@@ -598,6 +594,9 @@ namespace Devarc
                 }
                 switch (tb.GetVarType(i))
                 {
+                    case VAR_TYPE.ARRAY:
+                        sw.WriteLine("\t\t\t{0} = Convert.FromBase64String(obj.GetString(\"{0}\"));", var_name);
+                        break;
                     case VAR_TYPE.BOOL:
                         if (is_list)
                             sw.WriteLine("\t\t\tstring __{0} = obj.GetString(\"{0}\"); {0}.Clear(); if (!string.IsNullOrEmpty(__{0})) foreach (JsonData node in JsonMapper.ToObject(__{0})) {{ {0}.Add(Convert.ToBoolean(node.ToString())); }};", var_name);
@@ -605,9 +604,7 @@ namespace Devarc
                             sw.WriteLine("\t\t\t{0,-20}= obj.GetBoolean(\"{0}\");", var_name);
                         break;
                     case VAR_TYPE.BYTE:
-                        if (is_array)
-                            sw.WriteLine("\t\t\t{0} = Convert.FromBase64String(obj.GetString(\"{0}\"));", var_name);
-                        else if (is_list)
+                        if (is_list)
                             sw.WriteLine("\t\t\tstring __{0} = obj.GetString(\"{0}\"); {0}.Clear(); if (!string.IsNullOrEmpty(__{0})) foreach (JsonData node in JsonMapper.ToObject(__{0})) {{ {0}.Add(Convert.ToBoolean(node.ToString())); }};", var_name);
                         else
                             sw.WriteLine("\t\t\t{0,-20}= obj.GetByte(\"{0}\");", var_name);
@@ -685,7 +682,6 @@ namespace Devarc
             {
                 string type_name = tb.GetTypeName(i);
                 string var_name = tb.GetVarName(i);
-                bool is_array = tb.GetClassType(i) == CLASS_TYPE.ARRAY;
                 bool is_list = tb.GetClassType(i) == CLASS_TYPE.VALUE_LIST || tb.GetClassType(i) == CLASS_TYPE.CLASS_LIST;
                 if (var_name == "" || type_name == "" || var_name.IndexOf('/') >= 0)
                 {
@@ -699,6 +695,12 @@ namespace Devarc
 
                 switch (tb.GetVarType(i))
                 {
+                    case VAR_TYPE.ARRAY:
+                        sw.Write(" sb.Append(\"\\\"\");");
+                        sw.Write(" sb.Append(Convert.ToBase64String({0}));", var_name);
+                        sw.WriteLine(" sb.Append(\"\\\"\");");
+                        break;
+
                     case VAR_TYPE.STRING:
                     case VAR_TYPE.FSTRING:
                     case VAR_TYPE.LSTRING:
@@ -727,13 +729,7 @@ namespace Devarc
                         }
                         break;
                     default:
-                        if (is_array)
-                        {
-                            sw.Write(" sb.Append(\"\\\"\");");
-                            sw.Write(" sb.Append(Convert.ToBase64String({0}));", var_name);
-                            sw.WriteLine(" sb.Append(\"\\\"\");");
-                        }
-                        else if (is_list)
+                        if (is_list)
                         {
                             sw.Write(" sb.Append(\"[\");");
                             sw.Write(" for (int i = 0; i < {0}.Count; i++) {{ {1} _obj = {0}[i]; if (i > 0) sb.Append(\",\"); sb.Append(string.Format(\"\\\"{{0}}\\\"\", _obj)); }}", var_name, type_name);
@@ -769,28 +765,13 @@ namespace Devarc
             {
                 string type_name = tb.GetTypeName(i);
                 string var_name = tb.GetVarName(i);
-                bool is_array = tb.GetClassType(i) == CLASS_TYPE.ARRAY;
                 bool is_list = tb.GetClassType(i) == CLASS_TYPE.VALUE_LIST || tb.GetClassType(i) == CLASS_TYPE.CLASS_LIST;
                 if (var_name == "" || type_name == "" || var_name.IndexOf('/') >= 0)
                 {
                     continue;
                 }
 
-                if (is_array)
-                {
-                    switch (tb.GetVarType(i))
-                    {
-                        case VAR_TYPE.BYTE:
-                            sw.WriteLine("\t\t\tif ({0} != null && {0}.Length > 0) {{ if (j > 0) {{ sb.Append(\", \"); }} j++;", var_name, type_name);
-                            sw.Write("\t\t\t sb.Append(\"\\\"{0}\\\":\");", var_name);
-                            sw.WriteLine(" sb.Append(string.Format(\"\\\"{{0}}\\\"\", Convert.ToBase64String({0}))); }}", var_name);
-                            break;
-                        default:
-                            // not implemented
-                            break;
-                    }
-                }
-                else if (is_list)
+                if (is_list)
                 {
                     switch (tb.GetVarType(i))
                     {
@@ -824,6 +805,11 @@ namespace Devarc
                 {
                     switch (tb.GetVarType(i))
                     {
+                        case VAR_TYPE.ARRAY:
+                            sw.WriteLine("\t\t\tif ({0} != null && {0}.Length > 0) {{ if (j > 0) {{ sb.Append(\", \"); }} j++;", var_name, type_name);
+                            sw.Write("\t\t\t sb.Append(\"\\\"{0}\\\":\");", var_name);
+                            sw.WriteLine(" sb.Append(string.Format(\"\\\"{{0}}\\\"\", Convert.ToBase64String({0}))); }}", var_name);
+                            break;
                         case VAR_TYPE.LSTRING:
                             break;
                         case VAR_TYPE.FSTRING:
@@ -862,17 +848,12 @@ namespace Devarc
             {
                 string type_name = tb.GetTypeName(i);
                 string var_name = tb.GetVarName(i);
-                bool is_array = tb.GetClassType(i) == CLASS_TYPE.ARRAY;
                 bool is_list = tb.GetClassType(i) == CLASS_TYPE.VALUE_LIST || tb.GetClassType(i) == CLASS_TYPE.CLASS_LIST;
                 string key_type = tb.GetKeyType(i).ToString().ToLower();
                 if (var_name == "" || type_name == "" || var_name.IndexOf('/') >= 0)
                 {
                     continue;
                 }
-                //if (is_enum)
-                //{
-                //    sw.WriteLine("\t\t\tobj.Attach(\"Name\", \"\", CLASS_TYPE.VALUE, false, {0}.ToString());", var_name, type_name, tb.KeyVarName);
-                //}
                 if (is_list)
                 {
                     sw.WriteLine("\t\t\tobj.Attach_List<{1}>(\"{0}\", \"{1}\", VAR_TYPE.{3}, {0});", var_name, type_name, tb.GetClassType(i), tb.GetVarType(i));
@@ -881,10 +862,11 @@ namespace Devarc
                 {
                     switch (tb.GetVarType(i))
                     {
+                        case VAR_TYPE.ARRAY:
+                            sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, false, Convert.ToBase64String({0}));", var_name, type_name);
+                            break;
                         case VAR_TYPE.BYTE:
-                            if (is_array)
-                                sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.ARRAY, false, Convert.ToBase64String({0}));", var_name, type_name);
-                            else if (is_list)
+                            if (is_list)
                                 sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE_LIST, {2}, {0}.ToString());", var_name, type_name, key_type);
                             else
                                 sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, {2}, {0}.ToString());", var_name, type_name, key_type);
@@ -945,10 +927,9 @@ namespace Devarc
                 sw.WriteLine("\tpublic static partial class Marshaler");
                 sw.WriteLine("\t{");
 
-                sw.WriteLine("\t    public static bool Read(NetBuffer msg, ref {0} obj)", class_name);
+                sw.WriteLine("\t    public static void Read(NetBuffer msg, ref {0} obj)", class_name);
                 sw.WriteLine("\t    {");
                 sw.WriteLine("\t        obj = ({0})msg.ReadInt32();", class_name);
-                sw.WriteLine("\t        return !msg.IsError;");
                 sw.WriteLine("\t    }");
 
                 sw.WriteLine("\t    public static bool Write(NetBuffer msg, {0} obj)", class_name);
@@ -957,7 +938,7 @@ namespace Devarc
                 sw.WriteLine("\t        return !msg.IsError;");
                 sw.WriteLine("\t    }");
 
-                sw.WriteLine("\t    public static bool Read(NetBuffer msg, out {0}[] obj)", class_name);
+                sw.WriteLine("\t    public static void Read(NetBuffer msg, out {0}[] obj)", class_name);
                 sw.WriteLine("\t    {");
                 sw.WriteLine("\t        int cnt = msg.ReadInt16();");
                 sw.WriteLine("\t        obj = new {0}[cnt];", class_name);
@@ -965,10 +946,9 @@ namespace Devarc
                 sw.WriteLine("\t        {");
                 sw.WriteLine("\t            obj[i] = ({0})msg.ReadInt32();", class_name);
                 sw.WriteLine("\t        }");
-                sw.WriteLine("\t        return !msg.IsError;");
                 sw.WriteLine("\t    }");
 
-                sw.WriteLine("\t    public static bool Read(NetBuffer msg, List<{0}> obj)", class_name);
+                sw.WriteLine("\t    public static void Read(NetBuffer msg, List<{0}> obj)", class_name);
                 sw.WriteLine("\t    {");
                 sw.WriteLine("\t        int cnt = msg.ReadInt16();");
                 sw.WriteLine("\t        obj = new List<{0}>();", class_name);
@@ -976,7 +956,6 @@ namespace Devarc
                 sw.WriteLine("\t        {");
                 sw.WriteLine("\t            obj[i] = ({0})msg.ReadInt32();", class_name);
                 sw.WriteLine("\t        }");
-                sw.WriteLine("\t        return !msg.IsError;");
                 sw.WriteLine("\t    }");
 
                 sw.WriteLine("\t    public static bool Write(NetBuffer msg, {0}[] list)", class_name);
@@ -1004,9 +983,8 @@ namespace Devarc
             {
                 sw.WriteLine("\tpublic static partial class Marshaler");
                 sw.WriteLine("\t{");
-                sw.WriteLine("\t    public static bool Read(NetBuffer msg, {0} obj)", class_name);
+                sw.WriteLine("\t    public static void Read(NetBuffer msg, {0} obj)", class_name);
                 sw.WriteLine("\t    {");
-                sw.WriteLine("\t        bool success = true;");
                 for (int i = 0; i < tb.Length; i++)
                 {
                     string type_name = tb.GetTypeName(i);
@@ -1027,21 +1005,20 @@ namespace Devarc
                         case VAR_TYPE.STRING:
                         case VAR_TYPE.ENUM:
                             if (is_list)
-                                sw.WriteLine("\t\t\tsuccess = success ? Marshaler.Read(msg, obj.{0}) : false;", var_name);
+                                sw.WriteLine("\t\t\tMarshaler.Read(msg, obj.{0});", var_name);
                             else
-                                sw.WriteLine("\t\t\tsuccess = success ? Marshaler.Read(msg, ref obj.{0}) : false;", var_name);
+                                sw.WriteLine("\t\t\tMarshaler.Read(msg, ref obj.{0});", var_name);
                             break;
                         case VAR_TYPE.CLASS:
                             if (is_list)
-                                sw.WriteLine("\t\t\tsuccess = success ? Marshaler.Read(msg, obj.{0}) : false;", var_name);
+                                sw.WriteLine("\t\t\tMarshaler.Read(msg, obj.{0});", var_name);
                             else
-                                sw.WriteLine("\t\t\tsuccess = success ? Marshaler.Read(msg, obj.{0}) : false;", var_name);
+                                sw.WriteLine("\t\t\tMarshaler.Read(msg, obj.{0});", var_name);
                             break;
                         default:
                             break;
                     }
                 }
-                sw.WriteLine("\t        return success;");
                 sw.WriteLine("\t    }");
 
                 sw.WriteLine("\t    public static bool Write(NetBuffer msg, {0} obj)", class_name);
@@ -1059,9 +1036,8 @@ namespace Devarc
                 sw.WriteLine("\t        return msg.IsError;");
                 sw.WriteLine("\t    }");
 
-                sw.WriteLine("\t    public static bool Read(NetBuffer msg, List<{0}> list)", class_name);
+                sw.WriteLine("\t    public static void Read(NetBuffer msg, List<{0}> list)", class_name);
                 sw.WriteLine("\t    {");
-                sw.WriteLine("\t        bool success = true;");
                 sw.WriteLine("\t        int cnt = msg.ReadInt16();");
                 sw.WriteLine("\t        for (int i = 0; i < cnt; i++)");
                 sw.WriteLine("\t        {");
@@ -1086,15 +1062,15 @@ namespace Devarc
                         case VAR_TYPE.STRING:
                         case VAR_TYPE.ENUM:
                             if (is_list)
-                                sw.WriteLine("\t\t\t\tsuccess = success ? Marshaler.Read(msg, obj.{0}) : false;", var_name);
+                                sw.WriteLine("\t\t\t\tMarshaler.Read(msg, obj.{0});", var_name);
                             else
-                                sw.WriteLine("\t\t\t\tsuccess = success ? Marshaler.Read(msg, ref obj.{0}) : false;", var_name);
+                                sw.WriteLine("\t\t\t\tMarshaler.Read(msg, ref obj.{0});", var_name);
                             break;
                         case VAR_TYPE.CLASS:
                             if (is_list)
-                                sw.WriteLine("\t\t\t\tsuccess = success ? Marshaler.Read(msg, obj.{0}) : false;", var_name);
+                                sw.WriteLine("\t\t\t\tMarshaler.Read(msg, obj.{0});", var_name);
                             else
-                                sw.WriteLine("\t\t\t\tsuccess = success ? Marshaler.Read(msg, obj.{0}) : false;", var_name);
+                                sw.WriteLine("\t\t\t\tMarshaler.Read(msg, obj.{0});", var_name);
                             break;
                         default:
                             break;
@@ -1102,7 +1078,6 @@ namespace Devarc
                 }
                 sw.WriteLine("\t\t\t\tlist.Add(obj);");
                 sw.WriteLine("\t        }");
-                sw.WriteLine("\t        return success;");
                 sw.WriteLine("\t    }");
 
                 sw.WriteLine("\t    public static bool Write(NetBuffer msg, List<{0}> list)", class_name);

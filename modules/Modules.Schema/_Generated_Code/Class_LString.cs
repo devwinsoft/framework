@@ -98,12 +98,10 @@ namespace Devarc
 	}
 	public static partial class Marshaler
 	{
-	    public static bool Read(NetBuffer msg, LString obj)
+	    public static void Read(NetBuffer msg, LString obj)
 	    {
-	        bool success = true;
-			success = success ? Marshaler.Read(msg, ref obj.Key) : false;
-			success = success ? Marshaler.Read(msg, ref obj.Value) : false;
-	        return success;
+			Marshaler.Read(msg, ref obj.Key);
+			Marshaler.Read(msg, ref obj.Value);
 	    }
 	    public static bool Write(NetBuffer msg, LString obj)
 	    {
@@ -111,18 +109,16 @@ namespace Devarc
 			Marshaler.Write(msg, obj.Value);
 	        return msg.IsError;
 	    }
-	    public static bool Read(NetBuffer msg, List<LString> list)
+	    public static void Read(NetBuffer msg, List<LString> list)
 	    {
-	        bool success = true;
 	        int cnt = msg.ReadInt16();
 	        for (int i = 0; i < cnt; i++)
 	        {
 				LString obj = new LString();
-				success = success ? Marshaler.Read(msg, ref obj.Key) : false;
-				success = success ? Marshaler.Read(msg, ref obj.Value) : false;
+				Marshaler.Read(msg, ref obj.Key);
+				Marshaler.Read(msg, ref obj.Value);
 				list.Add(obj);
 	        }
-	        return success;
 	    }
 	    public static bool Write(NetBuffer msg, List<LString> list)
 	    {

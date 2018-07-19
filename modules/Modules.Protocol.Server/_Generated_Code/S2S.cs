@@ -51,20 +51,24 @@ namespace S2S
 	{
 		private INetworker m_Networker = null;
 		public void Init(INetworker mgr) { m_Networker = mgr; }
-		public bool Ping(HostID target, TEST_VECTOR pos, Byte[] data)
+		public bool Send(NetBuffer msg)
 		{
 			if (m_Networker == null)
 			{
 				Log.Debug("{0} is not initialized.", typeof(Proxy));
 				return false;
 			}
+			if (msg.IsError) return false;
+			return m_Networker.Send(msg);
+		}
+		public bool Ping(HostID target, TEST_VECTOR pos, Byte[] data, NetTriggerCallback _callback = null, NetTriggerCallback _fallback = null)
+		{
 			Log.Debug("S2S.Proxy.Ping");
 			NetBuffer _out_msg = NetBufferPool.Instance.Pop();
 			_out_msg.Init((Int16)RMI_ID.Ping, target);
 			Marshaler.Write(_out_msg, pos);
 			Marshaler.Write(_out_msg, data);
-			if (_out_msg.IsError) return false;
-			return m_Networker.Send(_out_msg);
+			return Send(_out_msg);
 		}
 	}
 
@@ -149,7 +153,7 @@ namespace Devarc
 		{
 			PropTable obj = new PropTable("Ping");
 			obj.Attach_Class("pos", "TEST_VECTOR", pos.ToTable());
-			obj.Attach("data", "byte", CLASS_TYPE.ARRAY, false, Convert.ToBase64String(data));
+			obj.Attach("data", "byte[]", CLASS_TYPE.VALUE, false, Convert.ToBase64String(data));
 			return obj;
 		}
 	}

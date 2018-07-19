@@ -185,18 +185,16 @@ namespace Devarc
 	}
 	public static partial class Marshaler
 	{
-	    public static bool Read(NetBuffer msg, DataCharacter obj)
+	    public static void Read(NetBuffer msg, DataCharacter obj)
 	    {
-	        bool success = true;
-			success = success ? Marshaler.Read(msg, ref obj.unit_type) : false;
-			success = success ? Marshaler.Read(msg, ref obj.show) : false;
-			success = success ? Marshaler.Read(msg, obj.items) : false;
-			success = success ? Marshaler.Read(msg, obj.stats) : false;
-			success = success ? Marshaler.Read(msg, obj.ability) : false;
-			success = success ? Marshaler.Read(msg, obj.nodes) : false;
-			success = success ? Marshaler.Read(msg, ref obj.unit_uid) : false;
-			success = success ? Marshaler.Read(msg, obj.player_data) : false;
-	        return success;
+			Marshaler.Read(msg, ref obj.unit_type);
+			Marshaler.Read(msg, ref obj.show);
+			Marshaler.Read(msg, obj.items);
+			Marshaler.Read(msg, obj.stats);
+			Marshaler.Read(msg, obj.ability);
+			Marshaler.Read(msg, obj.nodes);
+			Marshaler.Read(msg, ref obj.unit_uid);
+			Marshaler.Read(msg, obj.player_data);
 	    }
 	    public static bool Write(NetBuffer msg, DataCharacter obj)
 	    {
@@ -212,24 +210,22 @@ namespace Devarc
 			Marshaler.Write(msg, obj.player_data);
 	        return msg.IsError;
 	    }
-	    public static bool Read(NetBuffer msg, List<DataCharacter> list)
+	    public static void Read(NetBuffer msg, List<DataCharacter> list)
 	    {
-	        bool success = true;
 	        int cnt = msg.ReadInt16();
 	        for (int i = 0; i < cnt; i++)
 	        {
 				DataCharacter obj = new DataCharacter();
-				success = success ? Marshaler.Read(msg, ref obj.unit_type) : false;
-				success = success ? Marshaler.Read(msg, ref obj.show) : false;
-				success = success ? Marshaler.Read(msg, obj.items) : false;
-				success = success ? Marshaler.Read(msg, obj.stats) : false;
-				success = success ? Marshaler.Read(msg, obj.ability) : false;
-				success = success ? Marshaler.Read(msg, obj.nodes) : false;
-				success = success ? Marshaler.Read(msg, ref obj.unit_uid) : false;
-				success = success ? Marshaler.Read(msg, obj.player_data) : false;
+				Marshaler.Read(msg, ref obj.unit_type);
+				Marshaler.Read(msg, ref obj.show);
+				Marshaler.Read(msg, obj.items);
+				Marshaler.Read(msg, obj.stats);
+				Marshaler.Read(msg, obj.ability);
+				Marshaler.Read(msg, obj.nodes);
+				Marshaler.Read(msg, ref obj.unit_uid);
+				Marshaler.Read(msg, obj.player_data);
 				list.Add(obj);
 	        }
-	        return success;
 	    }
 	    public static bool Write(NetBuffer msg, List<DataCharacter> list)
 	    {
@@ -343,13 +339,11 @@ namespace Devarc
 	}
 	public static partial class Marshaler
 	{
-	    public static bool Read(NetBuffer msg, DataAbility obj)
+	    public static void Read(NetBuffer msg, DataAbility obj)
 	    {
-	        bool success = true;
-			success = success ? Marshaler.Read(msg, ref obj.str) : false;
-			success = success ? Marshaler.Read(msg, ref obj.dex) : false;
-			success = success ? Marshaler.Read(msg, ref obj.vit) : false;
-	        return success;
+			Marshaler.Read(msg, ref obj.str);
+			Marshaler.Read(msg, ref obj.dex);
+			Marshaler.Read(msg, ref obj.vit);
 	    }
 	    public static bool Write(NetBuffer msg, DataAbility obj)
 	    {
@@ -358,19 +352,17 @@ namespace Devarc
 			Marshaler.Write(msg, obj.vit);
 	        return msg.IsError;
 	    }
-	    public static bool Read(NetBuffer msg, List<DataAbility> list)
+	    public static void Read(NetBuffer msg, List<DataAbility> list)
 	    {
-	        bool success = true;
 	        int cnt = msg.ReadInt16();
 	        for (int i = 0; i < cnt; i++)
 	        {
 				DataAbility obj = new DataAbility();
-				success = success ? Marshaler.Read(msg, ref obj.str) : false;
-				success = success ? Marshaler.Read(msg, ref obj.dex) : false;
-				success = success ? Marshaler.Read(msg, ref obj.vit) : false;
+				Marshaler.Read(msg, ref obj.str);
+				Marshaler.Read(msg, ref obj.dex);
+				Marshaler.Read(msg, ref obj.vit);
 				list.Add(obj);
 	        }
-	        return success;
 	    }
 	    public static bool Write(NetBuffer msg, List<DataAbility> list)
 	    {
@@ -467,12 +459,10 @@ namespace Devarc
 	}
 	public static partial class Marshaler
 	{
-	    public static bool Read(NetBuffer msg, DataPlayer obj)
+	    public static void Read(NetBuffer msg, DataPlayer obj)
 	    {
-	        bool success = true;
-			success = success ? Marshaler.Read(msg, ref obj.id) : false;
-			success = success ? Marshaler.Read(msg, obj.pos) : false;
-	        return success;
+			Marshaler.Read(msg, ref obj.id);
+			Marshaler.Read(msg, obj.pos);
 	    }
 	    public static bool Write(NetBuffer msg, DataPlayer obj)
 	    {
@@ -480,18 +470,16 @@ namespace Devarc
 			Marshaler.Write(msg, obj.pos);
 	        return msg.IsError;
 	    }
-	    public static bool Read(NetBuffer msg, List<DataPlayer> list)
+	    public static void Read(NetBuffer msg, List<DataPlayer> list)
 	    {
-	        bool success = true;
 	        int cnt = msg.ReadInt16();
 	        for (int i = 0; i < cnt; i++)
 	        {
 				DataPlayer obj = new DataPlayer();
-				success = success ? Marshaler.Read(msg, ref obj.id) : false;
-				success = success ? Marshaler.Read(msg, obj.pos) : false;
+				Marshaler.Read(msg, ref obj.id);
+				Marshaler.Read(msg, obj.pos);
 				list.Add(obj);
 	        }
-	        return success;
 	    }
 	    public static bool Write(NetBuffer msg, List<DataPlayer> list)
 	    {
@@ -597,13 +585,11 @@ namespace Devarc
 	}
 	public static partial class Marshaler
 	{
-	    public static bool Read(NetBuffer msg, VECTOR3 obj)
+	    public static void Read(NetBuffer msg, VECTOR3 obj)
 	    {
-	        bool success = true;
-			success = success ? Marshaler.Read(msg, ref obj.x) : false;
-			success = success ? Marshaler.Read(msg, ref obj.y) : false;
-			success = success ? Marshaler.Read(msg, ref obj.z) : false;
-	        return success;
+			Marshaler.Read(msg, ref obj.x);
+			Marshaler.Read(msg, ref obj.y);
+			Marshaler.Read(msg, ref obj.z);
 	    }
 	    public static bool Write(NetBuffer msg, VECTOR3 obj)
 	    {
@@ -612,19 +598,17 @@ namespace Devarc
 			Marshaler.Write(msg, obj.z);
 	        return msg.IsError;
 	    }
-	    public static bool Read(NetBuffer msg, List<VECTOR3> list)
+	    public static void Read(NetBuffer msg, List<VECTOR3> list)
 	    {
-	        bool success = true;
 	        int cnt = msg.ReadInt16();
 	        for (int i = 0; i < cnt; i++)
 	        {
 				VECTOR3 obj = new VECTOR3();
-				success = success ? Marshaler.Read(msg, ref obj.x) : false;
-				success = success ? Marshaler.Read(msg, ref obj.y) : false;
-				success = success ? Marshaler.Read(msg, ref obj.z) : false;
+				Marshaler.Read(msg, ref obj.x);
+				Marshaler.Read(msg, ref obj.y);
+				Marshaler.Read(msg, ref obj.z);
 				list.Add(obj);
 	        }
-	        return success;
 	    }
 	    public static bool Write(NetBuffer msg, List<VECTOR3> list)
 	    {
@@ -730,17 +714,16 @@ namespace Devarc
 	}
 	public static partial class Marshaler
 	{
-	    public static bool Read(NetBuffer msg, ref DIRECTION obj)
+	    public static void Read(NetBuffer msg, ref DIRECTION obj)
 	    {
 	        obj = (DIRECTION)msg.ReadInt32();
-	        return !msg.IsError;
 	    }
 	    public static bool Write(NetBuffer msg, DIRECTION obj)
 	    {
 	        msg.Write((Int32)obj);
 	        return !msg.IsError;
 	    }
-	    public static bool Read(NetBuffer msg, out DIRECTION[] obj)
+	    public static void Read(NetBuffer msg, out DIRECTION[] obj)
 	    {
 	        int cnt = msg.ReadInt16();
 	        obj = new DIRECTION[cnt];
@@ -748,9 +731,8 @@ namespace Devarc
 	        {
 	            obj[i] = (DIRECTION)msg.ReadInt32();
 	        }
-	        return !msg.IsError;
 	    }
-	    public static bool Read(NetBuffer msg, List<DIRECTION> obj)
+	    public static void Read(NetBuffer msg, List<DIRECTION> obj)
 	    {
 	        int cnt = msg.ReadInt16();
 	        obj = new List<DIRECTION>();
@@ -758,7 +740,6 @@ namespace Devarc
 	        {
 	            obj[i] = (DIRECTION)msg.ReadInt32();
 	        }
-	        return !msg.IsError;
 	    }
 	    public static bool Write(NetBuffer msg, DIRECTION[] list)
 	    {
@@ -880,17 +861,16 @@ namespace Devarc
 	}
 	public static partial class Marshaler
 	{
-	    public static bool Read(NetBuffer msg, ref MESSAGE obj)
+	    public static void Read(NetBuffer msg, ref MESSAGE obj)
 	    {
 	        obj = (MESSAGE)msg.ReadInt32();
-	        return !msg.IsError;
 	    }
 	    public static bool Write(NetBuffer msg, MESSAGE obj)
 	    {
 	        msg.Write((Int32)obj);
 	        return !msg.IsError;
 	    }
-	    public static bool Read(NetBuffer msg, out MESSAGE[] obj)
+	    public static void Read(NetBuffer msg, out MESSAGE[] obj)
 	    {
 	        int cnt = msg.ReadInt16();
 	        obj = new MESSAGE[cnt];
@@ -898,9 +878,8 @@ namespace Devarc
 	        {
 	            obj[i] = (MESSAGE)msg.ReadInt32();
 	        }
-	        return !msg.IsError;
 	    }
-	    public static bool Read(NetBuffer msg, List<MESSAGE> obj)
+	    public static void Read(NetBuffer msg, List<MESSAGE> obj)
 	    {
 	        int cnt = msg.ReadInt16();
 	        obj = new List<MESSAGE>();
@@ -908,7 +887,6 @@ namespace Devarc
 	        {
 	            obj[i] = (MESSAGE)msg.ReadInt32();
 	        }
-	        return !msg.IsError;
 	    }
 	    public static bool Write(NetBuffer msg, MESSAGE[] list)
 	    {
@@ -1021,17 +999,16 @@ namespace Devarc
 	}
 	public static partial class Marshaler
 	{
-	    public static bool Read(NetBuffer msg, ref UNIT obj)
+	    public static void Read(NetBuffer msg, ref UNIT obj)
 	    {
 	        obj = (UNIT)msg.ReadInt32();
-	        return !msg.IsError;
 	    }
 	    public static bool Write(NetBuffer msg, UNIT obj)
 	    {
 	        msg.Write((Int32)obj);
 	        return !msg.IsError;
 	    }
-	    public static bool Read(NetBuffer msg, out UNIT[] obj)
+	    public static void Read(NetBuffer msg, out UNIT[] obj)
 	    {
 	        int cnt = msg.ReadInt16();
 	        obj = new UNIT[cnt];
@@ -1039,9 +1016,8 @@ namespace Devarc
 	        {
 	            obj[i] = (UNIT)msg.ReadInt32();
 	        }
-	        return !msg.IsError;
 	    }
-	    public static bool Read(NetBuffer msg, List<UNIT> obj)
+	    public static void Read(NetBuffer msg, List<UNIT> obj)
 	    {
 	        int cnt = msg.ReadInt16();
 	        obj = new List<UNIT>();
@@ -1049,7 +1025,6 @@ namespace Devarc
 	        {
 	            obj[i] = (UNIT)msg.ReadInt32();
 	        }
-	        return !msg.IsError;
 	    }
 	    public static bool Write(NetBuffer msg, UNIT[] list)
 	    {

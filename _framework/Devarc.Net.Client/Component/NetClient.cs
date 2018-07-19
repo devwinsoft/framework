@@ -37,6 +37,7 @@ namespace Devarc
 
         public EasyClient Client { get { return client; } }
         EasyClient client = new EasyClient();
+        NetTrigger trigger = new NetTrigger();
 
         public HostID Hid { get { return mHid; } }
         HostID mHid = HostID.None;
@@ -97,6 +98,8 @@ namespace Devarc
                     {
                         handler(this, package.Msg);
                     }
+                    trigger.OnReceiveData(package.Msg);
+
                     NetBufferPool.Instance.Push(package.Msg);
                     break;
             }
@@ -186,7 +189,6 @@ namespace Devarc
         {
             client.Close();
         }
-
     }
 }
 

@@ -289,6 +289,7 @@
     <Compile Include="Assets\Devarc\Component\Network\NetClient.cs" />
     <Compile Include="Assets\Devarc\Component\Network\NetClientPackageInfo.cs" />
     <Compile Include="Assets\Devarc\Component\Network\NetClientReceiveFilter.cs" />
+    <Compile Include="Assets\Devarc\Component\Network\NetTrigger.cs" />
     <Compile Include="Assets\Devarc\Component\Network\NetworkObject.cs" />
     <Compile Include="Assets\Devarc\Component\SoundManager\SoundChannel.cs" />
     <Compile Include="Assets\Devarc\Component\SoundManager\SoundManager.cs" />

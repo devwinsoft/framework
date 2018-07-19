@@ -68,35 +68,33 @@ namespace C2S
 	{
 		private INetworker m_Networker = null;
 		public void Init(INetworker mgr) { m_Networker = mgr; }
-		public bool Request_Move(HostID target, VECTOR3 look, DIRECTION move)
+		public bool Send(NetBuffer msg)
 		{
 			if (m_Networker == null)
 			{
 				Log.Debug("{0} is not initialized.", typeof(Proxy));
 				return false;
 			}
+			if (msg.IsError) return false;
+			return m_Networker.Send(msg);
+		}
+		public bool Request_Move(HostID target, VECTOR3 look, DIRECTION move)
+		{
 			Log.Debug("C2S.Proxy.Request_Move");
 			NetBuffer _out_msg = NetBufferPool.Instance.Pop();
 			_out_msg.Init((Int16)RMI_ID.Request_Move, target);
 			Marshaler.Write(_out_msg, look);
 			Marshaler.Write(_out_msg, move);
-			if (_out_msg.IsError) return false;
-			return m_Networker.Send(_out_msg);
+			return Send(_out_msg);
 		}
 		public bool Request_Chat(HostID target, String msg, Byte[] data)
 		{
-			if (m_Networker == null)
-			{
-				Log.Debug("{0} is not initialized.", typeof(Proxy));
-				return false;
-			}
 			Log.Debug("C2S.Proxy.Request_Chat");
 			NetBuffer _out_msg = NetBufferPool.Instance.Pop();
 			_out_msg.Init((Int16)RMI_ID.Request_Chat, target);
 			Marshaler.Write(_out_msg, msg);
 			Marshaler.Write(_out_msg, data);
-			if (_out_msg.IsError) return false;
-			return m_Networker.Send(_out_msg);
+			return Send(_out_msg);
 		}
 	}
 
@@ -262,7 +260,7 @@ namespace Devarc
 		{
 			PropTable obj = new PropTable("Request_Chat");
 			obj.Attach("msg", "string", CLASS_TYPE.VALUE, false, msg);
-			obj.Attach("data", "byte", CLASS_TYPE.ARRAY, false, Convert.ToBase64String(data));
+			obj.Attach("data", "byte[]", CLASS_TYPE.VALUE, false, Convert.ToBase64String(data));
 			return obj;
 		}
 	}
