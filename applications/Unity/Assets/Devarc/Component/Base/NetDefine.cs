@@ -17,7 +17,6 @@
 
 //
 // @author Hyoung Joon, Kim (maoshy@nate.com)
-// @version $Rev: 1, $Date: 2012-02-20
 //
 
 using System;
@@ -38,19 +37,54 @@ namespace Devarc
         BY_SERVER,
     }
 
+    public enum RMI_BASIC
+    {
+        INIT_HOST_ID = -1,
+        UNKNOWN_REQUEST = -2,
+    }
+
+    public enum RECEIVE_RESULT
+    {
+        SUCCESS,
+        NOT_IMPLEMENTED,
+        INVALID_PACKET_DOWNFLOW,
+        INVALID_PACKET_OVERFLOW,
+    }
+
+    public class NetException : System.Exception
+    {
+        public RECEIVE_RESULT ERROR { get { return mError; } }
+        RECEIVE_RESULT mError = RECEIVE_RESULT.SUCCESS;
+
+        public NetException(RECEIVE_RESULT _error)
+        {
+            mError = _error;
+        }
+    }
+
     public interface INetworker
     {
         short GetCurrentSeq(HostID hid);
         bool Send(NetBuffer msg);
+        event NET_RECEIVER OnReceiveData;
     }
 
-    public interface IProxyBase
+    public abstract class ProxyBase
     {
-        void Init(INetworker networker);
+        protected INetworker mNetworker = null;
+        public void Init(INetworker _networker)
+        {
+            mNetworker = _networker;
+        }
     }
 
-    public interface IStubBase
+    public abstract class StubBase
     {
-        bool OnReceiveData(object sender, NetBuffer msg);
+        public abstract bool OnReceiveData(object sender, NetBuffer msg);
+
+        public void Init(INetworker _networker)
+        {
+            _networker.OnReceiveData += OnReceiveData;
+        }
     }
 }

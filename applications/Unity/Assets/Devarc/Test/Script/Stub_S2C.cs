@@ -2,7 +2,7 @@
 using System.Collections;
 using Devarc;
 
-public class Stub_S2C : IStubBase, S2C.IStub
+public class Stub_S2C : StubBase, S2C.IStub
 {
     public void RMI_S2C_Notify_Player(HostID remote, Notify_Player msg)
     {
@@ -18,16 +18,15 @@ public class Stub_S2C : IStubBase, S2C.IStub
         Log.Info(msg._msg);
     }
 
-    public bool OnReceiveData(object sender, NetBuffer msg)
+    public override bool OnReceiveData(object sender, NetBuffer msg)
     {
         switch (S2C.Stub.OnReceive(this, msg))
         {
-            case RECEIVE_RESULT.INVALID_PACKET:
-            case RECEIVE_RESULT.NOT_IMPLEMENTED:
-                break;
+            case RECEIVE_RESULT.SUCCESS:
+                return true;
             default:
                 break;
         }
-        return true;
+        return false;
     }
 }

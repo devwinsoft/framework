@@ -35,8 +35,16 @@ namespace Devarc
     {
         public event NET_RECEIVER OnReceiveData;
 
-        public EasyClient Client { get { return client; } }
+        public EasyClient Client
+        {
+            get { return client; }
+        }
         EasyClient client = new EasyClient();
+
+        public NetTrigger Trigger
+        {
+            get { return trigger; }
+        }
         NetTrigger trigger = new NetTrigger();
 
         public HostID Hid { get { return mHid; } }
@@ -114,11 +122,6 @@ namespace Devarc
         public short GetCurrentSeq(HostID hid)
         {
             return 0;
-        }
-
-        public void InitStub(IStubBase stub)
-        {
-            this.OnReceiveData += stub.OnReceiveData;
         }
 
         public bool Send(NetBuffer msg)

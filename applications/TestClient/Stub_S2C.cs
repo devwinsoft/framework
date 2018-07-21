@@ -7,7 +7,7 @@ using Devarc;
 
 namespace TestClient
 {
-    class Stub_S2C : IStubBase, S2C.IStub
+    class Stub_S2C : StubBase, S2C.IStub
     {
         public void RMI_S2C_Notify_Player(HostID remote, Notify_Player msg)
         {
@@ -24,16 +24,19 @@ namespace TestClient
             Log.Info("[{0}] {1}", remote, msg._msg);
         }
 
-        public bool OnReceiveData(object sender, NetBuffer msg)
+        public override bool OnReceiveData(object sender, NetBuffer msg)
         {
             switch (S2C.Stub.OnReceive(this, msg))
             {
-                case RECEIVE_RESULT.INVALID_PACKET:
+                case RECEIVE_RESULT.SUCCESS:
+                    return true;
+                case RECEIVE_RESULT.INVALID_PACKET_DOWNFLOW:
+                case RECEIVE_RESULT.INVALID_PACKET_OVERFLOW:
                     break;
                 default:
                     break;
             }
-            return true;
+            return false;
         }
     }
 }

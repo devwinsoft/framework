@@ -74,6 +74,7 @@
     <Compile Include="Component\Log.cs" />
     <Compile Include="Component\HostID.cs" />
     <Compile Include="Component\NetBufferPool.cs" />
+    <Compile Include="Component\NetDefine.cs" />
     <Compile Include="Component\SQLite_Reader.cs" />
     <Compile Include="Component\SQLite_Session.cs" />
     <Compile Include="Component\XmlSheetReader.cs" />

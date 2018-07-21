@@ -53,7 +53,7 @@ public class SceneTest : MonoBehaviour
         Table.Session.Close();
 
         proxy.Init(client);
-        client.InitStub(stub);
+        stub.Init(client);
     }
 
     void OnGUI()

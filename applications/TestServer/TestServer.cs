@@ -30,8 +30,8 @@ namespace TestServer
             Setup(serverConfig);
 
             Init(10);
-            InitStub(stub);
             proxy.Init(this);
+            stub.Init(this);
         }
 
 

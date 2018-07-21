@@ -25,7 +25,7 @@ namespace C2S
 						Request_Move msg = new Request_Move();
 						Marshaler.Read(_in_msg, msg.look);
 						Marshaler.Read(_in_msg, ref msg.move);
-						if (_in_msg.IsCompleted == false) return RECEIVE_RESULT.INVALID_PACKET;
+						if (_in_msg.IsCompleted == false) return RECEIVE_RESULT.INVALID_PACKET_DOWNFLOW;
 						stub.RMI_C2S_Request_Move(_in_msg.Hid, msg);
 					}
 					catch (NetException ex)
@@ -40,7 +40,7 @@ namespace C2S
 						Request_Chat msg = new Request_Chat();
 						Marshaler.Read(_in_msg, ref msg.msg);
 						Marshaler.Read(_in_msg, out msg.data);
-						if (_in_msg.IsCompleted == false) return RECEIVE_RESULT.INVALID_PACKET;
+						if (_in_msg.IsCompleted == false) return RECEIVE_RESULT.INVALID_PACKET_DOWNFLOW;
 						stub.RMI_C2S_Request_Chat(_in_msg.Hid, msg);
 					}
 					catch (NetException ex)
@@ -64,19 +64,17 @@ namespace C2S
 		Request_Move                   = 6000,
 		Request_Chat                   = 6001,
 	}
-	public class Proxy : IProxyBase
+	public class Proxy : ProxyBase
 	{
-		private INetworker m_Networker = null;
-		public void Init(INetworker mgr) { m_Networker = mgr; }
 		public bool Send(NetBuffer msg)
 		{
-			if (m_Networker == null)
+			if (mNetworker == null)
 			{
 				Log.Debug("{0} is not initialized.", typeof(Proxy));
 				return false;
 			}
 			if (msg.IsError) return false;
-			return m_Networker.Send(msg);
+			return mNetworker.Send(msg);
 		}
 		public bool Request_Move(HostID target, VECTOR3 look, DIRECTION move)
 		{
@@ -97,7 +95,6 @@ namespace C2S
 			return Send(_out_msg);
 		}
 	}
-
 }
 namespace Devarc
 {

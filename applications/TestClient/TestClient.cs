@@ -22,7 +22,7 @@ namespace TestClient
         {
             ms_Instance = this;
             proxy.Init(this);
-            this.InitStub(stub);
+            stub.Init(this);
         }
 
         protected override void OnConnected()

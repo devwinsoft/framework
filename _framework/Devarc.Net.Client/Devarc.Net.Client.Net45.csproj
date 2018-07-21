@@ -73,7 +73,6 @@
     <Compile Include="Component\NetClientPackageInfo.cs" />
     <Compile Include="Component\NetClientReceiveFilter.cs" />
     <Compile Include="Component\NetTrigger.cs" />
-    <Compile Include="Component\NetworkObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

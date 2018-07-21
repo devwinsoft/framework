@@ -10,7 +10,7 @@ using SuperSocket.SocketBase.Protocol;
 
 namespace TestServer
 {
-    class Stub_C2S : IStubBase, C2S.IStub
+    class Stub_C2S : StubBase, C2S.IStub
     {
         public void RMI_C2S_Request_Move(HostID remote, Request_Move msg)
         {
@@ -35,16 +35,19 @@ namespace TestServer
         }
 
 
-        public bool OnReceiveData(object sender, NetBuffer msg)
+        public override bool OnReceiveData(object sender, NetBuffer msg)
         {
             switch (C2S.Stub.OnReceive(this, msg))
             {
-                case RECEIVE_RESULT.INVALID_PACKET:
+                case RECEIVE_RESULT.SUCCESS:
+                    return true;
+                case RECEIVE_RESULT.INVALID_PACKET_DOWNFLOW:
+                case RECEIVE_RESULT.INVALID_PACKET_OVERFLOW:
                     break;
                 default:
                     break;
             }
-            return true;
+            return false;
         }
     }
 }

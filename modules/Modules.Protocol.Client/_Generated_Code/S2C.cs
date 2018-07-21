@@ -26,7 +26,7 @@ namespace S2C
 						Notify_Player msg = new Notify_Player();
 						Marshaler.Read(_in_msg, ref msg.id);
 						Marshaler.Read(_in_msg, msg.data);
-						if (_in_msg.IsCompleted == false) return RECEIVE_RESULT.INVALID_PACKET;
+						if (_in_msg.IsCompleted == false) return RECEIVE_RESULT.INVALID_PACKET_DOWNFLOW;
 						stub.RMI_S2C_Notify_Player(_in_msg.Hid, msg);
 					}
 					catch (NetException ex)
@@ -41,7 +41,7 @@ namespace S2C
 						Notify_Move msg = new Notify_Move();
 						Marshaler.Read(_in_msg, msg.look);
 						Marshaler.Read(_in_msg, ref msg.move);
-						if (_in_msg.IsCompleted == false) return RECEIVE_RESULT.INVALID_PACKET;
+						if (_in_msg.IsCompleted == false) return RECEIVE_RESULT.INVALID_PACKET_DOWNFLOW;
 						stub.RMI_S2C_Notify_Move(_in_msg.Hid, msg);
 					}
 					catch (NetException ex)
@@ -55,7 +55,7 @@ namespace S2C
 						Log.Debug("S2C.Stub.Notify_Chat");
 						Notify_Chat msg = new Notify_Chat();
 						Marshaler.Read(_in_msg, ref msg._msg);
-						if (_in_msg.IsCompleted == false) return RECEIVE_RESULT.INVALID_PACKET;
+						if (_in_msg.IsCompleted == false) return RECEIVE_RESULT.INVALID_PACKET_DOWNFLOW;
 						stub.RMI_S2C_Notify_Chat(_in_msg.Hid, msg);
 					}
 					catch (NetException ex)
@@ -80,19 +80,17 @@ namespace S2C
 		Notify_Move                    = 5001,
 		Notify_Chat                    = 5002,
 	}
-	public class Proxy : IProxyBase
+	public class Proxy : ProxyBase
 	{
-		private INetworker m_Networker = null;
-		public void Init(INetworker mgr) { m_Networker = mgr; }
 		public bool Send(NetBuffer msg)
 		{
-			if (m_Networker == null)
+			if (mNetworker == null)
 			{
 				Log.Debug("{0} is not initialized.", typeof(Proxy));
 				return false;
 			}
 			if (msg.IsError) return false;
-			return m_Networker.Send(msg);
+			return mNetworker.Send(msg);
 		}
 		public bool Notify_Player(HostID target, HostID id, DataPlayer data)
 		{
@@ -121,7 +119,6 @@ namespace S2C
 			return Send(_out_msg);
 		}
 	}
-
 }
 namespace Devarc
 {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Devarc
 {
     public delegate void NetTriggerCallback();
-    class NetTrigger
+    public class NetTrigger
     {
         public void Register(short _rmi, NetTriggerCallback _callback, NetTriggerCallback _fallback)
         {

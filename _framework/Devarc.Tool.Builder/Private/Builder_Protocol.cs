@@ -204,19 +204,19 @@ namespace Devarc
                     }
                     sw.WriteLine("\t}"); // end of enum
 
-                    sw.WriteLine("\tpublic class Proxy : IProxyBase"); // start of proxy
+                    sw.WriteLine("\tpublic class Proxy : ProxyBase"); // start of proxy
                     sw.WriteLine("\t{");
-                    sw.WriteLine("\t\tprivate INetworker m_Networker = null;");
-                    sw.WriteLine("\t\tpublic void Init(INetworker mgr) { m_Networker = mgr; }");
+                    //sw.WriteLine("\t\tprivate INetworker m_Networker = null;");
+                    //sw.WriteLine("\t\tpublic void Init(INetworker mgr) { m_Networker = mgr; }");
                     sw.WriteLine("\t\tpublic bool Send(NetBuffer msg)");
                     sw.WriteLine("\t\t{");
-                    sw.WriteLine("\t\t\tif (m_Networker == null)");
+                    sw.WriteLine("\t\t\tif (mNetworker == null)");
                     sw.WriteLine("\t\t\t{");
                     sw.WriteLine("\t\t\t\tLog.Debug(\"{0} is not initialized.\", typeof(Proxy));");
                     sw.WriteLine("\t\t\t\treturn false;");
                     sw.WriteLine("\t\t\t}");
                     sw.WriteLine("\t\t\tif (msg.IsError) return false;");
-                    sw.WriteLine("\t\t\treturn m_Networker.Send(msg);");
+                    sw.WriteLine("\t\t\treturn mNetworker.Send(msg);");
                     sw.WriteLine("\t\t}");
                     foreach (Type msgType in msgClasses)
                     {
@@ -239,7 +239,6 @@ namespace Devarc
                         sw.WriteLine("\t\t}");
                     }
                     sw.WriteLine("\t}"); // end of proxy
-                    sw.WriteLine("");
                     sw.WriteLine("}"); // end of namespace
 
 
@@ -348,7 +347,7 @@ namespace Devarc
                         sw.WriteLine("\t\t\t\t\t\tMarshaler.Read(_in_msg, ref msg.{1});", finfo.FieldType, finfo.Name);
                     }
                 }
-                sw.WriteLine("\t\t\t\t\t\tif (_in_msg.IsCompleted == false) return RECEIVE_RESULT.INVALID_PACKET;");
+                sw.WriteLine("\t\t\t\t\t\tif (_in_msg.IsCompleted == false) return RECEIVE_RESULT.INVALID_PACKET_DOWNFLOW;");
                 sw.WriteLine("\t\t\t\t\t\tstub.RMI_{0}_{1}(_in_msg.Hid, msg);", tp.Name, msgType.Name);
                 sw.WriteLine("\t\t\t\t\t}");
                 sw.WriteLine("\t\t\t\t\tcatch (NetException ex)");

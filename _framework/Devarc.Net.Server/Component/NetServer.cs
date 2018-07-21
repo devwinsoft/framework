@@ -34,7 +34,7 @@ namespace Devarc
 {
     public class NetServer : AppServer<NetSession, NetRequestInfo>, INetworker
     {
-        public event NET_RECEIVER OnDispatchData;
+        public event NET_RECEIVER OnReceiveData;
         private Dictionary<HostID, NetSession> mSessions = new Dictionary<HostID, NetSession>();
         HostID mNextHostID = (HostID)1000;
 
@@ -50,11 +50,6 @@ namespace Devarc
         public void Init(int threadCnt)
         {
             this.mThreadCnt = threadCnt;
-        }
-
-        public void InitStub(IStubBase _stub)
-        {
-            this.OnDispatchData += _stub.OnReceiveData;
         }
 
         public short GetCurrentSeq(HostID hid)
@@ -190,7 +185,7 @@ namespace Devarc
 
         public void DispatchMsg(object sender, NetBuffer msg)
         {
-            var handler = this.OnDispatchData;
+            var handler = this.OnReceiveData;
             if (handler != null)
             {
                 handler(this, msg);
