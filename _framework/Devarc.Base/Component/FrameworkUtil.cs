@@ -8,6 +8,13 @@ namespace Devarc
 {
     public static class FrameworkUtil
     {
+        public static string ToBase64String(string _value)
+        {
+            Encoding encoding = Encoding.UTF8;
+            byte[] bytes = encoding.GetBytes(_value);
+            return Convert.ToBase64String(bytes);
+        }
+
         public static int FillList<T>(string _jsonString, List<T> _list) where T : IBaseObejct, new()
         {
             if (_list == null)

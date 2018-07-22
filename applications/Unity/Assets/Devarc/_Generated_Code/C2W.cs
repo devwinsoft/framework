@@ -9,6 +9,7 @@ namespace Devarc.C2W
 	public interface IStub
 	{
 		void RMI_C2W_Request_Login(HostID remote, Request_Login msg);
+		void RMI_C2W_Request_Stage_Clear(HostID remote, Request_Stage_Clear msg);
 	}
 	public static class Stub
 	{
@@ -32,6 +33,20 @@ namespace Devarc.C2W
 						return ex.ERROR;
 					}
 					break;
+				case RMI_ID.Request_Stage_Clear:
+					try
+					{
+						Log.Debug("C2W.Stub.Request_Stage_Clear");
+						Request_Stage_Clear msg = new Request_Stage_Clear();
+						Marshaler.Read(_in_msg, ref msg.stage_id);
+						if (_in_msg.IsCompleted == false) return RECEIVE_RESULT.INVALID_PACKET_DOWNFLOW;
+						stub.RMI_C2W_Request_Stage_Clear(_in_msg.Hid, msg);
+					}
+					catch (NetException ex)
+					{
+						return ex.ERROR;
+					}
+					break;
 				default:
 					return RECEIVE_RESULT.NOT_IMPLEMENTED;
 			}
@@ -45,6 +60,7 @@ namespace Devarc.C2W
 	enum RMI_ID
 	{
 		Request_Login                  = 30010,
+		Request_Stage_Clear            = 30020,
 	}
 	public class Proxy : ProxyBase
 	{
@@ -65,6 +81,14 @@ namespace Devarc.C2W
 			_out_msg.Init((Int16)RMI_ID.Request_Login, target);
 			Marshaler.Write(_out_msg, account_id);
 			Marshaler.Write(_out_msg, passwd);
+			return Send(_out_msg);
+		}
+		public bool Request_Stage_Clear(HostID target, String stage_id)
+		{
+			Log.Debug("C2W.Proxy.Request_Stage_Clear");
+			NetBuffer _out_msg = NetBufferPool.Instance.Pop();
+			_out_msg.Init((Int16)RMI_ID.Request_Stage_Clear, target);
+			Marshaler.Write(_out_msg, stage_id);
 			return Send(_out_msg);
 		}
 	}
@@ -150,6 +174,78 @@ namespace Devarc.C2W
 			PropTable obj = new PropTable("Request_Login");
 			obj.Attach("account_id", "string", CLASS_TYPE.VALUE, false, account_id);
 			obj.Attach("passwd", "string", CLASS_TYPE.VALUE, false, passwd);
+			return obj;
+		}
+	}
+	[System.Serializable]
+	[NetProtocolAttribute(RMI_ID = 30020)]
+	public class Request_Stage_Clear : IBaseObejct
+	{
+		public string              stage_id = "";
+
+		public Request_Stage_Clear()
+		{
+		}
+		public Request_Stage_Clear(Request_Stage_Clear obj)
+		{
+			Initialize(obj);
+		}
+		public Request_Stage_Clear(PropTable obj)
+		{
+			Initialize(obj);
+		}
+		public bool IsDefault
+		{
+			get
+			{
+				if (string.IsNullOrEmpty(stage_id) == false) return false;
+				return true;
+			}
+		}
+		public void Initialize(IBaseObejct from)
+		{
+			Request_Stage_Clear obj = from as Request_Stage_Clear;
+			if (obj == null)
+			{
+				Log.Error("Cannot Initialize [name]:Request_Stage_Clear");
+				return;
+			}
+			stage_id            = obj.stage_id;
+		}
+		public void Initialize(PropTable obj)
+		{
+			stage_id            = obj.GetStr("stage_id");
+		}
+		public void Initialize(JsonData obj)
+		{
+			if (obj.Keys.Contains("stage_id")) stage_id = obj["stage_id"].ToString(); else stage_id = default(string);
+		}
+		public void Initialize(IBaseReader obj)
+		{
+			stage_id            = obj.GetString("stage_id");
+		}
+		public override string ToString()
+		{
+		    StringBuilder sb = new StringBuilder();
+		    sb.Append("{"); sb.Append(" \"stage_id\":"); sb.Append("\""); sb.Append(stage_id); sb.Append("\"");
+		    sb.Append("}");
+		    return sb.ToString();
+		}
+		public string ToJson()
+		{
+		    if (IsDefault) { return "{}"; }
+		    StringBuilder sb = new StringBuilder();
+		    int j = 0;
+			sb.Append("{");
+			if (string.IsNullOrEmpty(stage_id) == false) { if (j > 0) { sb.Append(", "); } j++;
+			 sb.Append("\"stage_id\":"); sb.Append("\""); sb.Append(FrameworkUtil.JsonString(stage_id)); sb.Append("\""); }
+		    sb.Append("}");
+		    return sb.ToString();
+		}
+		public PropTable ToTable()
+		{
+			PropTable obj = new PropTable("Request_Stage_Clear");
+			obj.Attach("stage_id", "string", CLASS_TYPE.VALUE, false, stage_id);
 			return obj;
 		}
 	}

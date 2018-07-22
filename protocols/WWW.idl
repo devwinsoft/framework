@@ -10,4 +10,10 @@ public class C2W
 		string account_id;
 		string passwd;
 	}
+
+    [NetProtocolAttribute(RMI_ID = 30020)]
+	class Request_Stage_Clear
+	{
+		string stage_id;
+	}
 }

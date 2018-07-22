@@ -238,9 +238,9 @@ namespace Devarc
                 sw.WriteLine("class {0}", _protocolType.Name);
                 sw.WriteLine("{");
                 sw.WriteLine("\tvar $message = null;");
-                sw.WriteLine("\tfunction __construct($_request)");
+                sw.WriteLine("\tfunction __construct($_data, $_enc)");
                 sw.WriteLine("\t{");
-                sw.WriteLine("\t\t$this->message = new \\Devarc\\Component\\RMIMessage($_request);");
+                sw.WriteLine("\t\t$this->message = new \\Devarc\\Component\\RMIMessage($_data, $_enc);");
                 sw.WriteLine("\t}");
                 sw.WriteLine("\tpublic function dispatch()");
                 sw.WriteLine("\t{");
@@ -253,7 +253,7 @@ namespace Devarc
                     {
                         //Log.Warning("[{0}] has not NetProtocolAttribute.", msgType.Name);
                     }
-                    sw.WriteLine("\t\t\tcase {0}:", rmi_id);
+                    sw.WriteLine("\t\t\tcase {0}: // {1}", rmi_id, msgType.Name);
                     sw.WriteLine("\t\t\t\t$proc = new \\Devarc\\Protocol\\{0}($this->message);", msgType.Name);
                     sw.WriteLine("\t\t\t\t$proc->dispatch();");
                     sw.WriteLine("\t\t\t\tbreak;");

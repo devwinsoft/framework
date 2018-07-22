@@ -52,7 +52,7 @@ namespace WebTestClient
         {
             try
             {
-                string dllPath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Modules.Protocol.Client.dll");
+                string dllPath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Modules.Protocol.Web.dll");
                 Assembly assem = Assembly.LoadFile(dllPath);
                 Type[] types = assem.GetTypes();
                 for (int i = 0; i < types.Length; i++)
@@ -90,9 +90,19 @@ namespace WebTestClient
 
             // Encoding
             Encoding encoding = Encoding.UTF8;
-            string postData = string.Format("data={{\"user_seq\":\"{0}\",\"user_key\":\"{1}\",\"rmi_id\":\"{2}\",\"rmi_data\":\"{3}\"}}"
-                , textBox_user_seq.Text, textBox_user_key.Text, textBox_rmi_id.Text, textBox_data.Text);
-            byte[] result = encoding.GetBytes(postData);
+            string contents = string.Format("{{\"user_seq\":\"{0}\",\"user_key\":\"{1}\",\"rmi_id\":\"{2}\"}}"
+                , textBox_user_seq.Text, textBox_user_key.Text, textBox_rmi_id.Text);
+            StringBuilder sb = new StringBuilder();
+            sb.Append("data=");
+            sb.Append(FrameworkUtil.ToBase64String(contents));
+            if (string.IsNullOrEmpty(textBox_data.Text) == false)
+            {
+                sb.Append("&enc=");
+                string encData = Cryptor.Encrypt(textBox_data.Text);
+                string postData = FrameworkUtil.ToBase64String(encData);
+                sb.Append(postData);
+            }
+            byte[] result = encoding.GetBytes(sb.ToString());
 
             Stream postDataStream = request.GetRequestStream();
             postDataStream.Write(result, 0, result.Length);
@@ -104,12 +114,12 @@ namespace WebTestClient
                 mString.Clear();
                 textBox_output.Clear();
                 Log.Info(sendTime.ToString("[yyyy-MM-dd HH:mm:ss]"));
-                Log.Info(postData);
+                Log.Info(contents);
                 Log.Info("");
 
                 WebResponse response = request.GetResponse();
                 Stream respPostStream = response.GetResponseStream();
-                StreamReader readerPost = new StreamReader(respPostStream, Encoding.Default);
+                StreamReader readerPost = new StreamReader(respPostStream, Encoding.UTF8);
                 string resultPost = readerPost.ReadToEnd();
 
                 readerPost.Close();

@@ -55,6 +55,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modules.Schema", "modules\M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebTestClient", "applications\WebTestClient\WebTestClient.csproj", "{7B72D6D4-A4A9-4774-A7A0-E767BBBBCE1B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modules.Protocol.Web", "modules\Modules.Protocol.Web\Modules.Protocol.Web.csproj", "{8C781F79-825D-4E13-B4D8-2B37FF044232}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -149,6 +151,10 @@ Global
 		{7B72D6D4-A4A9-4774-A7A0-E767BBBBCE1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B72D6D4-A4A9-4774-A7A0-E767BBBBCE1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B72D6D4-A4A9-4774-A7A0-E767BBBBCE1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C781F79-825D-4E13-B4D8-2B37FF044232}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C781F79-825D-4E13-B4D8-2B37FF044232}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C781F79-825D-4E13-B4D8-2B37FF044232}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C781F79-825D-4E13-B4D8-2B37FF044232}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -176,6 +182,7 @@ Global
 		{7E021313-866C-4F14-9A9A-4B13EC95FFA9} = {4FCBE5AD-80AD-47A8-A6D7-CAC80D3A66E7}
 		{25E1584D-51A1-41B8-91A0-6D0C2647055E} = {4FCBE5AD-80AD-47A8-A6D7-CAC80D3A66E7}
 		{7B72D6D4-A4A9-4774-A7A0-E767BBBBCE1B} = {8CB46C12-7155-4A39-807D-43E25378114E}
+		{8C781F79-825D-4E13-B4D8-2B37FF044232} = {4FCBE5AD-80AD-47A8-A6D7-CAC80D3A66E7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A11E8B5B-EFB5-451A-9112-E4B942714CF3}
