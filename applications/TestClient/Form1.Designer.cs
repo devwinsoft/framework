@@ -44,8 +44,10 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.button_clear = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
             this.SuspendLayout();
@@ -164,6 +166,7 @@
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.button_clear);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel3.Location = new System.Drawing.Point(0, 332);
             this.panel3.Name = "panel3";
@@ -189,6 +192,16 @@
             this.panel5.Size = new System.Drawing.Size(591, 332);
             this.panel5.TabIndex = 19;
             // 
+            // button_clear
+            // 
+            this.button_clear.Location = new System.Drawing.Point(493, 6);
+            this.button_clear.Name = "button_clear";
+            this.button_clear.Size = new System.Drawing.Size(86, 23);
+            this.button_clear.TabIndex = 0;
+            this.button_clear.Text = "Clear";
+            this.button_clear.UseVisualStyleBackColor = true;
+            this.button_clear.Click += new System.EventHandler(this.button_clear_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -204,6 +217,7 @@
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.panel3.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
@@ -229,6 +243,7 @@
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Button button_clear;
     }
 }
 

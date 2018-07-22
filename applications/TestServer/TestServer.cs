@@ -14,8 +14,8 @@ namespace TestServer
         public static TestServer Instance { get { return msInstance; } }
         private static TestServer msInstance;
 
-        public S2C.Proxy Proxy { get { return proxy; } }
-        S2C.Proxy proxy = new S2C.Proxy();
+        public Devarc.S2C.Proxy Proxy { get { return proxy; } }
+        Devarc.S2C.Proxy proxy = new Devarc.S2C.Proxy();
         Stub_C2S stub = new Stub_C2S();
 
         public TestServer()

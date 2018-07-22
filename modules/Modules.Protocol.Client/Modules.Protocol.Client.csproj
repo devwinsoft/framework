@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="_Generated_Code\C2S.cs" />
+    <Compile Include="_Generated_Code\C2W.cs" />
     <Compile Include="_Generated_Code\S2C.cs" />
   </ItemGroup>
   <ItemGroup>

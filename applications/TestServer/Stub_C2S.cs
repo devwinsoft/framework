@@ -4,13 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Devarc;
+using Devarc.C2S;
 using SuperSocket;
 using SuperSocket.SocketBase;
 using SuperSocket.SocketBase.Protocol;
 
 namespace TestServer
 {
-    class Stub_C2S : StubBase, C2S.IStub
+    class Stub_C2S : StubBase, IStub
     {
         public void RMI_C2S_Request_Move(HostID remote, Request_Move msg)
         {
@@ -37,7 +38,7 @@ namespace TestServer
 
         public override bool OnReceive(object sender, NetBuffer msg)
         {
-            switch (C2S.Stub.OnReceive(this, msg))
+            switch (Stub.OnReceive(this, msg))
             {
                 case RECEIVE_RESULT.SUCCESS:
                     return true;

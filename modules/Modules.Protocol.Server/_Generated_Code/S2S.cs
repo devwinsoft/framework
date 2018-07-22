@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using LitJson;
 using Devarc;
-namespace S2S
+namespace Devarc.S2S
 {
 	public interface IStub
 	{
@@ -41,11 +41,10 @@ namespace S2S
 
 	public enum RMI_VERSION
 	{
-		RMI_VERSION                    = 1,
 	}
 	enum RMI_ID
 	{
-		Ping                           = 0,
+		Ping                           = 20010,
 	}
 	public class Proxy : ProxyBase
 	{
@@ -70,9 +69,10 @@ namespace S2S
 		}
 	}
 }
-namespace Devarc
+namespace Devarc.S2S
 {
 	[System.Serializable]
+	[NetProtocolAttribute(RMI_ID = 20010)]
 	public class Ping : IBaseObejct
 	{
 		public TEST_VECTOR         pos = new TEST_VECTOR();

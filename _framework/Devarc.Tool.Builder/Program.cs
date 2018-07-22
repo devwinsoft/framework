@@ -13,13 +13,13 @@ namespace Devarc
 
             if (args.Length > 1)
             {
-                if (args.Contains<string>("-idl"))
+                if (args.Contains<string>("-idl") || args.Contains<string>("-php"))
                 {
                     Builder_Protocol compiler = new Builder_Protocol();
                     if (args.Length > 2)
-                        compiler.Build(args[1], args[2]);
+                        compiler.Build(args[1], args[2], args.Contains<string>("-php"));
                     else
-                        compiler.Build(args[1], Path.GetDirectoryName(args[1]));
+                        compiler.Build(args[1], Path.GetDirectoryName(args[1]), args.Contains<string>("-php"));
                 }
                 else if (args.Contains<string>("-obj"))
                 {

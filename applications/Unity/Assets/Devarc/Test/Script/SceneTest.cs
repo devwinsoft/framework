@@ -26,7 +26,7 @@ public class SceneTest : MonoBehaviour
     //[HideInInspector]
     //public PLAY_STATE State = PLAY_STATE.NONE;
 
-    public C2S.Proxy proxy = new C2S.Proxy();
+    public Devarc.C2S.Proxy proxy = new Devarc.C2S.Proxy();
     public NetClient client = new NetClient();
     Stub_S2C stub = new Stub_S2C();
 

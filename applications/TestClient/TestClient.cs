@@ -14,8 +14,8 @@ namespace TestClient
         public static TestClient Instance { get { return ms_Instance; } }
         private static TestClient ms_Instance;
 
-        public C2S.Proxy Proxy { get { return proxy; } }
-        C2S.Proxy proxy = new C2S.Proxy();
+        public Devarc.C2S.Proxy Proxy { get { return proxy; } }
+        Devarc.C2S.Proxy proxy = new Devarc.C2S.Proxy();
         Stub_S2C stub = new Stub_S2C();
 
         public TestClient()

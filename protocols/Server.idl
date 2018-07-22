@@ -2,12 +2,12 @@
 
 public class S2S
 {
-    public const int RMI_VERSION = 1;
+    const int RMI_VERSION = 1;
 
-    [NetProtocolAttribute(RMI_ID = 10010)]
-	public class Ping
+    [NetProtocolAttribute(RMI_ID = 20010)]
+	class Ping
 	{
-		public TEST_VECTOR pos;
-		public byte[] data;
+		TEST_VECTOR pos;
+		byte[] data;
 	}
 }

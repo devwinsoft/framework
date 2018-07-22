@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using LitJson;
 using Devarc;
-namespace S2C
+namespace Devarc.S2C
 {
 	public interface IStub
 	{
@@ -72,13 +72,12 @@ namespace S2C
 
 	public enum RMI_VERSION
 	{
-		RMI_VERSION                    = 1,
 	}
 	enum RMI_ID
 	{
-		Notify_Player                  = 2010,
-		Notify_Move                    = 2020,
-		Notify_Chat                    = 2030,
+		Notify_Player                  = 11010,
+		Notify_Move                    = 11020,
+		Notify_Chat                    = 11030,
 	}
 	public class Proxy : ProxyBase
 	{
@@ -120,10 +119,10 @@ namespace S2C
 		}
 	}
 }
-namespace Devarc
+namespace Devarc.S2C
 {
 	[System.Serializable]
-	[NetProtocolAttribute(RMI_ID = 2010)]
+	[NetProtocolAttribute(RMI_ID = 11010)]
 	public class Notify_Player : IBaseObejct
 	{
 		public HostID              id;
@@ -205,7 +204,7 @@ namespace Devarc
 		}
 	}
 	[System.Serializable]
-	[NetProtocolAttribute(RMI_ID = 2020)]
+	[NetProtocolAttribute(RMI_ID = 11020)]
 	public class Notify_Move : IBaseObejct
 	{
 		public VECTOR3             look = new VECTOR3();
@@ -287,7 +286,7 @@ namespace Devarc
 		}
 	}
 	[System.Serializable]
-	[NetProtocolAttribute(RMI_ID = 2030)]
+	[NetProtocolAttribute(RMI_ID = 11030)]
 	public class Notify_Chat : IBaseObejct
 	{
 		public string              _msg = "";

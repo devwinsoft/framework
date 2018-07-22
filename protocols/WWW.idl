@@ -1,0 +1,13 @@
+﻿using Devarc;
+
+public class C2W
+{
+    const int RMI_VERSION = 1;
+
+    [NetProtocolAttribute(RMI_ID = 30010)]
+	class Request_Login
+	{
+		string account_id;
+		string passwd;
+	}
+}

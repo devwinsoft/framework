@@ -59,20 +59,19 @@ namespace WebTestClient
                 {
                     if (types[i].GetInterfaces().Contains(typeof(IBaseObejct)))
                     {
-                        RMI_DATA data = new RMI_DATA();
-                        data.type = types[i];
-                        data.name = data.type.Name;
                         NetProtocolAttribute attribute = types[i].GetCustomAttribute<NetProtocolAttribute>();
                         if (attribute == null)
                         {
-                            data.rmi_id = 0;
+                            Log.Error("{0} has not RMI_ID.", types[i].Name);
+                            continue;
                         }
-                        else
-                        {
-                            data.rmi_id = attribute.RMI_ID;
-                        }
+                        string displayName = types[i].FullName.Substring("Devarc.".Length);
+                        RMI_DATA data = new RMI_DATA();
+                        data.type = types[i];
+                        data.name = displayName;
+                        data.rmi_id = attribute.RMI_ID;
                         mRmiList.Add(data.name, data);
-                        comboBox_rmi_name.Items.Add(data.type.Name);
+                        comboBox_rmi_name.Items.Add(displayName);
                     }
                 }
             }
@@ -84,9 +83,6 @@ namespace WebTestClient
 
         private void button_request_Click(object sender, EventArgs e)
         {
-            mString.Clear();
-            textBox_output.Clear();
-
             DateTime sendTime = DateTime.Now;
             WebRequest request = WebRequest.Create(textBox_address.Text);
             request.ContentType = "application/x-www-form-urlencoded";
@@ -103,20 +99,30 @@ namespace WebTestClient
             postDataStream.Close();
 
             // Response
-            WebResponse response = request.GetResponse();
-            Stream respPostStream = response.GetResponseStream();
-            StreamReader readerPost = new StreamReader(respPostStream, Encoding.Default);
-            string resultPost = readerPost.ReadToEnd();
+            try
+            {
+                mString.Clear();
+                textBox_output.Clear();
+                Log.Info(sendTime.ToString("[yyyy-MM-dd HH:mm:ss]"));
+                Log.Info(postData);
+                Log.Info("");
 
-            readerPost.Close();
-            respPostStream.Close();
+                WebResponse response = request.GetResponse();
+                Stream respPostStream = response.GetResponseStream();
+                StreamReader readerPost = new StreamReader(respPostStream, Encoding.Default);
+                string resultPost = readerPost.ReadToEnd();
 
-            DateTime recvTime = DateTime.Now;
-            Log.Info(sendTime.ToString("[yyyy-MM-dd HH:mm:ss]"));
-            Log.Info(postData);
-            Log.Info("");
-            Log.Info("{0} ElapsedTime={1}sec", recvTime.ToString("[yyyy-MM-dd HH:mm:ss]"), (recvTime - sendTime).Milliseconds / 1000f);
-            Log.Info(resultPost);
+                readerPost.Close();
+                respPostStream.Close();
+
+                DateTime recvTime = DateTime.Now;
+                Log.Info("{0} ElapsedTime={1}sec", recvTime.ToString("[yyyy-MM-dd HH:mm:ss]"), (recvTime - sendTime).Milliseconds / 1000f);
+                Log.Info(resultPost);
+            }
+            catch (Exception ex)
+            {
+                Log.Exception(ex);
+            }
         }
 
         private void button_clear_Click(object sender, EventArgs e)

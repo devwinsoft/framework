@@ -94,5 +94,11 @@ namespace TestClient
                 //textBox_chat.Text = "";
             }
         }
+
+        private void button_clear_Click(object sender, EventArgs e)
+        {
+            mString.Clear();
+            textBox2.Text = "";
+        }
     }
 }

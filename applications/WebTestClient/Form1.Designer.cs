@@ -38,6 +38,7 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.comboBox_rmi_name = new System.Windows.Forms.ComboBox();
             this.textBox_rmi_id = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -50,7 +51,6 @@
             this.textBox_output = new System.Windows.Forms.TextBox();
             this.panel9 = new System.Windows.Forms.Panel();
             this.button_clear = new System.Windows.Forms.Button();
-            this.comboBox_rmi_name = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel7.SuspendLayout();
@@ -168,6 +168,15 @@
             this.panel2.Size = new System.Drawing.Size(787, 96);
             this.panel2.TabIndex = 8;
             // 
+            // comboBox_rmi_name
+            // 
+            this.comboBox_rmi_name.FormattingEnabled = true;
+            this.comboBox_rmi_name.Location = new System.Drawing.Point(96, 60);
+            this.comboBox_rmi_name.Name = "comboBox_rmi_name";
+            this.comboBox_rmi_name.Size = new System.Drawing.Size(232, 20);
+            this.comboBox_rmi_name.TabIndex = 8;
+            this.comboBox_rmi_name.SelectedIndexChanged += new System.EventHandler(this.comboBox_rmi_name_SelectedIndexChanged);
+            // 
             // textBox_rmi_id
             // 
             this.textBox_rmi_id.BackColor = System.Drawing.Color.LightGray;
@@ -233,7 +242,7 @@
             this.textBox_address.Name = "textBox_address";
             this.textBox_address.Size = new System.Drawing.Size(342, 21);
             this.textBox_address.TabIndex = 4;
-            this.textBox_address.Text = "http://devwin.vps.phps.kr/work.php";
+            this.textBox_address.Text = "http://devwin.vps.phps.kr/process.php";
             // 
             // panel8
             // 
@@ -273,15 +282,6 @@
             this.button_clear.Text = "Clear";
             this.button_clear.UseVisualStyleBackColor = true;
             this.button_clear.Click += new System.EventHandler(this.button_clear_Click);
-            // 
-            // comboBox_rmi_name
-            // 
-            this.comboBox_rmi_name.FormattingEnabled = true;
-            this.comboBox_rmi_name.Location = new System.Drawing.Point(96, 60);
-            this.comboBox_rmi_name.Name = "comboBox_rmi_name";
-            this.comboBox_rmi_name.Size = new System.Drawing.Size(232, 20);
-            this.comboBox_rmi_name.TabIndex = 8;
-            this.comboBox_rmi_name.SelectedIndexChanged += new System.EventHandler(this.comboBox_rmi_name_SelectedIndexChanged);
             // 
             // Form1
             // 

@@ -2,17 +2,17 @@
 
 public class C2S
 {
-    public const int RMI_VERSION = 1;
+    const int RMI_VERSION = 1;
 
-    [NetProtocolAttribute(RMI_ID = 1010)]
-    public class Request_Move
+    [NetProtocolAttribute(RMI_ID = 10010)]
+    class Request_Move
 	{
 		VECTOR3 look;
 		DIRECTION move;
 	}
 
-    [NetProtocolAttribute(RMI_ID = 1020)]
-    public class Request_Chat
+    [NetProtocolAttribute(RMI_ID = 10020)]
+    class Request_Chat
 	{
 		string msg;
 		byte[] data;
@@ -21,24 +21,24 @@ public class C2S
 
 public class S2C
 {
-    public const int RMI_VERSION = 1;
+    const int RMI_VERSION = 1;
 
-    [NetProtocolAttribute(RMI_ID = 2010)]
-    public class Notify_Player
+    [NetProtocolAttribute(RMI_ID = 11010)]
+    class Notify_Player
 	{
 		HostID id;
 		DataPlayer data;
 	}
 
-    [NetProtocolAttribute(RMI_ID = 2020)]
-    public class Notify_Move
+    [NetProtocolAttribute(RMI_ID = 11020)]
+    class Notify_Move
 	{
 		VECTOR3 look;
 		DIRECTION move;
 	}
 
-    [NetProtocolAttribute(RMI_ID = 2030)]
-    public class Notify_Chat
+    [NetProtocolAttribute(RMI_ID = 11030)]
+    class Notify_Chat
 	{
 		string _msg;
 	}

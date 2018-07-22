@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Devarc;
+using Devarc.S2C;
 
 namespace TestClient
 {
-    class Stub_S2C : StubBase, S2C.IStub
+    class Stub_S2C : StubBase, IStub
     {
         public void RMI_S2C_Notify_Player(HostID remote, Notify_Player msg)
         {
@@ -26,7 +27,7 @@ namespace TestClient
 
         public override bool OnReceive(object sender, NetBuffer msg)
         {
-            switch (S2C.Stub.OnReceive(this, msg))
+            switch (Stub.OnReceive(this, msg))
             {
                 case RECEIVE_RESULT.SUCCESS:
                     return true;

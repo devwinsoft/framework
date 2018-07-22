@@ -13,13 +13,6 @@ namespace Devarc
 
         public bool Read(string _filePath)
         {
-            string tmpPath = _filePath;
-            string tmpFullPath;
-            if (tmpPath.Length > 2 && tmpPath[1] == ':')
-                tmpFullPath = tmpPath;
-            else
-                tmpFullPath = Path.Combine(Directory.GetCurrentDirectory(), tmpPath);
-
             if (_filePath.ToLower().EndsWith("xml"))
                 dataFileType = SCHEMA_TYPE.SHEET;
             else
@@ -28,7 +21,7 @@ namespace Devarc
             using (BaseSchemaReader reader = _createReader())
             {
                 reader.RegisterCallback_Table(Callback_LoadSheet);
-                reader.ReadFile(tmpFullPath);
+                reader.ReadFile(_filePath);
             }
 
             return true;

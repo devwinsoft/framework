@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using LitJson;
 using Devarc;
-namespace C2S
+namespace Devarc.C2S
 {
 	public interface IStub
 	{
@@ -57,12 +57,11 @@ namespace C2S
 
 	public enum RMI_VERSION
 	{
-		RMI_VERSION                    = 1,
 	}
 	enum RMI_ID
 	{
-		Request_Move                   = 1010,
-		Request_Chat                   = 1020,
+		Request_Move                   = 10010,
+		Request_Chat                   = 10020,
 	}
 	public class Proxy : ProxyBase
 	{
@@ -96,10 +95,10 @@ namespace C2S
 		}
 	}
 }
-namespace Devarc
+namespace Devarc.C2S
 {
 	[System.Serializable]
-	[NetProtocolAttribute(RMI_ID = 1010)]
+	[NetProtocolAttribute(RMI_ID = 10010)]
 	public class Request_Move : IBaseObejct
 	{
 		public VECTOR3             look = new VECTOR3();
@@ -181,7 +180,7 @@ namespace Devarc
 		}
 	}
 	[System.Serializable]
-	[NetProtocolAttribute(RMI_ID = 1020)]
+	[NetProtocolAttribute(RMI_ID = 10020)]
 	public class Request_Chat : IBaseObejct
 	{
 		public string              msg = "";

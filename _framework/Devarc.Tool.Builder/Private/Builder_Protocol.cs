@@ -36,11 +36,12 @@ namespace Devarc
     internal class Builder_Protocol
     {
         public string mAppDir;
+        public string mCfgDir;
         public string mBakCurDir;
 
         public bool IsProtocol(Type tp)
         {
-            foreach (FieldInfo fi in tp.GetFields())
+            foreach (FieldInfo fi in tp.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static))
             {
                 if (fi.IsLiteral && !fi.IsInitOnly && string.Equals(fi.Name, "RMI_VERSION"))
                     return true;
@@ -48,7 +49,7 @@ namespace Devarc
             return false;
         }
 
-        public void Build(string _cfgPath, string _outDir)
+        public void Build(string _cfgPath, string _outDir, bool _php)
         {
             string cfgFullPath;
             if (_cfgPath.Length > 2 && _cfgPath[1] == ':')
@@ -58,10 +59,11 @@ namespace Devarc
 
             mBakCurDir = Directory.GetCurrentDirectory();
             mAppDir = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
-            if (System.Diagnostics.Debugger.IsAttached)
-                mAppDir = Directory.GetCurrentDirectory();
-            else
-                mAppDir = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
+            //if (System.Diagnostics.Debugger.IsAttached)
+            //    mAppDir = Directory.GetCurrentDirectory();
+            //else
+            //    mAppDir = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
+            mCfgDir = Path.GetDirectoryName(cfgFullPath);
 
             Directory.SetCurrentDirectory(mAppDir);
 
@@ -86,7 +88,7 @@ namespace Devarc
                 if (tmpPath.Length > 2 && tmpPath[1] == ':')
                     dataFiles[i] = tmpPath;
                 else
-                    dataFiles[i] = Path.Combine(mAppDir, tmpPath);
+                    dataFiles[i] = Path.Combine(mCfgDir, tmpPath);
             }
 
             // Make temp.dll
@@ -102,7 +104,7 @@ namespace Devarc
             if (srcFile.Length > 2 && srcFile[1] == ':')
                 srcFullPath = srcFile;
             else
-                srcFullPath = Path.Combine(mBakCurDir, srcFile);
+                srcFullPath = Path.Combine(mCfgDir, srcFile);
             if (File.Exists(srcFullPath) == false)
             {
                 Console.WriteLine("Cannot find source file: {0}", srcFile);
@@ -112,7 +114,9 @@ namespace Devarc
 
             // Read Source(IDL)
             string srcData = File.ReadAllText(srcFullPath);
-            var protocolCP = new System.CodeDom.Compiler.CompilerParameters() { GenerateInMemory = true };
+            var protocolCP = new System.CodeDom.Compiler.CompilerParameters();
+            protocolCP.GenerateExecutable = false;
+            protocolCP.GenerateInMemory = true;
             try
             {
                 protocolCP.ReferencedAssemblies.Add("Devarc.Base.dll");
@@ -120,13 +124,14 @@ namespace Devarc
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Log.Error(ex.Message);
                 Directory.SetCurrentDirectory(mBakCurDir);
                 return;
             }
 
             CSharpCodeProvider provider = new CSharpCodeProvider();
             var res = provider.CompileAssemblyFromSource(protocolCP, srcData);
+
             Assembly assem = null;
             try
             {
@@ -134,128 +139,21 @@ namespace Devarc
             }
             catch(Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Log.Error(ex.Message);
                 Directory.SetCurrentDirectory(mBakCurDir);
                 return;
             }
 
-            Dictionary<Type, short> rmiList = new Dictionary<Type, short>();
-
-            foreach (Type tp in assem.GetTypes())
+            foreach (Type protocolType in assem.GetTypes())
             {
-                if (this.IsProtocol(tp) == false)
+                if (this.IsProtocol(protocolType) == false)
                     continue;
 
-                using (TextWriter sw = new StreamWriter(_outDir + "\\" + tp.Name + ".cs"))
+                MakeCSharp(protocolType, _outDir + "\\" + protocolType.Name + ".cs");
+                if (_php)
                 {
-                    Type[] msgClasses = tp.GetNestedTypes(BindingFlags.Public);
-                    sw.WriteLine("using System;");
-                    sw.WriteLine("using System.Text;");
-                    sw.WriteLine("using System.Collections;");
-                    sw.WriteLine("using System.Collections.Generic;");
-                    sw.WriteLine("using LitJson;");
-                    sw.WriteLine("using Devarc;");
-
-                    sw.WriteLine("namespace {0}", tp.Name); // start of namespace
-                    sw.WriteLine("{");
-
-                    sw.WriteLine("\tpublic interface IStub"); // start of stub
-                    sw.WriteLine("\t{");
-                    foreach (Type msgType in msgClasses)
-                    {
-                        sw.WriteLine("\t\tvoid RMI_{0}_{1}(HostID remote, {1} msg);", tp.Name, msgType.Name);
-                    }
-                    sw.WriteLine("\t}"); // end of stub
-
-                    // OnReceive
-                    sw.WriteLine("\tpublic static class Stub");
-                    sw.WriteLine("\t{");
-                    sw.WriteLine("\t\tpublic static RECEIVE_RESULT OnReceive(IStub stub, NetBuffer _in_msg)");
-                    MakeCode_OnRecv(sw, tp);
-                    sw.WriteLine("\t}"); // end of OnReceive
-                    sw.WriteLine("");
-
-                    sw.WriteLine("\tpublic enum RMI_VERSION"); // start of version
-                    sw.WriteLine("\t{");
-                    foreach (FieldInfo finfo in tp.GetFields())
-                    {
-                        if (finfo.Name == "RMI_VERSION")
-                        {
-                            object obj = finfo.GetRawConstantValue();
-                            sw.WriteLine("\t\t{0,-30} = {1},", "RMI_VERSION", (int)obj);
-                            break;
-                        }
-                    }
-                    sw.WriteLine("\t}"); // end of version
-
-                    sw.WriteLine("\tenum RMI_ID"); // start of enum
-                    sw.WriteLine("\t{");
-                    foreach (Type msgType in msgClasses)
-                    {
-                        NetProtocolAttribute attribute = msgType.GetCustomAttribute<NetProtocolAttribute>();
-                        if (attribute != null)
-                        {
-                            sw.WriteLine("\t\t{0,-30} = {1},", msgType.Name, attribute.RMI_ID);
-                            rmiList.Add(msgType, attribute.RMI_ID);
-                        }
-                        else
-                        {
-                            sw.WriteLine("\t\t{0,-30} = {1},", msgType.Name, 0);
-                        }
-                    }
-                    sw.WriteLine("\t}"); // end of enum
-
-                    sw.WriteLine("\tpublic class Proxy : ProxyBase"); // start of proxy
-                    sw.WriteLine("\t{");
-                    sw.WriteLine("\t\tpublic bool Send(NetBuffer msg)");
-                    sw.WriteLine("\t\t{");
-                    sw.WriteLine("\t\t\tif (mNetworker == null)");
-                    sw.WriteLine("\t\t\t{");
-                    sw.WriteLine("\t\t\t\tLog.Debug(\"{0} is not initialized.\", typeof(Proxy));");
-                    sw.WriteLine("\t\t\t\treturn false;");
-                    sw.WriteLine("\t\t\t}");
-                    sw.WriteLine("\t\t\tif (msg.IsError) return false;");
-                    sw.WriteLine("\t\t\treturn mNetworker.Send(msg);");
-                    sw.WriteLine("\t\t}");
-                    foreach (Type msgType in msgClasses)
-                    {
-                        sw.Write("\t\tpublic bool {0}(HostID target", msgType.Name);
-                        foreach (FieldInfo finfo in msgType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
-                        {
-                            sw.Write(", " + finfo.FieldType.Name + " " + finfo.Name);
-                        }
-                        sw.WriteLine(")");
-
-                        sw.WriteLine("\t\t{");
-                        sw.WriteLine("\t\t\tLog.Debug(\"{0}.Proxy.{1}\");", tp.Name, msgType.Name);
-                        sw.WriteLine("\t\t\tNetBuffer _out_msg = NetBufferPool.Instance.Pop();");
-                        sw.WriteLine("\t\t\t_out_msg.Init((Int16)RMI_ID.{0}, target);", msgType.Name);
-                        foreach (FieldInfo finfo in msgType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
-                        {
-                            sw.WriteLine("\t\t\tMarshaler.Write(_out_msg, {0});", finfo.Name);
-                        }
-                        sw.WriteLine("\t\t\treturn Send(_out_msg);");
-                        sw.WriteLine("\t\t}");
-                    }
-                    sw.WriteLine("\t}"); // end of proxy
-                    sw.WriteLine("}"); // end of namespace
-
-
-                    sw.WriteLine("namespace Devarc");
-                    sw.WriteLine("{");
-                    foreach (Type msgType in msgClasses)
-                    {
-                        PropTable tb = Builder_Util.ToTable(msgType);
-                        short rmi_id = 0;
-                        if (rmiList.TryGetValue(msgType, out rmi_id) == false)
-                        {
-                            Log.Warning("[{0}] has not NetProtocolAttribute.", msgType.Name);
-                        }
-                        Builder_Util.Make_Class_Code(tb, sw, rmi_id);
-                    }
-                    sw.WriteLine("}");
-
-                } // close file
+                    MakePHP(protocolType, _outDir + "\\" + protocolType.Name + ".php");
+                }
             }
 
             Directory.SetCurrentDirectory(mBakCurDir);
@@ -265,12 +163,12 @@ namespace Devarc
         private bool MakeDLL(string[] _dataFiles)
         {
             string outputPath = Path.Combine(mAppDir, "temp.dll");
-            Log.Info(outputPath);
 
             // Initialize CompilerParameters
             var cp = new System.CodeDom.Compiler.CompilerParameters();
             cp.GenerateExecutable = false;
             cp.GenerateInMemory = false;
+            cp.ReferencedAssemblies.Add("Devarc.Base.dll");
             cp.OutputAssembly = outputPath;
 
             // Generate Source
@@ -315,19 +213,184 @@ namespace Devarc
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Log.Error(ex.Message);
                 return false;
             }
         }
 
-        private void MakeCode_OnRecv(TextWriter sw, Type tp)
+        private void MakePHP(Type _protocolType, string _filePath)
+        {
+            Dictionary<Type, short> rmiList = new Dictionary<Type, short>();
+            using (TextWriter sw = new StreamWriter(_filePath))
+            {
+                Type[] msgClasses = _protocolType.GetNestedTypes(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
+                foreach (Type msgType in msgClasses)
+                {
+                    NetProtocolAttribute attribute = msgType.GetCustomAttribute<NetProtocolAttribute>();
+                    if (attribute != null)
+                    {
+                        rmiList.Add(msgType, attribute.RMI_ID);
+                    }
+                }
+
+                sw.WriteLine("<?php namespace Devarc\\Protocol;");
+                sw.WriteLine("class {0}", _protocolType.Name);
+                sw.WriteLine("{");
+                sw.WriteLine("\tvar $message = null;");
+                sw.WriteLine("\tfunction __construct($_request)");
+                sw.WriteLine("\t{");
+                sw.WriteLine("\t\t$this->message = new \\Devarc\\Component\\RMIMessage($_request);");
+                sw.WriteLine("\t}");
+                sw.WriteLine("\tpublic function dispatch()");
+                sw.WriteLine("\t{");
+                sw.WriteLine("\t\tswitch($this->message->rmi_id)");
+                sw.WriteLine("\t\t{");
+                foreach (Type msgType in msgClasses)
+                {
+                    short rmi_id = 0;
+                    if (rmiList.TryGetValue(msgType, out rmi_id) == false)
+                    {
+                        //Log.Warning("[{0}] has not NetProtocolAttribute.", msgType.Name);
+                    }
+                    sw.WriteLine("\t\t\tcase {0}:", rmi_id);
+                    sw.WriteLine("\t\t\t\t$proc = new \\Devarc\\Protocol\\{0}($this->message);", msgType.Name);
+                    sw.WriteLine("\t\t\t\t$proc->dispatch();");
+                    sw.WriteLine("\t\t\t\tbreak;");
+                }
+                sw.WriteLine("\t\t\tdefault:");
+                sw.WriteLine("\t\t\t\techo '{\"ErrorMessage\":\"Not Implemented.\"}'; ");
+                sw.WriteLine("\t\t\t\tbreak;");
+                sw.WriteLine("\t\t}");
+                sw.WriteLine("\t}");
+                sw.WriteLine("}");
+                sw.WriteLine("?>");
+            }
+        }
+
+        private void MakeCSharp(Type _type, string _filePath)
+        {
+            Dictionary<Type, short> rmiList = new Dictionary<Type, short>();
+            using (TextWriter sw = new StreamWriter(_filePath))
+            {
+                Type[] msgClasses = _type.GetNestedTypes(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                sw.WriteLine("using System;");
+                sw.WriteLine("using System.Text;");
+                sw.WriteLine("using System.Collections;");
+                sw.WriteLine("using System.Collections.Generic;");
+                sw.WriteLine("using LitJson;");
+                sw.WriteLine("using Devarc;");
+
+                sw.WriteLine("namespace Devarc.{0}", _type.Name); // start of namespace
+                sw.WriteLine("{");
+
+                sw.WriteLine("\tpublic interface IStub"); // start of stub
+                sw.WriteLine("\t{");
+                foreach (Type msgType in msgClasses)
+                {
+                    sw.WriteLine("\t\tvoid RMI_{0}_{1}(HostID remote, {1} msg);", _type.Name, msgType.Name);
+                }
+                sw.WriteLine("\t}"); // end of stub
+
+                // OnReceive
+                sw.WriteLine("\tpublic static class Stub");
+                sw.WriteLine("\t{");
+                sw.WriteLine("\t\tpublic static RECEIVE_RESULT OnReceive(IStub stub, NetBuffer _in_msg)");
+                MakeCSharp_OnRecv(sw, _type);
+                sw.WriteLine("\t}"); // end of OnReceive
+                sw.WriteLine("");
+
+                sw.WriteLine("\tpublic enum RMI_VERSION"); // start of version
+                sw.WriteLine("\t{");
+                foreach (FieldInfo finfo in _type.GetFields())
+                {
+                    if (finfo.Name == "RMI_VERSION")
+                    {
+                        object obj = finfo.GetRawConstantValue();
+                        sw.WriteLine("\t\t{0,-30} = {1},", "RMI_VERSION", (int)obj);
+                        break;
+                    }
+                }
+                sw.WriteLine("\t}"); // end of version
+
+                sw.WriteLine("\tenum RMI_ID"); // start of enum
+                sw.WriteLine("\t{");
+                foreach (Type msgType in msgClasses)
+                {
+                    NetProtocolAttribute attribute = msgType.GetCustomAttribute<NetProtocolAttribute>();
+                    if (attribute != null)
+                    {
+                        sw.WriteLine("\t\t{0,-30} = {1},", msgType.Name, attribute.RMI_ID);
+                        rmiList.Add(msgType, attribute.RMI_ID);
+                    }
+                    else
+                    {
+                        sw.WriteLine("\t\t{0,-30} = {1},", msgType.Name, 0);
+                    }
+                }
+                sw.WriteLine("\t}"); // end of enum
+
+                sw.WriteLine("\tpublic class Proxy : ProxyBase"); // start of proxy
+                sw.WriteLine("\t{");
+                sw.WriteLine("\t\tpublic bool Send(NetBuffer msg)");
+                sw.WriteLine("\t\t{");
+                sw.WriteLine("\t\t\tif (mNetworker == null)");
+                sw.WriteLine("\t\t\t{");
+                sw.WriteLine("\t\t\t\tLog.Debug(\"{0} is not initialized.\", typeof(Proxy));");
+                sw.WriteLine("\t\t\t\treturn false;");
+                sw.WriteLine("\t\t\t}");
+                sw.WriteLine("\t\t\tif (msg.IsError) return false;");
+                sw.WriteLine("\t\t\treturn mNetworker.Send(msg);");
+                sw.WriteLine("\t\t}");
+                foreach (Type msgType in msgClasses)
+                {
+                    sw.Write("\t\tpublic bool {0}(HostID target", msgType.Name);
+                    foreach (FieldInfo finfo in msgType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+                    {
+                        sw.Write(", " + finfo.FieldType.Name + " " + finfo.Name);
+                    }
+                    sw.WriteLine(")");
+
+                    sw.WriteLine("\t\t{");
+                    sw.WriteLine("\t\t\tLog.Debug(\"{0}.Proxy.{1}\");", _type.Name, msgType.Name);
+                    sw.WriteLine("\t\t\tNetBuffer _out_msg = NetBufferPool.Instance.Pop();");
+                    sw.WriteLine("\t\t\t_out_msg.Init((Int16)RMI_ID.{0}, target);", msgType.Name);
+                    foreach (FieldInfo finfo in msgType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+                    {
+                        sw.WriteLine("\t\t\tMarshaler.Write(_out_msg, {0});", finfo.Name);
+                    }
+                    sw.WriteLine("\t\t\treturn Send(_out_msg);");
+                    sw.WriteLine("\t\t}");
+                }
+                sw.WriteLine("\t}"); // end of proxy
+                sw.WriteLine("}"); // end of namespace
+
+
+                sw.WriteLine("namespace Devarc.{0}", _type.Name);
+                sw.WriteLine("{");
+                foreach (Type msgType in msgClasses)
+                {
+                    PropTable tb = Builder_Util.ToTable(msgType);
+                    short rmi_id = 0;
+                    if (rmiList.TryGetValue(msgType, out rmi_id) == false)
+                    {
+                        Log.Warning("[{0}] has not NetProtocolAttribute.", msgType.Name);
+                    }
+                    Builder_Util.Make_Class_Code(tb, sw, rmi_id);
+                }
+                sw.WriteLine("}");
+
+            } // close file
+        }
+
+        private void MakeCSharp_OnRecv(TextWriter sw, Type tp)
         {
             sw.WriteLine("\t\t{");
             sw.WriteLine("\t\t\tRMI_ID rmi_id = (RMI_ID)_in_msg.Rmi;");
             sw.WriteLine("\t\t\tswitch (rmi_id)");
             sw.WriteLine("\t\t\t{");
 
-            Type[] msgClasses = tp.GetNestedTypes(BindingFlags.Public);
+            Type[] msgClasses = tp.GetNestedTypes(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             foreach (Type msgType in msgClasses)
             {
                 sw.WriteLine("\t\t\t\tcase RMI_ID.{0}:", msgType.Name);

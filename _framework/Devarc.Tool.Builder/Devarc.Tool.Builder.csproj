@@ -78,7 +78,6 @@
   <ItemGroup>
     <Compile Include="Component\Builder_Base.cs" />
     <Compile Include="Component\Builder_MySQL.cs" />
-    <Compile Include="Component\Builder_PHP.cs" />
     <Compile Include="Component\Builder_SQL.cs" />
     <Compile Include="Component\Builder_Util.cs" />
     <Compile Include="Private\SchemaFieldAttribute.cs" />

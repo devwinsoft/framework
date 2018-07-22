@@ -2,10 +2,7 @@
  "IMPORTS":
   [ "../schemas/Examples.schema"
   , "../schemas/TestSchema.xlsx"
+  , "../schemas/LString.xlsx"
   ],
- "SOURCE":"Client.idl",
- "OUTDIRS":
- [ "../modules/Modules.Protocol.Client/_GeneratedCode/"
- , "../applications/Unity/Assets/Devarc/_GeneratedCode/"
- ]
+ "SOURCE":"Client.idl"
 }
