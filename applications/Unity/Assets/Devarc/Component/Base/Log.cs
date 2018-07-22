@@ -30,6 +30,7 @@ namespace Devarc
     {
         INFO,
         DEBUG,
+        WARNING,
         ERROR,
         EXCEPTION,
     }
@@ -70,6 +71,17 @@ namespace Devarc
                     Log.Instance.message.Invoke(LOG_TYPE.DEBUG, msg);
             }
 #endif
+        }
+
+        public static void Warning(string msg, params object[] args)
+        {
+            if (Log.Instance.message != null)
+            {
+                if (args.Length > 0)
+                    Log.Instance.message.Invoke(LOG_TYPE.WARNING, System.String.Format(msg, args));
+                else
+                    Log.Instance.message.Invoke(LOG_TYPE.WARNING, msg);
+            }
         }
 
         public static void Error(string msg, params object[] args)

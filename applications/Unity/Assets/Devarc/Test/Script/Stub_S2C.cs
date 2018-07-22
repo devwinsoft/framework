@@ -18,7 +18,7 @@ public class Stub_S2C : StubBase, S2C.IStub
         Log.Info(msg._msg);
     }
 
-    public override bool OnReceiveData(object sender, NetBuffer msg)
+    public override bool OnReceive(object sender, NetBuffer msg)
     {
         switch (S2C.Stub.OnReceive(this, msg))
         {

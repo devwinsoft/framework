@@ -45,7 +45,7 @@ namespace S2S
 	}
 	enum RMI_ID
 	{
-		Ping                           = 5000,
+		Ping                           = 0,
 	}
 	public class Proxy : ProxyBase
 	{

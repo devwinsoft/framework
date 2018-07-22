@@ -37,7 +37,7 @@ namespace Devarc
         BY_SERVER,
     }
 
-    public enum RMI_BASIC
+    public enum RMI_CODE
     {
         INIT_HOST_ID = -1,
         UNKNOWN_REQUEST = -2,
@@ -80,11 +80,11 @@ namespace Devarc
 
     public abstract class StubBase
     {
-        public abstract bool OnReceiveData(object sender, NetBuffer msg);
+        public abstract bool OnReceive(object sender, NetBuffer msg);
 
         public void Init(INetworker _networker)
         {
-            _networker.OnReceiveData += OnReceiveData;
+            _networker.OnReceiveData += OnReceive;
         }
     }
 }

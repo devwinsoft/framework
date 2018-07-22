@@ -76,9 +76,9 @@ namespace S2C
 	}
 	enum RMI_ID
 	{
-		Notify_Player                  = 5000,
-		Notify_Move                    = 5001,
-		Notify_Chat                    = 5002,
+		Notify_Player                  = 2010,
+		Notify_Move                    = 2020,
+		Notify_Chat                    = 2030,
 	}
 	public class Proxy : ProxyBase
 	{
@@ -123,6 +123,7 @@ namespace S2C
 namespace Devarc
 {
 	[System.Serializable]
+	[NetProtocolAttribute(RMI_ID = 2010)]
 	public class Notify_Player : IBaseObejct
 	{
 		public HostID              id;
@@ -204,6 +205,7 @@ namespace Devarc
 		}
 	}
 	[System.Serializable]
+	[NetProtocolAttribute(RMI_ID = 2020)]
 	public class Notify_Move : IBaseObejct
 	{
 		public VECTOR3             look = new VECTOR3();
@@ -285,6 +287,7 @@ namespace Devarc
 		}
 	}
 	[System.Serializable]
+	[NetProtocolAttribute(RMI_ID = 2030)]
 	public class Notify_Chat : IBaseObejct
 	{
 		public string              _msg = "";

@@ -103,7 +103,7 @@ namespace Devarc
 
             // Send Client Host ID
             NetBuffer msg = NetBufferPool.Instance.Pop();
-            msg.Init((int)RMI_BASIC.INIT_HOST_ID, session.Hid);
+            msg.Init((int)RMI_CODE.INIT_HOST_ID, session.Hid);
             msg.Write(msg.Hid);
             lock(session)
             {

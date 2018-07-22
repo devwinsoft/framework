@@ -278,6 +278,7 @@
     <Compile Include="Assets\Devarc\Component\Base\NetBuffer.cs" />
     <Compile Include="Assets\Devarc\Component\Base\NetBufferPool.cs" />
     <Compile Include="Assets\Devarc\Component\Base\NetDefine.cs" />
+    <Compile Include="Assets\Devarc\Component\Base\NetProtocolAttribute.cs" />
     <Compile Include="Assets\Devarc\Component\Base\PropTable.cs" />
     <Compile Include="Assets\Devarc\Component\Base\SQLite_Reader.cs" />
     <Compile Include="Assets\Devarc\Component\Base\SQLite_Session.cs" />

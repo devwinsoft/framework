@@ -3,13 +3,15 @@
 public class C2S
 {
     public const int RMI_VERSION = 1;
-    public const int RMI_START = 6000;
 
+    [NetProtocolAttribute(RMI_ID = 1010)]
     public class Request_Move
 	{
 		VECTOR3 look;
 		DIRECTION move;
 	}
+
+    [NetProtocolAttribute(RMI_ID = 1020)]
     public class Request_Chat
 	{
 		string msg;
@@ -20,20 +22,22 @@ public class C2S
 public class S2C
 {
     public const int RMI_VERSION = 1;
-    public const int RMI_START = 5000;
 
+    [NetProtocolAttribute(RMI_ID = 2010)]
     public class Notify_Player
 	{
 		HostID id;
 		DataPlayer data;
 	}
 
+    [NetProtocolAttribute(RMI_ID = 2020)]
     public class Notify_Move
 	{
 		VECTOR3 look;
 		DIRECTION move;
 	}
 
+    [NetProtocolAttribute(RMI_ID = 2030)]
     public class Notify_Chat
 	{
 		string _msg;

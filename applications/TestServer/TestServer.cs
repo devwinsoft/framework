@@ -37,15 +37,13 @@ namespace TestServer
 
         protected override void OnStarted()
         {
+            Log.Debug("TestServer::OnStarted");
             base.OnStarted();
-
-            Log.Debug("OnStarted");
         }
 
         protected override void OnStopped()
         {
-            Log.Debug("OnStopped");
-
+            Log.Debug("TestServer::OnStopped");
             base.OnStopped();
         }
 

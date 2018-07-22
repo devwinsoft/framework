@@ -21,6 +21,7 @@
 //
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -37,13 +38,11 @@ namespace Devarc
         public string mAppDir;
         public string mBakCurDir;
 
-        int RMI_START = 0;
-
         public bool IsProtocol(Type tp)
         {
             foreach (FieldInfo fi in tp.GetFields())
             {
-                if (fi.IsLiteral && !fi.IsInitOnly && string.Equals(fi.Name, "RMI_START"))
+                if (fi.IsLiteral && !fi.IsInitOnly && string.Equals(fi.Name, "RMI_VERSION"))
                     return true;
             }
             return false;
@@ -140,6 +139,8 @@ namespace Devarc
                 return;
             }
 
+            Dictionary<Type, short> rmiList = new Dictionary<Type, short>();
+
             foreach (Type tp in assem.GetTypes())
             {
                 if (this.IsProtocol(tp) == false)
@@ -148,15 +149,6 @@ namespace Devarc
                 using (TextWriter sw = new StreamWriter(_outDir + "\\" + tp.Name + ".cs"))
                 {
                     Type[] msgClasses = tp.GetNestedTypes(BindingFlags.Public);
-                    foreach (FieldInfo finfo in tp.GetFields())
-                    {
-                        if (finfo.Name == "RMI_START")
-                        {
-                            object obj = finfo.GetRawConstantValue();
-                            RMI_START = (int)obj;
-                        }
-                    }
-
                     sw.WriteLine("using System;");
                     sw.WriteLine("using System.Text;");
                     sw.WriteLine("using System.Collections;");
@@ -200,14 +192,21 @@ namespace Devarc
                     sw.WriteLine("\t{");
                     foreach (Type msgType in msgClasses)
                     {
-                        sw.WriteLine("\t\t{0,-30} = {1},", msgType.Name, RMI_START++);
+                        NetProtocolAttribute attribute = msgType.GetCustomAttribute<NetProtocolAttribute>();
+                        if (attribute != null)
+                        {
+                            sw.WriteLine("\t\t{0,-30} = {1},", msgType.Name, attribute.RMI_ID);
+                            rmiList.Add(msgType, attribute.RMI_ID);
+                        }
+                        else
+                        {
+                            sw.WriteLine("\t\t{0,-30} = {1},", msgType.Name, 0);
+                        }
                     }
                     sw.WriteLine("\t}"); // end of enum
 
                     sw.WriteLine("\tpublic class Proxy : ProxyBase"); // start of proxy
                     sw.WriteLine("\t{");
-                    //sw.WriteLine("\t\tprivate INetworker m_Networker = null;");
-                    //sw.WriteLine("\t\tpublic void Init(INetworker mgr) { m_Networker = mgr; }");
                     sw.WriteLine("\t\tpublic bool Send(NetBuffer msg)");
                     sw.WriteLine("\t\t{");
                     sw.WriteLine("\t\t\tif (mNetworker == null)");
@@ -247,7 +246,12 @@ namespace Devarc
                     foreach (Type msgType in msgClasses)
                     {
                         PropTable tb = Builder_Util.ToTable(msgType);
-                        Builder_Util.Make_Class_Code(tb, sw);
+                        short rmi_id = 0;
+                        if (rmiList.TryGetValue(msgType, out rmi_id) == false)
+                        {
+                            Log.Warning("[{0}] has not NetProtocolAttribute.", msgType.Name);
+                        }
+                        Builder_Util.Make_Class_Code(tb, sw, rmi_id);
                     }
                     sw.WriteLine("}");
 

@@ -102,11 +102,15 @@ namespace Devarc
             return prop;
         }
 
-        public static void Make_Class_Code(PropTable tb, TextWriter sw)
+        public static void Make_Class_Code(PropTable tb, TextWriter sw, short rmi_id = 0)
         {
             string class_name = tb.IsEnum ? "_" + tb.TableName : tb.TableName;
 
             sw.WriteLine("\t[System.Serializable]");
+            if (rmi_id > 0)
+            {
+                sw.WriteLine("\t[NetProtocolAttribute(RMI_ID = {0})]", rmi_id);
+            }
             if (tb.KeyIndex >= 0)
                 sw.WriteLine("\tpublic partial class {0} : IBaseObejct<{1}>", class_name, tb.KeyTypeName);
             else

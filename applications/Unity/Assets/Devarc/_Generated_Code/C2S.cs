@@ -61,8 +61,8 @@ namespace C2S
 	}
 	enum RMI_ID
 	{
-		Request_Move                   = 6000,
-		Request_Chat                   = 6001,
+		Request_Move                   = 1010,
+		Request_Chat                   = 1020,
 	}
 	public class Proxy : ProxyBase
 	{
@@ -99,6 +99,7 @@ namespace C2S
 namespace Devarc
 {
 	[System.Serializable]
+	[NetProtocolAttribute(RMI_ID = 1010)]
 	public class Request_Move : IBaseObejct
 	{
 		public VECTOR3             look = new VECTOR3();
@@ -180,6 +181,7 @@ namespace Devarc
 		}
 	}
 	[System.Serializable]
+	[NetProtocolAttribute(RMI_ID = 1020)]
 	public class Request_Chat : IBaseObejct
 	{
 		public string              msg = "";

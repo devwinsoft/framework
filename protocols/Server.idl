@@ -3,8 +3,8 @@
 public class S2S
 {
     public const int RMI_VERSION = 1;
-    public const int RMI_START = 5000;
 
+    [NetProtocolAttribute(RMI_ID = 10010)]
 	public class Ping
 	{
 		public TEST_VECTOR pos;

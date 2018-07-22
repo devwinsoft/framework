@@ -35,7 +35,7 @@ namespace TestServer
         }
 
 
-        public override bool OnReceiveData(object sender, NetBuffer msg)
+        public override bool OnReceive(object sender, NetBuffer msg)
         {
             switch (C2S.Stub.OnReceive(this, msg))
             {

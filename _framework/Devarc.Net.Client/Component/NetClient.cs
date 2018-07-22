@@ -41,12 +41,6 @@ namespace Devarc
         }
         EasyClient client = new EasyClient();
 
-        public NetTrigger Trigger
-        {
-            get { return trigger; }
-        }
-        NetTrigger trigger = new NetTrigger();
-
         public HostID Hid { get { return mHid; } }
         HostID mHid = HostID.None;
         short mSeq = 0;
@@ -82,9 +76,9 @@ namespace Devarc
 
         void OnDataReceived(NetClientPackageInfo package)
         {
-            switch ((RMI_BASIC)package.Msg.Rmi)
+            switch ((RMI_CODE)package.Msg.Rmi)
             {
-                case RMI_BASIC.INIT_HOST_ID:
+                case RMI_CODE.INIT_HOST_ID:
                     // Setup Client HostID
                     if (mHid == HostID.None)
                     {
@@ -96,17 +90,15 @@ namespace Devarc
                         // warning
                     }
                     break;
-                case RMI_BASIC.UNKNOWN_REQUEST:
+                case RMI_CODE.UNKNOWN_REQUEST:
                     Log.Error("Disconnected by server. reason = UNKNOWN_REQUEST");
                     Disconnect();
                     break;
                 default:
-                    var handler = this.OnReceiveData;
-                    if (handler != null)
+                    if (OnReceiveData != null)
                     {
-                        handler(this, package.Msg);
+                        OnReceiveData.Invoke(this, package.Msg);
                     }
-                    trigger.OnReceiveData(package.Msg);
 
                     NetBufferPool.Instance.Push(package.Msg);
                     break;

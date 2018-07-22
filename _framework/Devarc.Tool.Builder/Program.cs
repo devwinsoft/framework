@@ -79,7 +79,21 @@ namespace Devarc
 
         static void Callback_Log(LOG_TYPE tp, string msg)
         {
+            ConsoleColor bakupColor = Console.ForegroundColor;
+            switch (tp)
+            {
+                case LOG_TYPE.EXCEPTION:
+                case LOG_TYPE.WARNING:
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    break;
+                case LOG_TYPE.ERROR:
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    break;
+                default:
+                    break;
+            }
             System.Console.WriteLine(msg);
+            Console.ForegroundColor = bakupColor;
         }
 
 

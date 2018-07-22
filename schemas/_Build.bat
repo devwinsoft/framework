@@ -7,9 +7,9 @@ set OUTDIR4=..\modules\Modules.Schema\_Generated_SQL
 set OUTDIR5=..\applications\Unity\Assets\Devarc\_Generated_SQLite
 set OUTDIR6=..\modules\Modules.Schema\_Generated_SQLite
 
-%CMD%     -obj             LString.xlsx      %TMPDIR%
-%CMD%     -obj             TestSchema.xlsx   %TMPDIR%
-%CMD%     -obj             Examples.schema   %TMPDIR%
+%CMD%     -obj             LString.xlsx        %TMPDIR%
+%CMD%     -obj             TestSchema.xlsx     %TMPDIR%
+%CMD%     -obj             Examples.schema	   %TMPDIR%
 xcopy /Y  %TMPDIR%\*.cs    %OUTDIR1%\
 move      %TMPDIR%\*.cs    %OUTDIR2%\
 						  
