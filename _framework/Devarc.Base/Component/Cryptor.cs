@@ -39,7 +39,7 @@ namespace Devarc
                 //Debug.LogWarning("---- " + input);
                 //Debug.LogWarning("---- " + decodedInput);
                 byte[] decryptedBytes = crypto.TransformFinalBlock(decodedInput, 0, decodedInput.Length);
-                return Encoding.ASCII.GetString(decryptedBytes);
+                return Encoding.UTF8.GetString(decryptedBytes);
             }
             catch (Exception e)
             {

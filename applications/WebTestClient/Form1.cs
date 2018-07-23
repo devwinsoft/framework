@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Net;
 using System.Reflection;
 using Devarc;
+using LitJson;
 
 namespace WebTestClient
 {
@@ -121,13 +122,26 @@ namespace WebTestClient
                 Stream respPostStream = response.GetResponseStream();
                 StreamReader readerPost = new StreamReader(respPostStream, Encoding.UTF8);
                 string resultPost = readerPost.ReadToEnd();
+                JsonData jsonRoot = JsonMapper.ToObject(resultPost);
 
                 readerPost.Close();
                 respPostStream.Close();
 
                 DateTime recvTime = DateTime.Now;
                 Log.Info("{0} ElapsedTime={1}sec", recvTime.ToString("[yyyy-MM-dd HH:mm:ss]"), (recvTime - sendTime).Milliseconds / 1000f);
-                Log.Info(resultPost);
+                if (jsonRoot != null
+                    && jsonRoot.Keys.Contains("Error")
+                    && jsonRoot.Keys.Contains("Message"))
+                {
+                    if ((int)jsonRoot["Error"] == 0)
+                        Log.Info(Cryptor.Decrypt(jsonRoot["Message"].ToString()));
+                    else
+                        Log.Info(resultPost);
+                }
+                else
+                {
+                    Log.Info(resultPost);
+                }
             }
             catch (Exception ex)
             {

@@ -15,6 +15,12 @@ namespace Devarc
             return Convert.ToBase64String(bytes);
         }
 
+        public static string FromBase64String(string _value)
+        {
+            Encoding encoding = Encoding.UTF8;
+            return encoding.GetString(Convert.FromBase64String(_value));
+        }
+
         public static int FillList<T>(string _jsonString, List<T> _list) where T : IBaseObejct, new()
         {
             if (_list == null)

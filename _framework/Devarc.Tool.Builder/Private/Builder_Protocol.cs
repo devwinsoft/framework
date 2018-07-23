@@ -259,7 +259,7 @@ namespace Devarc
                     sw.WriteLine("\t\t\t\tbreak;");
                 }
                 sw.WriteLine("\t\t\tdefault:");
-                sw.WriteLine("\t\t\t\techo '{\"ErrorMessage\":\"Not Implemented.\"}'; ");
+                sw.WriteLine("\t\t\t\techo '{\"Error\":1 ,\"Message\":\"Not Implemented.\"}'; ");
                 sw.WriteLine("\t\t\t\tbreak;");
                 sw.WriteLine("\t\t}");
                 sw.WriteLine("\t}");
