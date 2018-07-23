@@ -2,9 +2,9 @@
 class C2W
 {
 	var $message = null;
-	function __construct($_data, $_enc)
+	function __construct($_header, $_body)
 	{
-		$this->message = new \Devarc\Component\RMIMessage($_data, $_enc);
+		$this->message = new \Devarc\Component\RMIMessage($_header, $_body);
 	}
 	public function dispatch()
 	{

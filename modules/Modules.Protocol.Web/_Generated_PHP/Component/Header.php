@@ -142,13 +142,14 @@ class RMIMessage
 	var $rmi_id;
 	var $rmi_data;
 	
-	function __construct($_data, $_enc)
+	function __construct($_header, $_body)
 	{
-		$args = json_decode($_data);
+		$temp = \Devarc\Component\decrypt($_header);
+		$args = json_decode($temp);
 		$this->user_seq = $args->{'user_seq'};
 		$this->user_key = $args->{'user_key'};
 		$this->rmi_id = $args->{'rmi_id'};
-		$this->rmi_data = \Devarc\Component\decrypt($_enc);
+		$this->rmi_data = \Devarc\Component\decrypt($_body);
 	}
 }
 

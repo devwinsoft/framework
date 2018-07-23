@@ -238,9 +238,9 @@ namespace Devarc
                 sw.WriteLine("class {0}", _protocolType.Name);
                 sw.WriteLine("{");
                 sw.WriteLine("\tvar $message = null;");
-                sw.WriteLine("\tfunction __construct($_data, $_enc)");
+                sw.WriteLine("\tfunction __construct($_header, $_body)");
                 sw.WriteLine("\t{");
-                sw.WriteLine("\t\t$this->message = new \\Devarc\\Component\\RMIMessage($_data, $_enc);");
+                sw.WriteLine("\t\t$this->message = new \\Devarc\\Component\\RMIMessage($_header, $_body);");
                 sw.WriteLine("\t}");
                 sw.WriteLine("\tpublic function dispatch()");
                 sw.WriteLine("\t{");

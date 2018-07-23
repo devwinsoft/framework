@@ -90,14 +90,14 @@ namespace WebTestClient
 
             // Encoding
             Encoding encoding = Encoding.UTF8;
-            string contents = string.Format("{{\"user_seq\":\"{0}\",\"user_key\":\"{1}\",\"rmi_id\":\"{2}\"}}"
-                , textBox_user_seq.Text, textBox_user_key.Text, textBox_rmi_id.Text);
+            string contents = string.Format("{{\"user_seq\":\"{0}\",\"user_key\":\"{1}\",\"rmi_id\":\"{2}\",\"time\":\"{3}\"}}"
+                , textBox_user_seq.Text, textBox_user_key.Text, textBox_rmi_id.Text, sendTime.Millisecond);
             StringBuilder sb = new StringBuilder();
-            sb.Append("data=");
-            sb.Append(FrameworkUtil.ToBase64String(contents));
+            sb.Append("header=");
+            sb.Append(FrameworkUtil.ToBase64String(Cryptor.Encrypt(contents)));
             if (string.IsNullOrEmpty(textBox_data.Text) == false)
             {
-                sb.Append("&enc=");
+                sb.Append("&body=");
                 string encData = Cryptor.Encrypt(textBox_data.Text);
                 string postData = FrameworkUtil.ToBase64String(encData);
                 sb.Append(postData);
