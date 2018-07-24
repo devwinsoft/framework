@@ -8,6 +8,27 @@ namespace Devarc
 {
     public static class FrameworkUtil
     {
+        public static string ToBase64String(byte[] _data)
+        {
+            if (_data == null)
+            {
+                return string.Empty;
+            }
+            return Convert.ToBase64String(_data);
+        }
+        public static string ToBase64String(string _value)
+        {
+            Encoding encoding = Encoding.UTF8;
+            byte[] bytes = encoding.GetBytes(_value);
+            return Convert.ToBase64String(bytes);
+        }
+
+        public static string FromBase64String(string _value)
+        {
+            Encoding encoding = Encoding.UTF8;
+            return encoding.GetString(Convert.FromBase64String(_value));
+        }
+
         public static int FillList<T>(string _jsonString, List<T> _list) where T : IBaseObejct, new()
         {
             if (_list == null)
@@ -27,11 +48,31 @@ namespace Devarc
             return _list.Count;
         }
 
+        public static HostID ToHostID(string _name)
+        {
+            Int32 result;
+            if (string.IsNullOrEmpty(_name))
+                return HostID.None;
+            if (Int32.TryParse(_name, out result))
+            {
+                return (HostID)result;
+            }
+            if (string.Equals("server", _name.ToLower()))
+            {
+                return HostID.Server;
+            }
+            return HostID.None;
+        }
+
         public static T Parse<T>(string _name) where T : struct
         {
             Int32 result;
+            if (string.IsNullOrEmpty(_name))
+                return default(T);
             if (Int32.TryParse(_name, out result))
-                return (T)(object)result;
+            {
+                return (T)Enum.ToObject(typeof(T), result);
+            }
             try
             {
                 return (T)System.Enum.Parse(typeof(T), _name);

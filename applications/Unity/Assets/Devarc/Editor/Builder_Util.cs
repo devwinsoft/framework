@@ -111,11 +111,29 @@ namespace Devarc
             {
                 sw.WriteLine("\t[NetProtocolAttribute(RMI_ID = {0})]", rmi_id);
             }
-            if (tb.KeyIndex >= 0)
+
+            if (rmi_id > 0)
+                sw.WriteLine("\tpublic class {0} : IBasePacket", class_name);
+            else if (tb.KeyIndex >= 0)
                 sw.WriteLine("\tpublic partial class {0} : IBaseObejct<{1}>", class_name, tb.KeyTypeName);
             else
                 sw.WriteLine("\tpublic class {0} : IBaseObejct", class_name);
             sw.WriteLine("\t{");
+            if (rmi_id > 0)
+            {
+                sw.WriteLine("\t\tpublic short RMI_ID {{ get {{ return {0}; }} }}", rmi_id);
+                sw.WriteLine("\t\tpublic bool WriteTo(NetBuffer _obj)");
+                sw.WriteLine("\t\t{");
+                for (int i = 0; i < tb.Length; i++)
+                {
+                    string type_name = tb.GetTypeName(i);
+                    string var_name = tb.GetVarName(i);
+                    bool is_list = tb.GetClassType(i) == CLASS_TYPE.VALUE_LIST || tb.GetClassType(i) == CLASS_TYPE.CLASS_LIST;
+                    sw.WriteLine("\t\t\tMarshaler.Write(_obj, {0});", var_name);
+                }
+                sw.WriteLine("\t\t\treturn true;");
+                sw.WriteLine("\t\t}");
+            }
             for (int i = 0; i < tb.Length; i++)
             {
                 string type_name = tb.GetTypeName(i);
@@ -133,6 +151,12 @@ namespace Devarc
                 {
                     case VAR_TYPE.ARRAY:
                         sw.WriteLine("\t\tpublic {0,-20}{1} = null;", "byte[]", var_name);
+                        break;
+                    case VAR_TYPE.HOST_ID:
+                        if (is_list)
+                            sw.WriteLine("\t\tpublic List<{0}> {1} = new List<{0}>();", "HostID", var_name);
+                        else
+                            sw.WriteLine("\t\tpublic {0,-20}{1};", "HostID", var_name);
                         break;
                     case VAR_TYPE.BOOL:
                         if (is_list)
@@ -228,7 +252,11 @@ namespace Devarc
                 sw.WriteLine("\t\tpublic {0} GetKey() {{ return {1}; }}", tb.KeyTypeName, tb.GetVarName(tb.KeyIndex));
                 sw.WriteLine("\t\tpublic string GetQuery_Select({0} _key)", tb.KeyTypeName);
                 sw.WriteLine("\t\t{");
-                sw.WriteLine("\t\t\treturn string.Format(\"select * from {2} where {1}='{{0}}';\", _key);", tb.KeyTypeName, tb.KeyVarName, tb.TableName);
+                sw.WriteLine("\t\t\treturn string.Format(\"select * from `{2}` where {1}='{{0}}';\", _key);", tb.KeyTypeName, tb.KeyVarName, tb.TableName);
+                sw.WriteLine("\t\t}");
+                sw.WriteLine("\t\tpublic string GetQuery_SelectWhere(string _where)", tb.KeyTypeName);
+                sw.WriteLine("\t\t{");
+                sw.WriteLine("\t\t\treturn string.Format(\"select * from `{1}` where {{0}};\", _where);", tb.KeyTypeName, tb.TableName);
                 sw.WriteLine("\t\t}");
                 sw.WriteLine("\t\tpublic string GetQuery_InsertOrUpdate()");
                 sw.WriteLine("\t\t{");
@@ -398,6 +426,12 @@ namespace Devarc
                     case VAR_TYPE.ARRAY:
                         sw.WriteLine("\t\t\t{0,-20}= obj.GetBytes(\"{0}\");", var_name);
                         break;
+                    case VAR_TYPE.HOST_ID:
+                        if (is_list)
+                            sw.WriteLine("\t\t\tobj.GetList<HostID>(\"{0}\", {0});", var_name);
+                        else
+                            sw.WriteLine("\t\t\t{0,-20}= obj.GetHostID(\"{0}\");", var_name);
+                        break;
                     case VAR_TYPE.BYTE:
                         if (is_list)
                             sw.WriteLine("\t\t\tobj.GetList<byte>(\"{0}\", {0});", var_name);
@@ -506,6 +540,12 @@ namespace Devarc
                     case VAR_TYPE.ARRAY:
                         sw.WriteLine("\t\t\t{0} = Convert.FromBase64String(obj[\"{0}\"].ToString());", var_name);
                         break;
+                    case VAR_TYPE.HOST_ID:
+                        if (is_list)
+                            sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) foreach (JsonData node in obj[\"{0}\"]) {{ {0}.Add(FrameworkUtil.ToHostID(node.ToString())); }}", var_name);
+                        else
+                            sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) HostID.TryParse(obj[\"{0}\"].ToString(), out {0}); else {0} = default(HostID);", var_name);
+                        break;
                     case VAR_TYPE.BYTE:
                         if (is_list)
                             sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) foreach (JsonData node in obj[\"{0}\"]) {{ {0}.Add(Convert.ToByte(node.ToString())); }}", var_name);
@@ -522,7 +562,7 @@ namespace Devarc
                         if (is_list)
                             sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) foreach (JsonData node in obj[\"{0}\"]) {{ {0}.Add(Convert.ToInt16(node.ToString())); }}", var_name);
                         else
-                            sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) HostID.TryParse(obj[\"{0}\"].ToString(), out {0}); else {0} = default(short);", var_name);
+                            sw.WriteLine("\t\t\tif (obj.Keys.Contains(\"{0}\")) short.TryParse(obj[\"{0}\"].ToString(), out {0}); else {0} = default(short);", var_name);
                         break;
                     case VAR_TYPE.INT32:
                         if (is_list)
@@ -600,6 +640,12 @@ namespace Devarc
                 {
                     case VAR_TYPE.ARRAY:
                         sw.WriteLine("\t\t\t{0} = Convert.FromBase64String(obj.GetString(\"{0}\"));", var_name);
+                        break;
+                    case VAR_TYPE.HOST_ID:
+                        if (is_list)
+                            sw.WriteLine("\t\t\tstring __{0} = obj.GetString(\"{0}\"); {0}.Clear(); if (!string.IsNullOrEmpty(__{0})) foreach (JsonData node in JsonMapper.ToObject(__{0})) {{ {0}.Add(FrameworkUtil.ToHostID(node.ToString())); }};", var_name);
+                        else
+                            sw.WriteLine("\t\t\t{0,-20}= obj.GetInt16(\"{0}\");", var_name);
                         break;
                     case VAR_TYPE.BOOL:
                         if (is_list)
@@ -701,7 +747,7 @@ namespace Devarc
                 {
                     case VAR_TYPE.ARRAY:
                         sw.Write(" sb.Append(\"\\\"\");");
-                        sw.Write(" sb.Append(Convert.ToBase64String({0}));", var_name);
+                        sw.Write(" sb.Append(FrameworkUtil.ToBase64String({0}));", var_name);
                         sw.WriteLine(" sb.Append(\"\\\"\");");
                         break;
 
@@ -729,7 +775,7 @@ namespace Devarc
                         }
                         else
                         {
-                            sw.WriteLine(" sb.Append({0}.IsDefault == false ? {0}.ToString() : \"{{}}\");", var_name);
+                            sw.WriteLine(" sb.Append({0}.ToString());", var_name);
                         }
                         break;
                     default:
@@ -812,7 +858,7 @@ namespace Devarc
                         case VAR_TYPE.ARRAY:
                             sw.WriteLine("\t\t\tif ({0} != null && {0}.Length > 0) {{ if (j > 0) {{ sb.Append(\", \"); }} j++;", var_name, type_name);
                             sw.Write("\t\t\t sb.Append(\"\\\"{0}\\\":\");", var_name);
-                            sw.WriteLine(" sb.Append(string.Format(\"\\\"{{0}}\\\"\", Convert.ToBase64String({0}))); }}", var_name);
+                            sw.WriteLine(" sb.Append(string.Format(\"\\\"{{0}}\\\"\", FrameworkUtil.ToBase64String({0}))); }}", var_name);
                             break;
                         case VAR_TYPE.LSTRING:
                             break;
@@ -867,7 +913,7 @@ namespace Devarc
                     switch (tb.GetVarType(i))
                     {
                         case VAR_TYPE.ARRAY:
-                            sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, false, Convert.ToBase64String({0}));", var_name, type_name);
+                            sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, false, FrameworkUtil.ToBase64String({0}));", var_name, type_name);
                             break;
                         case VAR_TYPE.BYTE:
                             if (is_list)
@@ -875,6 +921,7 @@ namespace Devarc
                             else
                                 sw.WriteLine("\t\t\tobj.Attach(\"{0}\", \"{1}\", CLASS_TYPE.VALUE, {2}, {0}.ToString());", var_name, type_name, key_type);
                             break;
+                        case VAR_TYPE.HOST_ID:
                         case VAR_TYPE.BOOL:
                         case VAR_TYPE.INT16:
                         case VAR_TYPE.INT32:
@@ -1000,6 +1047,7 @@ namespace Devarc
                     }
                     switch (tb.GetVarType(i))
                     {
+                        case VAR_TYPE.HOST_ID:
                         case VAR_TYPE.BOOL:
                         case VAR_TYPE.INT16:
                         case VAR_TYPE.INT32:
@@ -1057,6 +1105,7 @@ namespace Devarc
                     }
                     switch (tb.GetVarType(i))
                     {
+                        case VAR_TYPE.HOST_ID:
                         case VAR_TYPE.BOOL:
                         case VAR_TYPE.INT16:
                         case VAR_TYPE.INT32:

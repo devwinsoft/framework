@@ -123,8 +123,15 @@ namespace Devarc.S2C
 {
 	[System.Serializable]
 	[NetProtocolAttribute(RMI_ID = 11010)]
-	public class Notify_Player : IBaseObejct
+	public class Notify_Player : IBasePacket
 	{
+		public short RMI_ID { get { return 11010; } }
+		public bool WriteTo(NetBuffer _obj)
+		{
+			Marshaler.Write(_obj, id);
+			Marshaler.Write(_obj, data);
+			return true;
+		}
 		public HostID              id;
 		public DataPlayer          data = new DataPlayer();
 
@@ -143,7 +150,7 @@ namespace Devarc.S2C
 		{
 			get
 			{
-				if ((int)id != 0) return false;
+				if (id != 0) return false;
 				if (data.IsDefault == false) return false;
 				return true;
 			}
@@ -161,24 +168,24 @@ namespace Devarc.S2C
 		}
 		public void Initialize(PropTable obj)
 		{
-			id                  = FrameworkUtil.Parse<HostID>(obj.GetStr("id"));
+			id                  = obj.GetHostID("id");
 			data.Initialize(obj.GetTable("data"));
 		}
 		public void Initialize(JsonData obj)
 		{
-			if (obj.Keys.Contains("id")) id = FrameworkUtil.Parse<HostID>(obj["id"].ToString()); else id = default(HostID);
+			if (obj.Keys.Contains("id")) HostID.TryParse(obj["id"].ToString(), out id); else id = default(HostID);
 			if (obj.Keys.Contains("data")) data.Initialize(obj["data"]);
 		}
 		public void Initialize(IBaseReader obj)
 		{
-			id                  = FrameworkUtil.Parse<HostID>(obj.GetString("id"));
+			id                  = obj.GetInt16("id");
 			data.Initialize(JsonMapper.ToObject(obj.GetString("data")));
 		}
 		public override string ToString()
 		{
 		    StringBuilder sb = new StringBuilder();
 		    sb.Append("{"); sb.Append(" \"id\":"); sb.Append("\""); sb.Append(id.ToString()); sb.Append("\"");
-		    sb.Append(","); sb.Append(" \"data\":"); sb.Append(data.IsDefault == false ? data.ToString() : "{}");
+		    sb.Append(","); sb.Append(" \"data\":"); sb.Append(data.ToString());
 		    sb.Append("}");
 		    return sb.ToString();
 		}
@@ -205,8 +212,15 @@ namespace Devarc.S2C
 	}
 	[System.Serializable]
 	[NetProtocolAttribute(RMI_ID = 11020)]
-	public class Notify_Move : IBaseObejct
+	public class Notify_Move : IBasePacket
 	{
+		public short RMI_ID { get { return 11020; } }
+		public bool WriteTo(NetBuffer _obj)
+		{
+			Marshaler.Write(_obj, look);
+			Marshaler.Write(_obj, move);
+			return true;
+		}
 		public VECTOR3             look = new VECTOR3();
 		public DIRECTION           move;
 
@@ -259,7 +273,7 @@ namespace Devarc.S2C
 		public override string ToString()
 		{
 		    StringBuilder sb = new StringBuilder();
-		    sb.Append("{"); sb.Append(" \"look\":"); sb.Append(look.IsDefault == false ? look.ToString() : "{}");
+		    sb.Append("{"); sb.Append(" \"look\":"); sb.Append(look.ToString());
 		    sb.Append(","); sb.Append(" \"move\":"); sb.Append("\""); sb.Append(move.ToString()); sb.Append("\"");
 		    sb.Append("}");
 		    return sb.ToString();
@@ -287,8 +301,14 @@ namespace Devarc.S2C
 	}
 	[System.Serializable]
 	[NetProtocolAttribute(RMI_ID = 11030)]
-	public class Notify_Chat : IBaseObejct
+	public class Notify_Chat : IBasePacket
 	{
+		public short RMI_ID { get { return 11030; } }
+		public bool WriteTo(NetBuffer _obj)
+		{
+			Marshaler.Write(_obj, _msg);
+			return true;
+		}
 		public string              _msg = "";
 
 		public Notify_Chat()

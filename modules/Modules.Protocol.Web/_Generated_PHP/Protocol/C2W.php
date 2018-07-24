@@ -19,7 +19,7 @@ class C2W
 				$proc->dispatch();
 				break;
 			default:
-				echo '{"ErrorMessage":"Not Implemented."}'; 
+				echo '{"Error":1 ,"Message":"Not Implemented."}'; 
 				break;
 		}
 	}

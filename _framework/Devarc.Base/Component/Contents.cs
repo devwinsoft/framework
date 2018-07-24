@@ -44,6 +44,12 @@ namespace Devarc
         string GetQuery_SelectWhere(string _where);
     }
 
+    public interface IBasePacket : IBaseObejct
+    {
+        short RMI_ID { get; }
+        bool WriteTo(NetBuffer _obj);
+    }
+
     public interface IContents<KEY1, KEY2>
     {
         void OnAlloc(KEY1 k1, KEY2 k2);

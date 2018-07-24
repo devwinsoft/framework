@@ -56,7 +56,7 @@ namespace TestServer
                 MySQL_Session mysql = new MySQL_Session();
                 mysql.Open("localhost", 3306, "game", "maoshy", "9536");
 
-                MySQL_Reader reader = mysql.Execute_Reader("select * from DataCharacter;");
+                IBaseReader reader = mysql.Execute_Reader("select * from DataCharacter;");
                 while (reader.Read())
                 {
                     DataCharacter obj = new DataCharacter();

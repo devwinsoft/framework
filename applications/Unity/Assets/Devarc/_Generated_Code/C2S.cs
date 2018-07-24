@@ -99,8 +99,15 @@ namespace Devarc.C2S
 {
 	[System.Serializable]
 	[NetProtocolAttribute(RMI_ID = 10010)]
-	public class Request_Move : IBaseObejct
+	public class Request_Move : IBasePacket
 	{
+		public short RMI_ID { get { return 10010; } }
+		public bool WriteTo(NetBuffer _obj)
+		{
+			Marshaler.Write(_obj, look);
+			Marshaler.Write(_obj, move);
+			return true;
+		}
 		public VECTOR3             look = new VECTOR3();
 		public DIRECTION           move;
 
@@ -153,7 +160,7 @@ namespace Devarc.C2S
 		public override string ToString()
 		{
 		    StringBuilder sb = new StringBuilder();
-		    sb.Append("{"); sb.Append(" \"look\":"); sb.Append(look.IsDefault == false ? look.ToString() : "{}");
+		    sb.Append("{"); sb.Append(" \"look\":"); sb.Append(look.ToString());
 		    sb.Append(","); sb.Append(" \"move\":"); sb.Append("\""); sb.Append(move.ToString()); sb.Append("\"");
 		    sb.Append("}");
 		    return sb.ToString();
@@ -181,8 +188,15 @@ namespace Devarc.C2S
 	}
 	[System.Serializable]
 	[NetProtocolAttribute(RMI_ID = 10020)]
-	public class Request_Chat : IBaseObejct
+	public class Request_Chat : IBasePacket
 	{
+		public short RMI_ID { get { return 10020; } }
+		public bool WriteTo(NetBuffer _obj)
+		{
+			Marshaler.Write(_obj, msg);
+			Marshaler.Write(_obj, data);
+			return true;
+		}
 		public string              msg = "";
 		public byte[]              data = null;
 
@@ -237,7 +251,7 @@ namespace Devarc.C2S
 		{
 		    StringBuilder sb = new StringBuilder();
 		    sb.Append("{"); sb.Append(" \"msg\":"); sb.Append("\""); sb.Append(msg); sb.Append("\"");
-		    sb.Append(","); sb.Append(" \"data\":"); sb.Append("\""); sb.Append(Convert.ToBase64String(data)); sb.Append("\"");
+		    sb.Append(","); sb.Append(" \"data\":"); sb.Append("\""); sb.Append(FrameworkUtil.ToBase64String(data)); sb.Append("\"");
 		    sb.Append("}");
 		    return sb.ToString();
 		}
@@ -250,7 +264,7 @@ namespace Devarc.C2S
 			if (string.IsNullOrEmpty(msg) == false) { if (j > 0) { sb.Append(", "); } j++;
 			 sb.Append("\"msg\":"); sb.Append("\""); sb.Append(FrameworkUtil.JsonString(msg)); sb.Append("\""); }
 			if (data != null && data.Length > 0) { if (j > 0) { sb.Append(", "); } j++;
-			 sb.Append("\"data\":"); sb.Append(string.Format("\"{0}\"", Convert.ToBase64String(data))); }
+			 sb.Append("\"data\":"); sb.Append(string.Format("\"{0}\"", FrameworkUtil.ToBase64String(data))); }
 		    sb.Append("}");
 		    return sb.ToString();
 		}
@@ -258,7 +272,7 @@ namespace Devarc.C2S
 		{
 			PropTable obj = new PropTable("Request_Chat");
 			obj.Attach("msg", "string", CLASS_TYPE.VALUE, false, msg);
-			obj.Attach("data", "byte[]", CLASS_TYPE.VALUE, false, Convert.ToBase64String(data));
+			obj.Attach("data", "byte[]", CLASS_TYPE.VALUE, false, FrameworkUtil.ToBase64String(data));
 			return obj;
 		}
 	}

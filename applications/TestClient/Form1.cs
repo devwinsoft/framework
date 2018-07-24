@@ -8,7 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Reflection;
 using Devarc;
+using LitJson;
 
 namespace TestClient
 {
@@ -17,6 +19,14 @@ namespace TestClient
         public delegate void OnMessage(string _msg);
         StringBuilder mString = new StringBuilder();
         OnMessage mDelegate = null;
+
+        class RMI_DATA
+        {
+            public Type type;
+            public string name;
+            public short rmi_id;
+        }
+        Dictionary<string, RMI_DATA> mRmiList = new Dictionary<string, RMI_DATA>();
 
         public Form1()
         {
@@ -38,6 +48,39 @@ namespace TestClient
             textBox2.ScrollToCaret();
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                string dllPath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Modules.Protocol.Client.dll");
+                Assembly assem = Assembly.LoadFile(dllPath);
+                Type[] types = assem.GetTypes();
+                for (int i = 0; i < types.Length; i++)
+                {
+                    if (types[i].GetInterfaces().Contains(typeof(IBaseObejct)))
+                    {
+                        NetProtocolAttribute attribute = types[i].GetCustomAttribute<NetProtocolAttribute>();
+                        if (attribute == null)
+                        {
+                            Log.Error("{0} has not RMI_ID.", types[i].Name);
+                            continue;
+                        }
+                        string displayName = types[i].FullName.Substring("Devarc.".Length);
+                        RMI_DATA data = new RMI_DATA();
+                        data.type = types[i];
+                        data.name = displayName;
+                        data.rmi_id = attribute.RMI_ID;
+                        mRmiList.Add(data.name, data);
+                        comboBox_rmi_name.Items.Add(displayName);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+            }
+        }
+
         private void button_connect_Click(object sender, EventArgs e)
         {
             int _port = 0;
@@ -52,46 +95,18 @@ namespace TestClient
             TestClient.Instance.Disconnect();
         }
 
-        private void button_select_Click(object sender, EventArgs e)
-        {
-            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                Table.UnLoad_TestSchema();
-                Table.Load_TestSchema_SheetFile(openFileDialog1.FileName);
-                //TableData.UnLoad_ClientObject();
-                //TableData.Load_ClientObject_JSON(openFileDialog1.FileName + ".json");
-
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < Table.T_DataCharacter.Count;i++ )
-                {
-                    sb.Append(Table.T_DataCharacter.ElementAt(i).ToJson().Replace("\n","\\n"));
-                    sb.Append("\r\n");
-                }
-                textBox2.Text = sb.ToString();
-
-                //FileStream fs = File.OpenRead(openFileDialog1.FileName);
-                //byte[] buf = new byte[fs.Length];
-                //fs.Read(buf, 0, buf.Length);
-                //fs.Close();
-                //C2Test.Proxy.SendFile(HostID.Server, openFileDialog1.SafeFileName, buf);
-
-            }
-        }
-        private void button_send_Click(object sender, EventArgs e)
-        {
-            if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                Table.Save_TestSchema_SheetFile(saveFileDialog1.FileName);
-                Table.Save_TestSchema_JsonFile(saveFileDialog1.FileName + ".json");
-            }
-        }
-
         private void button_chat_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBox_chat.Text) == false)
+            RMI_DATA data;
+            if (mRmiList.TryGetValue(comboBox_rmi_name.Text, out data))
             {
-                TestClient.Instance.Proxy.Request_Chat(HostID.Server, textBox_chat.Text, new byte[] { 10, 11, 12, 13, 14 });
-                //textBox_chat.Text = "";
+                IBasePacket obj = (IBasePacket)Activator.CreateInstance(data.type);
+                JsonData json = JsonMapper.ToObject(textBox_send.Text);
+                obj.Initialize(json);
+                NetBuffer msg = NetBufferPool.Instance.Pop();
+                msg.Init((short)obj.RMI_ID, HostID.Server);
+                obj.WriteTo(msg);
+                TestClient.Instance.Proxy.Send(msg);
             }
         }
 
@@ -99,6 +114,17 @@ namespace TestClient
         {
             mString.Clear();
             textBox2.Text = "";
+        }
+
+        private void comboBox_rmi_name_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RMI_DATA data;
+            if (mRmiList.TryGetValue(comboBox_rmi_name.Text, out data))
+            {
+                textBox_rmi_id.Text = data.rmi_id.ToString();
+                IBaseObejct obj = (IBaseObejct)Activator.CreateInstance(data.type);
+                textBox_send.Text = obj.ToString();
+            }
         }
     }
 }

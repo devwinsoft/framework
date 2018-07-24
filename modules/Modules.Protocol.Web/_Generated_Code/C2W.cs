@@ -97,8 +97,15 @@ namespace Devarc.C2W
 {
 	[System.Serializable]
 	[NetProtocolAttribute(RMI_ID = 30010)]
-	public class Request_Login : IBaseObejct
+	public class Request_Login : IBasePacket
 	{
+		public short RMI_ID { get { return 30010; } }
+		public bool WriteTo(NetBuffer _obj)
+		{
+			Marshaler.Write(_obj, account_id);
+			Marshaler.Write(_obj, passwd);
+			return true;
+		}
 		public string              account_id = "";
 		public string              passwd = "";
 
@@ -179,8 +186,14 @@ namespace Devarc.C2W
 	}
 	[System.Serializable]
 	[NetProtocolAttribute(RMI_ID = 30020)]
-	public class Request_Stage_Clear : IBaseObejct
+	public class Request_Stage_Clear : IBasePacket
 	{
+		public short RMI_ID { get { return 30020; } }
+		public bool WriteTo(NetBuffer _obj)
+		{
+			Marshaler.Write(_obj, stage_id);
+			return true;
+		}
 		public string              stage_id = "";
 
 		public Request_Stage_Clear()

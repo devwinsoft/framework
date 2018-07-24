@@ -88,10 +88,8 @@ namespace Devarc
         {
             if (Log.Instance.message != null)
             {
-                if (args.Length > 0)
-                    Log.Instance.message.Invoke(LOG_TYPE.ERROR, System.String.Format(msg + "\r\n" + Environment.StackTrace, args));
-                else
-                    Log.Instance.message.Invoke(LOG_TYPE.ERROR, msg + "\r\n" + Environment.StackTrace);
+                Log.Instance.message.Invoke(LOG_TYPE.ERROR, msg);
+                Log.Instance.message.Invoke(LOG_TYPE.ERROR, Environment.StackTrace);
             }
         }
 
@@ -99,11 +97,11 @@ namespace Devarc
         {
             if (Log.Instance.message != null)
             {
+                Log.Instance.message.Invoke(LOG_TYPE.EXCEPTION, e.Message);
                 if (e.StackTrace != null)
                 {
                     Log.Instance.message.Invoke(LOG_TYPE.EXCEPTION, e.StackTrace.ToString());
                 }
-                Log.Instance.message.Invoke(LOG_TYPE.EXCEPTION, e.Message);
             }
         }
     }

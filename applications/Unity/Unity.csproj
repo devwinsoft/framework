@@ -270,6 +270,7 @@
     <Compile Include="Assets\Devarc\Component\Base\BaseSchemaReader.cs" />
     <Compile Include="Assets\Devarc\Component\Base\Container.cs" />
     <Compile Include="Assets\Devarc\Component\Base\Contents.cs" />
+    <Compile Include="Assets\Devarc\Component\Base\Cryptor.cs" />
     <Compile Include="Assets\Devarc\Component\Base\DES.cs" />
     <Compile Include="Assets\Devarc\Component\Base\ExcelReader.cs" />
     <Compile Include="Assets\Devarc\Component\Base\ExcelWriter.cs" />

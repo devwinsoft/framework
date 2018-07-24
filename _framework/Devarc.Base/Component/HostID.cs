@@ -113,4 +113,5 @@ namespace Devarc
         public uint ToUInt32(IFormatProvider provider) { return Convert.ToUInt32(mValue); }
         public ulong ToUInt64(IFormatProvider provider) { return Convert.ToUInt64(mValue); }
     }
+
 }

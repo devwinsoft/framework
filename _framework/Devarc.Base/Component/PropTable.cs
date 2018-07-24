@@ -32,6 +32,7 @@ namespace Devarc
     {
         NONE,
         ARRAY, // byte[]
+        HOST_ID,
         BOOL,
         BYTE,
         INT16,
@@ -84,7 +85,11 @@ namespace Devarc
             {
                 return "";
             }
-            if (_raw_name.StartsWith("bool") || _raw_name.StartsWith("boolean"))
+            else if (_raw_name.StartsWith("hid") || _raw_name.StartsWith("hostid"))
+            {
+                return "HostID";
+            }
+            else if (_raw_name.StartsWith("bool") || _raw_name.StartsWith("boolean"))
             {
                 return "bool";
             }
@@ -137,7 +142,11 @@ namespace Devarc
         public static VAR_TYPE ToTypeID(string _name)
         {
             string var_type = _name.ToLower().Trim();
-            if (var_type.StartsWith("bool"))
+            if (var_type.StartsWith("hid") || var_type.StartsWith("hostid"))
+            {
+                return VAR_TYPE.HOST_ID;
+            }
+            else if (var_type.StartsWith("bool"))
             {
                 return VAR_TYPE.BOOL;
             }
@@ -604,6 +613,15 @@ namespace Devarc
             return data.Data;
         }
 
+        public HostID GetHostID(string _name)
+        {
+            return FrameworkUtil.ToHostID(GetStr(_name));
+        }
+        public HostID GetHostID(int _index)
+        {
+            return FrameworkUtil.ToHostID(GetStr(_index));
+        }
+
         public bool GetBool(string _name)
         {
             string temp = GetStr(_name).ToLower();
@@ -622,7 +640,6 @@ namespace Devarc
                 return false;
             return GetInt32(_index) != 0;
         }
-
 
         public byte GetByte(string _name)
         {

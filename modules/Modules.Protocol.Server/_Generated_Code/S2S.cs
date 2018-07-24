@@ -73,8 +73,15 @@ namespace Devarc.S2S
 {
 	[System.Serializable]
 	[NetProtocolAttribute(RMI_ID = 20010)]
-	public class Ping : IBaseObejct
+	public class Ping : IBasePacket
 	{
+		public short RMI_ID { get { return 20010; } }
+		public bool WriteTo(NetBuffer _obj)
+		{
+			Marshaler.Write(_obj, pos);
+			Marshaler.Write(_obj, data);
+			return true;
+		}
 		public TEST_VECTOR         pos = new TEST_VECTOR();
 		public byte[]              data = null;
 
@@ -128,8 +135,8 @@ namespace Devarc.S2S
 		public override string ToString()
 		{
 		    StringBuilder sb = new StringBuilder();
-		    sb.Append("{"); sb.Append(" \"pos\":"); sb.Append(pos.IsDefault == false ? pos.ToString() : "{}");
-		    sb.Append(","); sb.Append(" \"data\":"); sb.Append("\""); sb.Append(Convert.ToBase64String(data)); sb.Append("\"");
+		    sb.Append("{"); sb.Append(" \"pos\":"); sb.Append(pos.ToString());
+		    sb.Append(","); sb.Append(" \"data\":"); sb.Append("\""); sb.Append(FrameworkUtil.ToBase64String(data)); sb.Append("\"");
 		    sb.Append("}");
 		    return sb.ToString();
 		}
@@ -142,7 +149,7 @@ namespace Devarc.S2S
 			if (pos.IsDefault == false) { if (j > 0) { sb.Append(", "); } j++;
 			 sb.Append("\"pos\":"); sb.Append(pos.ToJson()); }
 			if (data != null && data.Length > 0) { if (j > 0) { sb.Append(", "); } j++;
-			 sb.Append("\"data\":"); sb.Append(string.Format("\"{0}\"", Convert.ToBase64String(data))); }
+			 sb.Append("\"data\":"); sb.Append(string.Format("\"{0}\"", FrameworkUtil.ToBase64String(data))); }
 		    sb.Append("}");
 		    return sb.ToString();
 		}
@@ -150,7 +157,7 @@ namespace Devarc.S2S
 		{
 			PropTable obj = new PropTable("Ping");
 			obj.Attach_Class("pos", "TEST_VECTOR", pos.ToTable());
-			obj.Attach("data", "byte[]", CLASS_TYPE.VALUE, false, Convert.ToBase64String(data));
+			obj.Attach("data", "byte[]", CLASS_TYPE.VALUE, false, FrameworkUtil.ToBase64String(data));
 			return obj;
 		}
 	}

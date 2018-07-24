@@ -136,11 +136,11 @@ namespace Devarc
 		    sb.Append(","); sb.Append(" \"name\":"); sb.Append("\""); sb.Append(name); sb.Append("\"");
 		    sb.Append(","); sb.Append(" \"items\":"); sb.Append("["); for (int i = 0; i < items.Count; i++) { UNIT _obj = items[i]; if (i > 0) sb.Append(","); sb.Append(string.Format("\"{0}\"", _obj)); } sb.Append("]");
 		    sb.Append(","); sb.Append(" \"stats\":"); sb.Append("["); for (int i = 0; i < stats.Count; i++) { sb.Append(stats[i].ToString()); } sb.Append("]");
-		    sb.Append(","); sb.Append(" \"ability\":"); sb.Append(ability.IsDefault == false ? ability.ToString() : "{}");
+		    sb.Append(","); sb.Append(" \"ability\":"); sb.Append(ability.ToString());
 		    sb.Append(","); sb.Append(" \"nodes\":"); sb.Append("["); for (int i = 0; i < nodes.Count; i++) { string _obj = nodes[i]; if (i > 0) sb.Append(","); sb.Append("\""); sb.Append(_obj); sb.Append("\""); } sb.Append("]");
 		    sb.Append(","); sb.Append(" \"unit_uid\":"); sb.Append("\""); sb.Append(unit_uid.ToString()); sb.Append("\"");
 		    sb.Append(","); sb.Append(" \"specialCode\":"); sb.Append("\""); sb.Append(specialCode); sb.Append("\"");
-		    sb.Append(","); sb.Append(" \"player_data\":"); sb.Append(player_data.IsDefault == false ? player_data.ToString() : "{}");
+		    sb.Append(","); sb.Append(" \"player_data\":"); sb.Append(player_data.ToString());
 		    sb.Append("}");
 		    return sb.ToString();
 		}
@@ -436,7 +436,7 @@ namespace Devarc
 		{
 		    StringBuilder sb = new StringBuilder();
 		    sb.Append("{"); sb.Append(" \"id\":"); sb.Append("\""); sb.Append(id.ToString()); sb.Append("\"");
-		    sb.Append(","); sb.Append(" \"pos\":"); sb.Append(pos.IsDefault == false ? pos.ToString() : "{}");
+		    sb.Append(","); sb.Append(" \"pos\":"); sb.Append(pos.ToString());
 		    sb.Append("}");
 		    return sb.ToString();
 		}

@@ -333,7 +333,7 @@ namespace Devarc
 		{
 		    StringBuilder sb = new StringBuilder();
 		    sb.Append("{"); sb.Append(" \"Name\":"); sb.Append("\""); sb.Append(Name); sb.Append("\"");
-		    sb.Append(","); sb.Append(" \"Pos\":"); sb.Append(Pos.IsDefault == false ? Pos.ToString() : "{}");
+		    sb.Append(","); sb.Append(" \"Pos\":"); sb.Append(Pos.ToString());
 		    sb.Append("}");
 		    return sb.ToString();
 		}

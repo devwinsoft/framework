@@ -59,10 +59,6 @@ namespace Devarc
 
             mBakCurDir = Directory.GetCurrentDirectory();
             mAppDir = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
-            //if (System.Diagnostics.Debugger.IsAttached)
-            //    mAppDir = Directory.GetCurrentDirectory();
-            //else
-            //    mAppDir = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
             mCfgDir = Path.GetDirectoryName(cfgFullPath);
 
             Directory.SetCurrentDirectory(mAppDir);
@@ -379,7 +375,6 @@ namespace Devarc
                     Builder_Util.Make_Class_Code(tb, sw, rmi_id);
                 }
                 sw.WriteLine("}");
-
             } // close file
         }
 

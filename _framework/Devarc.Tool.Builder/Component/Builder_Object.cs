@@ -158,7 +158,6 @@ namespace Devarc
             {
                 Builder_Util.Make_Class_Code(tb, sw);
                 Builder_Util.Make_Marshal_Code(tb, sw);
-
             }
         }
 
