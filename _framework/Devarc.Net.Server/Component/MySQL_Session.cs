@@ -8,7 +8,7 @@ using MySql.Data.MySqlClient;
 
 namespace Devarc
 {
-    public class MySQL_Session : IDisposable
+    public class MySQL_Session : IBaseSession, IDisposable
     {
         MySqlConnection mConnection = null;
         MySqlTransaction mTransaction = null;
@@ -176,7 +176,7 @@ namespace Devarc
             }
         }
 
-        public MySQL_Reader Execute_Reader(string _query)
+        public IBaseReader Execute_Reader(string _query)
         {
             try
             {

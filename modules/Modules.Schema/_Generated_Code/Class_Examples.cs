@@ -25,7 +25,11 @@ namespace Devarc
 		public TEST_ENUM GetKey() { return ID; }
 		public string GetQuery_Select(TEST_ENUM _key)
 		{
-			return string.Format("select * from TEST_ENUM where ID='{0}';", _key);
+			return string.Format("select * from `TEST_ENUM` where ID='{0}';", _key);
+		}
+		public string GetQuery_SelectWhere(string _where)
+		{
+			return string.Format("select * from `TEST_ENUM` where {0};", _where);
 		}
 		public string GetQuery_InsertOrUpdate()
 		{

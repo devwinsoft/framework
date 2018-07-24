@@ -25,7 +25,11 @@ namespace Devarc
 		public string GetKey() { return Key; }
 		public string GetQuery_Select(string _key)
 		{
-			return string.Format("select * from LString where Key='{0}';", _key);
+			return string.Format("select * from `LString` where Key='{0}';", _key);
+		}
+		public string GetQuery_SelectWhere(string _where)
+		{
+			return string.Format("select * from `LString` where {0};", _where);
 		}
 		public string GetQuery_InsertOrUpdate()
 		{

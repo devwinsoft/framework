@@ -41,6 +41,7 @@ namespace Devarc
     {
         T GetKey();
         string GetQuery_Select(T _key);
+        string GetQuery_SelectWhere(string _where);
     }
 
     public interface IContents<KEY1, KEY2>
@@ -49,6 +50,12 @@ namespace Devarc
         void OnFree();
         KEY1 GetKey1();
         KEY2 GetKey2();
+    }
+
+    public interface IBaseSession
+    {
+        bool Execute_NonQuery(string _query);
+        IBaseReader Execute_Reader(string _query);
     }
 
     public interface IBaseReader

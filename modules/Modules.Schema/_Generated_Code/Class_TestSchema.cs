@@ -35,7 +35,11 @@ namespace Devarc
 		public UNIT GetKey() { return unit_type; }
 		public string GetQuery_Select(UNIT _key)
 		{
-			return string.Format("select * from DataCharacter where unit_type='{0}';", _key);
+			return string.Format("select * from `DataCharacter` where unit_type='{0}';", _key);
+		}
+		public string GetQuery_SelectWhere(string _where)
+		{
+			return string.Format("select * from `DataCharacter` where {0};", _where);
 		}
 		public string GetQuery_InsertOrUpdate()
 		{
@@ -642,7 +646,11 @@ namespace Devarc
 		public DIRECTION GetKey() { return ID; }
 		public string GetQuery_Select(DIRECTION _key)
 		{
-			return string.Format("select * from DIRECTION where ID='{0}';", _key);
+			return string.Format("select * from `DIRECTION` where ID='{0}';", _key);
+		}
+		public string GetQuery_SelectWhere(string _where)
+		{
+			return string.Format("select * from `DIRECTION` where {0};", _where);
 		}
 		public string GetQuery_InsertOrUpdate()
 		{
@@ -782,7 +790,11 @@ namespace Devarc
 		public MESSAGE GetKey() { return ID; }
 		public string GetQuery_Select(MESSAGE _key)
 		{
-			return string.Format("select * from MESSAGE where ID='{0}';", _key);
+			return string.Format("select * from `MESSAGE` where ID='{0}';", _key);
+		}
+		public string GetQuery_SelectWhere(string _where)
+		{
+			return string.Format("select * from `MESSAGE` where {0};", _where);
 		}
 		public string GetQuery_InsertOrUpdate()
 		{
@@ -927,7 +939,11 @@ namespace Devarc
 		public UNIT GetKey() { return ID; }
 		public string GetQuery_Select(UNIT _key)
 		{
-			return string.Format("select * from UNIT where ID='{0}';", _key);
+			return string.Format("select * from `UNIT` where ID='{0}';", _key);
+		}
+		public string GetQuery_SelectWhere(string _where)
+		{
+			return string.Format("select * from `UNIT` where {0};", _where);
 		}
 		public string GetQuery_InsertOrUpdate()
 		{

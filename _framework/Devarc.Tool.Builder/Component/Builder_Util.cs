@@ -228,7 +228,11 @@ namespace Devarc
                 sw.WriteLine("\t\tpublic {0} GetKey() {{ return {1}; }}", tb.KeyTypeName, tb.GetVarName(tb.KeyIndex));
                 sw.WriteLine("\t\tpublic string GetQuery_Select({0} _key)", tb.KeyTypeName);
                 sw.WriteLine("\t\t{");
-                sw.WriteLine("\t\t\treturn string.Format(\"select * from {2} where {1}='{{0}}';\", _key);", tb.KeyTypeName, tb.KeyVarName, tb.TableName);
+                sw.WriteLine("\t\t\treturn string.Format(\"select * from `{2}` where {1}='{{0}}';\", _key);", tb.KeyTypeName, tb.KeyVarName, tb.TableName);
+                sw.WriteLine("\t\t}");
+                sw.WriteLine("\t\tpublic string GetQuery_SelectWhere(string _where)", tb.KeyTypeName);
+                sw.WriteLine("\t\t{");
+                sw.WriteLine("\t\t\treturn string.Format(\"select * from `{1}` where {{0}};\", _where);", tb.KeyTypeName, tb.TableName);
                 sw.WriteLine("\t\t}");
                 sw.WriteLine("\t\tpublic string GetQuery_InsertOrUpdate()");
                 sw.WriteLine("\t\t{");

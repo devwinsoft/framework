@@ -137,7 +137,7 @@ namespace Devarc
         }
 
         static readonly ITEM defaultObject = new ITEM();
-        public ITEM GetAt(SQLite_Session _session, KEY _key)
+        public ITEM GetAt(IBaseSession _session, KEY _key)
         {
             ITEM obj = default(ITEM);
             if (mMap.TryGetValue(_key, out obj))
@@ -147,7 +147,7 @@ namespace Devarc
 
             try
             {
-                SQLite_Reader reader = _session.Execute_Reader(defaultObject.GetQuery_Select(_key));
+                IBaseReader reader = _session.Execute_Reader(defaultObject.GetQuery_Select(_key));
                 if (reader.Read())
                 {
                     obj = new ITEM();
@@ -162,6 +162,42 @@ namespace Devarc
                 Log.Exception(ex);
             }
             return obj;
+        }
+
+        public int GetWhere(IBaseSession _session, string _where, ITEM[] _inoutList)
+        {
+            int cnt = 0;
+            if (_inoutList == null || _inoutList.Length == 0)
+            {
+                return 0;
+            }
+            try
+            {
+                IBaseReader reader = _session.Execute_Reader(defaultObject.GetQuery_SelectWhere(_where));
+                while (reader.Read())
+                {
+                    ITEM obj = new ITEM();
+                    obj.Initialize(reader);
+                    mMap.Add(obj.GetKey(), obj);
+                    mList.Add(obj);
+                    reader.Close();
+
+                    if (cnt < _inoutList.Length)
+                    {
+                        _inoutList[cnt] = obj;
+                        cnt++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Exception(ex);
+            }
+            return cnt;
         }
 
         public bool Contains(KEY key)
@@ -182,114 +218,4 @@ namespace Devarc
         }
         public int Count { get { return mList.Count; } }
     }
-
-
-    //public class Container<ME, KEY1, KEY2> where ME : IContents<KEY1, KEY2>, new()
-    //{
-    //    private Dictionary<KEY1, ME> m_ObjTable1 = new Dictionary<KEY1, ME>();
-    //    private Dictionary<KEY2, ME> m_ObjTable2 = new Dictionary<KEY2, ME>();
-    //    protected List<ME> m_ObjList = new List<ME>();
-
-    //    public Container()
-    //    {
-    //    }
-    //    public void Clear()
-    //    {
-    //        m_ObjTable1.Clear();
-    //        m_ObjTable2.Clear();
-    //        m_ObjList.Clear();
-    //    }
-
-    //    private ME _Alloc(KEY1 key1, KEY2 key2)
-    //    {
-    //        if (m_ObjTable1.ContainsKey(key1))
-    //        {
-    //            Log.Debug("Cannot alloc. [name]:" + typeof(ME).ToString() + "[key1]:" + key1);
-    //            return default(ME);
-    //        }
-    //        if (m_ObjTable2.ContainsKey(key2))
-    //        {
-    //            Log.Debug("Cannot alloc. [name]:" + typeof(ME).ToString() + "[key2]:" + key2);
-    //            return default(ME);
-    //        }
-
-    //        ME obj = new ME();
-    //        m_ObjTable1.Add(key1, obj);
-    //        m_ObjTable2.Add(key2, obj);
-    //        m_ObjList.Add(obj);
-    //        return obj;
-    //    }
-    //    public ME Alloc(KEY1 key1, KEY2 key2)
-    //    {
-    //        ME obj = _Alloc(key1, key2);
-    //        if (obj == null)
-    //        {
-    //            return obj;
-    //        }
-    //        obj.OnAlloc(key1, key2);
-    //        return obj;
-    //    }
-
-    //    public void Free1(KEY1 key1)
-    //    {
-    //        ME obj;
-    //        if (m_ObjTable1.TryGetValue(key1, out obj) == false)
-    //        {
-    //            return;
-    //        }
-    //        obj.OnFree();
-    //        m_ObjTable1.Remove(obj.GetKey1());
-    //        m_ObjTable2.Remove(obj.GetKey2());
-    //        m_ObjList.Remove(obj);
-    //        obj = default(ME);
-    //    }
-
-    //    public void Free2(KEY2 key2)
-    //    {
-    //        ME obj;
-    //        if (m_ObjTable2.TryGetValue(key2, out obj) == false)
-    //        {
-    //            return;
-    //        }
-    //        obj.OnFree();
-    //        m_ObjTable1.Remove(obj.GetKey1());
-    //        m_ObjTable2.Remove(obj.GetKey2());
-    //        m_ObjList.Remove(obj);
-    //        obj = default(ME);
-    //    }
-
-    //    public ME GetAt1(KEY1 key1)
-    //    {
-    //        ME obj;
-    //        return m_ObjTable1.TryGetValue(key1, out obj) ? obj : default(ME);
-    //    }
-
-    //    public ME GetAt2(KEY2 key2)
-    //    {
-    //        ME obj;
-    //        return m_ObjTable2.TryGetValue(key2, out obj) ? obj : default(ME);
-    //    }
-    //    public bool Contains1(KEY1 key1)
-    //    {
-    //        return m_ObjTable1.ContainsKey(key1);
-    //    }
-    //    public bool Contains2(KEY2 key2)
-    //    {
-    //        return m_ObjTable2.ContainsKey(key2);
-    //    }
-    //    public ME ElementAt(int index)
-    //    {
-    //        if (m_ObjList.Count <= index)
-    //        {
-    //            return default(ME);
-    //        }
-    //        return m_ObjList[index];
-    //    }
-    //    public List<ME>.Enumerator GetEnumerator()
-    //    {
-    //        return m_ObjList.GetEnumerator();
-    //    }
-    //    public int Count { get { return m_ObjList.Count; } }
-    //}
-
 }

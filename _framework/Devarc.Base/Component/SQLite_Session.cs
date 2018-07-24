@@ -28,7 +28,7 @@ using Devarc;
 
 namespace Devarc
 {
-    public class SQLite_Session : IDisposable
+    public class SQLite_Session : IBaseSession, IDisposable
     {
         bool mIsOpened = false;
         IntPtr mSQLiteID = IntPtr.Zero;
@@ -186,7 +186,7 @@ namespace Devarc
             }
         }
 
-        public SQLite_Reader Execute_Reader(string _query)
+        public IBaseReader Execute_Reader(string _query)
         {
             if (mIsOpened == false)
             {
