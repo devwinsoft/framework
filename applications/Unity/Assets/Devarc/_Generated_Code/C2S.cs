@@ -57,6 +57,7 @@ namespace Devarc.C2S
 
 	public enum RMI_VERSION
 	{
+		NUMBER                         = 1,
 	}
 	enum RMI_ID
 	{
@@ -65,17 +66,16 @@ namespace Devarc.C2S
 	}
 	public class Proxy : ProxyBase
 	{
-		public bool Send(NetBuffer msg)
+		public SEND_RESULT Send(NetBuffer msg)
 		{
 			if (mNetworker == null)
 			{
 				Log.Debug("{0} is not initialized.", typeof(Proxy));
-				return false;
+				return SEND_RESULT.NOT_INITIALIZED;
 			}
-			if (msg.IsError) return false;
 			return mNetworker.Send(msg);
 		}
-		public bool Request_Move(HostID target, VECTOR3 look, DIRECTION move)
+		public SEND_RESULT Request_Move(HostID target, VECTOR3 look, DIRECTION move)
 		{
 			Log.Debug("C2S.Proxy.Request_Move");
 			NetBuffer _out_msg = NetBufferPool.Instance.Pop();
@@ -84,7 +84,7 @@ namespace Devarc.C2S
 			Marshaler.Write(_out_msg, move);
 			return Send(_out_msg);
 		}
-		public bool Request_Chat(HostID target, String msg, Byte[] data)
+		public SEND_RESULT Request_Chat(HostID target, String msg, Byte[] data)
 		{
 			Log.Debug("C2S.Proxy.Request_Chat");
 			NetBuffer _out_msg = NetBufferPool.Instance.Pop();

@@ -52,22 +52,22 @@ namespace Devarc
             this.mThreadCnt = threadCnt;
         }
 
-        public short GetCurrentSeq(HostID hid)
-        {
-            NetSession session = GetSession(hid);
-            if (session == null || session.Connected == false)
-            {
-                return 0;
-            }
-            return session.Seq;
-        }
+        //public short GetCurrentSeq(HostID hid)
+        //{
+        //    NetSession session = GetSession(hid);
+        //    if (session == null || session.Connected == false)
+        //    {
+        //        return 0;
+        //    }
+        //    return session.Seq;
+        //}
 
-        public bool Send(NetBuffer msg)
+        public SEND_RESULT Send(NetBuffer msg)
         {
             NetSession session = GetSession(msg.Hid);
             if (session == null || session.Connected == false)
             {
-                return false;
+                return SEND_RESULT.DISCONNECTED;
             }
             lock(session)
             {
@@ -75,7 +75,7 @@ namespace Devarc
                 session.IncreaseSeq();
             }
             session.Send(msg.Data);
-            return true;
+            return SEND_RESULT.SUCCESS;
         }
 
         public override bool Start()

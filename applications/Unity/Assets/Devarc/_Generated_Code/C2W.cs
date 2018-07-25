@@ -56,6 +56,7 @@ namespace Devarc.C2W
 
 	public enum RMI_VERSION
 	{
+		NUMBER                         = 1,
 	}
 	enum RMI_ID
 	{
@@ -64,17 +65,16 @@ namespace Devarc.C2W
 	}
 	public class Proxy : ProxyBase
 	{
-		public bool Send(NetBuffer msg)
+		public SEND_RESULT Send(NetBuffer msg)
 		{
 			if (mNetworker == null)
 			{
 				Log.Debug("{0} is not initialized.", typeof(Proxy));
-				return false;
+				return SEND_RESULT.NOT_INITIALIZED;
 			}
-			if (msg.IsError) return false;
 			return mNetworker.Send(msg);
 		}
-		public bool Request_Login(HostID target, String account_id, String passwd)
+		public SEND_RESULT Request_Login(HostID target, String account_id, String passwd)
 		{
 			Log.Debug("C2W.Proxy.Request_Login");
 			NetBuffer _out_msg = NetBufferPool.Instance.Pop();
@@ -83,7 +83,7 @@ namespace Devarc.C2W
 			Marshaler.Write(_out_msg, passwd);
 			return Send(_out_msg);
 		}
-		public bool Request_Stage_Clear(HostID target, String stage_id)
+		public SEND_RESULT Request_Stage_Clear(HostID target, String stage_id)
 		{
 			Log.Debug("C2W.Proxy.Request_Stage_Clear");
 			NetBuffer _out_msg = NetBufferPool.Instance.Pop();

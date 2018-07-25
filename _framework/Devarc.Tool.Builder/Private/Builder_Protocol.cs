@@ -298,12 +298,12 @@ namespace Devarc
 
                 sw.WriteLine("\tpublic enum RMI_VERSION"); // start of version
                 sw.WriteLine("\t{");
-                foreach (FieldInfo finfo in _type.GetFields())
+                foreach (FieldInfo finfo in _type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static))
                 {
                     if (finfo.Name == "RMI_VERSION")
                     {
                         object obj = finfo.GetRawConstantValue();
-                        sw.WriteLine("\t\t{0,-30} = {1},", "RMI_VERSION", (int)obj);
+                        sw.WriteLine("\t\t{0,-30} = {1},", "NUMBER", (int)obj);
                         break;
                     }
                 }
@@ -328,19 +328,18 @@ namespace Devarc
 
                 sw.WriteLine("\tpublic class Proxy : ProxyBase"); // start of proxy
                 sw.WriteLine("\t{");
-                sw.WriteLine("\t\tpublic bool Send(NetBuffer msg)");
+                sw.WriteLine("\t\tpublic SEND_RESULT Send(NetBuffer msg)");
                 sw.WriteLine("\t\t{");
                 sw.WriteLine("\t\t\tif (mNetworker == null)");
                 sw.WriteLine("\t\t\t{");
                 sw.WriteLine("\t\t\t\tLog.Debug(\"{0} is not initialized.\", typeof(Proxy));");
-                sw.WriteLine("\t\t\t\treturn false;");
+                sw.WriteLine("\t\t\t\treturn SEND_RESULT.NOT_INITIALIZED;");
                 sw.WriteLine("\t\t\t}");
-                sw.WriteLine("\t\t\tif (msg.IsError) return false;");
                 sw.WriteLine("\t\t\treturn mNetworker.Send(msg);");
                 sw.WriteLine("\t\t}");
                 foreach (Type msgType in msgClasses)
                 {
-                    sw.Write("\t\tpublic bool {0}(HostID target", msgType.Name);
+                    sw.Write("\t\tpublic SEND_RESULT {0}(HostID target", msgType.Name);
                     foreach (FieldInfo finfo in msgType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
                     {
                         sw.Write(", " + finfo.FieldType.Name + " " + finfo.Name);

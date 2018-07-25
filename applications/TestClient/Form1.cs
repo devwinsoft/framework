@@ -106,7 +106,11 @@ namespace TestClient
                 NetBuffer msg = NetBufferPool.Instance.Pop();
                 msg.Init((short)obj.RMI_ID, HostID.Server);
                 obj.WriteTo(msg);
-                TestClient.Instance.Proxy.Send(msg);
+                SEND_RESULT result = TestClient.Instance.Proxy.Send(msg);
+                if (result != SEND_RESULT.SUCCESS)
+                {
+                    Log.Info("Cannot send message. reason={0}", result);
+                }
             }
         }
 
@@ -122,7 +126,7 @@ namespace TestClient
             if (mRmiList.TryGetValue(comboBox_rmi_name.Text, out data))
             {
                 textBox_rmi_id.Text = data.rmi_id.ToString();
-                IBaseObejct obj = (IBaseObejct)Activator.CreateInstance(data.type);
+                IBasePacket obj = (IBasePacket)Activator.CreateInstance(data.type);
                 textBox_send.Text = obj.ToString();
             }
         }

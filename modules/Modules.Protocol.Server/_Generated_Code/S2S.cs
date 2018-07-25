@@ -41,6 +41,7 @@ namespace Devarc.S2S
 
 	public enum RMI_VERSION
 	{
+		NUMBER                         = 1,
 	}
 	enum RMI_ID
 	{
@@ -48,17 +49,16 @@ namespace Devarc.S2S
 	}
 	public class Proxy : ProxyBase
 	{
-		public bool Send(NetBuffer msg)
+		public SEND_RESULT Send(NetBuffer msg)
 		{
 			if (mNetworker == null)
 			{
 				Log.Debug("{0} is not initialized.", typeof(Proxy));
-				return false;
+				return SEND_RESULT.NOT_INITIALIZED;
 			}
-			if (msg.IsError) return false;
 			return mNetworker.Send(msg);
 		}
-		public bool Ping(HostID target, TEST_VECTOR pos, Byte[] data)
+		public SEND_RESULT Ping(HostID target, TEST_VECTOR pos, Byte[] data)
 		{
 			Log.Debug("S2S.Proxy.Ping");
 			NetBuffer _out_msg = NetBufferPool.Instance.Pop();

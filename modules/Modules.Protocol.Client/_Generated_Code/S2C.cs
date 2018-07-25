@@ -72,6 +72,7 @@ namespace Devarc.S2C
 
 	public enum RMI_VERSION
 	{
+		NUMBER                         = 1,
 	}
 	enum RMI_ID
 	{
@@ -81,17 +82,16 @@ namespace Devarc.S2C
 	}
 	public class Proxy : ProxyBase
 	{
-		public bool Send(NetBuffer msg)
+		public SEND_RESULT Send(NetBuffer msg)
 		{
 			if (mNetworker == null)
 			{
 				Log.Debug("{0} is not initialized.", typeof(Proxy));
-				return false;
+				return SEND_RESULT.NOT_INITIALIZED;
 			}
-			if (msg.IsError) return false;
 			return mNetworker.Send(msg);
 		}
-		public bool Notify_Player(HostID target, HostID id, DataPlayer data)
+		public SEND_RESULT Notify_Player(HostID target, HostID id, DataPlayer data)
 		{
 			Log.Debug("S2C.Proxy.Notify_Player");
 			NetBuffer _out_msg = NetBufferPool.Instance.Pop();
@@ -100,7 +100,7 @@ namespace Devarc.S2C
 			Marshaler.Write(_out_msg, data);
 			return Send(_out_msg);
 		}
-		public bool Notify_Move(HostID target, VECTOR3 look, DIRECTION move)
+		public SEND_RESULT Notify_Move(HostID target, VECTOR3 look, DIRECTION move)
 		{
 			Log.Debug("S2C.Proxy.Notify_Move");
 			NetBuffer _out_msg = NetBufferPool.Instance.Pop();
@@ -109,7 +109,7 @@ namespace Devarc.S2C
 			Marshaler.Write(_out_msg, move);
 			return Send(_out_msg);
 		}
-		public bool Notify_Chat(HostID target, String _msg)
+		public SEND_RESULT Notify_Chat(HostID target, String _msg)
 		{
 			Log.Debug("S2C.Proxy.Notify_Chat");
 			NetBuffer _out_msg = NetBufferPool.Instance.Pop();
