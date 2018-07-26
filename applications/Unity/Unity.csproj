@@ -262,8 +262,6 @@
     <Compile Include="Assets\Devarc\_Generated_Code\Marshaler.Read.cs" />
     <Compile Include="Assets\Devarc\_Generated_Code\Marshaler.Write.cs" />
     <Compile Include="Assets\Devarc\_Generated_Code\S2C.cs" />
-    <Compile Include="Assets\Devarc\_Generated_Code\S2S.cs" />
-    <Compile Include="Assets\Devarc\_Generated_Code\S2W.cs" />
     <Compile Include="Assets\Devarc\_Generated_Code\Table.cs" />
     <Compile Include="Assets\Devarc\_Generated_Code\Table_LString.cs" />
     <Compile Include="Assets\Devarc\_Generated_Code\Table_TestSchema.cs" />

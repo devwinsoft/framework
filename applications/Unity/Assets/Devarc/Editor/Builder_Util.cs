@@ -133,6 +133,18 @@ namespace Devarc
                 }
                 sw.WriteLine("\t\t\treturn true;");
                 sw.WriteLine("\t\t}");
+                sw.WriteLine("\t\tpublic string ToMessage(int _userSEQ, string _userKey)");
+                sw.WriteLine("\t\t{");
+                sw.Write("\t\t\tstring contents = string.Format(\"{{\\\"user_seq\\\":\\\"{0}\\\",\\\"user_key\\\":\\\"{1}\\\",\\\"rmi_id\\\":\\\"{2}\\\",\\\"time\\\":\\\"{3}\\\"}}\"");
+                sw.WriteLine(", _userSEQ, _userKey, RMI_ID, DateTime.Now.Millisecond);");
+                sw.WriteLine("\t\t\tStringBuilder sb = new StringBuilder();");
+                sw.WriteLine("\t\t\tsb.Append(\"header = \");");
+                sw.WriteLine("\t\t\tsb.Append(FrameworkUtil.ToBase64String(Cryptor.Encrypt(contents)));");
+                sw.WriteLine("\t\t\tsb.Append(\"&body=\");");
+                sw.WriteLine("\t\t\tstring encData = Cryptor.Encrypt(ToJson());");
+                sw.WriteLine("\t\t\tsb.Append(FrameworkUtil.ToBase64String(encData));");
+                sw.WriteLine("\t\t\treturn sb.ToString();");
+                sw.WriteLine("\t\t}");
             }
             for (int i = 0; i < tb.Length; i++)
             {

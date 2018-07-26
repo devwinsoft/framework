@@ -108,6 +108,17 @@ namespace Devarc.C2S
 			Marshaler.Write(_obj, move);
 			return true;
 		}
+		public string ToMessage(int _userSEQ, string _userKey)
+		{
+			string contents = string.Format("{{\"user_seq\":\"{0}\",\"user_key\":\"{1}\",\"rmi_id\":\"{2}\",\"time\":\"{3}\"}}", _userSEQ, _userKey, RMI_ID, DateTime.Now.Millisecond);
+			StringBuilder sb = new StringBuilder();
+			sb.Append("header = ");
+			sb.Append(FrameworkUtil.ToBase64String(Cryptor.Encrypt(contents)));
+			sb.Append("&body=");
+			string encData = Cryptor.Encrypt(ToJson());
+			sb.Append(FrameworkUtil.ToBase64String(encData));
+			return sb.ToString();
+		}
 		public VECTOR3             look = new VECTOR3();
 		public DIRECTION           move;
 
@@ -196,6 +207,17 @@ namespace Devarc.C2S
 			Marshaler.Write(_obj, msg);
 			Marshaler.Write(_obj, data);
 			return true;
+		}
+		public string ToMessage(int _userSEQ, string _userKey)
+		{
+			string contents = string.Format("{{\"user_seq\":\"{0}\",\"user_key\":\"{1}\",\"rmi_id\":\"{2}\",\"time\":\"{3}\"}}", _userSEQ, _userKey, RMI_ID, DateTime.Now.Millisecond);
+			StringBuilder sb = new StringBuilder();
+			sb.Append("header = ");
+			sb.Append(FrameworkUtil.ToBase64String(Cryptor.Encrypt(contents)));
+			sb.Append("&body=");
+			string encData = Cryptor.Encrypt(ToJson());
+			sb.Append(FrameworkUtil.ToBase64String(encData));
+			return sb.ToString();
 		}
 		public string              msg = "";
 		public byte[]              data = null;

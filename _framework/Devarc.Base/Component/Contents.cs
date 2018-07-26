@@ -48,6 +48,7 @@ namespace Devarc
     {
         short RMI_ID { get; }
         bool WriteTo(NetBuffer _obj);
+        string ToMessage(int _userSEQ, string _userKey);
     }
 
     public interface IContents<KEY1, KEY2>

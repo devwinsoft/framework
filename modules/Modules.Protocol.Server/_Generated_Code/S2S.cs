@@ -82,6 +82,17 @@ namespace Devarc.S2S
 			Marshaler.Write(_obj, data);
 			return true;
 		}
+		public string ToMessage(int _userSEQ, string _userKey)
+		{
+			string contents = string.Format("{{\"user_seq\":\"{0}\",\"user_key\":\"{1}\",\"rmi_id\":\"{2}\",\"time\":\"{3}\"}}", _userSEQ, _userKey, RMI_ID, DateTime.Now.Millisecond);
+			StringBuilder sb = new StringBuilder();
+			sb.Append("header = ");
+			sb.Append(FrameworkUtil.ToBase64String(Cryptor.Encrypt(contents)));
+			sb.Append("&body=");
+			string encData = Cryptor.Encrypt(ToJson());
+			sb.Append(FrameworkUtil.ToBase64String(encData));
+			return sb.ToString();
+		}
 		public TEST_VECTOR         pos = new TEST_VECTOR();
 		public byte[]              data = null;
 

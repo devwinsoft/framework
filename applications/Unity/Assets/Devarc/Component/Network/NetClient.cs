@@ -111,31 +111,30 @@ namespace Devarc
             Log.Exception(ex.Exception);
         }
 
-        public short GetCurrentSeq(HostID hid)
-        {
-            return 0;
-        }
+        //public short GetCurrentSeq(HostID hid)
+        //{
+        //    return 0;
+        //}
 
-        public bool Send(NetBuffer msg)
+        public SEND_RESULT Send(NetBuffer msg)
         {
             if (client.IsConnected == false)
             {
                 NetBufferPool.Instance.Push(msg);
-                return false;
+                return SEND_RESULT.DISCONNECTED;
             }
 
-            bool success = false;
             try
             {
                 msg.UpdateHeader(mSeq++);
                 client.Send(msg.Data);
-                success = true;
             }
             catch (Exception e)
             {
                 Log.Exception(e);
+                return SEND_RESULT.UNKNOWN;
             }
-            return success;
+            return SEND_RESULT.SUCCESS;
         }
 
 #if !UNITY_5 && !UNITY_2017

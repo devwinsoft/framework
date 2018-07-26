@@ -43,12 +43,31 @@ namespace Devarc
         UNKNOWN_REQUEST = -2,
     }
 
+    public enum SEND_RESULT
+    {
+        SUCCESS,
+        UNKNOWN,
+        NOT_INITIALIZED,
+        DISCONNECTED,
+    }
+
     public enum RECEIVE_RESULT
     {
         SUCCESS,
         NOT_IMPLEMENTED,
         INVALID_PACKET_DOWNFLOW,
         INVALID_PACKET_OVERFLOW,
+    }
+
+    public class NetSendException : System.Exception
+    {
+        public SEND_RESULT ERROR { get { return mError; } }
+        SEND_RESULT mError = SEND_RESULT.SUCCESS;
+
+        public NetSendException(SEND_RESULT _error)
+        {
+            mError = _error;
+        }
     }
 
     public class NetException : System.Exception
@@ -64,8 +83,8 @@ namespace Devarc
 
     public interface INetworker
     {
-        short GetCurrentSeq(HostID hid);
-        bool Send(NetBuffer msg);
+        //short GetCurrentSeq(HostID hid);
+        SEND_RESULT Send(NetBuffer msg);
         event NET_RECEIVER OnReceiveData;
     }
 

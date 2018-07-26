@@ -106,6 +106,17 @@ namespace Devarc.C2W
 			Marshaler.Write(_obj, passwd);
 			return true;
 		}
+		public string ToMessage(int _userSEQ, string _userKey)
+		{
+			string contents = string.Format("{{\"user_seq\":\"{0}\",\"user_key\":\"{1}\",\"rmi_id\":\"{2}\",\"time\":\"{3}\"}}", _userSEQ, _userKey, RMI_ID, DateTime.Now.Millisecond);
+			StringBuilder sb = new StringBuilder();
+			sb.Append("header = ");
+			sb.Append(FrameworkUtil.ToBase64String(Cryptor.Encrypt(contents)));
+			sb.Append("&body=");
+			string encData = Cryptor.Encrypt(ToJson());
+			sb.Append(FrameworkUtil.ToBase64String(encData));
+			return sb.ToString();
+		}
 		public string              account_id = "";
 		public string              passwd = "";
 
@@ -193,6 +204,17 @@ namespace Devarc.C2W
 		{
 			Marshaler.Write(_obj, stage_id);
 			return true;
+		}
+		public string ToMessage(int _userSEQ, string _userKey)
+		{
+			string contents = string.Format("{{\"user_seq\":\"{0}\",\"user_key\":\"{1}\",\"rmi_id\":\"{2}\",\"time\":\"{3}\"}}", _userSEQ, _userKey, RMI_ID, DateTime.Now.Millisecond);
+			StringBuilder sb = new StringBuilder();
+			sb.Append("header = ");
+			sb.Append(FrameworkUtil.ToBase64String(Cryptor.Encrypt(contents)));
+			sb.Append("&body=");
+			string encData = Cryptor.Encrypt(ToJson());
+			sb.Append(FrameworkUtil.ToBase64String(encData));
+			return sb.ToString();
 		}
 		public string              stage_id = "";
 

@@ -161,7 +161,7 @@ namespace WebTestClient
             if (mRmiList.TryGetValue(comboBox_rmi_name.Text, out data))
             {
                 textBox_rmi_id.Text = data.rmi_id.ToString();
-                IBaseObejct obj = (IBaseObejct)Activator.CreateInstance(data.type);
+                IBasePacket obj = (IBasePacket)Activator.CreateInstance(data.type);
                 textBox_data.Text = obj.ToString();
             }
         }

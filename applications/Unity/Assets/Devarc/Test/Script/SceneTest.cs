@@ -18,14 +18,6 @@ public class SceneTest : MonoBehaviour
     public static SceneTest Instance { get { return msInstance; } }
     static SceneTest msInstance = null;
 
-    public TextAsset assetLString;
-
-    public Transform prefabMainPlayer;
-    public Transform prefabUserPlayer;
-
-    //[HideInInspector]
-    //public PLAY_STATE State = PLAY_STATE.NONE;
-
     public Devarc.C2S.Proxy proxy = new Devarc.C2S.Proxy();
     public NetClient client = new NetClient();
     Stub_S2C stub = new Stub_S2C();
@@ -34,6 +26,8 @@ public class SceneTest : MonoBehaviour
     string mAddress = "127.0.0.1";
     string mPort = "5000";
     string mMessage = "";
+    string mWebAddress = "http://devwin.vps.phps.kr/process.php";
+    string mWebInput = "";
     List<string> mMessageList = new List<string>();
     StringBuilder mBuilder = new StringBuilder();
 
@@ -80,8 +74,30 @@ public class SceneTest : MonoBehaviour
                 proxy.Request_Chat(HostID.Server, "ABC TEST 1234", new byte[] { 1, 2, 3, 4, 5 });
             }
         }
+
+        mWebAddress = GUI.TextArea(new Rect(20, 220, 300, 20), mWebAddress);
+        mWebInput = GUI.TextArea(new Rect(20, 250, 300, 100), mWebInput);
+        if (GUI.Button(new Rect(330, 220, 70, 20), "Send"))
+        {
+            StartCoroutine(WebTest());
+        }
     }
 
+    IEnumerator WebTest()
+    {
+        Devarc.C2W.Request_Login req = new Devarc.C2W.Request_Login();
+
+        byte[] data = Encoding.UTF8.GetBytes(req.ToMessage(100, "ABC"));
+        WWW www = new WWW("http://devwin.vps.phps.kr/process.php", data);
+
+        while (www.isDone == false)
+        {
+            yield return null;
+        }
+        string result = System.Text.Encoding.UTF8.GetString(www.bytes);
+        Debug.Log(result);
+        www.Dispose();
+    }
 
     void callback_Message(LOG_TYPE tp, string msg)
     {
