@@ -83,11 +83,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\modules\Modules.Protocol.Web\Modules.Protocol.Web.csproj">
+    <ProjectReference Include="..\..\protocols\Protocol.Web\Protocol.Web.csproj">
       <Project>{8c781f79-825d-4e13-b4d8-2b37ff044232}</Project>
-      <Name>Modules.Protocol.Web</Name>
+      <Name>Protocol.Web</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\modules\Modules.Schema\Modules.Schema.csproj">
+    <ProjectReference Include="..\..\schemas\Modules.Schema\Modules.Schema.csproj">
       <Project>{25e1584d-51a1-41b8-91a0-6d0c2647055e}</Project>
       <Name>Modules.Schema</Name>
     </ProjectReference>

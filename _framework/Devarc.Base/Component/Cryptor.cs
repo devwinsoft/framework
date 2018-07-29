@@ -12,16 +12,24 @@ namespace Devarc
 
         public static string Encrypt(string input)
         {
-            TripleDES tripleDes = TripleDES.Create();
-            tripleDes.IV = Encoding.ASCII.GetBytes(tdes_IV);
-            tripleDes.Key = Encoding.ASCII.GetBytes(tdes_Key);
-            tripleDes.Mode = CipherMode.CBC;
-            //tripleDes.Padding = PaddingMode.Zeros;
+            try
+            {
+                TripleDES tripleDes = TripleDES.Create();
+                tripleDes.IV = Encoding.ASCII.GetBytes(tdes_IV);
+                tripleDes.Key = Encoding.ASCII.GetBytes(tdes_Key);
+                tripleDes.Mode = CipherMode.CBC;
+                //tripleDes.Padding = PaddingMode.Zeros;
 
-            ICryptoTransform crypto = tripleDes.CreateEncryptor();
-            byte[] decodedInput = Encoding.UTF8.GetBytes(input);
-            byte[] decryptedBytes = crypto.TransformFinalBlock(decodedInput, 0, decodedInput.Length);
-            return System.Convert.ToBase64String(decryptedBytes, 0, decryptedBytes.Length);
+                ICryptoTransform crypto = tripleDes.CreateEncryptor();
+                byte[] decodedInput = Encoding.UTF8.GetBytes(input);
+                byte[] decryptedBytes = crypto.TransformFinalBlock(decodedInput, 0, decodedInput.Length);
+                return System.Convert.ToBase64String(decryptedBytes, 0, decryptedBytes.Length);
+            }
+            catch (Exception ex)
+            {
+                Log.Exception(ex);
+                return string.Empty;
+            }
         }
 
         public static string Decrypt(string input)
@@ -41,9 +49,9 @@ namespace Devarc
                 byte[] decryptedBytes = crypto.TransformFinalBlock(decodedInput, 0, decodedInput.Length);
                 return Encoding.UTF8.GetString(decryptedBytes);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Log.Exception(e);
+                Log.Exception(ex);
                 return "";
             }
         }

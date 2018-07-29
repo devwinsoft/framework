@@ -98,11 +98,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\modules\Modules.Protocol.Client\Modules.Protocol.Client.csproj">
+    <ProjectReference Include="..\..\protocols\Protocol.Client\Protocol.Client.csproj">
       <Project>{541814d6-f429-4ab3-b328-9a98f0fe3482}</Project>
-      <Name>Modules.Protocol.Client</Name>
+      <Name>Protocol.Client</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\modules\Modules.Schema\Modules.Schema.csproj">
+    <ProjectReference Include="..\..\schemas\Modules.Schema\Modules.Schema.csproj">
       <Project>{25e1584d-51a1-41b8-91a0-6d0c2647055e}</Project>
       <Name>Modules.Schema</Name>
     </ProjectReference>
