@@ -53,7 +53,7 @@ namespace WebTestClient
         {
             try
             {
-                string dllPath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Modules.Protocol.Web.dll");
+                string dllPath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Protocol.Web.dll");
                 Assembly assem = Assembly.LoadFile(dllPath);
                 Type[] types = assem.GetTypes();
                 for (int i = 0; i < types.Length; i++)

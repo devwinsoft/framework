@@ -52,7 +52,7 @@ namespace TestClient
         {
             try
             {
-                string dllPath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Modules.Protocol.Client.dll");
+                string dllPath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Protocol.Client.dll");
                 Assembly assem = Assembly.LoadFile(dllPath);
                 Type[] types = assem.GetTypes();
                 for (int i = 0; i < types.Length; i++)
