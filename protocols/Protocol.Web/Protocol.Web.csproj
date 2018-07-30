@@ -47,9 +47,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="_Generated_Code\C2W.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="_Generated_PHP\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\schemas\Modules.Schema\Modules.Schema.csproj">
       <Project>{25e1584d-51a1-41b8-91a0-6d0c2647055e}</Project>

@@ -10,7 +10,7 @@ class Request_Login
 	
 	public function dispatch()
 	{
-		var_dump($this->message);
+		echo '{"Error":0, "Message":"' . \Devarc\Component\encrypt($this->message->rmi_data) . '"}'; 
 	}
 }
 ?>
