@@ -113,14 +113,22 @@ namespace Devarc
             sb.Append(string.Format("DROP TABLE IF EXISTS {0};\r\n", tableName));
             sb.Append("CREATE TABLE ");
             sb.Append(tableName);
+            bool isStarted = false;
             for (int i = 0; i < _prop.Length; i++)
             {
-                if (i == 0)
+                if (_prop.Contains(i) == false)
+                    continue;
+                if (isStarted == false)
+                {
+                    isStarted = true;
                     sb.Append(" (\r\n\t");
+                }
                 else
+                {
                     sb.Append(",\r\n\t");
+                }
 
-                switch(_prop.GetVarType(i))
+                switch (_prop.GetVarType(i))
                 {
                     case VAR_TYPE.BOOL:
                         sb.Append(string.Format("`{0}` VARCHAR(6) NOT NULL", _prop.GetVarName(i)));

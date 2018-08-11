@@ -151,6 +151,11 @@ namespace Devarc
 
         public bool Connect(string address, int port)
         {
+            if (client.IsConnecting)
+            {
+                Log.Debug("Now connecting...");
+                return false;
+            }
             IPEndPoint ipServer = new IPEndPoint(IPAddress.Parse(address), port);
             EndPoint endPoint = ipServer as EndPoint;
             if (endPoint == null)

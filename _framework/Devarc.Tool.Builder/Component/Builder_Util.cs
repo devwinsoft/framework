@@ -274,8 +274,11 @@ namespace Devarc
                 sw.WriteLine("\t\t{");
                 sw.WriteLine("\t\t\tPropTable obj = ToTable();");
                 sw.Write("\t\t\treturn string.Format(\"insert into {0} (", class_name);
+
                 for (int i = 0; i < tb.Length; i++)
                 {
+                    if (tb.Contains(i) == false)
+                        continue;
                     if (i == 0)
                         sw.Write("`{0}`", tb.GetVarName(i));
                     else
@@ -284,6 +287,8 @@ namespace Devarc
                 sw.Write(") VALUES (");
                 for (int i = 0; i < tb.Length; i++)
                 {
+                    if (tb.Contains(i) == false)
+                        continue;
                     if (i == 0)
                         sw.Write("'{{{0}}}'", i);
                     else
@@ -292,6 +297,8 @@ namespace Devarc
                 sw.Write(") on duplicate key update ");
                 for (int i = 0; i < tb.Length; i++)
                 {
+                    if (tb.Contains(i) == false)
+                        continue;
                     if (i > 0)
                         sw.Write(", ");
                     sw.Write("`{0}`='{{{1}}}'", tb.GetVarName(i), i);

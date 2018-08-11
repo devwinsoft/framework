@@ -266,8 +266,20 @@ namespace Devarc
             }
         }
 
-        public void Register(int _index, string name)
+        public bool Contains(int _index)
         {
+            return mPropList.ContainsKey(_index);
+        }
+
+        public bool Contains(string _name)
+        {
+            return mPropTable.ContainsKey(_name);
+        }
+
+        public void Register(int _index, string _name)
+        {
+            if (string.IsNullOrEmpty(_name))
+                return;
             PropData data;
             if (mPropList.TryGetValue(_index, out data))
             {
@@ -275,9 +287,9 @@ namespace Devarc
             }
 
             data = new PropData();
-            data.VarName = name;
+            data.VarName = _name;
             mPropList.Add(_index, data);
-            mPropTable.Add(name, data);
+            mPropTable.Add(_name, data);
             mLength = Math.Max(_index + 1, mLength);
         }
 
@@ -381,6 +393,8 @@ namespace Devarc
 
         public void Attach(string _name, string _typeName, CLASS_TYPE _type, bool _keyType, string _value)
         {
+            if (string.IsNullOrEmpty(_name))
+                return;
             int _index = mLength++;
             Register(_index, _name);
             Set_VarType(_index, _typeName);
@@ -390,6 +404,8 @@ namespace Devarc
         }
         public void Attach_List<T>(string _name, string _typeName, VAR_TYPE val_type, List<T> _list)
         {
+            if (string.IsNullOrEmpty(_name))
+                return;
             int _index = mLength++;
             Register(_index, _name);
             Set_VarType(_index, _typeName);
@@ -427,6 +443,8 @@ namespace Devarc
         }
         public void Attach_Class(string _name, string _raw_type, PropTable obj)
         {
+            if (string.IsNullOrEmpty(_name))
+                return;
             Attach(_name, _raw_type, CLASS_TYPE.CLASS, false, "");
             string temp_full_name;
             string temp_var_name;
@@ -755,6 +773,9 @@ namespace Devarc
             int length = 0;
             for (int i = 0; i < mLength; i++)
             {
+                if (mPropList.ContainsKey(i) == false)
+                    continue;
+
                 PropData data = mPropList[i];
                 switch(data.VarType)
                 {
@@ -926,13 +947,22 @@ namespace Devarc
         public string ToJson()
         {
             StringBuilder sb = new StringBuilder();
+            bool isStarted = false;
             sb.Append("{ ");
             for (int i = 0; i < mLength; i++)
             {
-                if (i > 0)
+                if (mPropList.ContainsKey(i) == false)
+                    continue;
+
+                if (isStarted == false)
+                {
+                    isStarted = true;
+                }
+                else
                 {
                     sb.Append(", ");
                 }
+
                 string value = mPropList[i].Data != null ? mPropList[i].Data : "";
                 switch (GetClassType(i))
                 {

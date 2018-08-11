@@ -34,6 +34,9 @@ namespace SuperSocket.ClientEngine
 
         }
 
+        public bool IsConnecting { get { return mConnecting; } }
+        bool mConnecting = false;
+
         public bool IsConnected { get { return m_Connected; } }
 
 
@@ -41,6 +44,7 @@ namespace SuperSocket.ClientEngine
 #if AWAIT
         public async Task<bool> ConnectAsync(EndPoint remoteEndPoint)
         {
+            mConnecting = true;
             if (PipeLineProcessor == null)
                 throw new Exception("This client has not been initialized.");
 
@@ -50,6 +54,7 @@ namespace SuperSocket.ClientEngine
 #else
         public Task<bool> ConnectAsync(EndPoint remoteEndPoint)
         {
+            mConnecting = true;
             if (PipeLineProcessor == null)
                 throw new Exception("This client has not been initialized.");
 
@@ -186,6 +191,7 @@ namespace SuperSocket.ClientEngine
 
         bool FinishConnectTask(bool result)
         {
+            mConnecting = false;
             var connectTaskSource = m_ConnectTaskSource;
 
             if (connectTaskSource == null)

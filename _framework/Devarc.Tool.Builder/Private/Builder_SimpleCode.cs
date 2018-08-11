@@ -43,6 +43,8 @@ namespace Devarc
                 mStrBuilder.Append(string.Format("public class {0} {{ ", class_name));
                 for (int i = 0; i < tb.Length; i++)
                 {
+                    if (tb.Contains(i) == false)
+                        continue;
                     mStrBuilder.Append(string.Format("public {0} {1}; ", tb.GetTypeName(i), tb.GetVarName(i)));
                 }
                 mStrBuilder.Append("}\r\n");

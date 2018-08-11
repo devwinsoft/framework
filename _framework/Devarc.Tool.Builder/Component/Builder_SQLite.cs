@@ -143,12 +143,20 @@ namespace Devarc
 
             sb.Append("CREATE TABLE ");
             sb.Append(tableName);
+            bool isStarted = false;
             for (int i = 0; i < _prop.Length; i++)
             {
-                if (i == 0)
+                if (_prop.Contains(i))
+                    continue;
+                if (isStarted == false)
+                {
+                    isStarted = true;
                     sb.Append(" (\r\n\t");
+                }
                 else
+                {
                     sb.Append(",\r\n\t");
+                }
 
                 sb.Append(string.Format("`{0}` TEXT NOT NULL", _prop.GetVarName(i)));
                 if (_prop.KeyIndex == i)
@@ -177,22 +185,37 @@ namespace Devarc
             StringBuilder sb = new StringBuilder();
             sb.Append("INSERT INTO ");
             sb.Append(tableName);
+            bool isStarted = false;
             for (int i = 0; i < _prop.Length; i++)
             {
-                if (i == 0)
+                if (_prop.Contains(i) == false)
+                    continue;
+                if (isStarted == false)
+                {
+                    isStarted = true;
                     sb.Append(" (");
+                }
                 else
+                {
                     sb.Append(", ");
+                }
                 sb.Append(_prop.GetVarName(i));
             }
+            isStarted = false;
             sb.Append(") VALUES");
             for (int i = 0; i < _prop.Length; i++)
             {
-                if (i == 0)
+                if (_prop.Contains(i) == false)
+                    continue;
+                if (isStarted == false)
+                {
+                    isStarted = true;
                     sb.Append(" (");
+                }
                 else
+                {
                     sb.Append(", ");
-
+                }
                 sb.Append(string.Format("'{0}'", FrameworkUtil.InnerString_SQLite(_prop.GetStr(i))));
             }
             sb.Append(");");
