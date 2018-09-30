@@ -47,6 +47,9 @@
     <Reference Include="LitJson">
       <HintPath>..\..\_externals\LitJson\LitJson.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\_externals\SuperSocket\Reference\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
