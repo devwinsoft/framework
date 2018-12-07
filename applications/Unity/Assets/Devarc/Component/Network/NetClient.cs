@@ -137,7 +137,7 @@ namespace Devarc
             return SEND_RESULT.SUCCESS;
         }
 
-#if !UNITY_5 && !UNITY_2017
+#if !UNITY_EDITOR && !UNITY_IPHONE && !UNITY_ANDROID
         async System.Threading.Tasks.Task<bool> connect(EndPoint endPoint)
         {
             var ret = await client.ConnectAsync(endPoint);
@@ -158,7 +158,7 @@ namespace Devarc
                 return false;
             }
             Log.Debug("Connecting to {0}:{1}", address, port);
-#if UNITY_5 || UNITY_2017
+#if UNITY_EDITOR || UNITY_IPHONE || UNITY_ANDROID
             client.BeginConnect(endPoint);
 #else
             System.Threading.Tasks.Task<bool> result = connect(endPoint);
