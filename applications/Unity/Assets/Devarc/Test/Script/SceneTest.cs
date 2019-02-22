@@ -48,6 +48,8 @@ public class SceneTest : MonoBehaviour
 
         proxy.Init(client);
         stub.Init(client);
+
+        //System.Action a = () => { };
     }
 
     void OnGUI()

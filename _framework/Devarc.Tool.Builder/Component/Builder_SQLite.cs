@@ -146,7 +146,7 @@ namespace Devarc
             bool isStarted = false;
             for (int i = 0; i < _prop.Length; i++)
             {
-                if (_prop.Contains(i))
+                if (_prop.Contains(i) == false)
                     continue;
                 if (isStarted == false)
                 {
