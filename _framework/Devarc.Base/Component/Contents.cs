@@ -34,6 +34,7 @@ namespace Devarc
         void Initialize(PropTable obj);
         void Initialize(IBaseReader obj);
         void Initialize(JsonData obj);
+        PropTable ToTable();
         string ToJson();
     }
 

@@ -153,6 +153,12 @@ namespace Devarc
 
         void Callback_Pass2_Class(string sheet_name, PropTable tb)
         {
+            if (sheet_name.Contains("@"))
+            {
+                // skip: this sheet is data.
+                return;
+            }
+
             string file_path = Path.Combine(this.OutDir, "Class_" + this.FileName + ".cs");
             using (TextWriter sw = new StreamWriter(file_path, true))
             {
@@ -164,7 +170,13 @@ namespace Devarc
 
         void Callback_Pass2_Enum(string sheet_name, PropTable tb)
         {
-            string enum_name = sheet_name;
+            if (sheet_name.Contains("@"))
+            {
+                // skip: this sheet is data.
+                return;
+            }
+
+            string enum_name = GetClassName(sheet_name);
             if (sheet_name.StartsWith("!"))
             {
                 enum_name = sheet_name.Substring(1);
@@ -197,7 +209,13 @@ namespace Devarc
 
         void Callback_Pass1(string sheet_name, PropTable tb)
         {
-            string class_name = sheet_name;
+            if (sheet_name.Contains("@"))
+            {
+                // skip: this sheet is data.
+                return;
+            }
+
+            string class_name = GetClassName(sheet_name);
             bool is_enum = false;
             if (sheet_name.StartsWith("!"))
             {

@@ -37,6 +37,7 @@ namespace Devarc
         {
             m_XmlDoc.LoadXml(xml_source);
         }
+
         public void Dispose()
         {
         }
@@ -140,25 +141,26 @@ namespace Devarc
             File.Move(file_path + ".work", file_path);
         }
 
+
         const string xml_source =
-"<?xml version=\"1.0\"?>"+
-"<?mso-application progid=\"Excel.Sheet\"?>"+
-"<Workbook xmlns=\"urn:schemas-microsoft-com:office:spreadsheet\""+
-" xmlns:o=\"urn:schemas-microsoft-com:office:office\""+
-" xmlns:x=\"urn:schemas-microsoft-com:office:excel\""+
-" xmlns:ss=\"urn:schemas-microsoft-com:office:spreadsheet\""+
-" xmlns:html=\"http://www.w3.org/TR/REC-html40\">"+
-" <DocumentProperties xmlns=\"urn:schemas-microsoft-com:office:office\">"+
-" </DocumentProperties>"+
-" <ExcelWorkbook xmlns=\"urn:schemas-microsoft-com:office:excel\">"+
-"  <WindowHeight>11175</WindowHeight>"+
-"  <WindowWidth>19815</WindowWidth>"+
-"  <WindowTopX>1350</WindowTopX>"+
-"  <WindowTopY>345</WindowTopY>"+
-"  <TabRatio>571</TabRatio>"+
-"  <ProtectStructure>False</ProtectStructure>"+
-"  <ProtectWindows>False</ProtectWindows>"+
-" </ExcelWorkbook>"+
+"<?xml version=\"1.0\"?>" +
+"<?mso-application progid=\"Excel.Sheet\"?>" +
+"<Workbook xmlns=\"urn:schemas-microsoft-com:office:spreadsheet\"" +
+" xmlns:o=\"urn:schemas-microsoft-com:office:office\"" +
+" xmlns:x=\"urn:schemas-microsoft-com:office:excel\"" +
+" xmlns:ss=\"urn:schemas-microsoft-com:office:spreadsheet\"" +
+" xmlns:html=\"http://www.w3.org/TR/REC-html40\">" +
+" <DocumentProperties xmlns=\"urn:schemas-microsoft-com:office:office\">" +
+" </DocumentProperties>" +
+" <ExcelWorkbook xmlns=\"urn:schemas-microsoft-com:office:excel\">" +
+"  <WindowHeight>11175</WindowHeight>" +
+"  <WindowWidth>19815</WindowWidth>" +
+"  <WindowTopX>1350</WindowTopX>" +
+"  <WindowTopY>345</WindowTopY>" +
+"  <TabRatio>571</TabRatio>" +
+"  <ProtectStructure>False</ProtectStructure>" +
+"  <ProtectWindows>False</ProtectWindows>" +
+" </ExcelWorkbook>" +
 "</Workbook>";
     }
 

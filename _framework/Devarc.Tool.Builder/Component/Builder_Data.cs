@@ -127,12 +127,13 @@ namespace Devarc
 
             using (TextWriter sw = new StreamWriter(this.OutFilePath, true))
             {
+                string fileName = GetClassName(this.FileName);
                 foreach (ClassInfo info in m_ClassList)
                 {
                     sw.WriteLine("\t    public static Container<{0}, {1}> {2} = new Container<{0}, {1}>();", info.class_name, info.key_type, info.container_name);
                 }
 
-                sw.WriteLine("\t\tpublic static bool isLoad_{0}", this.FileName);
+                sw.WriteLine("\t\tpublic static bool isLoad_{0}", fileName);
                 sw.WriteLine("\t\t{");
                 sw.WriteLine("\t\t\tget");
                 sw.WriteLine("\t\t\t{");
@@ -145,7 +146,7 @@ namespace Devarc
                 sw.WriteLine("\t\t}");
 
                 // UnLoad
-                sw.WriteLine("\t\tpublic static void UnLoad_{0}()", this.FileName);
+                sw.WriteLine("\t\tpublic static void UnLoad_{0}()", fileName);
                 sw.WriteLine("\t\t{");
                 foreach (ClassInfo info in m_ClassList)
                 {
@@ -153,89 +154,91 @@ namespace Devarc
                 }
                 sw.WriteLine("\t\t}");
 
-                // Load EXCEL
-                sw.WriteLine("\t\tpublic static bool Load_{0}_ExcelFile(string file_path)", this.FileName);
-                sw.WriteLine("\t\t{");
-                sw.WriteLine("\t\t\tusing (ExcelReader reader = new ExcelReader())");
-                sw.WriteLine("\t\t\t{");
+                //// Load EXCEL
+                //sw.WriteLine("\t\tpublic static bool Load_{0}_ExcelFile(string file_path)", tableName);
+                //sw.WriteLine("\t\t{");
+                //sw.WriteLine("\t\t\tusing (ExcelReader reader = new ExcelReader())");
+                //sw.WriteLine("\t\t\t{");
+                //foreach (ClassInfo info in m_ClassList)
+                //{
+                //    sw.WriteLine("\t\t\t\treader.RegisterCallback_Data(\"{0}\", Callback_{0}_Sheet);", info.enum_name);
+                //}
+                //sw.WriteLine("\t\t\t\treturn reader.ReadFile(file_path);");
+                //sw.WriteLine("\t\t\t}");
+                //sw.WriteLine("\t\t}");
+
+
+                // Load Xml
                 foreach (ClassInfo info in m_ClassList)
                 {
-                    sw.WriteLine("\t\t\t\treader.RegisterCallback_Data(\"{0}\", Callback_{0}_Sheet);", info.enum_name);
+                    sw.WriteLine("\t\tpublic static bool Load_XmlData_{0}(string file_path)", info.enum_name);
+                    sw.WriteLine("\t\t{");
+                    sw.WriteLine("\t\t\tusing (XmlReader reader = new XmlReader())");
+                    sw.WriteLine("\t\t\t{");
+                    sw.WriteLine("\t\t\t\treader.RegisterCallback_Data(Callback_XML_{0});", info.enum_name);
+                    sw.WriteLine("\t\t\t\treturn reader.ReadData(file_path);");
+                    sw.WriteLine("\t\t\t}");
+                    sw.WriteLine("\t\t}");
                 }
-                sw.WriteLine("\t\t\t\treturn reader.ReadFile(file_path);");
-                sw.WriteLine("\t\t\t}");
-                sw.WriteLine("\t\t}");
-
-                // Save EXCEL
-                sw.WriteLine("\t\tpublic static void Save_{0}_ExcelFile(string file_path)", this.FileName);
-                sw.WriteLine("\t\t{");
-                sw.WriteLine("\t\t\tusing (ExcelWriter writer = new ExcelWriter())");
-                sw.WriteLine("\t\t\t{");
                 foreach (ClassInfo info in m_ClassList)
                 {
-                    sw.WriteLine("\t\t\t\t{");
-                    sw.WriteLine("\t\t\t\t    {0} temp = new {0}();", info.class_name);
-                    sw.WriteLine("\t\t\t\t    PropTable tb_header = temp.ToTable();");
-                    sw.WriteLine("\t\t\t\t    writer.Write_Header(tb_header, {0});", info.is_enum.ToString().ToLower());
-                    sw.WriteLine("\t\t\t\t    for (int i = 0; i < Table.{0}.Count; i++)", info.container_name);
-                    sw.WriteLine("\t\t\t\t    {");
-                    sw.WriteLine("\t\t\t\t        {0} obj = Table.{1}.ElementAt(i);", info.class_name, info.container_name);
-                    sw.WriteLine("\t\t\t\t        PropTable tb = obj.ToTable();");
-                    sw.WriteLine("\t\t\t\t        writer.Write_Contents(tb);");
-                    sw.WriteLine("\t\t\t\t    }");
-                    sw.WriteLine("\t\t\t\t}");
+                    sw.WriteLine("\t\tpublic static bool Load_XmlFile_{0}(string file_path)", info.enum_name);
+                    sw.WriteLine("\t\t{");
+                    sw.WriteLine("\t\t\tusing (XmlReader reader = new XmlReader())");
+                    sw.WriteLine("\t\t\t{");
+                    sw.WriteLine("\t\t\t\treader.RegisterCallback_Data(Callback_XML_{0});", info.enum_name);
+                    sw.WriteLine("\t\t\t\treturn reader.ReadFile(file_path);");
+                    sw.WriteLine("\t\t\t}");
+                    sw.WriteLine("\t\t}");
                 }
-                sw.WriteLine("\t\t\t    writer.Write_End(file_path);");
-                sw.WriteLine("\t\t\t}");
-                sw.WriteLine("\t\t}");
 
-                // Load XML
-                sw.WriteLine("\t\tpublic static bool Load_{0}_SheetFile(string file_path)", this.FileName);
+                // Load XmlSheet
+                sw.WriteLine("\t\tpublic static bool Load_SheetFile_{0}(string file_path)", fileName);
                 sw.WriteLine("\t\t{");
                 sw.WriteLine("\t\t\tusing (XmlSheetReader reader = new XmlSheetReader())");
                 sw.WriteLine("\t\t\t{");
                 foreach (ClassInfo info in m_ClassList)
                 {
-                    sw.WriteLine("\t\t\t\treader.RegisterCallback_Data(\"{0}\", Callback_{0}_Sheet);", info.enum_name);
+                    sw.WriteLine("\t\t\t\treader.RegisterCallback_Data(\"{0}\", Callback_Sheet_{0});", info.enum_name);
                 }
                 sw.WriteLine("\t\t\t\treturn reader.ReadFile(file_path);");
                 sw.WriteLine("\t\t\t}");
                 sw.WriteLine("\t\t}");
 
                 // Load XML
-                sw.WriteLine("\t\tpublic static bool Load_{0}_SheetData(string _data)", this.FileName);
+                sw.WriteLine("\t\tpublic static bool Load_SheetData_{0}(string _data)", fileName);
                 sw.WriteLine("\t\t{");
                 sw.WriteLine("\t\t\tusing (XmlSheetReader reader = new XmlSheetReader())");
                 sw.WriteLine("\t\t\t{");
                 foreach (ClassInfo info in m_ClassList)
                 {
-                    sw.WriteLine("\t\t\t\treader.RegisterCallback_Data(\"{0}\", Callback_{0}_Sheet);", info.enum_name);
+                    sw.WriteLine("\t\t\t\treader.RegisterCallback_Data(\"{0}\", Callback_Sheet_{0});", info.enum_name);
                 }
                 sw.WriteLine("\t\t\t\treturn reader.ReadData(_data);");
                 sw.WriteLine("\t\t\t}");
                 sw.WriteLine("\t\t}");
 
                 // Load JSON
-                sw.WriteLine("\t\tpublic static bool Load_{0}_JsonFile(string file_path)", this.FileName);
+                sw.WriteLine("\t\tpublic static bool Load_JsonFile_{0}(string file_path)", fileName);
                 sw.WriteLine("\t\t{");
                 sw.WriteLine("\t\t\tusing (JsonReader reader = new JsonReader())");
                 sw.WriteLine("\t\t\t{");
                 foreach (ClassInfo info in m_ClassList)
                 {
-                    sw.WriteLine("\t\t\t\treader.RegisterCallback(\"{0}\", Callback_{0}_JSON);", info.enum_name);
+                    sw.WriteLine("\t\t\t\treader.RegisterCallback(\"{0}\", Callback_JSON_{0});", info.enum_name);
                 }
                 sw.WriteLine("\t\t\t\treturn reader.ReadFile(file_path);");
                 sw.WriteLine("\t\t\t}");
                 sw.WriteLine("\t\t}");
 
                 // Load JSON DATA
-                sw.WriteLine("\t\tpublic static bool Load_{0}_JsonData(string _data)", this.FileName);
+                sw.WriteLine("\t\tpublic static bool Load_JsonData_{0}(string _data)", fileName);
                 sw.WriteLine("\t\t{");
                 sw.WriteLine("\t\t\tusing (JsonReader reader = new JsonReader())");
                 sw.WriteLine("\t\t\t{");
                 foreach (ClassInfo info in m_ClassList)
                 {
-                    sw.WriteLine("\t\t\t\treader.RegisterCallback(\"{0}\", Callback_{0}_JSON);", info.enum_name);
+                    sw.WriteLine("\t\t\t\treader.RegisterCallback(\"{0}\", Callback_JSON_{0});", info.enum_name);
                 }
                 sw.WriteLine("\t\t\t\treturn reader.ReadData(_data);");
                 sw.WriteLine("\t\t\t}");
@@ -243,7 +246,27 @@ namespace Devarc
 
 
                 // Save XML
-                sw.WriteLine("\t\tpublic static void Save_{0}_SheetFile(string file_path)", this.FileName);
+                foreach (ClassInfo info in m_ClassList)
+                {
+                    sw.WriteLine("\t\tpublic static void Save_XmlFile_{0}(string file_path)", info.enum_name);
+                    sw.WriteLine("\t\t{");
+                    sw.WriteLine("\t\t\tusing (XmlWriter writer = new XmlWriter(\"{0}\"))", info.enum_name);
+                    sw.WriteLine("\t\t\t{");
+                    sw.WriteLine("\t\t\t\t{0} temp = new {0}();", info.class_name);
+                    sw.WriteLine("\t\t\t\twriter.Write_Begin(file_path, temp.ToTable());");
+                    sw.WriteLine("\t\t\t\tfor (int i = 0; i < Table.T_{0}.Count; i++)", info.enum_name);
+                    sw.WriteLine("\t\t\t\t{");
+                    sw.WriteLine("\t\t\t\t    {0} obj = Table.T_{1}.ElementAt(i);", info.class_name, info.enum_name);
+                    sw.WriteLine("\t\t\t\t    PropTable tb = obj.ToTable();");
+                    sw.WriteLine("\t\t\t\t    writer.Write_Data(tb);");
+                    sw.WriteLine("\t\t\t\t}");
+                    sw.WriteLine("\t\t\t\twriter.Write_End();");
+                    sw.WriteLine("\t\t\t}");
+                    sw.WriteLine("\t\t}");
+                }
+
+                // Save Sheet
+                sw.WriteLine("\t\tpublic static void Save_SheetFile_{0}(string file_path)", fileName);
                 sw.WriteLine("\t\t{");
                 sw.WriteLine("\t\t\tusing (XmlSheetWriter writer = new XmlSheetWriter())");
                 sw.WriteLine("\t\t\t{");
@@ -266,7 +289,7 @@ namespace Devarc
                 sw.WriteLine("\t\t}");
 
                 // Save JSON
-                sw.WriteLine("\t\tpublic static void Save_{0}_JsonFile(string file_path)", this.FileName);
+                sw.WriteLine("\t\tpublic static void Save_JsonFile_{0}(string file_path)", fileName);
                 sw.WriteLine("\t\t{");
                 sw.WriteLine("\t\t\tTextWriter sw = new StreamWriter(file_path, false);");
                 sw.WriteLine("\t\t\tsw.WriteLine(\"{\");");
@@ -294,9 +317,15 @@ namespace Devarc
 
         void Callback_LoadSheet(string sheet_name, PropTable tb)
         {
-            string class_name = sheet_name;
-            string enum_name = sheet_name;
-            string container_name = "T_" + sheet_name;
+            if (sheet_name.Contains("@"))
+            {
+                // skip: this sheet is data.
+                return;
+            }
+
+            string class_name = GetClassName(sheet_name);
+            string enum_name = GetClassName(sheet_name);
+            string container_name = "T_" + GetClassName(sheet_name);
             bool is_enum = false;
             if (sheet_name.StartsWith("!"))
             {
@@ -330,7 +359,49 @@ namespace Devarc
 
             using (TextWriter sw = new StreamWriter(this.OutFilePath, true))
             {
-                sw.WriteLine("\t\tstatic void Callback_{0}_Sheet(string sheet_name, PropTable tb)", enum_name);
+                // Xml
+                sw.WriteLine("\t\tstatic void Callback_XML_{0}(string sheet_name, PropTable tb)", enum_name);
+                sw.WriteLine("\t\t{");
+                switch (tb.GetVarType(key_index))
+                {
+                    case VAR_TYPE.BOOL:
+                        sw.WriteLine("\t\t\t{0} obj = Table.{1}.Alloc(tb.ToBoolean(\"{2}\"));", class_name, container_name, key_var_name);
+                        break;
+                    case VAR_TYPE.INT16:
+                        sw.WriteLine("\t\t\t{0} obj = Table.{1}.Alloc(tb.GetInt16(\"{2}\"));", class_name, container_name, key_var_name);
+                        break;
+                    case VAR_TYPE.INT32:
+                        sw.WriteLine("\t\t\t{0} obj = Table.{1}.Alloc(tb.GetInt32(\"{2}\"));", class_name, container_name, key_var_name);
+                        break;
+                    case VAR_TYPE.UINT32:
+                        sw.WriteLine("\t\t\t{0} obj = Table.{1}.Alloc(tb.GetUInt32(\"{2}\"));", class_name, container_name, key_var_name);
+                        break;
+                    case VAR_TYPE.INT64:
+                        sw.WriteLine("\t\t\t{0} obj = Table.{1}.Alloc(tb.ToInt64(\"{2}\"));", class_name, container_name, key_var_name);
+                        break;
+                    case VAR_TYPE.FLOAT:
+                        sw.WriteLine("\t\t\t{0} obj = Table.{1}.Alloc(tb.GetFloat(\"{2}\"));", class_name, container_name, key_var_name);
+                        break;
+                    case VAR_TYPE.STRING:
+                        sw.WriteLine("\t\t\t{0} obj = Table.{1}.Alloc(tb.GetStr(\"{2}\"));", class_name, container_name, key_var_name);
+                        break;
+                    case VAR_TYPE.ENUM:
+                        sw.WriteLine("\t\t\t{0} obj = Table.{1}.Alloc(FrameworkUtil.Parse<{2}>(tb.GetStr(\"{3}\")));", class_name, container_name, key_type_name, key_var_name);
+                        break;
+                    default:
+                        // error
+                        break;
+                }
+                sw.WriteLine("\t\t\tif (obj == null)");
+                sw.WriteLine("\t\t\t{");
+                sw.WriteLine("\t\t\t\tLog.Error(\"[Table]Cannot create '{0}'. (id={{0}})\", tb.GetStr(\"{1}\"));", enum_name, key_var_name);
+                sw.WriteLine("\t\t\t\treturn;");
+                sw.WriteLine("\t\t\t}");
+                sw.WriteLine("\t\t\tobj.Initialize(tb);");
+                sw.WriteLine("\t\t}");
+
+                // XmlSheet
+                sw.WriteLine("\t\tstatic void Callback_Sheet_{0}(string sheet_name, PropTable tb)", enum_name);
                 sw.WriteLine("\t\t{");
                 switch (tb.GetVarType(key_index))
                 {
@@ -370,7 +441,8 @@ namespace Devarc
                 sw.WriteLine("\t\t\tobj.Initialize(tb);");
                 sw.WriteLine("\t\t}");
 
-                sw.WriteLine("\t\tstatic void Callback_{0}_JSON(string sheet_name, JsonData node)", enum_name);
+                // Json
+                sw.WriteLine("\t\tstatic void Callback_JSON_{0}(string sheet_name, JsonData node)", enum_name);
                 sw.WriteLine("\t\t{");
                 sw.WriteLine("\t\t\tif (node.Keys.Contains(\"{0}\") == false) return;", key_var_name);
                 string keyString;

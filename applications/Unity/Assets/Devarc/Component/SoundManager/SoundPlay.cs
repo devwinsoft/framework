@@ -91,6 +91,7 @@ public class SoundPlay
     public void OnFadeOut(float _fadeOutTime)
     {
         State = SOUND_PLAY_STATE.FADE_OUT;
+        mMaxFadeTime = _fadeOutTime;
         mAudio.volume = 1f;
     }
 
@@ -99,7 +100,6 @@ public class SoundPlay
         State = SOUND_PLAY_STATE.STOP;
         mSoundID = 0;
         mAudio.Stop();
-        mAudio.clip = null;
     }
 
     public bool Tick(float _deltaTime)
@@ -125,8 +125,11 @@ public class SoundPlay
                 mAudio.volume = Mathf.Max(0f, 1f - mElapsedTime / mMaxFadeTime);
                 break;
             case SOUND_PLAY_STATE.PLAY:
-                if (mAudio.isPlaying == false)
-                    return true;
+                if (Application.isFocused)
+                {
+                    if (mAudio.isPlaying == false)
+                        return true;
+                }
                 break;
             default:
                 break;

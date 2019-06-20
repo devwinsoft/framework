@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Devarc;
 
 public enum SOUND_CHANNEL
 {
@@ -15,23 +16,46 @@ public class SoundManager : MonoBehaviour
     public static SoundManager Instance { get { return msInstance; } }
     static SoundManager msInstance = null;
 
+    public SoundTrigger Trigger = new SoundTrigger();
+
+    Dictionary<string, List<SOUND>> mSoundList = new Dictionary<string, List<SOUND>>();
+
     SoundChannel[] mChannels = new SoundChannel[(int)SOUND_CHANNEL.MAX];
     Dictionary<string, AudioClip> mClips = new Dictionary<string, AudioClip>();
 
     public void Clear()
     {
+        Trigger.Clear();
+    }
+
+    public void Init()
+    {
+        var enumer = Table.T_SOUND.GetEnumerator();
+        while (enumer.MoveNext())
+        {
+            SOUND data = enumer.Current;
+            List<SOUND> list;
+            if (mSoundList.TryGetValue(data.SOUND_ID, out list) == false)
+            {
+                list = new List<SOUND>();
+                mSoundList.Add(data.SOUND_ID, list);
+            }
+            list.Add(data);
+        }
     }
 
     private void Awake()
     {
         msInstance = this;
-        DontDestroyOnLoad(gameObject);
-
-        gameObject.AddComponent<AudioListener>();
 
         _create_channel(SOUND_CHANNEL.BGM, 1);
         _create_channel(SOUND_CHANNEL.EFFECT, 10);
         _create_channel(SOUND_CHANNEL.UI, 10);
+
+        if (transform.parent == null)
+        {
+            DontDestroyOnLoad(gameObject);
+        }
     }
 
 
@@ -70,32 +94,49 @@ public class SoundManager : MonoBehaviour
         return mChannels[(int)_channel].Play(_ownerID, _path, clip, _loop, _waitTime, _fadeInTime);
     }
 
-    public int Play_BGM(string _path, bool _loop, float _waitTime, float _fadeTime)
+    public bool IsPlaying(SOUND_CHANNEL _channel)
+    {
+        return mChannels[(int)_channel].IsPlaying;
+    }
+
+    public int PlayFile_BGM(string _path, bool _loop, float _waitTime, float _fadeTime)
     {
         return _play_sound(SOUND_CHANNEL.BGM, 0, _path, _loop, _waitTime, _fadeTime);
     }
 
-    public int Play_EffectSound(string _path, bool _loop)
+    public int PlaySound_Effect(int _ownerID, string _soundID)
+    {
+        List<SOUND> list = null;
+        if (mSoundList.TryGetValue(_soundID, out list))
+        {
+            int cnt = list.Count;
+            SOUND data = list[Random.Range(0, cnt)];
+            return _play_sound(SOUND_CHANNEL.EFFECT, _ownerID, data.PATH, data.LOOP, 0f, 0f);
+        }
+        return 0;
+    }
+
+    public int PlayFile_Effect(string _path, bool _loop)
     {
         return _play_sound(SOUND_CHANNEL.EFFECT, 0, _path, _loop, 0f, 0f);
     }
 
-    public int Play_EffectSound(int _ownerID, string _path, bool _loop)
+    public int PlayFile_Effect(int _ownerID, string _path, bool _loop)
     {
         return _play_sound(SOUND_CHANNEL.EFFECT, _ownerID, _path, _loop, 0f, 0f);
     }
 
-    public int Play_EffectSound(string _path, bool _loop, float _waitTime, float _fadeTime)
+    public int PlayFile_Effect(string _path, bool _loop, float _waitTime, float _fadeTime)
     {
         return _play_sound(SOUND_CHANNEL.EFFECT, 0, _path, _loop, _waitTime, _fadeTime);
     }
 
-    public int Play_EffectSound(int _ownerID, string _path, bool _loop, float _waitTime, float _fadeTime)
+    public int PlayFile_Effect(int _ownerID, string _path, bool _loop, float _waitTime, float _fadeTime)
     {
         return _play_sound(SOUND_CHANNEL.EFFECT, _ownerID, _path, _loop, _waitTime, _fadeTime);
     }
 
-    public int Play_UISound(string _path, bool _loop, float _waitTime, float _fadeTime = 0f)
+    public int PlayFile_UI(string _path, bool _loop, float _waitTime, float _fadeTime = 0f)
     {
         return _play_sound(SOUND_CHANNEL.UI, 0, _path, _loop, _waitTime, _fadeTime);
     }
@@ -105,8 +146,13 @@ public class SoundManager : MonoBehaviour
         mChannels[(int)SOUND_CHANNEL.BGM].Stop(_sound_id, _fadeOutTime);
     }
 
-    public void Stop_EffectSound(int _sound_id, float _fadeOutTime = 0f)
+    public void Stop_EffectSound_OwnerID(int _ownerID, float _fadeOutTime = 0f)
     {
-        mChannels[(int)SOUND_CHANNEL.EFFECT].Stop(_sound_id, _fadeOutTime);
+        mChannels[(int)SOUND_CHANNEL.EFFECT].StopWithOwnerID(_ownerID, _fadeOutTime);
+    }
+
+    public void SetLoop_EffectSound_OwnerID(int _ownerID, bool _loop)
+    {
+        mChannels[(int)SOUND_CHANNEL.EFFECT].SetLoop(_ownerID, _loop);
     }
 }

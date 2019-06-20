@@ -16,6 +16,11 @@ public class SoundChannel : MonoBehaviour
     int mStartID = 0;
     int mNextID = 0;
 
+    public bool IsPlaying
+    {
+        get { return mPlayDict.Count > 0; }
+    }
+
     public void Clear()
     {
         var enumer = mPlayDict.GetEnumerator();
@@ -101,6 +106,8 @@ public class SoundChannel : MonoBehaviour
 
         mRef[_play.AudioPath]--;
         mPool.Add(_play);
+
+        SoundManager.Instance.Trigger.OnSoundStop(_play.OwnerID);
     }
 
     public int Play(int _ownerID, string _path, AudioClip _clip, bool _loop, float _waitTime, float _fadeInTime)
@@ -130,6 +137,39 @@ public class SoundChannel : MonoBehaviour
         }
         return obj.SoundID;
     }
+
+    public void StopWithOwnerID(int _ownerID, float _fadeOutTime)
+    {
+        for (int i = mPlayList.Count - 1; i >= 0; i--)
+        {
+            SoundPlay sound = mPlayList[i];
+            if (sound.OwnerID != _ownerID)
+                continue;
+            if (_fadeOutTime <= 0f)
+            {
+                push(sound);
+            }
+            else
+            {
+                sound.OnFadeOut(_fadeOutTime);
+            }
+        }
+    }
+
+    public void SetLoop(int _ownerID, bool _loop)
+    {
+        for (int i = mPlayList.Count - 1; i >= 0; i--)
+        {
+            SoundPlay sound = mPlayList[i];
+            if (sound.OwnerID != _ownerID)
+                continue;
+            if (sound.mAudio != null)
+            {
+                sound.mAudio.loop = _loop;
+            }
+        }
+    }
+
 
     public void Stop(int _sound_id, float _fadeOutTime)
     {

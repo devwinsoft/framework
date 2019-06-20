@@ -81,9 +81,9 @@ namespace Devarc
                     }
 
                     if (tp.IsEnum)
-                        m_SheetName = "!" + tp.Name;
+                        mSheetName = "!" + tp.Name;
                     else
-                        m_SheetName = tp.Name;
+                        mSheetName = tp.Name;
 
                     if (callback_header != null)
                     {
@@ -92,7 +92,7 @@ namespace Devarc
                             prop.Attach("NAME", "string", CLASS_TYPE.VALUE, false, "");
                             prop.Attach("ID", tp.Name, CLASS_TYPE.VALUE, true, "");
                         }
-                        callback_header(m_SheetName, prop);
+                        callback_header(mSheetName, prop);
                     }
 
                     if (tp.IsEnum)
@@ -104,7 +104,7 @@ namespace Devarc
                             object enumValue = Enum.Parse(tp, enumNames[i]);
                             temp.Attach("NAME", "string", CLASS_TYPE.VALUE, false, enumNames[i]);
                             temp.Attach("ID", tp.Name, CLASS_TYPE.VALUE, true, ((int)enumValue).ToString());
-                            invoke_callback_data(m_SheetName, temp);
+                            invoke_callback_data(mSheetName, temp);
                         }
                     }
                 }

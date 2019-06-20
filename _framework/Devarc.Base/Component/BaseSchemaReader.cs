@@ -42,8 +42,9 @@ namespace Devarc
     {
         protected CallbackDataReader callback_header = null;
         protected CallbackDataReader callback_data = null;
+        protected CallbackDataReader callback_complete = null;
         protected Dictionary<string, CallbackDataReader> callback_data_list = new Dictionary<string, CallbackDataReader>();
-        protected string m_SheetName = "";
+        protected string mSheetName = "";
 
         public virtual bool ReadFile(string _filePath) { return false; }
         public virtual bool ReadData(string _data) { return false; }
@@ -53,7 +54,8 @@ namespace Devarc
             callback_header = null;
             callback_data = null;
             callback_data_list.Clear();
-            m_SheetName = "";
+            callback_complete = null;
+            mSheetName = "";
         }
 
         public void Dispose()
@@ -69,6 +71,11 @@ namespace Devarc
         public void RegisterCallback_Data(CallbackDataReader func)
         {
             callback_data = func;
+        }
+
+        public void RegisterCallback_Complete(CallbackDataReader func)
+        {
+            callback_complete = func;
         }
 
         public void RegisterCallback_Data(string sheet_name, CallbackDataReader func)
@@ -96,9 +103,8 @@ namespace Devarc
             if (callback_data_list.TryGetValue(class_name, out func))
             {
                 func(sheet_name, tb);
-                return true;
             }
-            return false;
+            return true;
         }
 
         public string GetClassName(string _path)

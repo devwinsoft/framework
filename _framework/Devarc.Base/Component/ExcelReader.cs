@@ -77,10 +77,10 @@ namespace Devarc
                     }
                     else if (r == 3)
                     {
-                        if (funcCalled == false && callback_header != null)
+                        if (funcCalled == false)
                         {
                             funcCalled = true;
-                            callback_header(sheet.SheetName, rowData);
+                            callback_header?.Invoke(sheet.SheetName, rowData);
                         }
                     }
                     else
@@ -89,11 +89,12 @@ namespace Devarc
                         rowData.ClearData();
                     }
                 }
-                if (funcCalled == false && callback_header != null)
+                if (funcCalled == false)
                 {
                     funcCalled = true;
-                    callback_header(sheet.SheetName, rowData);
+                    callback_header?.Invoke(sheet.SheetName, rowData);
                 }
+                callback_complete?.Invoke(sheet.SheetName, rowData);
             }
             return book.NumberOfSheets > 0;
         }

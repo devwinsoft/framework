@@ -127,6 +127,13 @@ namespace Devarc
             return _value.Replace("'", "''");
         }
 
+        public static string InnerString_XML(string _value)
+        {
+            if (string.IsNullOrEmpty(_value))
+                return string.Empty;
+            return _value.Replace("&", "&#39;").Replace("'", "&#39;").Replace("\"", "&#34;").Replace("<", "&lt;").Replace(">", "&gt;");
+        }
+
         public static string JsonString(string _value)
         {
             if (string.IsNullOrEmpty(_value))

@@ -88,9 +88,9 @@ namespace Devarc
                         string tmpSheetName = xrd.GetAttribute("ss:Name");
                         int tmpIndex = tmpSheetName.IndexOf('@');
                         if (tmpIndex >= 0)
-                            m_SheetName = tmpSheetName.Substring(0, tmpIndex);
+                            mSheetName = tmpSheetName.Substring(0, tmpIndex);
                         else
-                            m_SheetName = tmpSheetName;
+                            mSheetName = tmpSheetName;
                         temp_table.TableName = GetClassName(tmpSheetName);
                         temp_table.IsEnum = tmpSheetName.StartsWith("!");
                     }
@@ -122,7 +122,7 @@ namespace Devarc
                                 function_called = true;
                                 if (callback_header != null)
                                 {
-                                    callback_header(m_SheetName, temp_table);
+                                    callback_header(mSheetName, temp_table);
                                 }
                             }
                         }
@@ -177,11 +177,15 @@ namespace Devarc
                     {
                         if (function_called == false)
                         {
+                            function_called = true;
                             if (callback_header != null)
                             {
-                                callback_header(m_SheetName, temp_table);
+                                callback_header(mSheetName, temp_table);
                             }
-                            function_called = true;
+                        }
+                        if (callback_complete != null)
+                        {
+                            callback_complete(mSheetName, temp_table);
                         }
                     }
                     else if ("Table" == xrd.Name)
@@ -190,7 +194,7 @@ namespace Devarc
                         {
                             if (callback_header != null)
                             {
-                                callback_header(m_SheetName, temp_table);
+                                callback_header(mSheetName, temp_table);
                             }
                             function_called = true;
                         }
@@ -200,7 +204,7 @@ namespace Devarc
                     {
                         if (line_count >= (int)ROW_TYPE.DATA_FIELD)
                         {
-                            invoke_callback_data(m_SheetName, temp_table);
+                            invoke_callback_data(mSheetName, temp_table);
                         }
                     }
                 }

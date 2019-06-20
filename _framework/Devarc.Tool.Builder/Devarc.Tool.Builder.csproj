@@ -65,9 +65,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Component\Builder_Base.cs" />
+    <Compile Include="Component\Builder_LString.cs" />
     <Compile Include="Component\Builder_MySQL.cs" />
     <Compile Include="Component\Builder_SQL.cs" />
     <Compile Include="Component\Builder_Util.cs" />
+    <Compile Include="Component\Builder_Xml.cs" />
     <Compile Include="Private\SchemaFieldAttribute.cs" />
     <Compile Include="Private\SchemaReader.cs" />
     <Compile Include="Program.cs" />
