@@ -78,8 +78,10 @@
     <Compile Include="Component\NetProtocolAttribute.cs" />
     <Compile Include="Component\SQLite_Reader.cs" />
     <Compile Include="Component\SQLite_Session.cs" />
+    <Compile Include="Component\XmlReader.cs" />
     <Compile Include="Component\XmlSheetReader.cs" />
     <Compile Include="Component\XmlSheetWriter.cs" />
+    <Compile Include="Component\XmlWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Component\PropTable.cs" />
     <Compile Include="Component\Contents.cs" />
