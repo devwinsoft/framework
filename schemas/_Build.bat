@@ -7,12 +7,14 @@ set OUTDIR4=.\sql\MySQL.MyISAM
 set OUTDIR5=.\sql\SQLite
 
 %CMD%     -obj             LString.xlsx        %TMPDIR%
+%CMD%     -obj             Sound.xlsx          %TMPDIR%
 %CMD%     -obj             TestSchema.xlsx     %TMPDIR%
 %CMD%     -obj             Examples.schema	   %TMPDIR%
 xcopy /Y  %TMPDIR%\*.cs    %OUTDIR1%\
 move      %TMPDIR%\*.cs    %OUTDIR2%\
 						  
 %CMD%     -data            LString.xlsx      %TMPDIR%
+%CMD%     -data            Sound.xlsx        %TMPDIR%
 %CMD%     -data            TestSchema.xlsx   %TMPDIR%
 xcopy /Y  %TMPDIR%\*.cs    %OUTDIR1%\
 move      %TMPDIR%\*.cs    %OUTDIR2%\

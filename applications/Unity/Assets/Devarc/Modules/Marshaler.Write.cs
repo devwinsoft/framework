@@ -33,7 +33,7 @@ namespace Devarc
          */
         public static bool Write(NetBuffer msg, bool obj)
         {
-            msg.Write(obj);
+            msg.Write((byte)(obj ? 1 : 0));
             return !msg.IsError;
         }
         public static bool Write(NetBuffer msg, byte obj)
@@ -77,7 +77,7 @@ namespace Devarc
             msg.Write((Int16)list.Length);
             foreach (bool obj in list)
             {
-                msg.Write(obj);
+                msg.Write((byte)(obj ? 1 : 0));
             }
             return !msg.IsError;
         }

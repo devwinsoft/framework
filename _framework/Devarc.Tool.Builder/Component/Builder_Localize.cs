@@ -212,7 +212,7 @@ class Builder_Localize : Builder_Base
                 }
 
                 // save
-                Table.Save_XmlFile_LString(destPath);
+                Table.Save_LString_SheetFile(destPath);
             }
         }
     }
