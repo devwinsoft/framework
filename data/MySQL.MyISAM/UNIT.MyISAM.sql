@@ -1,0 +1,20 @@
+truncate UNIT;
+
+insert into UNIT (`key`, `data`) VALUES ('0', '{ \"Name\":\"NONE\", \"ID\":\"0\" }');
+insert into UNIT (`key`, `data`) VALUES ('1', '{ \"Name\":\"HUMAN_FEMALE\", \"ID\":\"1\" }');
+insert into UNIT (`key`, `data`) VALUES ('2', '{ \"Name\":\"HUMAN_MALE\", \"ID\":\"2\" }');
+insert into UNIT (`key`, `data`) VALUES ('3', '{ \"Name\":\"ELF_FEMALE\", \"ID\":\"3\" }');
+insert into UNIT (`key`, `data`) VALUES ('4', '{ \"Name\":\"ELF_MALE\", \"ID\":\"4\" }');
+insert into UNIT (`key`, `data`) VALUES ('5', '{ \"Name\":\"DARKELF_FEMALE\", \"ID\":\"5\" }');
+insert into UNIT (`key`, `data`) VALUES ('6', '{ \"Name\":\"DARKELF_MALE\", \"ID\":\"6\" }');
+insert into UNIT (`key`, `data`) VALUES ('7', '{ \"Name\":\"DWARF_FEMALE\", \"ID\":\"7\" }');
+insert into UNIT (`key`, `data`) VALUES ('8', '{ \"Name\":\"DWARF_MALE\", \"ID\":\"8\" }');
+insert into UNIT (`key`, `data`) VALUES ('9', '{ \"Name\":\"GOBLIN\", \"ID\":\"9\" }');
+insert into UNIT (`key`, `data`) VALUES ('10', '{ \"Name\":\"IMP\", \"ID\":\"10\" }');
+insert into UNIT (`key`, `data`) VALUES ('11', '{ \"Name\":\"MUMMY\", \"ID\":\"11\" }');
+insert into UNIT (`key`, `data`) VALUES ('12', '{ \"Name\":\"ORC\", \"ID\":\"12\" }');
+insert into UNIT (`key`, `data`) VALUES ('13', '{ \"Name\":\"TROLL\", \"ID\":\"13\" }');
+insert into UNIT (`key`, `data`) VALUES ('14', '{ \"Name\":\"UNDEAD\", \"ID\":\"14\" }');
+insert into UNIT (`key`, `data`) VALUES ('15', '{ \"Name\":\"DRAGON_BLACK\", \"ID\":\"15\" }');
+insert into UNIT (`key`, `data`) VALUES ('16', '{ \"Name\":\"DRAGON_RED\", \"ID\":\"16\" }');
+insert into UNIT (`key`, `data`) VALUES ('17', '{ \"Name\":\"DRAGON_UNDEAD\", \"ID\":\"17\" }');

@@ -35,6 +35,12 @@ public class ObjectPool<T> where T : MonoBehaviour
 
     public T Pop(Vector3 _pos)
     {
+        if (mFuncResPath == null)
+        {
+            Debug.LogFormat("ObejctPoolEx<{0}> is not initialized.", typeof(T));
+            return null;
+        }
+
         T compo;
         List<T> list;
         string path = mFuncResPath();

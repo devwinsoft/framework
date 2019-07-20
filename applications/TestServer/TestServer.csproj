@@ -102,15 +102,15 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\protocols\Protocol.Client\Protocol.Client.csproj">
+    <ProjectReference Include="..\..\modules\Protocol.Client\Protocol.Client.csproj">
       <Project>{541814d6-f429-4ab3-b328-9a98f0fe3482}</Project>
       <Name>Protocol.Client</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\protocols\Protocol.Server\Protocol.Server.csproj">
+    <ProjectReference Include="..\..\modules\Protocol.Server\Protocol.Server.csproj">
       <Project>{7e021313-866c-4f14-9a9a-4b13ec95ffa9}</Project>
       <Name>Protocol.Server</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\schemas\Modules.Schema\Modules.Schema.csproj">
+    <ProjectReference Include="..\..\modules\Modules.Schema\Modules.Schema.csproj">
       <Project>{25e1584d-51a1-41b8-91a0-6d0c2647055e}</Project>
       <Name>Modules.Schema</Name>
     </ProjectReference>

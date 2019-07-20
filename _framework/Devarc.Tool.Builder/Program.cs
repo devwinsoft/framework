@@ -61,6 +61,22 @@ namespace Devarc
                     else
                         builder3.Build_ExcelFile(args[1], Path.GetDirectoryName(args[1]));
                 }
+                else if (args.Contains<string>("-xml"))
+                {
+                    Builder_Xml builder3 = new Builder_Xml();
+                    if (args.Length > 2)
+                        builder3.Build_ExcelFile(args[1], args[2]);
+                    else
+                        builder3.Build_ExcelFile(args[1], Path.GetDirectoryName(args[1]));
+                }
+                else if (args.Contains<string>("-str"))
+                {
+                    Builder_LString builder3 = new Builder_LString();
+                    if (args.Length > 2)
+                        builder3.Build_ExcelFile(args[1], args[2]);
+                    else
+                        builder3.Build_ExcelFile(args[1], Path.GetDirectoryName(args[1]));
+                }
                 else
                 {
                     usage();

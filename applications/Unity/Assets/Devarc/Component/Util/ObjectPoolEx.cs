@@ -38,6 +38,12 @@ public class ObjectPoolEx<INFO, T> where T : MonoBehaviour, IPoolObjectEx<INFO>
 
     public T Pop(INFO _info, Vector3 _worldPos)
     {
+        if (mFuncResPath == null)
+        {
+            Debug.LogFormat("ObejctPoolEx<{0}> is not initialized.", typeof(T));
+            return null;
+        }
+
         T compo;
         List<T> list;
         string path = mFuncResPath(_info);
@@ -86,6 +92,12 @@ public class ObjectPoolEx<INFO, T> where T : MonoBehaviour, IPoolObjectEx<INFO>
 
     public T Pop(INFO _info, Transform _parent, Vector3 _localPos)
     {
+        if (mFuncResPath == null)
+        {
+            Debug.LogErrorFormat("ObejctPoolEx<{0}> is not initialized.", typeof(T));
+            return null;
+        }
+
         T compo;
         List<T> list;
         Transform root = _parent != null ? _parent : mGlobalRoot;

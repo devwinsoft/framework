@@ -49,7 +49,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\..\schemas\Modules.Schema\Modules.Schema.csproj">
+    <ProjectReference Include="..\Modules.Schema\Modules.Schema.csproj">
       <Project>{25e1584d-51a1-41b8-91a0-6d0c2647055e}</Project>
       <Name>Modules.Schema</Name>
     </ProjectReference>

@@ -1,10 +1,10 @@
 set CMD=..\bin\Builder.exe
 set TMPDIR=..\temp
 set OUTDIR1=..\applications\Unity\Assets\Devarc\_Generated_Code
-set OUTDIR2=.\Modules.Schema\_Generated_Code
-set OUTDIR3=.\sql\MYSQL.InnoDB
-set OUTDIR4=.\sql\MySQL.MyISAM
-set OUTDIR5=.\sql\SQLite
+set OUTDIR2=..\modules\Modules.Schema\_Generated_Code
+set OUTDIR3=..\data\MYSQL.InnoDB
+set OUTDIR4=..\data\MySQL.MyISAM
+set OUTDIR5=..\data\SQLite
 
 %CMD%     -obj             LString.xlsx        %TMPDIR%
 %CMD%     -obj             Sound.xlsx          %TMPDIR%
